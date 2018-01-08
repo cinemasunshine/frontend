@@ -1,0 +1,22 @@
+logs/*
+node_modules/*
+typings/*
+iisnode/*
+docs/
+.env*
+app.yaml*
+*.log
+.vscode/
+npm-debug*
+
+# Elastic Beanstalk Files
+
+.elasticbeanstalk/*
+
+!.elasticbeanstalk/*.cfg.yml
+
+!.elasticbeanstalk/*.global.yml
+
+bin/env/
+coverage/
+.nyc_output/
