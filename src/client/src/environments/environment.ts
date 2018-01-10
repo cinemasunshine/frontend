@@ -4,5 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    PORTAL_SITE_URL: '/',
+    APP_SITE_URL: 'https://localhost:3333'
 };

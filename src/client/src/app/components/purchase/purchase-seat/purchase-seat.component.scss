@@ -1,0 +1,33 @@
+$tablet: 1024px;
+$mobile: 767px;
+.sp-text {
+    display: none;
+    @media screen and (max-width: $mobile){
+        display: inline;
+    }
+}
+
+.film-info {
+    background-color: #3e3a39;
+    color: #FFF;
+    padding: 20px;
+    @media screen and (max-width: $mobile) {
+        padding: 15px;
+    }
+    dl {
+        dt {
+            color: #f0e205;
+            margin-bottom: 10px;
+        }
+        dd {
+            color: #FFF;
+            padding: 0 0 10px;
+            margin-bottom: 10px;
+            &:last-child {
+                padding: 0;
+                margin: 0;
+                border: none;
+            }
+        }
+    }
+}

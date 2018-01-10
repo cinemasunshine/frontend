@@ -3,8 +3,6 @@
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "charset": "utf8",
-        // "declaration": false,
-        // "declarationDir": "./types",
         "diagnostics": false,
         "disableSizeLimit": false,
         "emitDecoratorMetadata": true,
