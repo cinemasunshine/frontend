@@ -1,15 +1,22 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
 import { InquiryBaseComponent } from './components/inquiry/inquiry-base/inquiry-base.component';
 import { InquiryConfirmComponent } from './components/inquiry/inquiry-confirm/inquiry-confirm.component';
 import { InquiryLoginComponent } from './components/inquiry/inquiry-login/inquiry-login.component';
+import { ButtonsComponent } from './components/parts/buttons/buttons.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
 import { HeaderComponent } from './components/parts/header/header.component';
+import { LoadingComponent } from './components/parts/loading/loading.component';
+import { ModalComponent } from './components/parts/modal/modal.component';
+import { PurchaseNotesComponent } from './components/parts/purchase-notes/purchase-notes.component';
 import { PurchaseStepComponent } from './components/parts/purchase-step/purchase-step.component';
+import { PurchaseTermsComponent } from './components/parts/purchase-terms/purchase-terms.component';
 import { ScreenComponent } from './components/parts/screen/screen.component';
+import { SiteSealComponent } from './components/parts/site-seal/site-seal.component';
 import { PurchaseBaseComponent } from './components/purchase/purchase-base/purchase-base.component';
 import { PurchaseCompleteComponent } from './components/purchase/purchase-complete/purchase-complete.component';
 import { PurchaseConfirmComponent } from './components/purchase/purchase-confirm/purchase-confirm.component';
@@ -42,11 +49,19 @@ import { PurchaseService } from './services/purchase/purchase.service';
     HeaderComponent,
     FooterComponent,
     PurchaseStepComponent,
+    LoadingComponent,
+    SiteSealComponent,
+    ModalComponent,
+    ButtonsComponent,
+    PurchaseNotesComponent,
+    PurchaseTermsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     PurchaseGuardService,
