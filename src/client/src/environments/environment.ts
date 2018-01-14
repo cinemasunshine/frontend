@@ -6,5 +6,6 @@
 export const environment = {
     production: false,
     PORTAL_SITE_URL: '/',
-    APP_SITE_URL: 'https://localhost:3333'
+    APP_SITE_URL: 'https://localhost:3333',
+    API_ENDPOINT: 'https://localhost'
 };

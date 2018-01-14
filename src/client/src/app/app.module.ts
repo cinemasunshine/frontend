@@ -26,9 +26,11 @@ import { PurchaseMvtkInputComponent } from './components/purchase/purchase-mvtk-
 import { PurchaseScheduleComponent } from './components/purchase/purchase-schedule/purchase-schedule.component';
 import { PurchaseSeatComponent } from './components/purchase/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/purchase-ticket.component';
-import { InquiryService } from './services/inquiry/inquiry.service';
+import { PurchaseTransactionComponent } from './components/purchase/purchase-transaction/purchase-transaction.component';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
-import { PurchaseService } from './services/purchase/purchase.service';
+import { SasakiInquiryService } from './services/sasaki/sasaki-inquiry/sasaki-inquiry.service';
+import { SasakiMasterService } from './services/sasaki/sasaki-master/sasaki-master.service';
+import { SasakiPurchaseService } from './services/sasaki/sasaki-purchase/sasaki-purchase.service';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { PurchaseService } from './services/purchase/purchase.service';
     ButtonsComponent,
     PurchaseNotesComponent,
     PurchaseTermsComponent,
+    PurchaseTransactionComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,8 +68,9 @@ import { PurchaseService } from './services/purchase/purchase.service';
   ],
   providers: [
     PurchaseGuardService,
-    PurchaseService,
-    InquiryService
+    SasakiInquiryService,
+    SasakiMasterService,
+    SasakiPurchaseService
   ],
   bootstrap: [AppComponent]
 })

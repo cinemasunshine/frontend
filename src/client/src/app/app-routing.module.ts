@@ -12,10 +12,12 @@ import { PurchaseMvtkInputComponent } from './components/purchase/purchase-mvtk-
 import { PurchaseScheduleComponent } from './components/purchase/purchase-schedule/purchase-schedule.component';
 import { PurchaseSeatComponent } from './components/purchase/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/purchase-ticket.component';
+import { PurchaseTransactionComponent } from './components/purchase/purchase-transaction/purchase-transaction.component';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
 
 const routes: Routes = [
     { path: '', redirectTo: 'purchase/schedule', pathMatch: 'full' },
+    { path: 'purchase/transaction', component: PurchaseTransactionComponent },
     {
         path: 'purchase',
         component: PurchaseBaseComponent,
