@@ -13,10 +13,7 @@ const log = debug('SSKTS:middlewares:whiteList');
 exports.default = (req, res, next) => {
     if (process.env.WHITELIST !== undefined) {
         const whiteList = process.env.WHITELIST.replace(/\s+/g, '').split(',');
-        const requestUrl = (req.xhr) ? req.get('Origin')
-            : (req.xhr) ? req.get('Origin')
-                : (req.get('referer') !== undefined) ? new URL(req.get('referer')).origin
-                    : '';
+        const requestUrl = req.get('Origin');
         const allowOrigin = whiteList.find((value) => (value === requestUrl));
         if (allowOrigin !== undefined) {
             res.setHeader('Access-Control-Allow-Origin', allowOrigin);

@@ -14,6 +14,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const COA = require("@motionpicture/coa-service");
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
 const base_controller_1 = require("../base/base.controller");
+const debug = require("debug");
+const log = debug('SSKTS:master');
 /**
  * 劇場一覧取得
  * @function getTheaters
@@ -24,8 +26,8 @@ const base_controller_1 = require("../base/base.controller");
 function getTheaters(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            log('getTheaters');
             const options = base_controller_1.getOptions(req);
-            console.log(options);
             const result = yield sasaki.service.organization(options).searchMovieTheaters();
             res.json(result);
         }
@@ -44,6 +46,7 @@ exports.getTheaters = getTheaters;
 function getSchedules(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            log('getSchedules');
             const options = base_controller_1.getOptions(req);
             const args = req.query;
             const result = yield yield sasaki.service.event(options).searchIndividualScreeningEvent(args);
@@ -65,6 +68,7 @@ exports.getSchedules = getSchedules;
 function getEvent(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            log('getEvent');
             const options = base_controller_1.getOptions(req);
             const args = req.query;
             const result = yield sasaki.service.event(options).findIndividualScreeningEvent(args);
@@ -86,6 +90,7 @@ exports.getEvent = getEvent;
 function getSalesTickets(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            log('getSalesTickets');
             const args = req.query;
             const result = yield COA.services.reserve.salesTicket(args);
             res.json(result);

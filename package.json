@@ -15,7 +15,8 @@
     "start": "npm run start-server",
     "start-server": "node dist/server/index",
     "start-server-ssl": "node dist/server/ssl",
-    "build-server": "tsc --project src/server --outDir dist/server --locale ja-jp"
+    "build-server": "tsc --project src/server --outDir dist/server --locale ja-jp",
+    "build": "npm run build-sever && npm run build-client"
   },
   "private": true,
   "dependencies": {
