@@ -19,78 +19,25 @@
         <dl>
             <dt class="mb-x-small">劇場</dt>
             <dd class="mb-small">
-                <select>
-                    <option value="118">シネマサンシャイン１１８</option>
-                    <option value="112">シネマサンシャイン北島テスト</option>
-                    <option value="101">シネマサンシャイン池袋テスト</option>
+                <select [(ngModel)]="conditions.theater" (change)="changeConditions()">
+                    <option *ngFor="let theater of theaters" value="{{ theater.location.branchCode }}">{{ theater.name.ja }}</option>
                 </select>
             </dd>
         </dl>
         <dl>
             <dt class="mb-x-small">鑑賞日</dt>
             <dd class="mb-small">
-                <select>
-                    <option value="20180110">本日</option>
-                    <option value="20180111">明日</option>
-                    <option value="20180112">明後日</option>
+                <select [(ngModel)]="conditions.date" (change)="changeConditions()">
+                    <option *ngFor="let date of dateList" value="{{ date.value }}">{{ date.label }}</option>
                 </select>
             </dd>
         </dl>
     </div>
 
     <ul class="film-order">
-        <li class="performance mb-x-small">
-            <dl>
-                <dt>
-                    <div class="mb-x-small">
-                        <strong>通常作品テスト</strong>
-                    </div>
-                    <div class="small-text">100分</div>
-                </dt>
-                <dd>
-                    <ul>
-                        <li class="button white-button" routerLink="/purchase/seat/12345678">
-                            <dl>
-                                <dt>
-                                    <div class="text-left">
-                                        <div class="large-text mb-x-small">
-                                            <strong>20:25</strong>
-                                        </div>
-                                        <div>～22:11</div>
-                                    </div>
-                                    <div class="text-center small-x-text status">
-                                        <div class="mb-x-small text">空席あり</div>
-                                        <div class="image"></div>
-                                    </div>
-                                </dt>
-                                <dd class="small-text text-center">
-                                    <div class="screen-name">シアター１</div>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li class="button white-button" routerLink="/purchase/seat/12345678">
-                            <dl>
-                                <dt>
-                                    <div class="text-left">
-                                        <div class="large-text mb-x-small">
-                                            <strong>20:25</strong>
-                                        </div>
-                                        <div>～22:11</div>
-                                    </div>
-                                    <div class="text-center small-x-text status">
-                                        <div class="mb-x-small text">空席あり</div>
-                                        <div class="image"></div>
-                                    </div>
-                                </dt>
-                                <dd class="small-text text-center">
-                                    <div class="screen-name">シアター１</div>
-                                </dd>
-                            </dl>
-                        </li>
-                    </ul>
-                </dd>
-            </dl>
-        </li>
+        <app-purchase-film-order *ngFor="let film of filmOrder" [data]="film"></app-purchase-film-order>
     </ul>
 
 </div>
+
+<app-loading [show]="isLoading"></app-loading>

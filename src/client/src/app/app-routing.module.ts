@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ErrorComponent } from './components/error/error.component';
 import { InquiryBaseComponent } from './components/inquiry/inquiry-base/inquiry-base.component';
 import { InquiryConfirmComponent } from './components/inquiry/inquiry-confirm/inquiry-confirm.component';
 import { InquiryLoginComponent } from './components/inquiry/inquiry-login/inquiry-login.component';
@@ -16,14 +17,14 @@ import { PurchaseTransactionComponent } from './components/purchase/purchase-tra
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
 
 const routes: Routes = [
-    { path: '', redirectTo: 'purchase/schedule', pathMatch: 'full' },
+    { path: '', redirectTo: 'purchase/transaction', pathMatch: 'full' },
+    { path: 'purchase/schedule', component: PurchaseScheduleComponent },
     { path: 'purchase/transaction', component: PurchaseTransactionComponent },
     {
         path: 'purchase',
         component: PurchaseBaseComponent,
         canActivate: [PurchaseGuardService],
         children: [
-            { path: 'schedule', component: PurchaseScheduleComponent },
             { path: 'seat/:performance', component: PurchaseSeatComponent },
             { path: 'ticket', component: PurchaseTicketComponent },
             { path: 'input', component: PurchaseInputComponent },
@@ -42,6 +43,7 @@ const routes: Routes = [
             { path: 'confirm', component: InquiryConfirmComponent }
         ]
     },
+    { path: '**', component: ErrorComponent }
 ];
 
 @NgModule({

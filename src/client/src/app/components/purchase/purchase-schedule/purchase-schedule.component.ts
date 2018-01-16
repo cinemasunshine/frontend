@@ -1,6 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
+import * as moment from 'moment';
+import { ErrorService } from '../../../services/error/error.service';
+import { SalseChackService } from '../../../services/salse-check/salse-chack.service';
 import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
+
+type IMovieTheater = sasaki.factory.organization.movieTheater.IPublicFields;
+type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
+interface IFilmOrder {
+    id: string;
+    films: IIndividualScreeningEvent[];
+}
+
+interface IDate {
+    value: string;
+    label: string;
+}
 
 @Component({
     selector: 'app-purchase-schedule',
@@ -8,13 +23,114 @@ import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasa
     styleUrls: ['./purchase-schedule.component.scss']
 })
 export class PurchaseScheduleComponent implements OnInit {
-    public theaters: sasaki.factory.organization.movieTheater.IPublicFields[];
+    public theaters: IMovieTheater[];
+    public isLoading: boolean;
+    public dateList: IDate[];
+    public filmOrder: IFilmOrder[];
+    public schedules: IIndividualScreeningEvent[];
+    public conditions: { theater: string; date: string };
 
-    constructor(private sasakiMaster: SasakiMasterService) { }
+    constructor(
+        private sasakiMaster: SasakiMasterService,
+        private error: ErrorService,
+        private salseChack: SalseChackService
+    ) {
+        this.theaters = [];
+        this.dateList = [];
+        this.filmOrder = [];
+        this.conditions = {
+            theater: '',
+            date: ''
+        };
+    }
 
-    public async ngOnInit() {
-        this.theaters = await this.sasakiMaster.getTheaters();
-        console.log(this.theaters);
+    /**
+     * 初期化
+     * @method ngOnInit
+     * @returns {Promise<void>}
+     */
+    public async ngOnInit(): Promise<void> {
+        this.isLoading = true;
+        try {
+            this.theaters = await this.sasakiMaster.getTheaters();
+            this.dateList = this.getDateList(3);
+            this.conditions = {
+                theater: this.theaters[0].location.branchCode,
+                date: this.dateList[0].value
+            };
+            await this.changeConditions();
+        } catch (err) {
+            this.error.redirect(err);
+        }
+        this.isLoading = false;
+    }
+
+    /**
+     * @method getDateList
+     * @param {number} loop
+     * @returns {IDate[]}
+     */
+    public getDateList(loop: number): IDate[] {
+        const results = [];
+        for (let i = 0; i < loop; i++) {
+            const date = moment().add(i, 'day');
+            results.push({
+                value: date.format('YYYYMMDD'),
+                label: (i === 0) ? '本日' : (i === 1) ? '明日' : (i === 2) ? '明後日' : date.format('YYYY/MM/DD')
+            });
+        }
+
+        return results;
+    }
+
+    /**
+     * 条件変更
+     * @method changeConditions
+     * @returns {Promise<void>}
+     */
+    public async changeConditions(): Promise<void> {
+        this.isLoading = true;
+        this.filmOrder = [];
+        try {
+            this.schedules = await this.sasakiMaster.getSchedules({
+                theater: this.conditions.theater,
+                startFrom: moment(this.conditions.date).toDate(),
+                startThrough: moment(this.conditions.date).add(1, 'day').toDate()
+            });
+            this.filmOrder = this.getEventFilmOrder();
+            console.log(this.filmOrder);
+        } catch (err) {
+            this.error.redirect(err);
+        }
+        this.isLoading = false;
+    }
+
+    /**
+     * 作品別上映スケジュール取得
+     * @function getScreeningEvents
+     * @returns {IFilmOrder[]}
+     */
+    public getEventFilmOrder(): IFilmOrder[] {
+        const results: IFilmOrder[] = [];
+        this.schedules.forEach((screeningEvent) => {
+            // 販売可能時間判定
+            if (!this.salseChack.isSalseTime(screeningEvent)) {
+                return;
+            }
+            const film = results.find((event) => {
+                return (event.id === screeningEvent.workPerformed.identifier);
+            });
+            if (film === undefined) {
+                results.push({
+                    id: screeningEvent.workPerformed.identifier,
+                    films: [screeningEvent]
+                });
+            } else {
+                film.films.push(screeningEvent);
+            }
+        });
+
+        return results;
     }
 
 }

@@ -11,6 +11,11 @@ export class SasakiMasterService {
 
     constructor(private http: HttpClient) { }
 
+    /**
+     * イベント取得
+     * @method getEvent
+     * @param {{ identifier: string; }} args
+     */
     public getEvent(
         args: { identifier: string; }
     ) {
@@ -20,6 +25,11 @@ export class SasakiMasterService {
         }).toPromise();
     }
 
+    /**
+     * 券種取得
+     * @method getSalesTickets
+     * @param {COA.services.reserve.ISalesTicketArgs} args
+     */
     public getSalesTickets(
         args: COA.services.reserve.ISalesTicketArgs
     ) {
@@ -29,6 +39,11 @@ export class SasakiMasterService {
         }).toPromise();
     }
 
+    /**
+     * スケジュール取得
+     * @method getSchedules
+     * @param {sasaki.factory.event.individualScreeningEvent.ISearchConditions} args
+     */
     public getSchedules(
         args: sasaki.factory.event.individualScreeningEvent.ISearchConditions
     ) {
@@ -38,6 +53,10 @@ export class SasakiMasterService {
         }).toPromise();
     }
 
+    /**
+     * 劇場取得
+     * @method getTheaters
+     */
     public getTheaters() {
         const url = `${SasakiMasterService.ENDPOINT}/getTheaters`;
         return this.http.get<sasaki.factory.organization.movieTheater.IPublicFields[]>(url).toPromise();

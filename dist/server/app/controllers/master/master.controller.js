@@ -13,6 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const COA = require("@motionpicture/coa-service");
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
+const moment = require("moment");
 const base_controller_1 = require("../base/base.controller");
 const debug = require("debug");
 const log = debug('SSKTS:master');
@@ -49,7 +50,13 @@ function getSchedules(req, res) {
             log('getSchedules');
             const options = base_controller_1.getOptions(req);
             const args = req.query;
-            const result = yield yield sasaki.service.event(options).searchIndividualScreeningEvent(args);
+            if (args.startFrom !== undefined) {
+                args.startFrom = moment(req.query.startFrom).toDate();
+            }
+            if (args.startThrough !== undefined) {
+                args.startThrough = moment(req.query.startThrough).toDate();
+            }
+            const result = yield sasaki.service.event(options).searchIndividualScreeningEvent(args);
             res.json(result);
         }
         catch (err) {

@@ -7,5 +7,6 @@ export const environment = {
     production: false,
     PORTAL_SITE_URL: '/',
     APP_SITE_URL: 'https://localhost:3333',
-    API_ENDPOINT: 'https://localhost'
+    API_ENDPOINT: 'https://localhost',
+    ENTRANCE_SERVER_URL: 'https://d2n1h4enbzumbc.cloudfront.net'
 };
