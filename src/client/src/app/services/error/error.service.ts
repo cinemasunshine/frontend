@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorService {
-    public error: any;
+    public errorDetail: any;
 
     constructor(private router: Router) { }
 
     public redirect(error: any) {
         console.log(error);
-        this.error = error;
+        this.errorDetail = error;
         this.router.navigate(['/error']);
     }
 

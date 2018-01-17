@@ -28,6 +28,25 @@ export async function getTheaters(req: Request, res: Response): Promise<void> {
 }
 
 /**
+ * 劇場取得
+ * @function getTheater
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+export async function getTheater(req: Request, res: Response): Promise<void> {
+    try {
+        log('getTheaters');
+        const options = getOptions(req);
+        const args = req.query;
+        const result = await await sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
+        res.json(result);
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}
+
+/**
  * スケジュール取得
  * @param {Request} req
  * @param {Response} res

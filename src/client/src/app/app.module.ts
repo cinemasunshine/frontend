@@ -21,6 +21,7 @@ import { PurchaseNotesComponent } from './components/parts/purchase-notes/purcha
 import { PurchaseStepComponent } from './components/parts/purchase-step/purchase-step.component';
 import { PurchaseTermsComponent } from './components/parts/purchase-terms/purchase-terms.component';
 import { ScreenComponent } from './components/parts/screen/screen.component';
+import { SeatInfoComponent } from './components/parts/seat-info/seat-info.component';
 import { SiteSealComponent } from './components/parts/site-seal/site-seal.component';
 import { PurchaseBaseComponent } from './components/purchase/purchase-base/purchase-base.component';
 import { PurchaseCompleteComponent } from './components/purchase/purchase-complete/purchase-complete.component';
@@ -36,11 +37,12 @@ import { DurationPipe } from './pipes/duration/duration.pipe';
 import { TimeFormatPipe } from './pipes/time-format/time-format.pipe';
 import { ErrorService } from './services/error/error.service';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
-import { SalseChackService } from './services/salse-check/salse-chack.service';
+import { PurchaseService } from './services/purchase/purchase.service';
 import { SasakiInquiryService } from './services/sasaki/sasaki-inquiry/sasaki-inquiry.service';
 import { SasakiMasterService } from './services/sasaki/sasaki-master/sasaki-master.service';
 import { SasakiPurchaseService } from './services/sasaki/sasaki-purchase/sasaki-purchase.service';
 import { StorageService } from './services/storage/storage.service';
+import { IconComponent } from './components/parts/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +74,9 @@ import { StorageService } from './services/storage/storage.service';
     PurchaseFilmOrderComponent,
     PurchaseFilmOrderPerformanceComponent,
     TimeFormatPipe,
-    DurationPipe
+    DurationPipe,
+    SeatInfoComponent,
+    IconComponent
   ],
   imports: [
     BrowserModule,
@@ -87,8 +91,8 @@ import { StorageService } from './services/storage/storage.service';
     SasakiMasterService,
     SasakiPurchaseService,
     ErrorService,
-    SalseChackService,
-    StorageService
+    StorageService,
+    PurchaseService
   ],
   bootstrap: [AppComponent]
 })

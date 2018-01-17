@@ -39,6 +39,28 @@ function getTheaters(req, res) {
 }
 exports.getTheaters = getTheaters;
 /**
+ * 劇場取得
+ * @function getTheater
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+function getTheater(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            log('getTheaters');
+            const options = base_controller_1.getOptions(req);
+            const args = req.query;
+            const result = yield yield sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
+            res.json(result);
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.getTheater = getTheater;
+/**
  * スケジュール取得
  * @param {Request} req
  * @param {Response} res

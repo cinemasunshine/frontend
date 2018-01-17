@@ -5,17 +5,17 @@
         {
             "w": 760, "h": 70,
             "x": 293, "y": 90,
-            "image": "/images/theater/12/screen/003.svg"
+            "image": "/assets/images/theater/12/screen/003.svg"
         },
         {
             "w": 128, "h": 470,
             "x": 229, "y": 631,
-            "image": "/images/theater/12/entrance/003_01.svg"
+            "image": "/assets/images/theater/12/entrance/003_01.svg"
         },
         {
             "w": 128, "h": 400,
             "x": 989, "y": 631,
-            "image": "/images/theater/12/entrance/003_02.svg"
+            "image": "/assets/images/theater/12/entrance/003_02.svg"
         }
     ],
     "seatStart": { "x": 229, "y": 251 },

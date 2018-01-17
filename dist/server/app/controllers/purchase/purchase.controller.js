@@ -15,6 +15,9 @@ const COA = require("@motionpicture/coa-service");
 const mvtkReserve = require("@motionpicture/mvtk-reserve-service");
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
 const base_controller_1 = require("../base/base.controller");
+const moment = require("moment");
+const debug = require("debug");
+const log = debug('SSKTS:purchase');
 /**
  * 座席ステータス取得
  * @function getSeatState
@@ -45,8 +48,10 @@ exports.getSeatState = getSeatState;
 function transactionStart(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            log('transactionStart');
             const options = base_controller_1.getOptions(req);
             const args = req.body;
+            args.expires = moment(args.expires).toDate();
             const result = yield sasaki.service.transaction.placeOrder(options).start(args);
             res.json(result);
         }
@@ -57,7 +62,7 @@ function transactionStart(req, res) {
 }
 exports.transactionStart = transactionStart;
 /**
- * 座席選択
+ * 座席登録
  * @function createSeatReservation
  * @param {Request} req
  * @param {Response} res

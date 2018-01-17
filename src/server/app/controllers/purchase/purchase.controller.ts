@@ -6,6 +6,9 @@ import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
 import { Request, Response } from 'express';
 import { getOptions, errorProsess } from '../base/base.controller';
+import * as moment from 'moment';
+import * as debug from 'debug';
+const log = debug('SSKTS:purchase');
 
 /**
  * 座席ステータス取得
@@ -33,8 +36,10 @@ export async function getSeatState(req: Request, res: Response): Promise<void> {
  */
 export async function transactionStart(req: Request, res: Response): Promise<void> {
     try {
+        log('transactionStart');
         const options = getOptions(req);
         const args = req.body;
+        args.expires = moment(args.expires).toDate();
         const result = await sasaki.service.transaction.placeOrder(options).start(args);
         res.json(result);
     } catch (err) {
@@ -43,7 +48,7 @@ export async function transactionStart(req: Request, res: Response): Promise<voi
 }
 
 /**
- * 座席選択
+ * 座席登録
  * @function createSeatReservation
  * @param {Request} req
  * @param {Response} res

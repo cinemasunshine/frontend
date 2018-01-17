@@ -25,7 +25,7 @@ const routes: Routes = [
         component: PurchaseBaseComponent,
         canActivate: [PurchaseGuardService],
         children: [
-            { path: 'seat/:performance', component: PurchaseSeatComponent },
+            { path: 'seat', component: PurchaseSeatComponent },
             { path: 'ticket', component: PurchaseTicketComponent },
             { path: 'input', component: PurchaseInputComponent },
             { path: 'confirm', component: PurchaseConfirmComponent },

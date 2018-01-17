@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
 import * as moment from 'moment';
 import { ErrorService } from '../../../services/error/error.service';
-import { SalseChackService } from '../../../services/salse-check/salse-chack.service';
+import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
 
 type IMovieTheater = sasaki.factory.organization.movieTheater.IPublicFields;
@@ -33,7 +33,7 @@ export class PurchaseScheduleComponent implements OnInit {
     constructor(
         private sasakiMaster: SasakiMasterService,
         private error: ErrorService,
-        private salseChack: SalseChackService
+        private purchase: PurchaseService
     ) {
         this.theaters = [];
         this.dateList = [];
@@ -94,8 +94,8 @@ export class PurchaseScheduleComponent implements OnInit {
         try {
             this.schedules = await this.sasakiMaster.getSchedules({
                 theater: this.conditions.theater,
-                startFrom: moment(this.conditions.date).toDate(),
-                startThrough: moment(this.conditions.date).add(1, 'day').toDate()
+                startFrom: (<any>moment(this.conditions.date).toISOString()),
+                startThrough: (<any>moment(this.conditions.date).add(1, 'day').toISOString())
             });
             this.filmOrder = this.getEventFilmOrder();
             console.log(this.filmOrder);
@@ -114,7 +114,7 @@ export class PurchaseScheduleComponent implements OnInit {
         const results: IFilmOrder[] = [];
         this.schedules.forEach((screeningEvent) => {
             // 販売可能時間判定
-            if (!this.salseChack.isSalseTime(screeningEvent)) {
+            if (!this.purchase.isSalseTime(screeningEvent)) {
                 return;
             }
             const film = results.find((event) => {

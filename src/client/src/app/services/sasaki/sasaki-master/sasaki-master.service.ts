@@ -54,12 +54,28 @@ export class SasakiMasterService {
     }
 
     /**
-     * 劇場取得
+     * 劇場一覧取得
      * @method getTheaters
      */
     public getTheaters() {
         const url = `${SasakiMasterService.ENDPOINT}/getTheaters`;
         return this.http.get<sasaki.factory.organization.movieTheater.IPublicFields[]>(url).toPromise();
+    }
+
+    /**
+     * 劇場取得
+     * @method getTheaters
+     */
+    public getTheater(args: {
+        /**
+         * 枝番号
+         */
+        branchCode: string;
+    }) {
+        const url = `${SasakiMasterService.ENDPOINT}/getTheater`;
+        return this.http.get<sasaki.factory.organization.movieTheater.IPublicFields>(url, {
+            params: <any>args
+        }).toPromise();
     }
 
 }
