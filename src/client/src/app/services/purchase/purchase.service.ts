@@ -7,18 +7,24 @@ type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.I
 @Injectable()
 export class PurchaseService {
 
-    public individualScreeningEvent?: IIndividualScreeningEvent;
-    public transaction?: sasaki.factory.transaction.placeOrder.ITransaction;
-    public movieTheaterOrganization?: sasaki.factory.organization.movieTheater.IPublicFields;
+    public data: Idata;
 
-    constructor(private storage: StorageService) { }
+    constructor(private storage: StorageService) {
+        this.load();
+    }
 
     /**
      * 読み込み
      * @method load
      */
     public load() {
+        const data: Idata | null = this.storage.load('purchase', SaveType.Local);
+        if (data === null) {
+            this.data = {};
 
+            return;
+        }
+        this.data = data;
     }
 
     /**
@@ -26,12 +32,7 @@ export class PurchaseService {
      * @method save
      */
     public save() {
-        const data = {
-            transaction: this.transaction,
-            individualScreeningEvent: this.individualScreeningEvent,
-            movieTheaterOrganization: this.movieTheaterOrganization
-        };
-        this.storage.save(JSON.stringify(data), SaveType.Local);
+        this.storage.save('purchase', this.data, SaveType.Local);
     }
 
     /**
@@ -67,4 +68,10 @@ export class PurchaseService {
             || screeningEvent.coaInfo.flgEarlyBooking === PRE_SALE);
     }
 
+}
+
+interface Idata {
+    transaction?: sasaki.factory.transaction.placeOrder.ITransaction;
+    individualScreeningEvent?: IIndividualScreeningEvent;
+    movieTheaterOrganization?: sasaki.factory.organization.movieTheater.IPublicFields;
 }

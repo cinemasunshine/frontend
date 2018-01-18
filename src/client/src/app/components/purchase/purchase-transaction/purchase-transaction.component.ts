@@ -48,16 +48,16 @@ export class PurchaseTransactionComponent implements OnInit {
         }
         try {
             // イベント情報取得
-            this.purchase.individualScreeningEvent = await this.sasakiMaster.getEvent({
+            this.purchase.data.individualScreeningEvent = await this.sasakiMaster.getEvent({
                 identifier: (<string>this.parameters.performanceId)
             });
             // 開始可能日判定
-            if (!this.purchase.isSalse(this.purchase.individualScreeningEvent)) {
+            if (!this.purchase.isSalse(this.purchase.data.individualScreeningEvent)) {
                 throw new Error('Unable to start sales');
             }
             const END_TIME = 30;
             // 終了可能日判定
-            if ( moment().add(END_TIME, 'minutes').unix() > moment(this.purchase.individualScreeningEvent.startDate).unix()) {
+            if ( moment().add(END_TIME, 'minutes').unix() > moment(this.purchase.data.individualScreeningEvent.startDate).unix()) {
                 throw new Error('unable to end sales');
             }
             // TODO
@@ -68,17 +68,18 @@ export class PurchaseTransactionComponent implements OnInit {
             // this.purchase.reset();
 
             // 劇場のショップを検索
-            this.purchase.movieTheaterOrganization = await this.sasakiMaster.getTheater({
-                branchCode: this.purchase.individualScreeningEvent.coaInfo.theaterCode
+            this.purchase.data.movieTheaterOrganization = await this.sasakiMaster.getTheater({
+                branchCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode
             });
             console.log(this.purchase);
             const VALID_TIME = 15;
             // 取引開始
-            this.purchase.transaction = await this.sasakiPurchase.transactionStart({
+            this.purchase.data.transaction = await this.sasakiPurchase.transactionStart({
                 expires: (<any>moment().add(VALID_TIME, 'minutes').toISOString()),
-                sellerId: this.purchase.movieTheaterOrganization.id,
+                sellerId: this.purchase.data.movieTheaterOrganization.id,
                 passportToken: (<string>this.parameters.passportToken)
             });
+            this.purchase.save();
             this.router.navigate(['/purchase/seat'], { replaceUrl: true });
         } catch (err) {
             this.error.redirect(err);

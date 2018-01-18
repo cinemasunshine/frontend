@@ -1,42 +1,392 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import * as COA from '@motionpicture/coa-service';
 import 'rxjs/add/operator/toPromise';
+import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiPurchaseService } from '../../../services/sasaki/sasaki-purchase/sasaki-purchase.service';
-import { ErrorService } from '../../../services/error/error.service';
 
 @Component({
     selector: 'app-screen',
     templateUrl: './screen.component.html',
     styleUrls: ['./screen.component.scss']
 })
-export class ScreenComponent implements OnInit {
-    public screen: any;
-    public setting: any;
+export class ScreenComponent implements OnInit, AfterViewInit {
+    public static ZOOM_SCALE = 1;
+    public data: Idata;
+    public zoomState: boolean;
+    public scale: number;
+    public height: number;
+    public origin: string;
 
     constructor(
+        private elementRef: ElementRef,
         private http: HttpClient,
         private sasakiPurchase: SasakiPurchaseService,
         private purchase: PurchaseService,
         private error: ErrorService
     ) { }
 
+    /**
+     * 初期化
+     */
     public async ngOnInit() {
+        this.zoomState = false;
+        this.scale = 1;
+        this.height = 0;
+        this.origin = '0 0';
         try {
-            if (this.purchase.individualScreeningEvent === undefined) {
-                throw new Error('status is different');
-            }
-            const DIGITS = {
-                '02': 2,
-                '03': 3
-            };
-            const theaterCode = `00${this.purchase.individualScreeningEvent.superEvent.location.branchCode}`.slice(DIGITS['02']);
-            const screenCode = `000${this.purchase.individualScreeningEvent.location.branchCode}`.slice(DIGITS['03']);
-            this.screen = await this.http.get(`/assets/json/theater/${theaterCode}/${screenCode}.json`);
-            this.setting = await this.http.get('/assets/json/theater/setting.json');
+            const data = await this.getData();
+            this.data = this.createScreen(data);
         } catch (err) {
-            this.error.redirect(new Error('status is different'));
+            this.error.redirect(new Error('data is not found'));
         }
     }
 
+    /**
+     * レンダリング後処理
+     */
+    public ngAfterViewInit() {
+        const timer = setInterval(() => {
+            if (this.data !== undefined) {
+                clearInterval(timer);
+                this.scaleDown();
+            }
+        });
+    }
+
+    /**
+     * 座席選択
+     * @method seatSelect
+     * @param {Event} event
+     * @param {Iseat} seat
+     */
+    public seatSelect(event: Event, seat: Iseat) {
+        event.preventDefault();
+        console.log(seat);
+        const targetSeat = this.data.seats.find((target) => {
+            return (seat.code === target.code);
+        });
+        if (targetSeat === undefined) {
+            return;
+        }
+        if (targetSeat.status === 'default') {
+            targetSeat.status = 'active';
+        }
+        if (targetSeat.status === 'active') {
+            seat.status = 'default';
+        }
+    }
+
+    /**
+     * 拡大
+     * @method scaleUp
+     * @param {Event} event
+     * @returns {void}
+     */
+    public scaleUp(event: MouseEvent) {
+        event.preventDefault();
+        if (this.zoomState) {
+            return;
+        }
+        this.zoomState = true;
+        const element: HTMLElement = this.elementRef.nativeElement;
+        const screen = <HTMLDivElement>element.querySelector('.screen');
+        const scroll = <HTMLDivElement>element.querySelector('.screen-scroll');
+        const rect = scroll.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const offset = {
+            top: rect.top + scrollTop,
+            left: rect.left + scrollLeft
+        };
+        const pos = {
+            x: event.pageX - offset.left,
+            y: event.pageY - offset.top
+        };
+        const scrollPos = {
+            x: pos.x / this.scale - screen.offsetWidth / 2,
+            y: pos.y / this.scale - screen.offsetHeight / 2,
+        };
+        this.scale = ScreenComponent.ZOOM_SCALE;
+        this.origin = '50% 50%';
+
+        setTimeout(() => {
+            scroll.scrollLeft = scrollPos.x;
+            scroll.scrollTop = scrollPos.y;
+        }, 0);
+    }
+
+    /**
+     * 縮小
+     * @method scaleDown
+     * @returns {void}
+     */
+    public scaleDown(): void {
+        const element: HTMLElement = this.elementRef.nativeElement;
+        const screen = <HTMLDivElement>element.querySelector('.screen');
+        this.zoomState = false;
+        const scale = screen.offsetWidth / this.data.screen.size.w;
+        this.scale = (scale > ScreenComponent.ZOOM_SCALE) ? ScreenComponent.ZOOM_SCALE : scale;
+        this.height = this.data.screen.size.h * this.scale;
+        this.origin = '0 0';
+    }
+
+    /**
+     * リサイズ処理
+     * @method resize
+     */
+    public resize(): void {
+        this.scaleDown();
+    }
+
+    /**
+     * データ取得
+     * @method getData
+     */
+    public async getData(): Promise<{
+        screen: Iscreen,
+        status: COA.services.reserve.IStateReserveSeatResult
+    }> {
+        if (this.purchase.data.individualScreeningEvent === undefined) {
+            throw new Error('status is different');
+        }
+        const DIGITS = {
+            '02': -2,
+            '03': -3
+        };
+        const theaterCode = `00${this.purchase.data.individualScreeningEvent.superEvent.location.branchCode}`.slice(DIGITS['02']);
+        const screenCode = `000${this.purchase.data.individualScreeningEvent.location.branchCode}`.slice(DIGITS['03']);
+        const screen = await this.http.get<Iscreen>(`/assets/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
+        const setting = await this.http.get<Iscreen>('/assets/json/theater/setting.json').toPromise();
+        const seatStatus = await this.sasakiPurchase.getSeatState({
+            theaterCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode,
+            dateJouei: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei,
+            titleCode: this.purchase.data.individualScreeningEvent.coaInfo.titleCode,
+            titleBranchNum: this.purchase.data.individualScreeningEvent.coaInfo.titleBranchNum,
+            timeBegin: this.purchase.data.individualScreeningEvent.coaInfo.timeBegin,
+            screenCode: this.purchase.data.individualScreeningEvent.coaInfo.screenCode
+        });
+        // スクリーンデータをマージ
+        return {
+            screen: Object.assign(setting, screen),
+            status: seatStatus
+        };
+    }
+
+    /**
+     * スクリーン作成
+     */
+    public createScreen(data: {
+        screen: Iscreen,
+        status: COA.services.reserve.IStateReserveSeatResult
+    }): Idata {
+        const screenData = data.screen;
+        const seatStatus = data.status;
+        // y軸ラベル
+        const labels: string[] = [];
+        const startLabelNo = 65;
+        const endLabelNo = 91;
+        for (let i = startLabelNo; i < endLabelNo; i++) {
+            labels.push(String.fromCharCode(i));
+        }
+        // 行ラベル
+        const lineLabels: ILabel[] = [];
+        // 列ラベル
+        const columnLabels: ILabel[] = [];
+        // 座席リスト
+        const seats: Iseat[] = [];
+
+        const toFullWidth = (value: string) => {
+            return value.replace(/./g, (s: string) => {
+                return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+            });
+        };
+        const pos = { x: 0, y: 0 };
+        let labelCount = 0;
+        for (let y = 0; y < screenData.map.length; y++) {
+            if (y === 0) {
+                pos.y = 0;
+            }
+            // ポジション設定
+            if (y === 0) {
+                pos.y += screenData.seatStart.y;
+            } else if (screenData.map[y].length === 0) {
+                pos.y += screenData.aisle.middle.h - screenData.seatMargin.h;
+            } else {
+                labelCount++;
+                pos.y += screenData.seatSize.h + screenData.seatMargin.h;
+            }
+
+            for (let x = 0; x < screenData.map[y].length; x++) {
+                if (x === 0) {
+                    pos.x = screenData.seatStart.x;
+                }
+
+                // 座席ラベルHTML生成
+                if (x === 0) {
+                    lineLabels.push({
+                        id: labelCount,
+                        w: screenData.seatSize.w,
+                        h: screenData.seatSize.h,
+                        y: pos.y,
+                        x: pos.x - screenData.seatLabelPos,
+                        label: labels[labelCount]
+                    });
+                }
+
+                if (screenData.map[y][x] === 8) {
+                    pos.x += screenData.aisle.middle.w;
+                } else if (screenData.map[y][x] === 9) {
+                    pos.x += screenData.aisle.middle.w;
+                } else if (screenData.map[y][x] === 10) {
+                    pos.x += (screenData.seatSize.w / 2) + screenData.seatMargin.w;
+                } else if (screenData.map[y][x] === 11) {
+                    pos.x += (screenData.seatSize.w / 2) + screenData.seatMargin.w;
+                }
+
+                // 座席番号HTML生成
+                if (y === 0) {
+                    columnLabels.push({
+                        id: x,
+                        w: screenData.seatSize.w,
+                        h: screenData.seatSize.h,
+                        y: pos.y - screenData.seatNumberPos,
+                        x: pos.x,
+                        label: String(x + 1)
+                    });
+                }
+                if (screenData.map[y][x] === 1
+                    || screenData.map[y][x] === 4
+                    || screenData.map[y][x] === 5
+                    || screenData.map[y][x] === 8
+                    || screenData.map[y][x] === 10) {
+                    // 座席HTML生成
+                    const code = toFullWidth(labels[labelCount]) + '－' + toFullWidth(String(x + 1));
+                    const label = labels[labelCount] + String(x + 1);
+                    let section = '';
+                    let status = 'disabled';
+                    for (const listSeat of seatStatus.listSeat) {
+                        const targetSeat = listSeat.listFreeSeat.find((freeSeat) => {
+                            return (freeSeat.seatNum === code);
+                        });
+                        if (targetSeat !== undefined) {
+                            section = listSeat.seatSection;
+                            status = 'default';
+                            break;
+                        }
+                    }
+                    const seat = {
+                        className: '',
+                        w: screenData.seatSize.w,
+                        h: screenData.seatSize.h,
+                        y: pos.y,
+                        x: pos.x,
+                        label: label,
+                        code: code,
+                        section: section,
+                        status: status
+                    };
+                    if (screenData.hc.indexOf(label) !== -1) {
+                        seat.className = 'seat-hc';
+                    }
+                    seats.push(seat);
+                }
+                // ポジション設定
+                if (screenData.map[y][x] === 2) {
+                    pos.x += screenData.aisle.middle.w + screenData.seatMargin.w;
+                } else if (screenData.map[y][x] === 3) {
+                    pos.x += screenData.aisle.small.w + screenData.seatMargin.w;
+                } else if (screenData.map[y][x] === 4) {
+                    pos.x += screenData.aisle.middle.w + screenData.seatSize.w + screenData.seatMargin.w;
+                } else if (screenData.map[y][x] === 5) {
+                    pos.x += screenData.aisle.small.w + screenData.seatSize.w + screenData.seatMargin.w;
+                } else if (screenData.map[y][x] === 6) {
+                    pos.x += screenData.aisle.middle.w + screenData.seatSize.w + screenData.seatMargin.w;
+                } else if (screenData.map[y][x] === 7) {
+                    pos.x += screenData.aisle.small.w + screenData.seatSize.w + screenData.seatMargin.w;
+                } else {
+                    pos.x += screenData.seatSize.w + screenData.seatMargin.w;
+                }
+            }
+        }
+        // スクリーンタイプ
+        const screenType = (screenData.type === 1)
+            ? 'screen-imax' : (screenData.type === 2)
+                ? 'screen-4dx' : '';
+
+        return {
+            screen: screenData,
+            objects: screenData.objects,
+            screenType: screenType,
+            lineLabels: lineLabels,
+            columnLabels: columnLabels,
+            seats: seats
+        };
+    }
+}
+
+interface Isize {
+    w: number;
+    h: number;
+}
+
+interface Iposition {
+    x: number;
+    y: number;
+}
+
+interface Iobject extends Isize, Iposition {
+    image: string;
+}
+
+interface Iscreen {
+    type: number;
+    size: Isize;
+    objects: Iobject[];
+    seatStart: Iposition;
+    map: number[][];
+    special: string[];
+    hc: string[];
+    pair: string[];
+    seatSize: Isize;
+    seatMargin: Isize;
+    aisle: {
+        small: Isize;
+        middle: Isize;
+    };
+    seatLabelPos: number;
+    seatNumberPos: number;
+    html: string;
+    style: string;
+}
+
+interface ILabel {
+    id: number;
+    w: number;
+    h: number;
+    y: number;
+    x: number;
+    label: string;
+}
+
+interface Iseat {
+    className: string;
+    w: number;
+    h: number;
+    y: number;
+    x: number;
+    label: string;
+    code: string;
+    section: string;
+    status: string;
+}
+
+interface Idata {
+    screen: Iscreen;
+    objects: Iobject[];
+    screenType: string;
+    lineLabels: ILabel[];
+    columnLabels: ILabel[];
+    seats: Iseat[];
 }

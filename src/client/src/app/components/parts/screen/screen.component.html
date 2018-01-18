@@ -1,574 +1,68 @@
 <div class="radius bg-light-gray">
-    <div class="screen" style="visibility: visible;">
-        <div class="zoom-btn text-center">
-            <app-icon [iconName]="'zoom-out'" [width]="15" [height]="15"></app-icon>
+    <div class="screen" [class.zoom]="zoomState" style="visibility: visible;" (window:resize)="resize()">
+        <div [class.active]="zoomState" class="zoom-btn text-center" (click)="scaleDown()">
+            <app-icon iconName="zoom-out" width="15" height="15"></app-icon>
             <div class="small-x-text" href="#">ズーム
                 <br>解除</div>
         </div>
-        <div class="screen-scroll" style="height: 221.456px; transform-origin: 0px 0px 0px; transform: scale(0.200594);">
-            <div class="screen-inner" style=" width: 1346px; height: 1104px;">
-                <div class="object" style="width: 485px; height: 51px; top: 90px; left: 452px; background-image: url(/images/theater/18/screen/007.svg); background-size: 485px 51px; "></div>
-                <div class="object" style="width: 126px; height: 570px; top: 233px; left: 345px; background-image: url(/images/theater/18/entrance/007.svg); background-size: 126px 570px; "></div>
-                <div class="object label-object column-object column-object-0" style="width: 40px; height: 50px; top:183px; left:388px">1</div>
-                <div class="object label-object column-object column-object-1" style="width: 40px; height: 50px; top:183px; left:432px">2</div>
-                <div class="object label-object column-object column-object-2" style="width: 40px; height: 50px; top:183px; left:476px">3</div>
-                <div class="object label-object column-object column-object-3" style="width: 40px; height: 50px; top:183px; left:520px">4</div>
-                <div class="object label-object column-object column-object-4" style="width: 40px; height: 50px; top:183px; left:564px">5</div>
-                <div class="object label-object column-object column-object-5" style="width: 40px; height: 50px; top:183px; left:608px">6</div>
-                <div class="object label-object column-object column-object-6" style="width: 40px; height: 50px; top:183px; left:652px">7</div>
-                <div class="object label-object column-object column-object-7" style="width: 40px; height: 50px; top:183px; left:696px">8</div>
-                <div class="object label-object column-object column-object-8" style="width: 40px; height: 50px; top:183px; left:740px">9</div>
-                <div class="object label-object column-object column-object-9" style="width: 40px; height: 50px; top:183px; left:784px">10</div>
-                <div class="object label-object column-object column-object-10" style="width: 40px; height: 50px; top:183px; left:828px">11</div>
-                <div class="object label-object column-object column-object-11" style="width: 40px; height: 50px; top:183px; left:872px">12</div>
-                <div class="object label-object column-object column-object-12" style="width: 40px; height: 50px; top:183px; left:916px">13</div>
-                <div class="object label-object column-object column-object-13" style="width: 40px; height: 50px; top:183px; left:960px">14</div>
-                <div class="object label-object line-object line-object-0" style="width: 40px; height: 50px; top:233px; left:288px">A</div>
-                <div class="object label-object line-object line-object-1" style="width: 40px; height: 50px; top:303px; left:288px">B</div>
-                <div class="object label-object line-object line-object-2" style="width: 40px; height: 50px; top:373px; left:288px">C</div>
-                <div class="object label-object line-object line-object-3" style="width: 40px; height: 50px; top:473px; left:288px">D</div>
-                <div class="object label-object line-object line-object-4" style="width: 40px; height: 50px; top:543px; left:288px">E</div>
-                <div class="object label-object line-object line-object-5" style="width: 40px; height: 50px; top:613px; left:288px">F</div>
-                <div class="object label-object line-object line-object-6" style="width: 40px; height: 50px; top:683px; left:288px">G</div>
-                <div class="object label-object line-object line-object-7" style="width: 40px; height: 50px; top:753px; left:288px">H</div>
-                <div class="object label-object line-object line-object-8" style="width: 40px; height: 50px; top:823px; left:288px">I</div>
-                <div class="object label-object line-object line-object-9" style="width: 40px; height: 50px; top:893px; left:288px">J</div>
-                <div class="object label-object line-object line-object-10" style="width: 40px; height: 50px; top:963px; left:288px">K</div>
-                <div class="seat seat-hc" style="top:233px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ａ－４" data-seat-section="" class="disabled">
-                        <span>A4</span>
-                    </a>
+        <div *ngIf="data" class="screen-scroll" 
+        [ngStyle]="{ 
+            'height.px': height,
+            'transform-origin': origin,
+            'transform': 'scale(' + scale + ')'
+        }">
+            <div class="screen-inner {{ data.screenType }}" 
+            [ngStyle]="{ 'width.px': data.screen.size.w, 'height.px': data.screen.size.h }"
+            (click)="scaleUp($event)">
+                
+                <div *ngFor="let object of data.objects" 
+                class="object" 
+                [ngStyle]="{
+                    'width.px': object.w, 
+                    'height.px': object.h, 
+                    'top.px': object.y, 
+                    'left.px': object.x, 
+                    'background-image': 'url(' + object.image + ')',
+                    'background-size': object.w + 'px ' +object.h + 'px'
+                }" ></div>
+                
+                <div *ngFor="let columnLabel of data.columnLabels" 
+                class="object label-object column-object column-object-{{ columnLabel.id }}" 
+                [ngStyle]="{
+                    'width.px': columnLabel.w,
+                    'height.px': columnLabel.h, 
+                    'top.px': columnLabel.y, 
+                    'left.px': columnLabel.x
+                }">{{ columnLabel.label }}</div>
+
+                <div *ngFor="let lineLabel of data.lineLabels" 
+                class="object label-object column-object line-object-{{ lineLabel.id }}" 
+                [ngStyle]="{
+                    'width.px': lineLabel.w,
+                    'height.px': lineLabel.h, 
+                    'top.px': lineLabel.y, 
+                    'left.px': lineLabel.x
+                }">{{ lineLabel.label }}</div>
+                
+                
+                <div *ngFor="let seat of data.seats" 
+                class="seat {{ seat.className }}" 
+                [ngStyle]="{
+                    'top.px': seat.y, 
+                    'left.px': seat.x
+                }">
+                    <a class="{{ seat.status }}" 
+                    [ngStyle]="{
+                        'width.px': seat.w,
+                        'height.px': seat.h
+                    }" (click)="seatSelect($event, seat)"><span>{{ seat.label }}</span></a>
                 </div>
-                <div class="seat seat-hc" style="top:233px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ａ－５" data-seat-section="" class="disabled">
-                        <span>A5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:233px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ａ－７" data-seat-section="" class="disabled">
-                        <span>A7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:233px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ａ－８" data-seat-section="" class="disabled">
-                        <span>A8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:233px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ａ－９" data-seat-section="" class="disabled">
-                        <span>A9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:233px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ａ－１０" data-seat-section="" class="disabled">
-                        <span>A10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－３" data-seat-section="   " class="default">
-                        <span>B3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－４" data-seat-section="   " class="default">
-                        <span>B4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－５" data-seat-section="   " class="default">
-                        <span>B5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:608px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－６" data-seat-section="   " class="default">
-                        <span>B6</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－７" data-seat-section="   " class="default">
-                        <span>B7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－８" data-seat-section="   " class="default">
-                        <span>B8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－９" data-seat-section="   " class="default">
-                        <span>B9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－１０" data-seat-section="   " class="default">
-                        <span>B10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－１３" data-seat-section="   " class="default">
-                        <span>B13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:303px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｂ－１４" data-seat-section="   " class="default">
-                        <span>B14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－３" data-seat-section="   " class="default">
-                        <span>C3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－４" data-seat-section="   " class="default">
-                        <span>C4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－５" data-seat-section="   " class="default">
-                        <span>C5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:608px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－６" data-seat-section="   " class="default">
-                        <span>C6</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－７" data-seat-section="   " class="default">
-                        <span>C7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－８" data-seat-section="   " class="default">
-                        <span>C8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－９" data-seat-section="   " class="default">
-                        <span>C9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－１０" data-seat-section="   " class="default">
-                        <span>C10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－１３" data-seat-section="   " class="default">
-                        <span>C13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:373px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｃ－１４" data-seat-section="   " class="default">
-                        <span>C14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－３" data-seat-section="   " class="default">
-                        <span>D3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－４" data-seat-section="   " class="default">
-                        <span>D4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－５" data-seat-section="   " class="default">
-                        <span>D5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:608px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－６" data-seat-section="   " class="default">
-                        <span>D6</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－７" data-seat-section="   " class="default">
-                        <span>D7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－８" data-seat-section="   " class="default">
-                        <span>D8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－９" data-seat-section="   " class="default">
-                        <span>D9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－１０" data-seat-section="   " class="default">
-                        <span>D10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－１３" data-seat-section="   " class="default">
-                        <span>D13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:473px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｄ－１４" data-seat-section="   " class="default">
-                        <span>D14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－３" data-seat-section="   " class="default">
-                        <span>E3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－４" data-seat-section="   " class="default">
-                        <span>E4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－５" data-seat-section="   " class="default">
-                        <span>E5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:608px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－６" data-seat-section="   " class="default">
-                        <span>E6</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－７" data-seat-section="   " class="default">
-                        <span>E7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－８" data-seat-section="   " class="default">
-                        <span>E8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－９" data-seat-section="   " class="default">
-                        <span>E9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－１０" data-seat-section="   " class="default">
-                        <span>E10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－１３" data-seat-section="   " class="default">
-                        <span>E13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:543px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｅ－１４" data-seat-section="   " class="default">
-                        <span>E14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－３" data-seat-section="   " class="default">
-                        <span>F3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－４" data-seat-section="   " class="default">
-                        <span>F4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－５" data-seat-section="   " class="default">
-                        <span>F5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:608px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－６" data-seat-section="   " class="default">
-                        <span>F6</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－７" data-seat-section="   " class="default">
-                        <span>F7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－８" data-seat-section="   " class="default">
-                        <span>F8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－９" data-seat-section="   " class="default">
-                        <span>F9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－１０" data-seat-section="   " class="default">
-                        <span>F10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－１３" data-seat-section="   " class="default">
-                        <span>F13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:613px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｆ－１４" data-seat-section="   " class="default">
-                        <span>F14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－３" data-seat-section="   " class="default">
-                        <span>G3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－４" data-seat-section="   " class="default">
-                        <span>G4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－５" data-seat-section="" class="disabled">
-                        <span>G5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:608px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－６" data-seat-section="   " class="default">
-                        <span>G6</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－７" data-seat-section="   " class="default">
-                        <span>G7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－８" data-seat-section="" class="disabled">
-                        <span>G8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－９" data-seat-section="   " class="default">
-                        <span>G9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－１０" data-seat-section="" class="disabled">
-                        <span>G10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－１３" data-seat-section="   " class="default">
-                        <span>G13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:683px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｇ－１４" data-seat-section="   " class="default">
-                        <span>G14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－３" data-seat-section="   " class="default">
-                        <span>H3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－４" data-seat-section="   " class="default">
-                        <span>H4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－５" data-seat-section="   " class="default">
-                        <span>H5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:608px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－６" data-seat-section="   " class="default">
-                        <span>H6</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－７" data-seat-section="   " class="default">
-                        <span>H7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－８" data-seat-section="   " class="default">
-                        <span>H8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－９" data-seat-section="   " class="default">
-                        <span>H9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－１０" data-seat-section="   " class="default">
-                        <span>H10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－１３" data-seat-section="   " class="default">
-                        <span>H13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:753px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｈ－１４" data-seat-section="   " class="default">
-                        <span>H14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:388px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－１" data-seat-section="   " class="default">
-                        <span>I1</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:432px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－２" data-seat-section="   " class="default">
-                        <span>I2</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－３" data-seat-section="" class="disabled">
-                        <span>I3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－４" data-seat-section="   " class="default">
-                        <span>I4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－５" data-seat-section="   " class="default">
-                        <span>I5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:608px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－６" data-seat-section="   " class="default">
-                        <span>I6</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:652px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－７" data-seat-section="   " class="default">
-                        <span>I7</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:696px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－８" data-seat-section="   " class="default">
-                        <span>I8</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:740px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－９" data-seat-section="   " class="default">
-                        <span>I9</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－１０" data-seat-section="   " class="default">
-                        <span>I10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－１３" data-seat-section="   " class="default">
-                        <span>I13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:823px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｉ－１４" data-seat-section="   " class="default">
-                        <span>I14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:893px; left:388px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｊ－１" data-seat-section="   " class="default">
-                        <span>J1</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:893px; left:432px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｊ－２" data-seat-section="   " class="default">
-                        <span>J2</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:893px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｊ－３" data-seat-section="   " class="default">
-                        <span>J3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:893px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｊ－４" data-seat-section="   " class="default">
-                        <span>J4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:893px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｊ－５" data-seat-section="   " class="default">
-                        <span>J5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:893px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｊ－１０" data-seat-section="   " class="default">
-                        <span>J10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:893px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｊ－１３" data-seat-section="   " class="default">
-                        <span>J13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:893px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｊ－１４" data-seat-section="   " class="default">
-                        <span>J14</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:388px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－１" data-seat-section="   " class="default">
-                        <span>K1</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:432px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－２" data-seat-section="   " class="default">
-                        <span>K2</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:476px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－３" data-seat-section="   " class="default">
-                        <span>K3</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:520px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－４" data-seat-section="   " class="default">
-                        <span>K4</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:564px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－５" data-seat-section="   " class="default">
-                        <span>K5</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:784px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－１０" data-seat-section="   " class="default">
-                        <span>K10</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:828px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－１１" data-seat-section="   " class="default">
-                        <span>K11</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:872px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－１２" data-seat-section="   " class="default">
-                        <span>K12</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:916px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－１３" data-seat-section="" class="disabled">
-                        <span>K13</span>
-                    </a>
-                </div>
-                <div class="seat" style="top:963px; left:960px">
-                    <a href="#" style="width: 40px; height: 50px" data-seat-code="Ｋ－１４" data-seat-section="   " class="default">
-                        <span>K14</span>
-                    </a>
-                </div>
-                <div></div>
             </div>
         </div>
         <div class="device-type-pc"></div>
         <div class="device-type-sp"></div>
     </div>
-    <ng-content></ng-content>
+    <div *ngIf="data" class="{{ data.screenType }}">
+        <ng-content></ng-content>
+    </div>
 </div>
