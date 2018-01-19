@@ -48,16 +48,16 @@ export class PurchaseTransactionComponent implements OnInit {
         }
         try {
             // イベント情報取得
-            this.purchase.data.individualScreeningEvent = await this.sasakiMaster.getEvent({
+            const individualScreeningEvent = await this.sasakiMaster.getEvent({
                 identifier: (<string>this.parameters.performanceId)
             });
             // 開始可能日判定
-            if (!this.purchase.isSalse(this.purchase.data.individualScreeningEvent)) {
+            if (!this.purchase.isSalse(individualScreeningEvent)) {
                 throw new Error('Unable to start sales');
             }
             const END_TIME = 30;
             // 終了可能日判定
-            if ( moment().add(END_TIME, 'minutes').unix() > moment(this.purchase.data.individualScreeningEvent.startDate).unix()) {
+            if ( moment().add(END_TIME, 'minutes').unix() > moment(individualScreeningEvent.startDate).unix()) {
                 throw new Error('unable to end sales');
             }
             // TODO
@@ -65,7 +65,9 @@ export class PurchaseTransactionComponent implements OnInit {
 
             // TODO
             // 購入データ削除
-            // this.purchase.reset();
+            this.purchase.reset();
+
+            this.purchase.data.individualScreeningEvent = individualScreeningEvent;
 
             // 劇場のショップを検索
             this.purchase.data.movieTheaterOrganization = await this.sasakiMaster.getTheater({

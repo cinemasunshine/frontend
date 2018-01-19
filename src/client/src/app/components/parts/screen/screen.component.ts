@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import 'rxjs/add/operator/toPromise';
 import { ErrorService } from '../../../services/error/error.service';
@@ -13,7 +13,9 @@ import { SasakiPurchaseService } from '../../../services/sasaki/sasaki-purchase/
 })
 export class ScreenComponent implements OnInit, AfterViewInit {
     public static ZOOM_SCALE = 1;
-    public data: Idata;
+    @Output() public select = new EventEmitter<ISeat[]>();
+    @Output() public alert = new EventEmitter();
+    public data: IData;
     public zoomState: boolean;
     public scale: number;
     public height: number;
@@ -56,14 +58,40 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     }
 
     /**
+     * モバイル判定
+     * @method isMobile
+     * @returns {boolean}
+     */
+    public isMobile(): boolean {
+        if (window.innerWidth > 768) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 選択座席取得
+     * @method getSelectSeats
+     * @returns {Iseat[]}
+     */
+    public getSelectSeats(): ISeat[] {
+        return this.data.seats.filter((seat) => {
+            return (seat.status === 'active');
+        });
+    }
+
+    /**
      * 座席選択
      * @method seatSelect
      * @param {Event} event
      * @param {Iseat} seat
      */
-    public seatSelect(event: Event, seat: Iseat) {
+    public seatSelect(event: Event, seat: ISeat) {
         event.preventDefault();
-        console.log(seat);
+        if (this.isMobile() && !this.zoomState) {
+            return;
+        }
         const targetSeat = this.data.seats.find((target) => {
             return (seat.code === target.code);
         });
@@ -72,10 +100,18 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         }
         if (targetSeat.status === 'default') {
             targetSeat.status = 'active';
-        }
-        if (targetSeat.status === 'active') {
+        } else if (targetSeat.status === 'active') {
             seat.status = 'default';
         }
+        const individualScreeningEvent = this.purchase.data.individualScreeningEvent;
+        if (individualScreeningEvent !== undefined
+            && individualScreeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
+            seat.status = 'default';
+            this.alert.emit();
+
+            return;
+        }
+        this.select.emit(this.getSelectSeats());
     }
 
     /**
@@ -87,6 +123,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     public scaleUp(event: MouseEvent) {
         event.preventDefault();
         if (this.zoomState) {
+            return;
+        }
+        if (!this.isMobile()) {
             return;
         }
         this.zoomState = true;
@@ -145,7 +184,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
      * @method getData
      */
     public async getData(): Promise<{
-        screen: Iscreen,
+        screen: IScreen,
         status: COA.services.reserve.IStateReserveSeatResult
     }> {
         if (this.purchase.data.individualScreeningEvent === undefined) {
@@ -157,8 +196,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         };
         const theaterCode = `00${this.purchase.data.individualScreeningEvent.superEvent.location.branchCode}`.slice(DIGITS['02']);
         const screenCode = `000${this.purchase.data.individualScreeningEvent.location.branchCode}`.slice(DIGITS['03']);
-        const screen = await this.http.get<Iscreen>(`/assets/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
-        const setting = await this.http.get<Iscreen>('/assets/json/theater/setting.json').toPromise();
+        const screen = await this.http.get<IScreen>(`/assets/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
+        const setting = await this.http.get<IScreen>('/assets/json/theater/setting.json').toPromise();
         const seatStatus = await this.sasakiPurchase.getSeatState({
             theaterCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode,
             dateJouei: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei,
@@ -178,9 +217,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
      * スクリーン作成
      */
     public createScreen(data: {
-        screen: Iscreen,
+        screen: IScreen,
         status: COA.services.reserve.IStateReserveSeatResult
-    }): Idata {
+    }): IData {
         const screenData = data.screen;
         const seatStatus = data.status;
         // y軸ラベル
@@ -195,7 +234,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         // 列ラベル
         const columnLabels: ILabel[] = [];
         // 座席リスト
-        const seats: Iseat[] = [];
+        const seats: ISeat[] = [];
 
         const toFullWidth = (value: string) => {
             return value.replace(/./g, (s: string) => {
@@ -326,34 +365,34 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     }
 }
 
-interface Isize {
+interface ISize {
     w: number;
     h: number;
 }
 
-interface Iposition {
+interface IPosition {
     x: number;
     y: number;
 }
 
-interface Iobject extends Isize, Iposition {
+interface IObject extends ISize, IPosition {
     image: string;
 }
 
-interface Iscreen {
+interface IScreen {
     type: number;
-    size: Isize;
-    objects: Iobject[];
-    seatStart: Iposition;
+    size: ISize;
+    objects: IObject[];
+    seatStart: IPosition;
     map: number[][];
     special: string[];
     hc: string[];
     pair: string[];
-    seatSize: Isize;
-    seatMargin: Isize;
+    seatSize: ISize;
+    seatMargin: ISize;
     aisle: {
-        small: Isize;
-        middle: Isize;
+        small: ISize;
+        middle: ISize;
     };
     seatLabelPos: number;
     seatNumberPos: number;
@@ -370,7 +409,7 @@ interface ILabel {
     label: string;
 }
 
-interface Iseat {
+export interface ISeat {
     className: string;
     w: number;
     h: number;
@@ -382,11 +421,11 @@ interface Iseat {
     status: string;
 }
 
-interface Idata {
-    screen: Iscreen;
-    objects: Iobject[];
+interface IData {
+    screen: IScreen;
+    objects: IObject[];
     screenType: string;
     lineLabels: ILabel[];
     columnLabels: ILabel[];
-    seats: Iseat[];
+    seats: ISeat[];
 }

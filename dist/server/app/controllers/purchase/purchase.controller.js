@@ -27,6 +27,7 @@ const log = debug('SSKTS:purchase');
  */
 function getSeatState(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('getSeatState');
         try {
             const args = req.query;
             const result = yield COA.services.reserve.stateReserveSeat(args);
@@ -47,8 +48,8 @@ exports.getSeatState = getSeatState;
  */
 function transactionStart(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('transactionStart');
         try {
-            log('transactionStart');
             const options = base_controller_1.getOptions(req);
             const args = req.body;
             args.expires = moment(args.expires).toDate();
@@ -70,6 +71,7 @@ exports.transactionStart = transactionStart;
  */
 function createSeatReservation(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('createSeatReservation');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
@@ -91,6 +93,7 @@ exports.createSeatReservation = createSeatReservation;
  */
 function changeSeatReservation(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('changeSeatReservation');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
@@ -112,6 +115,7 @@ exports.changeSeatReservation = changeSeatReservation;
  */
 function cancelSeatReservation(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('cancelSeatReservation');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
@@ -133,6 +137,7 @@ exports.cancelSeatReservation = cancelSeatReservation;
  */
 function mvtkPurchaseNumberAuth(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('mvtkPurchaseNumberAuth');
         try {
             const args = req.body;
             const result = yield mvtkReserve.services.auth.purchaseNumberAuth.purchaseNumberAuth(args);
@@ -153,6 +158,7 @@ exports.mvtkPurchaseNumberAuth = mvtkPurchaseNumberAuth;
  */
 function createMvtkAuthorization(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('createMvtkAuthorization');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
@@ -174,6 +180,7 @@ exports.createMvtkAuthorization = createMvtkAuthorization;
  */
 function cancelMvtkAuthorization(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('cancelMvtkAuthorization');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
@@ -195,6 +202,7 @@ exports.cancelMvtkAuthorization = cancelMvtkAuthorization;
  */
 function setCustomerContact(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('setCustomerContact');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
@@ -216,6 +224,7 @@ exports.setCustomerContact = setCustomerContact;
  */
 function createCreditCardAuthorization(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('createCreditCardAuthorization');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
@@ -237,6 +246,7 @@ exports.createCreditCardAuthorization = createCreditCardAuthorization;
  */
 function cancelCreditCardAuthorization(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('cancelCreditCardAuthorization');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
@@ -258,6 +268,7 @@ exports.cancelCreditCardAuthorization = cancelCreditCardAuthorization;
  */
 function mvtksSatInfoSync(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('mvtksSatInfoSync');
         try {
             const args = req.body;
             const result = yield mvtkReserve.services.seat.seatInfoSync.seatInfoSync(args);
@@ -278,6 +289,7 @@ exports.mvtksSatInfoSync = mvtksSatInfoSync;
  */
 function transactionConfirm(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        log('transactionConfirm');
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ErrorService } from '../../services/error/error.service';
+import { PurchaseService } from '../../services/purchase/purchase.service';
 
 @Component({
     selector: 'app-error',
@@ -10,9 +11,13 @@ import { ErrorService } from '../../services/error/error.service';
 export class ErrorComponent implements OnInit {
     public environment = environment;
     public message: string;
-    constructor(private error: ErrorService) { }
+    constructor(
+        public purchase: PurchaseService,
+        private error: ErrorService
+    ) { }
 
     ngOnInit() {
+        this.purchase.reset();
         this.message = (this.error.errorDetail !== undefined) ? this.error.errorDetail.message : '';
     }
 

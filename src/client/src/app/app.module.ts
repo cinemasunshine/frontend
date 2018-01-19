@@ -11,6 +11,7 @@ import { InquiryLoginComponent } from './components/inquiry/inquiry-login/inquir
 import { ButtonsComponent } from './components/parts/buttons/buttons.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
 import { HeaderComponent } from './components/parts/header/header.component';
+import { IconComponent } from './components/parts/icon/icon.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
 import { ModalComponent } from './components/parts/modal/modal.component';
 import {
@@ -42,7 +43,6 @@ import { SasakiInquiryService } from './services/sasaki/sasaki-inquiry/sasaki-in
 import { SasakiMasterService } from './services/sasaki/sasaki-master/sasaki-master.service';
 import { SasakiPurchaseService } from './services/sasaki/sasaki-purchase/sasaki-purchase.service';
 import { StorageService } from './services/storage/storage.service';
-import { IconComponent } from './components/parts/icon/icon.component';
 
 @NgModule({
   declarations: [

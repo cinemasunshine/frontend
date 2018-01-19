@@ -4,28 +4,34 @@
         <p class="read">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
 
         <ul class="box radius bg-light-gray mb-middle seats">
-
-            <li>
+            <li *ngFor="let offer of offers">
                 <dl class="d-table">
-                    <dt class="d-td seat-code">Ｂ－５</dt>
+                    <dt class="d-td seat-code">{{ offer.seatNumber }}</dt>
                     <dd class="d-td width-medium">
-                        <div class="button blue-button">
-                            <a href="#" data-modal="ticketType">券種を選択してください</a>
+                        <div *ngIf="!offer.selected" class="button blue-button">
+                            <a (click)="ticketSelect($event, offer)">券種を選択してください</a>
+                        </div>
+                        <div *ngIf="offer.selected" class="blue-button ghost-button">
+                            <a *ngIf="!offer.glasses" (click)="ticketSelect($event, offer)">
+                                {{ offer.ticketName }} ￥{{ offer.price }}
+                            </a>
+                            <a *ngIf="offer.glasses" (click)="ticketSelect($event, offer)">
+                                {{ offer.ticketName }} メガネ込み ￥{{ offer.price + offer.addGlasses }}
+                            </a>
                         </div>
                     </dd>
                 </dl>
             </li>
-
         </ul>
 
         <div class="box radius bg-light-gray mb-large total">
             <div class="text-right mb-small">
                 <div class="length mb-x-small">購入枚数
-                    <strong class="red-text large-text">1枚</strong>
+                    <strong class="red-text large-text">{{ offers.length }}枚</strong>
                 </div>
                 <div class="price">合計金額
                     <strong class="red-text large-text">
-                        <span>0</span>円</strong>
+                        <span>{{ totalPrice }}</span>円</strong>
                 </div>
             </div>
             <div class="border-bottom-dot mb-small"></div>
@@ -35,13 +41,37 @@
                 <br>※ムビチケ券によっては別途追加料金が発生する場合がありますのでご了承ください。</p>
         </div>
 
-        <div class="button-area">
-            <div class="button next-button blue-button">
-                <button class="icon-next-white" type="submit" routerLink="/purchase/input">次へ</button>
-            </div>
-            <div class="prev-link">
-                <a class="icon-prev-black">戻る</a>
-            </div>
-        </div>
+        <app-buttons nextLabel="次へ" prevLabel="戻る" prevLink="/purchase/seat"></app-buttons>
     </form>
 </div>
+
+<div class="parent" [class.active]="ticketsModal">
+    <div class="modal-cover"></div>
+    <div class="modal position-center">
+        <div class="inner">
+            <ul class="box radius bg-light-gray">
+                <li *ngFor="let ticket of purchase.data.salesTickets">
+                    <dl class="d-table">
+                        <dt class="d-td">
+                            <div class="mb-xx-small">
+                                <strong *ngIf="!ticket.glasses">{{ ticket.ticketName }} ￥{{ ticket.salePrice }}</strong>
+                                <strong *ngIf="ticket.glasses">{{ ticket.ticketName }} メガネ込み ￥{{ ticket.salePrice + ticket.addGlasses }}</strong>
+                            </div>
+                            <p class="small-x-text">{{ ticket.ticketNote }}</p>
+                        </dt>
+                        <dd class="d-td width-small">
+                            <div class="button blue-button ticket-type-select">
+                                <a (click)="selectSalseTicket($event, ticket)">選択</a>
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <div class="close-button">
+            <a class="modal-close" (click)="ticketsModal = false"></a>
+        </div>
+    </div>
+</div>
+
+<app-loading [show]="isLoading"></app-loading>

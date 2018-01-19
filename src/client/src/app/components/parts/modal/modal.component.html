@@ -1,3 +1,18 @@
-<p>
-  modal works!
-</p>
+<div class="parent" [class.active]="open">
+    <div class="modal-cover"></div>
+    <div class="modal position-center">
+        <div class="inner">
+            <div class="box radius bg-white">
+                <div class="modal-body mb-middle">
+                    <ng-content></ng-content>
+                </div>
+                <div class="prev-link">
+                    <a (click)="close.emit()"><app-icon iconName="close-black" width="15" height="15"></app-icon>閉じる</a>
+                </div>
+            </div>
+        </div>
+        <div class="close-button">
+            <a class="modal-close" (click)="close.emit()"></a>
+        </div>
+    </div>
+</div>

@@ -18,6 +18,7 @@ const log = debug('SSKTS:purchase');
  * @returns {Promise<void>}
  */
 export async function getSeatState(req: Request, res: Response): Promise<void> {
+    log('getSeatState');
     try {
         const args = req.query;
         const result = await COA.services.reserve.stateReserveSeat(args);
@@ -35,8 +36,8 @@ export async function getSeatState(req: Request, res: Response): Promise<void> {
  * @returns {Promise<void>}
  */
 export async function transactionStart(req: Request, res: Response): Promise<void> {
+    log('transactionStart');
     try {
-        log('transactionStart');
         const options = getOptions(req);
         const args = req.body;
         args.expires = moment(args.expires).toDate();
@@ -55,6 +56,7 @@ export async function transactionStart(req: Request, res: Response): Promise<voi
  * @returns {Promise<void>}
  */
 export async function createSeatReservation(req: Request, res: Response): Promise<void> {
+    log('createSeatReservation');
     try {
         const options = getOptions(req);
         const args = req.body;
@@ -73,6 +75,7 @@ export async function createSeatReservation(req: Request, res: Response): Promis
  * @returns {Promise<void>}
  */
 export async function changeSeatReservation(req: Request, res: Response): Promise<void> {
+    log('changeSeatReservation');
     try {
         const options = getOptions(req);
         const args = req.body;
@@ -91,6 +94,7 @@ export async function changeSeatReservation(req: Request, res: Response): Promis
  * @returns {Promise<void>}
  */
 export async function cancelSeatReservation(req: Request, res: Response): Promise<void> {
+    log('cancelSeatReservation');
     try {
         const options = getOptions(req);
         const args = req.body;
@@ -109,6 +113,7 @@ export async function cancelSeatReservation(req: Request, res: Response): Promis
  * @returns {Promise<void>}
  */
 export async function mvtkPurchaseNumberAuth(req: Request, res: Response): Promise<void> {
+    log('mvtkPurchaseNumberAuth');
     try {
         const args = req.body;
         const result = await mvtkReserve.services.auth.purchaseNumberAuth.purchaseNumberAuth(args);
@@ -126,6 +131,7 @@ export async function mvtkPurchaseNumberAuth(req: Request, res: Response): Promi
  * @returns {Promise<void>}
  */
 export async function createMvtkAuthorization(req: Request, res: Response): Promise<void> {
+    log('createMvtkAuthorization');
     try {
         const options = getOptions(req);
         const args = req.body;
@@ -144,6 +150,7 @@ export async function createMvtkAuthorization(req: Request, res: Response): Prom
  * @returns {Promise<void>}
  */
 export async function cancelMvtkAuthorization(req: Request, res: Response): Promise<void> {
+    log('cancelMvtkAuthorization');
     try {
         const options = getOptions(req);
         const args = req.body;
@@ -162,6 +169,7 @@ export async function cancelMvtkAuthorization(req: Request, res: Response): Prom
  * @returns {Promise<void>}
  */
 export async function setCustomerContact(req: Request, res: Response): Promise<void> {
+    log('setCustomerContact');
     try {
         const options = getOptions(req);
         const args = req.body;
@@ -180,6 +188,7 @@ export async function setCustomerContact(req: Request, res: Response): Promise<v
  * @returns {Promise<void>}
  */
 export async function createCreditCardAuthorization(req: Request, res: Response): Promise<void> {
+    log('createCreditCardAuthorization');
     try {
         const options = getOptions(req);
         const args = req.body;
@@ -198,6 +207,7 @@ export async function createCreditCardAuthorization(req: Request, res: Response)
  * @returns {Promise<void>}
  */
 export async function cancelCreditCardAuthorization(req: Request, res: Response): Promise<void> {
+    log('cancelCreditCardAuthorization');
     try {
         const options = getOptions(req);
         const args = req.body;
@@ -216,6 +226,7 @@ export async function cancelCreditCardAuthorization(req: Request, res: Response)
  * @returns {Promise<void>}
  */
 export async function mvtksSatInfoSync(req: Request, res: Response): Promise<void> {
+    log('mvtksSatInfoSync');
     try {
         const args = req.body;
         const result = await mvtkReserve.services.seat.seatInfoSync.seatInfoSync(args);
@@ -233,6 +244,7 @@ export async function mvtksSatInfoSync(req: Request, res: Response): Promise<voi
  * @returns {Promise<void>}
  */
 export async function transactionConfirm(req: Request, res: Response): Promise<void> {
+    log('transactionConfirm');
     try {
         const options = getOptions(req);
         const args = req.body;

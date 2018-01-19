@@ -167,11 +167,11 @@ type ICreditCard = sasaki.factory.paymentMethod.paymentCard.creditCard.IUnchecke
     | sasaki.factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized
     | sasaki.factory.paymentMethod.paymentCard.creditCard.IUnauthorizedCardOfMember;
 
-interface IAuthorizeAction {
+export interface IAuthorizeAction {
     id: string;
 }
 
-interface IcancelCreditCardAuthorizationIn {
+export interface IcancelCreditCardAuthorizationIn {
     /**
      * 取引ID
      */
@@ -182,7 +182,7 @@ interface IcancelCreditCardAuthorizationIn {
     actionId: string;
 }
 
-interface IcancelMvtkAuthorizationIn {
+export interface IcancelMvtkAuthorizationIn {
     /**
      * 取引ID
      */
@@ -193,7 +193,7 @@ interface IcancelMvtkAuthorizationIn {
     actionId: string;
 }
 
-interface IcancelSeatReservationIn {
+export interface IcancelSeatReservationIn {
     /**
      * 取引ID
      */
@@ -204,7 +204,7 @@ interface IcancelSeatReservationIn {
     actionId: string;
 }
 
-interface IcreateCreditCardAuthorizationIn {
+export interface IcreateCreditCardAuthorizationIn {
     /**
      * 取引ID
      */
@@ -227,7 +227,7 @@ interface IcreateCreditCardAuthorizationIn {
     creditCard: ICreditCard;
 }
 
-interface IcreateMvtkAuthorizationIn {
+export interface IcreateMvtkAuthorizationIn {
     /**
      * 取引ID
      */
@@ -238,7 +238,7 @@ interface IcreateMvtkAuthorizationIn {
     mvtk: sasaki.factory.action.authorize.mvtk.IObject;
 }
 
-interface IcreateSeatReservationIn {
+export interface IcreateSeatReservationIn {
     /**
      * 取引ID
      */
@@ -253,7 +253,7 @@ interface IcreateSeatReservationIn {
     offers: sasaki.factory.offer.seatReservation.IOffer[];
 }
 
-interface IchangeSeatReservationIn {
+export interface IchangeSeatReservationIn {
     /**
      * 取引ID
      */
@@ -272,7 +272,7 @@ interface IchangeSeatReservationIn {
     offers: sasaki.factory.offer.seatReservation.IOffer[];
 }
 
-interface IsetCustomerContactIn {
+export interface IsetCustomerContactIn {
     /**
      * 取引ID
      */
@@ -283,14 +283,14 @@ interface IsetCustomerContactIn {
     contact: sasaki.factory.transaction.placeOrder.ICustomerContact;
 }
 
-interface ItransactionConfirmIn {
+export interface ItransactionConfirmIn {
     /**
      * 取引ID
      */
     transactionId: string;
 }
 
-interface ItransactionStartIn {
+export interface ItransactionStartIn {
     /**
      * 取引期限
      * 指定した日時を過ぎると、取引を進行することはできなくなります。
