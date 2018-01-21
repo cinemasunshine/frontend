@@ -34,6 +34,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     ) { }
 
     public ngOnInit() {
+        window.scrollTo(0, 0);
         this.isLoading = false;
         this.notSelectSeatModal = false;
         this.seats = [];
@@ -64,10 +65,13 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         const result: ISalesTicket[] = [];
         for (const salesTicket of salesTickets) {
             const noGlasses = Object.assign({ glasses: false, mvtkNum: '' }, salesTicket);
+            noGlasses.addGlasses = 0;
             result.push(noGlasses);
             if (salesTicket.addGlasses > 0) {
                 // メガネあり券種作成
                 const glasses = Object.assign({ glasses: true, mvtkNum: '' }, salesTicket);
+                glasses.salePrice = glasses.salePrice + glasses.addGlasses;
+                glasses.ticketName = glasses.ticketName + 'メガネ込み';
                 result.push(glasses);
             }
         }
@@ -97,6 +101,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
                     actionId: this.purchase.data.tmpSeatReservationAuthorization.id
                 };
                 await this.sasakiPurchase.cancelSeatReservation(cancelSeatReservationArgs);
+                this.purchase.data.tmpSeatReservationAuthorization = undefined;
                 this.purchase.save();
             }
             if (this.purchase.data.salesTickets === undefined) {

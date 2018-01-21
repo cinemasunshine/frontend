@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ButtonsComponent implements OnInit {
     @Input() public nextLabel: string;
     @Input() public prevLabel: string;
+    @Input() public prevLink: string;
 
     constructor() { }
 

@@ -15,6 +15,8 @@ export class PurchaseTicketComponent implements OnInit {
     public selectOffer: Ioffer;
     public ticketsModal: boolean;
     public isLoading: boolean;
+    public discountConditionsModal: boolean;
+    public notSelectModal: boolean;
 
     constructor(
         public purchase: PurchaseService,
@@ -24,16 +26,66 @@ export class PurchaseTicketComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
+        window.scrollTo(0, 0);
         this.purchase.load();
         this.isLoading = false;
         this.ticketsModal = false;
+        this.discountConditionsModal = false;
+        this.notSelectModal = false;
+        this.setOffers();
+        this.totalPrice = this.getTotalPrice();
+    }
+
+    /**
+     * 次へ
+     * @method onSubmit
+     */
+    public async onSubmit() {
+        const notSelectOffers = this.offers.filter((offer) => {
+            return (!offer.selected);
+        });
+        if (notSelectOffers.length > 0) {
+            this.notSelectModal = true;
+
+            return;
+        }
+        this.isLoading = true;
+        try {
+            if (this.purchase.data.transaction === undefined
+                || this.purchase.data.tmpSeatReservationAuthorization === undefined
+                || this.purchase.data.individualScreeningEvent === undefined) {
+                throw new Error('status is different');
+            }
+            const changeSeatReservationArgs = {
+                transactionId: this.purchase.data.transaction.id,
+                actionId: this.purchase.data.tmpSeatReservationAuthorization.id,
+                eventIdentifier: this.purchase.data.individualScreeningEvent.identifier,
+                offers: this.offers.map((offer) => {
+                    return {
+                        seatSection: offer.seatSection,
+                        seatNumber: offer.seatNumber,
+                        ticketInfo: offer.ticketInfo
+                    };
+                })
+            };
+            this.purchase.data.seatReservationAuthorization =
+                await this.sasakiPurchase.changeSeatReservation(changeSeatReservationArgs);
+            this.purchase.save();
+            this.router.navigate(['/purchase/input']);
+        } catch (err) {
+            this.error.redirect(err);
+        }
+    }
+
+    /**
+     * オファーを登録
+     * @method setOffers
+     */
+    private setOffers() {
         if (this.purchase.data.seatReservationAuthorization === undefined
             && this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
             this.offers = this.purchase.data.tmpSeatReservationAuthorization.object.offers.map((offer) => {
                 return {
-                    ticketCode: offer.ticketInfo.ticketCode,
-                    ticketName: offer.ticketInfo.ticketName,
-                    addGlasses: offer.ticketInfo.addGlasses,
                     price: offer.price,
                     priceCurrency: offer.priceCurrency,
                     seatNumber: offer.seatNumber,
@@ -42,15 +94,14 @@ export class PurchaseTicketComponent implements OnInit {
                     selected: false,
                     glasses: (offer.ticketInfo.addGlasses > 0),
                     limitCount: 0,
-                    limitUnit: ''
+                    limitUnit: '',
+                    ticketInfo: offer.ticketInfo
                 };
             });
         } else if (this.purchase.data.seatReservationAuthorization !== undefined) {
+            console.log(this.purchase.data.seatReservationAuthorization);
             this.offers = this.purchase.data.seatReservationAuthorization.object.offers.map((offer) => {
                 return {
-                    ticketCode: offer.ticketInfo.ticketCode,
-                    ticketName: offer.ticketInfo.ticketName,
-                    addGlasses: offer.ticketInfo.addGlasses,
                     price: offer.price,
                     priceCurrency: offer.priceCurrency,
                     seatNumber: offer.seatNumber,
@@ -59,23 +110,23 @@ export class PurchaseTicketComponent implements OnInit {
                     selected: true,
                     glasses: (offer.ticketInfo.addGlasses > 0),
                     limitCount: 0,
-                    limitUnit: ''
+                    limitUnit: '',
+                    ticketInfo: offer.ticketInfo
                 };
             });
         }
-        this.totalPrice = this.getTotalPrice();
     }
 
+    /**
+     * 合計金額計算
+     */
     public getTotalPrice(): number {
         let result = 0;
         const selectedOffers = this.offers.filter((offer) => {
             return (offer.selected);
         });
         for (const offer of selectedOffers) {
-            result += offer.price;
-            if (offer.glasses) {
-                result += offer.addGlasses;
-            }
+            result += offer.ticketInfo.salePrice;
         }
 
         return result;
@@ -111,18 +162,34 @@ export class PurchaseTicketComponent implements OnInit {
 
             return;
         }
-        target.ticketCode = salesTicket.ticketCode;
-        target.ticketName = salesTicket.ticketName;
-        target.addGlasses = salesTicket.addGlasses;
         target.price = salesTicket.salePrice;
         target.priceCurrency = this.selectOffer.priceCurrency;
         target.seatNumber = this.selectOffer.seatNumber;
         target.seatSection = this.selectOffer.seatSection;
-        target.mvtkNum = '';
         target.selected = true;
         target.glasses = salesTicket.glasses;
         target.limitCount = salesTicket.limitCount;
         target.limitUnit = salesTicket.limitUnit;
+        target.ticketInfo = {
+            mvtkNum: '',
+            ticketCode: salesTicket.ticketCode,
+            ticketName: salesTicket.ticketName,
+            mvtkAppPrice: 0,
+            addGlasses: salesTicket.addGlasses,
+            kbnEisyahousiki: '00',
+            mvtkKbnDenshiken: '00',
+            mvtkKbnMaeuriken: '00',
+            mvtkKbnKensyu: '00',
+            mvtkSalesPrice: 0,
+            addPrice: salesTicket.addPrice,
+            disPrice: 0,
+            salePrice: salesTicket.salePrice,
+            seatNum: this.selectOffer.seatNumber,
+            stdPrice: salesTicket.stdPrice,
+            ticketCount: 1,
+            ticketNameEng: salesTicket.ticketNameEng,
+            ticketNameKana: salesTicket.ticketNameKana
+        };
         this.totalPrice = this.getTotalPrice();
         this.ticketsModal = false;
     }
@@ -130,16 +197,32 @@ export class PurchaseTicketComponent implements OnInit {
 }
 
 interface Ioffer {
-    ticketCode: string;
-    ticketName: string;
     price: number;
     priceCurrency: string;
     seatNumber: string;
     seatSection: string;
-    mvtkNum: string;
-    addGlasses: number;
     selected: boolean;
     glasses: boolean;
     limitCount: number;
     limitUnit: string;
+    ticketInfo: {
+        mvtkNum: string;
+        ticketCode: string;
+        ticketName: string;
+        mvtkAppPrice: number;
+        addGlasses: number;
+        kbnEisyahousiki: string;
+        mvtkKbnDenshiken: string;
+        mvtkKbnMaeuriken: string;
+        mvtkKbnKensyu: string;
+        mvtkSalesPrice: number;
+        addPrice: number,
+        disPrice: number,
+        salePrice: number,
+        seatNum: string;
+        stdPrice: number,
+        ticketCount: number,
+        ticketNameEng: string;
+        ticketNameKana: string;
+    };
 }
