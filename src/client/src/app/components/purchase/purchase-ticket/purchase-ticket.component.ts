@@ -49,6 +49,12 @@ export class PurchaseTicketComponent implements OnInit {
 
             return;
         }
+        if (this.ticketValidation()) {
+            window.scrollTo(0, 0);
+            this.discountConditionsModal = true;
+
+            return;
+        }
         this.isLoading = true;
         try {
             if (this.purchase.data.transaction === undefined
@@ -95,6 +101,7 @@ export class PurchaseTicketComponent implements OnInit {
                     glasses: (offer.ticketInfo.addGlasses > 0),
                     limitCount: 0,
                     limitUnit: '',
+                    validation: false,
                     ticketInfo: offer.ticketInfo
                 };
             });
@@ -111,6 +118,7 @@ export class PurchaseTicketComponent implements OnInit {
                     glasses: (offer.ticketInfo.addGlasses > 0),
                     limitCount: 0,
                     limitUnit: '',
+                    validation: false,
                     ticketInfo: offer.ticketInfo
                 };
             });
@@ -118,7 +126,29 @@ export class PurchaseTicketComponent implements OnInit {
     }
 
     /**
+     * 制限単位、人数制限判定
+     * @method ticketValidation
+     */
+    public ticketValidation(): boolean {
+        let result = false;
+        for (const offer of this.offers) {
+            if (offer.limitUnit === '001') {
+                const unitLimitTickets = this.offers.filter((targetOffer) => {
+                    return (targetOffer.limitUnit === '001' && targetOffer.limitCount === offer.limitCount);
+                });
+                if (unitLimitTickets.length % offer.limitCount !== 0) {
+                    offer.validation = true;
+                    result = true;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * 合計金額計算
+     * @method getTotalPrice
      */
     public getTotalPrice(): number {
         let result = 0;
@@ -205,6 +235,7 @@ interface Ioffer {
     glasses: boolean;
     limitCount: number;
     limitUnit: string;
+    validation: boolean;
     ticketInfo: {
         mvtkNum: string;
         ticketCode: string;

@@ -1,5 +1,15 @@
 $tablet: 1024px;
 $mobile: 767px;
+dl {
+    dt {
+        font-weight: bold;
+    }
+}
+
+.validation-text {
+    margin-top: 10px;
+}
+
 .column-02 {
     display: flex;
     @media screen and (max-width: $mobile){
@@ -7,7 +17,6 @@ $mobile: 767px;
     }
     dl {
         display: flex;
-        align-items: center;
         width: 50%;
         @media screen and (max-width: $mobile){
             display: block;
@@ -30,9 +39,11 @@ $mobile: 767px;
         dt {
             width: 4em;
             margin-bottom: 0;
+            line-height: 44px;
             @media screen and (max-width: $mobile){
                 width: 100%;
                 margin-bottom: 10px;
+                line-height: 1.0;
             }
         }
         dd {

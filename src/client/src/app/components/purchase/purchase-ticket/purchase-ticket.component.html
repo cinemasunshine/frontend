@@ -3,7 +3,7 @@
     <p class="read">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
 
     <ul class="box radius bg-light-gray mb-middle seats">
-        <li *ngFor="let offer of offers">
+        <li *ngFor="let offer of offers" [class.validation]="offer.validation">
             <dl class="d-table">
                 <dt class="d-td seat-code">{{ offer.seatNumber }}</dt>
                 <dd class="d-td width-medium">

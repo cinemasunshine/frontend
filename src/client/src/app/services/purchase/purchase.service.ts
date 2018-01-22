@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
 import { SaveType, StorageService } from '../storage/storage.service';
 export type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
-
+export type ICustomerContact = sasaki.factory.transaction.placeOrder.ICustomerContact;
 @Injectable()
 export class PurchaseService {
 
@@ -187,6 +187,10 @@ interface Idata {
      * GMOオーダー回数
      */
     orderCount: number;
+    /**
+     * 購入者情報
+     */
+    customerContact?: ICustomerContact;
 }
 
 export interface ISalesTicket extends COA.services.reserve.ISalesTicketResult {
