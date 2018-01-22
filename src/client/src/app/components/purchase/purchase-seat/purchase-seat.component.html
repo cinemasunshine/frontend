@@ -57,14 +57,14 @@
     </form>
 </div>
 
-<app-modal [open]="notSelectSeatModal" (close)="notSelectSeatModal = false">
+<app-modal [open]="notSelectSeatModal" [layout]="true" (close)="notSelectSeatModal = false">
     <div class="modal-ttl large-text text-center mb-middle">
         <strong>座席が未選択です</strong>
     </div>
     <p class="text-center">ご希望の空席を選択して「次へ」ボタンを押してください。</p>
 </app-modal>
 
-<app-modal [open]="upperLimitModal" (close)="upperLimitModal = false">
+<app-modal [open]="upperLimitModal" [layout]="true" (close)="upperLimitModal = false">
     <div class="modal-ttl large-text text-center mb-middle">
         <strong>予約座席数が上限です</strong>
     </div>

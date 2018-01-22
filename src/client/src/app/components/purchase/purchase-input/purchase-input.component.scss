@@ -7,7 +7,7 @@ dl {
 }
 
 .validation-text {
-    margin-top: 10px;
+    margin: 10px 0;
 }
 
 .column-02 {
@@ -90,6 +90,19 @@ dl {
         dl {
             dt {
                 line-height: 1;
+            }
+        }
+    }
+}
+
+.security-code-modal {
+    dl {
+        dd {
+            img {
+                display: block;
+                margin: 0 auto;
+                width: 100%;
+                max-width: 300px;
             }
         }
     }

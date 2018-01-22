@@ -152,7 +152,24 @@ export class PurchaseService {
         );
     }
 
+    /**
+     * 合計金額計算
+     * @method getTotalPrice
+     */
+    public getTotalPrice(): number {
+        let result = 0;
+        if (this.data.seatReservationAuthorization === undefined) {
+            return result;
+        }
+        for (const offer of this.data.seatReservationAuthorization.object.offers) {
+            result += offer.ticketInfo.salePrice;
+        }
+
+        return result;
+    }
 }
+
+
 
 interface Idata {
     /**
