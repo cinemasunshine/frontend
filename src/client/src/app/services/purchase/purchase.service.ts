@@ -205,6 +205,12 @@ interface Idata {
      */
     orderCount: number;
     /**
+     * 決済情報（クレジット）
+     */
+    creditCardAuthorization?: {
+        id: string;
+    };
+    /**
      * 購入者情報
      */
     customerContact?: ICustomerContact;
