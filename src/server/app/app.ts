@@ -29,6 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressValidator()); // バリデーション
+app.set('views', `${__dirname}/views`); // view設定
+app.set('view engine', 'ejs');
 app.use(express.static(`${__dirname}/../dist/client`)); // client
 
 router(app);

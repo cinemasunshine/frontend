@@ -9,8 +9,7 @@ export class PurchaseBaseComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit() {
+    public ngOnInit() {
 
     }
-
 }

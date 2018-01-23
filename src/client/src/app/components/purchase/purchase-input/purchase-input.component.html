@@ -80,7 +80,7 @@
                         <div *ngIf="inputForm.controls['telephone'].errors.required" class="validation-text">電話番号が未入力です</div>
                         <div *ngIf="inputForm.controls['telephone'].errors.minlength" class="validation-text">電話番号は{{ inputForm.controls['telephone'].errors.minlength.requiredLength }}文字以上で入力してください</div>
                         <div *ngIf="inputForm.controls['telephone'].errors.maxlength" class="validation-text">電話番号は{{ inputForm.controls['telephone'].errors.maxlength.requiredLength }}文字以下で入力してください</div>
-                        <div *ngIf="inputForm.controls['telephone'].errors.telephone" class="validation-text">電話番号が正しくありません</div>
+                        <div *ngIf="inputForm.controls['telephone'].errors.pattern" class="validation-text">電話番号が正しくありません</div>
                     </div>
                     <p class="small-x-text">※半角数字、ハイフン「-」なしで入力してください</p>
                 </dd>
@@ -111,7 +111,7 @@
                         <dt>カード番号</dt>
                         <dd>
                             <input [class.validation]="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].dirty" type="text"
-                                pattern="\d*" formControlName="cardNumber" id="cardNumber" autocomplete="off" placeholder="(例)1234567890">
+                                pattern="\d*" formControlName="cardNumber" id="cardNumber" autocomplete="off" placeholder="(例)1234567890" maxlength="16">
                             <div *ngIf="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].dirty">
                                 <div *ngIf="inputForm.controls['cardNumber'].errors.required" class="validation-text">カード番号が未入力です</div>
                             </div>
@@ -143,7 +143,7 @@
                         <dt>セキュリティーコード</dt>
                         <dd>
                             <input [class.validation]="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].dirty" type="text"
-                                pattern="\d*" formControlName="securityCode" autocomplete="off" placeholder="(例)123">
+                                pattern="\d*" formControlName="securityCode" autocomplete="off" placeholder="(例)123" maxlength="4">
                             <div *ngIf="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].dirty">
                                 <div *ngIf="inputForm.controls['securityCode'].errors.required" class="validation-text">セキュリティーコードが未入力です</div>
                             </div>

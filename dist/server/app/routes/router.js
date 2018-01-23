@@ -8,7 +8,8 @@ exports.default = (app) => {
     app.use('/api/master', master_1.default);
     app.use('/api/inquiry', inquiry_1.default);
     app.get('/', (_, res) => {
-        res.sendFile(`${__dirname}/../dist/client/${process.env.NODE_ENV}/index.html`);
+        res.locals.env = process.env.NODE_ENV;
+        res.render('index');
     });
     app.get('*', (_, res) => {
         res.redirect('/');

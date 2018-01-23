@@ -1,13 +1,10 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import * as GMO from '@motionpicture/gmo-service';
-// import { PhoneNumberUtil } from 'google-libphonenumber';
 import * as moment from 'moment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiPurchaseService } from '../../../services/sasaki/sasaki-purchase/sasaki-purchase.service';
-
 @Component({
     selector: 'app-purchase-input',
     templateUrl: './purchase-input.component.html',
@@ -22,7 +19,6 @@ export class PurchaseInputComponent implements OnInit {
     public isLoading: boolean;
     public securityCodeModal: boolean;
     public creditCardAlertModal: boolean;
-    public gmoToken: string;
 
     constructor(
         public purchase: PurchaseService,
@@ -68,6 +64,7 @@ export class PurchaseInputComponent implements OnInit {
                 // クレジットカード処理
                 await this.creditCardProcess();
             } catch (err) {
+                console.error(err);
                 // クレジットカード処理失敗
                 this.isLoading = false;
                 this.creditCardAlertModal = true;
@@ -113,15 +110,17 @@ export class PurchaseInputComponent implements OnInit {
             this.purchase.data.creditCardAuthorization = undefined;
             this.purchase.save();
         }
+        const gmoToken = await this.getGmoToken();
         // クレジットカード登録
         const creditCard = {
-            token: this.gmoToken
+            token: gmoToken
         };
+        const METHOD_LUMP = '1';
         const createCreditCardAuthorizationArgs = {
             transactionId: this.purchase.data.transaction.id,
             orderId: (<string>this.purchase.data.orderId),
             amount: this.purchase.getTotalPrice(),
-            method: GMO.utils.util.Method.Lump,
+            method: METHOD_LUMP,
             creditCard: creditCard
         };
         this.purchase.data.creditCardAuthorization =
@@ -132,8 +131,29 @@ export class PurchaseInputComponent implements OnInit {
      * GMOトークン取得
      * @method getGmoToken
      */
-    private async getGmoToken() {
-
+    private async getGmoToken(): Promise<string> {
+        const sendParam = {
+            cardno: this.inputForm.controls.cardNumber.value,
+            expire: this.inputForm.controls.cardExpirationYear.value + this.inputForm.controls.cardExpirationMonth.value,
+            securitycode: this.inputForm.controls.securityCode.value,
+            holdername: this.inputForm.controls.holderName.value
+        };
+        console.log(sendParam);
+        return new Promise<string>((resolve, reject) => {
+            if (this.purchase.data.movieTheaterOrganization === undefined) {
+                return reject(new Error('status is different'));
+            }
+            (<any>window).someCallbackFunction = function someCallbackFunction(response: any) {
+                if (response.resultCode === '000') {
+                    resolve(response.tokenObject.token);
+                } else {
+                    reject(new Error(response.resultCode));
+                }
+            };
+            const Multipayment = (<any>window).Multipayment;
+            Multipayment.init(this.purchase.data.movieTheaterOrganization.gmoInfo.shopId);
+            Multipayment.getToken(sendParam, (<any>window).someCallbackFunction);
+        });
     }
 
     /**
@@ -192,23 +212,14 @@ export class PurchaseInputComponent implements OnInit {
                     Validators.required,
                     Validators.maxLength(TEL_MAX_LENGTH),
                     Validators.minLength(TEL_MIN_LENGTH),
-                    (control: AbstractControl): ValidationErrors | null => {
-                        // const value = (<AbstractControl>control.root.get('telephone')).value;
-                        // const phoneUtil = PhoneNumberUtil.getInstance();
-                        // const phoneNumber = phoneUtil.parse(value, 'JP'); // 日本以外は非対応
-                        // if (!phoneUtil.isValidNumber(phoneNumber)) {
-                        //     return { telephone: true };
-                        // }
-
-                        return null;
-                    }
+                    Validators.pattern(/^[0-9]+$/)
                 ]
             },
             cardNumber: { value: '', validators: [Validators.required] },
             cardExpirationMonth: { value: '01', validators: [Validators.required] },
             cardExpirationYear: { value: moment().format('YYYY'), validators: [Validators.required] },
             securityCode: { value: '', validators: [Validators.required] },
-            holderName: { value: '', validators: [Validators.required] },
+            holderName: { value: '', validators: [Validators.required] }
         };
         if (this.purchase.data.customerContact !== undefined) {
             // 購入者情報入力済み
