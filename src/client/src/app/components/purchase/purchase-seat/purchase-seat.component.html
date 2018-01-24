@@ -11,7 +11,7 @@
     </p>
     <div class="mb-middle">
         <app-screen (select)="seatSelect($event)" (alert)="seatSelectionAlert()">
-            <app-seat-info></app-seat-info>
+            <app-seat-info type="{{ purchase.data.individualScreeningEvent?.superEvent.coaInfo.kbnJoueihousiki?.kubunCode }}"></app-seat-info>
         </app-screen>
     </div>
 

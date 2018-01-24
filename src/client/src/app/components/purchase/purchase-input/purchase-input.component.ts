@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as libphonenumber from 'libphonenumber-js';
 import * as moment from 'moment';
+import { LibphonenumberFormatPipe } from '../../../pipes/libphonenumber-format/libphonenumber-format.pipe';
 import { ErrorService } from '../../../services/error/error.service';
 import { IGmoTokenObject, PurchaseService } from '../../../services/purchase/purchase.service';
 
@@ -47,6 +49,9 @@ export class PurchaseInputComponent implements OnInit {
         if (this.inputForm.invalid) {
             const element: HTMLElement = this.elementRef.nativeElement;
             const validation = <HTMLElement>element.querySelector('.validation');
+            if (validation === null) {
+                return;
+            }
             const rect = validation.getBoundingClientRect();
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const top = rect.top + scrollTop - 50;
@@ -126,7 +131,6 @@ export class PurchaseInputComponent implements OnInit {
      */
     private createForm() {
         const payment = this.purchase.getTotalPrice();
-        console.log('payment', payment);
         const NAME_MAX_LENGTH = 12;
         const MAIL_MAX_LENGTH = 50;
         const TEL_MAX_LENGTH = 11;
@@ -177,7 +181,22 @@ export class PurchaseInputComponent implements OnInit {
                     Validators.required,
                     Validators.maxLength(TEL_MAX_LENGTH),
                     Validators.minLength(TEL_MIN_LENGTH),
-                    Validators.pattern(/^[0-9]+$/)
+                    Validators.pattern(/^[0-9]+$/),
+                    (control: AbstractControl): ValidationErrors | null => {
+                        const field = control.root.get('telephone');
+                        if (field !== null) {
+                            const parsedNumber = libphonenumber.parse(field.value, 'JP');
+                            if (parsedNumber.phone === undefined) {
+                                return { telephone: true };
+                            }
+                            const isValid = libphonenumber.isValidNumber(parsedNumber);
+                            if (!isValid) {
+                                return { telephone: true };
+                            }
+                        }
+
+                        return null;
+                    }
                 ]
             },
             cardNumber: { value: '', validators: [Validators.required] },
@@ -192,7 +211,8 @@ export class PurchaseInputComponent implements OnInit {
             customerContact.givenName.value = this.purchase.data.customerContact.givenName;
             customerContact.email.value = this.purchase.data.customerContact.email;
             customerContact.emailConfirm.value = this.purchase.data.customerContact.email;
-            customerContact.telephone.value = this.purchase.data.customerContact.telephone;
+            customerContact.telephone.value =
+                new LibphonenumberFormatPipe().transform(this.purchase.data.customerContact.telephone);
         }
         if (payment > 0) {
             for (let i = 0; i < 12; i++) {

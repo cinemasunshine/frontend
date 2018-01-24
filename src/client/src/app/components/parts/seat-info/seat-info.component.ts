@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-seat-info',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./seat-info.component.scss']
 })
 export class SeatInfoComponent implements OnInit {
-
+  @Input() public type: string;
   constructor() { }
 
   ngOnInit() {

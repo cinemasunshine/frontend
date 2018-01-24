@@ -43,47 +43,27 @@ $mobile: 767px;
 } 
 .screen-4dx {
     .seat {
-        a {
+        &:before {
+            width: 20px;
+            height: 20px;
+            content: '';
+            display: block;
             background-image: url(/assets/images/theater/seat/4dx.svg);
-            background-size: 50px 50px;
-            &.active {
-                color: #FFF;
-                background-image: url(/assets/images/theater/seat/4dx_active.svg);
-            }
-            &.disabled {
-                color: #FFF;
-                background-image: url(/assets/images/theater/seat/4dx_disabled.svg);
-                cursor: default;
-            }
-            span {
-                display: none;
-            }
+            background-size: 20px 20px;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            margin-top: -10px;
+        } 
+    }
+    .active {
+        &:before {
+            background-image: url(/assets/images/theater/seat/4dx_active.svg);
         }
     }
-    .seat-info {
-        .seat {
-            &:before {
-                width: 20px;
-                height: 20px;
-                content: '';
-                display: block;
-                background-image: url(/assets/images/theater/seat/4dx.svg);
-                background-size: 20px 20px;
-                position: absolute;
-                top: 50%;
-                left: 0;
-                margin-top: -10px;
-            } 
+    .disabled {
+        &:before {
+            background-image: url(/assets/images/theater/seat/4dx_disabled.svg);
         }
-        .active {
-            &:before {
-                background-image: url(/assets/images/theater/seat/4dx_active.svg);
-            }
-        }
-        .disabled {
-            &:before {
-                background-image: url(/assets/images/theater/seat/4dx_disabled.svg);
-            }
-        } 
     } 
 }

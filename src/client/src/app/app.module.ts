@@ -43,6 +43,7 @@ import { SasakiInquiryService } from './services/sasaki/sasaki-inquiry/sasaki-in
 import { SasakiMasterService } from './services/sasaki/sasaki-master/sasaki-master.service';
 import { SasakiPurchaseService } from './services/sasaki/sasaki-purchase/sasaki-purchase.service';
 import { StorageService } from './services/storage/storage.service';
+import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format/libphonenumber-format.pipe';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { StorageService } from './services/storage/storage.service';
     TimeFormatPipe,
     DurationPipe,
     SeatInfoComponent,
-    IconComponent
+    IconComponent,
+    LibphonenumberFormatPipe
   ],
   imports: [
     BrowserModule,

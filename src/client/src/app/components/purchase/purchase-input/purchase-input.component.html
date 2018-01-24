@@ -80,7 +80,8 @@
                         <div *ngIf="inputForm.controls['telephone'].errors.required" class="validation-text">電話番号が未入力です</div>
                         <div *ngIf="inputForm.controls['telephone'].errors.minlength" class="validation-text">電話番号は{{ inputForm.controls['telephone'].errors.minlength.requiredLength }}文字以上で入力してください</div>
                         <div *ngIf="inputForm.controls['telephone'].errors.maxlength" class="validation-text">電話番号は{{ inputForm.controls['telephone'].errors.maxlength.requiredLength }}文字以下で入力してください</div>
-                        <div *ngIf="inputForm.controls['telephone'].errors.pattern" class="validation-text">電話番号が正しくありません</div>
+                        <div *ngIf="inputForm.controls['telephone'].errors.pattern" class="validation-text">電話番号は数字で入力してください</div>
+                        <div *ngIf="inputForm.controls['telephone'].errors.telephone" class="validation-text">電話番号が正しくありません</div>
                     </div>
                     <p class="small-x-text">※半角数字、ハイフン「-」なしで入力してください</p>
                 </dd>

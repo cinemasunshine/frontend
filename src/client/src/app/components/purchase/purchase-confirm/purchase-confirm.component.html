@@ -73,7 +73,7 @@
             <li>
                 <dl>
                     <dt>電話番号</dt>
-                    <dd>{{ purchase.data.customerContact?.telephone }}</dd>
+                    <dd>{{ (purchase.data.customerContact?.telephone | libphonenumberFormat) }}</dd>
                 </dl>
             </li>
 
