@@ -5,11 +5,6 @@ import { ISalesTicketResult } from '@motionpicture/coa-service/lib/services/rese
 import { ErrorService } from '../../../services/error/error.service';
 import { IIndividualScreeningEvent, ISalesTicket, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
-import {
-    IcancelSeatReservationIn,
-    IcreateSeatReservationIn,
-    SasakiPurchaseService
-} from '../../../services/sasaki/sasaki-purchase/sasaki-purchase.service';
 import { ISeat } from '../../parts/screen/screen.component';
 
 @Component({
@@ -29,7 +24,6 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private sasakiMaster: SasakiMasterService,
-        private sasakiPurchase: SasakiPurchaseService,
         private error: ErrorService
     ) { }
 
@@ -88,55 +82,35 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             this.notSelectSeatModal = true;
             return;
         }
+        if (this.seatForm.invalid) {
+            return;
+        }
         this.isLoading = true;
         try {
-            if (this.purchase.data.transaction === undefined
-                || this.purchase.data.individualScreeningEvent === undefined) {
-                throw new Error('status is different');
-            }
-            // 予約中なら座席削除
-            if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
-                const cancelSeatReservationArgs: IcancelSeatReservationIn = {
-                    transactionId: this.purchase.data.transaction.id,
-                    actionId: this.purchase.data.tmpSeatReservationAuthorization.id
-                };
-                await this.sasakiPurchase.cancelSeatReservation(cancelSeatReservationArgs);
-                this.purchase.data.tmpSeatReservationAuthorization = undefined;
-                this.purchase.save();
-            }
             if (this.purchase.data.salesTickets === undefined) {
                 this.purchase.data.salesTickets = await this.fitchSalesTickets();
             }
-            // 座席登録
-            const createSeatReservationAuthorizationArgs: IcreateSeatReservationIn = {
-                transactionId: this.purchase.data.transaction.id,
-                eventIdentifier: this.purchase.data.individualScreeningEvent.identifier,
-                offers: this.seats.map((seat) => {
-                    const salesTicket = (<ISalesTicketResult[]>this.purchase.data.salesTickets)[0];
+            const offers = this.seats.map((seat) => {
+                const salesTicket = (<ISalesTicketResult[]>this.purchase.data.salesTickets)[0];
 
-                    return {
-                        seatSection: seat.section,
-                        seatNumber: seat.code,
-                        ticketInfo: {
-                            ticketCode: salesTicket.ticketCode,
-                            mvtkAppPrice: 0,
-                            ticketCount: 1,
-                            addGlasses: 0,
-                            kbnEisyahousiki: '00',
-                            mvtkNum: '',
-                            mvtkKbnDenshiken: '00',
-                            mvtkKbnMaeuriken: '00',
-                            mvtkKbnKensyu: '00',
-                            mvtkSalesPrice: 0
-                        }
-                    };
-                })
-            };
-            this.purchase.data.tmpSeatReservationAuthorization =
-                await this.sasakiPurchase.createSeatReservation(createSeatReservationAuthorizationArgs);
-            this.purchase.data.orderCount = 0;
-            this.purchase.data.seatReservationAuthorization = undefined;
-            this.purchase.save();
+                return {
+                    seatSection: seat.section,
+                    seatNumber: seat.code,
+                    ticketInfo: {
+                        ticketCode: salesTicket.ticketCode,
+                        mvtkAppPrice: 0,
+                        ticketCount: 1,
+                        addGlasses: 0,
+                        kbnEisyahousiki: '00',
+                        mvtkNum: '',
+                        mvtkKbnDenshiken: '00',
+                        mvtkKbnMaeuriken: '00',
+                        mvtkKbnKensyu: '00',
+                        mvtkSalesPrice: 0
+                    }
+                };
+            });
+            await this.purchase.seatRegistrationProcess(offers);
             this.router.navigate(['/purchase/ticket']);
         } catch (err) {
             this.error.redirect(err);

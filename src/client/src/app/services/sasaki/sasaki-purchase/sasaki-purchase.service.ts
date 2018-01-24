@@ -306,3 +306,5 @@ export interface ItransactionStartIn {
      */
     passportToken?: string;
 }
+
+export type IOrder = sasaki.factory.order.IOrder;

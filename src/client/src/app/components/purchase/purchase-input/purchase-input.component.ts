@@ -3,8 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ErrorService } from '../../../services/error/error.service';
-import { PurchaseService } from '../../../services/purchase/purchase.service';
-import { SasakiPurchaseService } from '../../../services/sasaki/sasaki-purchase/sasaki-purchase.service';
+import { IGmoTokenObject, PurchaseService } from '../../../services/purchase/purchase.service';
+
 @Component({
     selector: 'app-purchase-input',
     templateUrl: './purchase-input.component.html',
@@ -25,7 +25,6 @@ export class PurchaseInputComponent implements OnInit {
         private elementRef: ElementRef,
         private formBuilder: FormBuilder,
         private router: Router,
-        private sasakiPurchase: SasakiPurchaseService,
         private error: ErrorService
     ) { }
 
@@ -61,8 +60,9 @@ export class PurchaseInputComponent implements OnInit {
                 throw new Error('status is different');
             }
             try {
+                this.purchase.data.gmoTokenObject = await this.getGmoObject();
                 // クレジットカード処理
-                await this.creditCardProcess();
+                await this.purchase.creditCardPaymentProcess((<IGmoTokenObject>this.purchase.data.gmoTokenObject).token);
             } catch (err) {
                 console.error(err);
                 // クレジットカード処理失敗
@@ -84,8 +84,7 @@ export class PurchaseInputComponent implements OnInit {
                     telephone: this.inputForm.controls.telephone.value
                 }
             };
-            this.purchase.data.customerContact = await this.sasakiPurchase.setCustomerContact(setCustomerContactArgs);
-            this.purchase.save();
+            await this.purchase.customerContactRegistrationProcess(setCustomerContactArgs);
             this.router.navigate(['/purchase/confirm']);
         } catch (err) {
             this.error.redirect(err);
@@ -93,45 +92,10 @@ export class PurchaseInputComponent implements OnInit {
     }
 
     /**
-     * クレジットカード処理
-     * @method creditCardProcess
-     */
-    private async creditCardProcess() {
-        if (this.purchase.data.transaction === undefined) {
-            throw new Error('status is different');
-        }
-        if (this.purchase.data.creditCardAuthorization !== undefined) {
-            // クレジットカード登録済みなら削除
-            const cancelCreditCardAuthorizationArgs = {
-                transactionId: this.purchase.data.transaction.id,
-                actionId: this.purchase.data.creditCardAuthorization.id
-            };
-            await this.sasakiPurchase.cancelCreditCardAuthorization(cancelCreditCardAuthorizationArgs);
-            this.purchase.data.creditCardAuthorization = undefined;
-            this.purchase.save();
-        }
-        const gmoToken = await this.getGmoToken();
-        // クレジットカード登録
-        const creditCard = {
-            token: gmoToken
-        };
-        const METHOD_LUMP = '1';
-        const createCreditCardAuthorizationArgs = {
-            transactionId: this.purchase.data.transaction.id,
-            orderId: (<string>this.purchase.data.orderId),
-            amount: this.purchase.getTotalPrice(),
-            method: METHOD_LUMP,
-            creditCard: creditCard
-        };
-        this.purchase.data.creditCardAuthorization =
-            await this.sasakiPurchase.createCreditCardAuthorization(createCreditCardAuthorizationArgs);
-    }
-
-    /**
      * GMOトークン取得
      * @method getGmoToken
      */
-    private async getGmoToken(): Promise<string> {
+    private async getGmoObject(): Promise<IGmoTokenObject> {
         const sendParam = {
             cardno: this.inputForm.controls.cardNumber.value,
             expire: this.inputForm.controls.cardExpirationYear.value + this.inputForm.controls.cardExpirationMonth.value,
@@ -139,13 +103,13 @@ export class PurchaseInputComponent implements OnInit {
             holdername: this.inputForm.controls.holderName.value
         };
         console.log(sendParam);
-        return new Promise<string>((resolve, reject) => {
+        return new Promise<IGmoTokenObject>((resolve, reject) => {
             if (this.purchase.data.movieTheaterOrganization === undefined) {
                 return reject(new Error('status is different'));
             }
             (<any>window).someCallbackFunction = function someCallbackFunction(response: any) {
                 if (response.resultCode === '000') {
-                    resolve(response.tokenObject.token);
+                    resolve(response.tokenObject);
                 } else {
                     reject(new Error(response.resultCode));
                 }
@@ -162,6 +126,7 @@ export class PurchaseInputComponent implements OnInit {
      */
     private createForm() {
         const payment = this.purchase.getTotalPrice();
+        console.log('payment', payment);
         const NAME_MAX_LENGTH = 12;
         const MAIL_MAX_LENGTH = 50;
         const TEL_MAX_LENGTH = 11;

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ErrorService } from '../../../services/error/error.service';
 import { ISalesTicket, PurchaseService } from '../../../services/purchase/purchase.service';
-import { SasakiPurchaseService } from '../../../services/sasaki/sasaki-purchase/sasaki-purchase.service';
 
 @Component({
     selector: 'app-purchase-ticket',
@@ -21,7 +20,6 @@ export class PurchaseTicketComponent implements OnInit {
     constructor(
         public purchase: PurchaseService,
         private router: Router,
-        private sasakiPurchase: SasakiPurchaseService,
         private error: ErrorService
     ) { }
 
@@ -57,26 +55,14 @@ export class PurchaseTicketComponent implements OnInit {
         }
         this.isLoading = true;
         try {
-            if (this.purchase.data.transaction === undefined
-                || this.purchase.data.tmpSeatReservationAuthorization === undefined
-                || this.purchase.data.individualScreeningEvent === undefined) {
-                throw new Error('status is different');
-            }
-            const changeSeatReservationArgs = {
-                transactionId: this.purchase.data.transaction.id,
-                actionId: this.purchase.data.tmpSeatReservationAuthorization.id,
-                eventIdentifier: this.purchase.data.individualScreeningEvent.identifier,
-                offers: this.offers.map((offer) => {
-                    return {
-                        seatSection: offer.seatSection,
-                        seatNumber: offer.seatNumber,
-                        ticketInfo: offer.ticketInfo
-                    };
-                })
-            };
-            this.purchase.data.seatReservationAuthorization =
-                await this.sasakiPurchase.changeSeatReservation(changeSeatReservationArgs);
-            this.purchase.save();
+            const offers = this.offers.map((offer) => {
+                return {
+                    seatSection: offer.seatSection,
+                    seatNumber: offer.seatNumber,
+                    ticketInfo: offer.ticketInfo
+                };
+            });
+            await this.purchase.ticketRegistrationProcess(offers);
             this.router.navigate(['/purchase/input']);
         } catch (err) {
             this.error.redirect(err);

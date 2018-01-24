@@ -3,6 +3,7 @@ import * as COA from '@motionpicture/coa-service';
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
 import * as moment from 'moment';
 import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
+import { SasakiPurchaseService } from '../sasaki/sasaki-purchase/sasaki-purchase.service';
 import { SaveType, StorageService } from '../storage/storage.service';
 export type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
 export type ICustomerContact = sasaki.factory.transaction.placeOrder.ICustomerContact;
@@ -12,7 +13,8 @@ export class PurchaseService {
     public data: Idata;
 
     constructor(
-        private storage: StorageService
+        private storage: StorageService,
+        private sasakiPurchase: SasakiPurchaseService,
     ) {
         this.load();
     }
@@ -167,6 +169,147 @@ export class PurchaseService {
 
         return result;
     }
+
+    /**
+     * 座席登録処理
+     * @method seatRegistrationProcess
+     */
+    public async seatRegistrationProcess(offers: sasaki.factory.offer.seatReservation.IOffer[]) {
+        if (this.data.transaction === undefined
+            || this.data.individualScreeningEvent === undefined) {
+            throw new Error('status is different');
+        }
+        // 予約中なら座席削除
+        if (this.data.tmpSeatReservationAuthorization !== undefined) {
+            const cancelSeatReservationArgs = {
+                transactionId: this.data.transaction.id,
+                actionId: this.data.tmpSeatReservationAuthorization.id
+            };
+            await this.sasakiPurchase.cancelSeatReservation(cancelSeatReservationArgs);
+            this.data.tmpSeatReservationAuthorization = undefined;
+            this.save();
+        }
+        // 座席登録
+        const createSeatReservationAuthorizationArgs = {
+            transactionId: this.data.transaction.id,
+            eventIdentifier: this.data.individualScreeningEvent.identifier,
+            offers: offers
+        };
+        this.data.tmpSeatReservationAuthorization =
+            await this.sasakiPurchase.createSeatReservation(createSeatReservationAuthorizationArgs);
+        this.data.orderCount = 0;
+        this.data.seatReservationAuthorization = undefined;
+        this.save();
+    }
+
+    /**
+     * 券種登録処理
+     * @method ticketRegistrationProcess
+     */
+    public async ticketRegistrationProcess(offers: sasaki.factory.offer.seatReservation.IOffer[]) {
+        if (this.data.transaction === undefined
+            || this.data.tmpSeatReservationAuthorization === undefined
+            || this.data.individualScreeningEvent === undefined) {
+            throw new Error('status is different');
+        }
+        const changeSeatReservationArgs = {
+            transactionId: this.data.transaction.id,
+            actionId: this.data.tmpSeatReservationAuthorization.id,
+            eventIdentifier: this.data.individualScreeningEvent.identifier,
+            offers: offers
+        };
+        this.data.seatReservationAuthorization =
+            await this.sasakiPurchase.changeSeatReservation(changeSeatReservationArgs);
+        this.save();
+    }
+
+    /**
+     * 購入者情報登録処理
+     * @method customerContactRegistrationProcess
+     */
+    public async customerContactRegistrationProcess(args: {
+        transactionId: string;
+        contact: sasaki.factory.transaction.placeOrder.ICustomerContact;
+    }) {
+        // 入力情報を登録
+        this.data.customerContact = await this.sasakiPurchase.setCustomerContact(args);
+        this.save();
+    }
+
+    /**
+     * クレジットカード支払い処理
+     */
+    public async creditCardPaymentProcess(token: string) {
+        if (this.data.transaction === undefined) {
+            throw new Error('status is different');
+        }
+        if (this.data.creditCardAuthorization !== undefined) {
+            // クレジットカード登録済みなら削除
+            const cancelCreditCardAuthorizationArgs = {
+                transactionId: this.data.transaction.id,
+                actionId: this.data.creditCardAuthorization.id
+            };
+            await this.sasakiPurchase.cancelCreditCardAuthorization(cancelCreditCardAuthorizationArgs);
+            this.data.creditCardAuthorization = undefined;
+            this.save();
+        }
+        // クレジットカード登録
+        const creditCard = {
+            token: token
+        };
+        const METHOD_LUMP = '1';
+        const createCreditCardAuthorizationArgs = {
+            transactionId: this.data.transaction.id,
+            orderId: this.createOrderId(),
+            amount: this.getTotalPrice(),
+            method: METHOD_LUMP,
+            creditCard: creditCard
+        };
+        this.data.creditCardAuthorization =
+            await this.sasakiPurchase.createCreditCardAuthorization(createCreditCardAuthorizationArgs);
+        this.data.orderCount += 1;
+        this.save();
+    }
+
+    /**
+     * オーダーID生成
+     * @method createOrderId
+     */
+    private createOrderId() {
+        if (this.data.seatReservationAuthorization === undefined
+            || this.data.seatReservationAuthorization.result === undefined
+            || this.data.individualScreeningEvent === undefined) {
+            throw new Error('status is different');
+        }
+        const DIGITS = -2;
+        const orderCount = `00${this.data.orderCount}`.slice(DIGITS);
+        const tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
+        const theaterCode = this.data.individualScreeningEvent.coaInfo.theaterCode;
+        const reserveDate = moment().format('YYYYMMDD');
+        // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)
+        return `${reserveDate}${theaterCode}${tmpReserveNum}${orderCount}`;
+    }
+
+    /**
+     * 購入登録処理
+     */
+    public async purchaseRegistrationProcess() {
+        if (this.data.transaction === undefined) {
+            throw new Error('status is different');
+        }
+        // TODO
+        // ムビチケ使用
+
+        // 取引確定
+        const order = await this.sasakiPurchase.transactionConfirm({
+            transactionId: this.data.transaction.id
+        });
+        this.storage.save('order', order, SaveType.Session);
+        // Cognitoへ登録
+
+        // 購入情報削除
+        this.reset();
+    }
 }
 
 
@@ -197,13 +340,13 @@ interface Idata {
      */
     tmpSeatReservationAuthorization?: sasaki.factory.action.authorize.seatReservation.IAction;
     /**
-     * GMOオーダーID
-     */
-    orderId?: string;
-    /**
-     * GMOオーダー回数
+     * オーダー回数
      */
     orderCount: number;
+    /**
+     * GMOトークンオブジェクト
+     */
+    gmoTokenObject?: IGmoTokenObject;
     /**
      * 決済情報（クレジット）
      */
@@ -219,4 +362,11 @@ interface Idata {
 export interface ISalesTicket extends COA.services.reserve.ISalesTicketResult {
     glasses: boolean;
     mvtkNum: string;
+}
+
+export interface IGmoTokenObject {
+    token: string;
+    toBeExpiredAt: string;
+    maskedCardNo: string;
+    isSecurityCodeSet: boolean;
 }

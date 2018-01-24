@@ -10,7 +10,7 @@
             <dl>
                 <dt>予約番号</dt>
                 <dd>
-                    <strong class="red-text large-x-text">161073</strong>
+                    <strong class="red-text large-x-text">{{ order.confirmationNumber }}</strong>
                     <p class="small-x-text">※チケットの発行等に必要な番号となりますので必ず忘れないようにしてください。</p>
                 </dd>
             </dl>
@@ -18,20 +18,20 @@
         <li>
             <dl>
                 <dt>劇場 / スクリーン</dt>
-                <dd>シネマサンシャイン池袋テスト / シネマ３</dd>
+                <dd>{{ getTheaterName() }} / {{ getScreenName() }}</dd>
             </dl>
         </li>
         <li>
             <dl>
                 <dt>作品名</dt>
-                <dd>後妻業の女</dd>
+                <dd>{{ getTitle() }}</dd>
             </dl>
         </li>
         <li>
             <dl>
                 <dt>鑑賞日時</dt>
                 <dd>
-                    2018年01月11日(木) 20:55 - 23:08
+                    {{ getAppreciationDate() }} {{ getStartDate() }} - {{ getEndDate() }}
                 </dd>
             </dl>
         </li>
@@ -39,22 +39,22 @@
             <dl>
                 <dt>座席</dt>
                 <dd>
-
-                    <p>Ｉ－１４ レイト ￥1,300</p>
-
+                    <p *ngFor="let offer of this.order.acceptedOffers">
+                        {{ offer.itemOffered.reservedTicket.coaTicketInfo.seatNum }} {{ offer.itemOffered.reservedTicket.coaTicketInfo.ticketName }} ￥{{ offer.price }}
+                    </p>
                 </dd>
             </dl>
         </li>
         <li>
             <dl>
                 <dt>ご利用金額</dt>
-                <dd>￥1,300</dd>
+                <dd>￥{{ order.price }}</dd>
             </dl>
         </li>
         <li>
             <dl>
                 <dt>メールアドレス</dt>
-                <dd>hataguchi@motionpicture.jp</dd>
+                <dd>{{ order.customer.email }}</dd>
             </dl>
         </li>
     </ul>
@@ -103,9 +103,10 @@
             </li>
         </ul>
 
-        <div class="button-area clearfix">
+        <div class="button-area">
             <div class="prev-link">
-                <a class="icon-prev-black" href="http://testssktsportal.azurewebsites.net">TOPへ戻る</a>
+                <a href="{{ environment.PORTAL_SITE_URL }}">
+                    <app-icon iconName="prev-black" width="15" height="15"></app-icon>戻る</a>
             </div>
         </div>
     </div>
