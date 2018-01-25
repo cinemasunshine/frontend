@@ -103,6 +103,17 @@ export class SasakiPurchaseService {
     }
 
     /**
+     * ムビチケチケットコード取得
+     * @param {COA.services.master.IMvtkTicketcodeArgs} args
+     */
+    public mvtkTicketcode(
+        args: COA.services.master.IMvtkTicketcodeArgs
+    ) {
+        const url = `${SasakiPurchaseService.ENDPOINT}/mvtkTicketcode`;
+        return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, args).toPromise();
+    }
+
+    /**
      * ムビチケ照会
      * @param {mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn} args
      */
@@ -110,9 +121,7 @@ export class SasakiPurchaseService {
         args: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn
     ) {
         const url = `${SasakiPurchaseService.ENDPOINT}/mvtkPurchaseNumberAuth`;
-        return this.http.get<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, {
-            params: <any>args
-        }).toPromise();
+        return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, args).toPromise();
     }
 
     /**
@@ -123,9 +132,7 @@ export class SasakiPurchaseService {
         args: mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn
     ) {
         const url = `${SasakiPurchaseService.ENDPOINT}/mvtksSatInfoSync`;
-        return this.http.get<mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncResult>(url, {
-            params: <any>args
-        }).toPromise();
+        return this.http.post<mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncResult>(url, args).toPromise();
     }
 
     /**

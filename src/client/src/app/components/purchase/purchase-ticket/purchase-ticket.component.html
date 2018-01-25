@@ -2,6 +2,19 @@
     <h1 class="page-ttl">券種選択</h1>
     <p class="read">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
 
+    <div *ngIf="purchase.isUsedMvtk()" class="box radius bg-ultra-light-gray mb-middle mvtk">
+        <dl class="d-table">
+            <dt class="d-td">ムビチケ券を利用される方</dt>
+            <dd class="d-td width-medium">
+                <div class="ghost-button mvtk-button">
+                    <a routerLink="/purchase/mvtk/input">
+                        <img src="./assets/images/common/mvtk_logo.svg" alt="ムビチケ">を利用する
+                    </a>
+                </div>
+            </dd>
+        </dl>
+    </div>
+
     <ul class="box radius bg-light-gray mb-middle seats">
         <li *ngFor="let offer of offers" [class.validation]="offer.validation">
             <dl class="d-table">
@@ -39,6 +52,7 @@
     <form (ngSubmit)="onSubmit()">
         <app-buttons nextLabel="次へ" prevLabel="戻る" prevLink="/purchase/seat"></app-buttons>
     </form>
+    <app-site-seal></app-site-seal>
 </div>
 
 <app-modal [open]="ticketsModal" [layout]="false" (close)="ticketsModal = false">

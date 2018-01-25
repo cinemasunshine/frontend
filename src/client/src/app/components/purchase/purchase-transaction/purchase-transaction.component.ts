@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
-import { SasakiPurchaseService } from '../../../services/sasaki/sasaki-purchase/sasaki-purchase.service';
 import { SaveType, StorageService } from '../../../services/storage/storage.service';
 
 @Component({
@@ -30,7 +29,6 @@ export class PurchaseTransactionComponent implements OnInit {
     constructor(
         private storage: StorageService,
         private router: Router,
-        private sasakiPurchase: SasakiPurchaseService,
         private sasakiMaster: SasakiMasterService,
         private purchase: PurchaseService,
         private error: ErrorService
@@ -40,13 +38,11 @@ export class PurchaseTransactionComponent implements OnInit {
      * 初期化
      */
     public async ngOnInit() {
-        this.parameters = this.storage.load('parameters', SaveType.Session);
-        if (!this.parametersChack()) {
-            this.router.navigate(['/error']);
-
-            return;
-        }
         try {
+            this.parameters = this.storage.load('parameters', SaveType.Session);
+            if (!this.parametersChack()) {
+                throw new Error('parameters is undefined');
+            }
             // イベント情報取得
             const individualScreeningEvent = await this.sasakiMaster.getEvent({
                 identifier: (<string>this.parameters.performanceId)
@@ -60,28 +56,18 @@ export class PurchaseTransactionComponent implements OnInit {
             if ( moment().add(END_TIME, 'minutes').unix() > moment(individualScreeningEvent.startDate).unix()) {
                 throw new Error('unable to end sales');
             }
-            // TODO
-            // 重複確認
+            if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
+                // 重複確認へ
+                this.storage.save('individualScreeningEvent', individualScreeningEvent, SaveType.Session);
+                this.router.navigate([`/purchase/overlap`]);
 
-            // TODO
-            // 購入データ削除
-            this.purchase.reset();
+                return;
+            }
 
-            this.purchase.data.individualScreeningEvent = individualScreeningEvent;
-
-            // 劇場のショップを検索
-            this.purchase.data.movieTheaterOrganization = await this.sasakiMaster.getTheater({
-                branchCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode
+             this.purchase.transactionStartProcess({
+                passportToken: <string>this.parameters.passportToken,
+                individualScreeningEvent: individualScreeningEvent
             });
-            console.log(this.purchase);
-            const VALID_TIME = 15;
-            // 取引開始
-            this.purchase.data.transaction = await this.sasakiPurchase.transactionStart({
-                expires: (<any>moment().add(VALID_TIME, 'minutes').toISOString()),
-                sellerId: this.purchase.data.movieTheaterOrganization.id,
-                passportToken: (<string>this.parameters.passportToken)
-            });
-            this.purchase.save();
             this.router.navigate(['/purchase/seat'], { replaceUrl: true });
         } catch (err) {
             this.error.redirect(err);

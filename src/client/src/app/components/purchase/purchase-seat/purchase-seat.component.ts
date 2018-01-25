@@ -29,7 +29,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
 
     public ngOnInit() {
         window.scrollTo(0, 0);
-        this.isLoading = false;
+        this.isLoading = true;
         this.notSelectSeatModal = false;
         this.seats = [];
         this.seatForm = this.formBuilder.group({
@@ -41,6 +41,16 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         if (this.purchase.data.salesTickets === undefined) {
             this.purchase.data.salesTickets = await this.fitchSalesTickets();
         }
+    }
+
+    /**
+     * スクリーン読み込み完了
+     * @method loadScreen
+     * @param {ISeat[]} seats
+     */
+    public loadScreen(seats: ISeat[]) {
+        this.isLoading = false;
+        this.seats = seats;
     }
 
     /**

@@ -106,6 +106,24 @@ export async function cancelSeatReservation(req: Request, res: Response): Promis
 }
 
 /**
+ * ムビチケチケットコード取得
+ * @function mvtkTicketcode
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+export async function mvtkTicketcode(req: Request, res: Response): Promise<void> {
+    log('mvtkTicketcode');
+    try {
+        const args = req.body;
+        const result = await COA.services.master.mvtkTicketcode(args);
+        res.json(result);
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}
+
+/**
  * ムビチケ照会
  * @function mvtkPurchaseNumberAuth
  * @param {Request} req

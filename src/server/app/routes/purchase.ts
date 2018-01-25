@@ -14,6 +14,7 @@ router.post('/createCreditCardAuthorization', purchase.createCreditCardAuthoriza
 router.post('/createMvtkAuthorization', purchase.createMvtkAuthorization);
 router.post('/createSeatReservation', purchase.createSeatReservation);
 router.get('/getSeatState', purchase.getSeatState);
+router.post('/mvtkTicketcode', purchase.mvtkTicketcode);
 router.post('/mvtkPurchaseNumberAuth', purchase.mvtkPurchaseNumberAuth);
 router.post('/mvtksSatInfoSync', purchase.mvtksSatInfoSync);
 router.post('/setCustomerContact', purchase.setCustomerContact);

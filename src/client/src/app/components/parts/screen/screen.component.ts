@@ -15,6 +15,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     public static ZOOM_SCALE = 1;
     @Output() public select = new EventEmitter<ISeat[]>();
     @Output() public alert = new EventEmitter();
+    @Output() public load = new EventEmitter<ISeat[]>();
     public data: IData;
     public zoomState: boolean;
     public scale: number;
@@ -43,6 +44,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         } catch (err) {
             this.error.redirect(new Error('data is not found'));
         }
+        this.load.emit(this.getSelectSeats());
     }
 
     /**
@@ -92,15 +94,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         if (this.isMobile() && !this.zoomState) {
             return;
         }
-        const targetSeat = this.data.seats.find((target) => {
-            return (seat.code === target.code);
-        });
-        if (targetSeat === undefined) {
-            return;
-        }
-        if (targetSeat.status === 'default') {
-            targetSeat.status = 'active';
-        } else if (targetSeat.status === 'active') {
+        if (seat.status === 'default') {
+            seat.status = 'active';
+        } else if (seat.status === 'active') {
             seat.status = 'default';
         }
         const individualScreeningEvent = this.purchase.data.individualScreeningEvent;
@@ -315,6 +311,16 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                             break;
                         }
                     }
+                    // 選択中
+                    if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
+                        const targetOffer = this.purchase.data.tmpSeatReservationAuthorization.object.offers.find((offer) => {
+                            return (offer.seatNumber === code);
+                        });
+                        if (targetOffer !== undefined) {
+                            status = 'active';
+                        }
+                    }
+
                     const seat = {
                         className: '',
                         w: screenData.seatSize.w,

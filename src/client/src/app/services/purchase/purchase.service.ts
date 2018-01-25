@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
+import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
 import * as moment from 'moment';
+import { environment } from '../../../environments/environment';
 import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
+import { SasakiMasterService } from '../sasaki/sasaki-master/sasaki-master.service';
 import { SasakiPurchaseService } from '../sasaki/sasaki-purchase/sasaki-purchase.service';
 import { SaveType, StorageService } from '../storage/storage.service';
+
 export type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
 export type ICustomerContact = sasaki.factory.transaction.placeOrder.ICustomerContact;
+
 @Injectable()
 export class PurchaseService {
 
@@ -15,6 +20,7 @@ export class PurchaseService {
     constructor(
         private storage: StorageService,
         private sasakiPurchase: SasakiPurchaseService,
+        private sasakiMaster: SasakiMasterService
     ) {
         this.load();
     }
@@ -171,6 +177,51 @@ export class PurchaseService {
     }
 
     /**
+     * ムビチケ対応作品判定
+     * @memberof PurchaseModel
+     * @method isUsedMvtk
+     * @returns {boolean}
+     */
+    public isUsedMvtk(): boolean {
+        if (this.data.individualScreeningEvent === undefined) {
+            return false;
+        }
+        const today = moment().format('YYYYMMDD');
+        const coaInfo = this.data.individualScreeningEvent.superEvent.coaInfo;
+
+        return (coaInfo.flgMvtkUse === '1'
+            && coaInfo.dateMvtkBegin !== undefined
+            && Number(coaInfo.dateMvtkBegin) <= Number(today));
+    }
+
+    /**
+     * 取引開始処理
+     * @method transactionStartProcess
+     */
+    public async transactionStartProcess(args: {
+        passportToken: string;
+        individualScreeningEvent: IIndividualScreeningEvent
+    }) {
+        // 購入データ削除
+        this.reset();
+        this.data.individualScreeningEvent = args.individualScreeningEvent;
+        // 劇場のショップを検索
+        this.data.movieTheaterOrganization = await this.sasakiMaster.getTheater({
+            branchCode: this.data.individualScreeningEvent.coaInfo.theaterCode
+        });
+        // 取引期限
+        const VALID_TIME = 15;
+        const expires = moment().add(VALID_TIME, 'minutes').toISOString();
+        // 取引開始
+        this.data.transaction = await this.sasakiPurchase.transactionStart({
+            expires: <any>expires,
+            sellerId: this.data.movieTheaterOrganization.id,
+            passportToken: args.passportToken
+        });
+        this.save();
+    }
+
+    /**
      * 座席登録処理
      * @method seatRegistrationProcess
      */
@@ -310,6 +361,69 @@ export class PurchaseService {
         // 購入情報削除
         this.reset();
     }
+
+    /**
+     * ムビチケ認証処理
+     */
+    public async mvtkAuthenticationProcess(mvtkInputDataList: {
+        knyknrNo: string;
+        pinCd: string;
+    }[]) {
+        if (this.data.individualScreeningEvent === undefined) {
+            throw new Error('status is different');
+        }
+        const DIGITS = -2;
+        const coaInfo = this.data.individualScreeningEvent.coaInfo;
+        const valid = '1';
+        const purchaseNumberAuthArgs = {
+            kgygishCd: environment.MVTK_COMPANY_CODE,
+            jhshbtsCd: <any>valid,
+            knyknrNoInfoIn: mvtkInputDataList,
+            skhnCd: coaInfo.titleCode + `00${coaInfo.titleBranchNum}`.slice(DIGITS),
+            stCd: coaInfo.theaterCode.slice(DIGITS),
+            jeiYmd: moment(coaInfo.dateJouei).format('YYYY/MM/DD')
+        };
+        const mvtkPurchaseNumberAuthResult = await this.sasakiPurchase.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs);
+        console.log('mvtkPurchaseNumberAuthResult', mvtkPurchaseNumberAuthResult);
+        const success = 'N000';
+        if (mvtkPurchaseNumberAuthResult.resultInfo.status !== success
+            || mvtkPurchaseNumberAuthResult.ykknmiNumSum === null
+            || mvtkPurchaseNumberAuthResult.ykknmiNumSum === 0
+            || mvtkPurchaseNumberAuthResult.knyknrNoInfoOut === null) {
+            throw new Error('mvtkPurchaseNumberAuth error');
+        }
+        const results = [];
+        for (const knyknrNoInfo of mvtkPurchaseNumberAuthResult.knyknrNoInfoOut) {
+            if (knyknrNoInfo.ykknInfo === null) {
+                continue;
+            }
+            for (const ykknInfo of knyknrNoInfo.ykknInfo) {
+                const mvtkTicketcodeArgs = {
+                    theaterCode: coaInfo.theaterCode,
+                    kbnDenshiken: knyknrNoInfo.dnshKmTyp,
+                    kbnMaeuriken: knyknrNoInfo.znkkkytsknGkjknTyp,
+                    kbnKensyu: ykknInfo.ykknshTyp,
+                    salesPrice: Number(ykknInfo.knshknhmbiUnip),
+                    appPrice: Number(ykknInfo.kijUnip),
+                    kbnEisyahousiki: ykknInfo.eishhshkTyp,
+                    titleCode: coaInfo.titleCode,
+                    titleBranchNum: coaInfo.titleBranchNum
+                };
+                const mvtkTicketcodeResult = await this.sasakiPurchase.mvtkTicketcode(mvtkTicketcodeArgs);
+                console.log('mvtkTicketcodeResult', mvtkTicketcodeResult);
+                const data = {
+                    mvtkTicketcodeResult: mvtkTicketcodeResult,
+                    knyknrNoInfo: knyknrNoInfo,
+                    input: mvtkInputDataList.find((mvtkInputData) => {
+                        return (mvtkInputData.knyknrNo === knyknrNoInfo.knyknrNo);
+                    })
+                };
+                results.push(data);
+            }
+        }
+        this.data.mvtkTickets = results;
+        this.save();
+    }
 }
 
 
@@ -357,6 +471,10 @@ interface Idata {
      * 購入者情報
      */
     customerContact?: ICustomerContact;
+    /**
+     * ムビチケ情報
+     */
+    mvtkTickets?: IMvtkTicket[];
 }
 
 export interface ISalesTicket extends COA.services.reserve.ISalesTicketResult {
@@ -369,4 +487,13 @@ export interface IGmoTokenObject {
     toBeExpiredAt: string;
     maskedCardNo: string;
     isSecurityCodeSet: boolean;
+}
+
+export interface IMvtkTicket {
+    mvtkTicketcodeResult: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult;
+    knyknrNoInfo: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberInfo;
+    input?: {
+        knyknrNo: string;
+        pinCd: string;
+    };
 }

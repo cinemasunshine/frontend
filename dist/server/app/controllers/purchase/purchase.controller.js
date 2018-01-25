@@ -129,6 +129,27 @@ function cancelSeatReservation(req, res) {
 }
 exports.cancelSeatReservation = cancelSeatReservation;
 /**
+ * ムビチケチケットコード取得
+ * @function mvtkTicketcode
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+function mvtkTicketcode(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mvtkTicketcode');
+        try {
+            const args = req.body;
+            const result = yield COA.services.master.mvtkTicketcode(args);
+            res.json(result);
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.mvtkTicketcode = mvtkTicketcode;
+/**
  * ムビチケ照会
  * @function mvtkPurchaseNumberAuth
  * @param {Request} req
