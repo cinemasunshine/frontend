@@ -17,9 +17,11 @@ export class PurchaseMvtkConfirmComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
+        window.scrollTo(0, 0);
         if (this.purchase.data.mvtkTickets === undefined) {
             this.error.redirect(new Error('status is different'));
         }
+        console.log(this.purchase.data.mvtkTickets);
     }
 
     public onSubmit() {

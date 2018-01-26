@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ISalesTicketResult } from '@motionpicture/coa-service/lib/services/reserve';
 import { ErrorService } from '../../../services/error/error.service';
-import { IIndividualScreeningEvent, ISalesTicket, PurchaseService } from '../../../services/purchase/purchase.service';
+import { IIndividualScreeningEvent, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
 import { ISeat } from '../../parts/screen/screen.component';
 
@@ -38,7 +37,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     }
 
     public async ngAfterViewInit() {
-        if (this.purchase.data.salesTickets === undefined) {
+        if (this.purchase.data.salesTickets.length === 0) {
             this.purchase.data.salesTickets = await this.fitchSalesTickets();
         }
     }
@@ -66,21 +65,8 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             titleBranchNum: individualScreeningEvent.coaInfo.titleBranchNum,
             timeBegin: individualScreeningEvent.coaInfo.timeBegin
         });
-        const result: ISalesTicket[] = [];
-        for (const salesTicket of salesTickets) {
-            const noGlasses = Object.assign({ glasses: false, mvtkNum: '' }, salesTicket);
-            noGlasses.addGlasses = 0;
-            result.push(noGlasses);
-            if (salesTicket.addGlasses > 0) {
-                // メガネあり券種作成
-                const glasses = Object.assign({ glasses: true, mvtkNum: '' }, salesTicket);
-                glasses.salePrice = glasses.salePrice + glasses.addGlasses;
-                glasses.ticketName = glasses.ticketName + 'メガネ込み';
-                result.push(glasses);
-            }
-        }
 
-        return result;
+        return salesTickets;
     }
 
     /**
@@ -97,7 +83,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         }
         this.isLoading = true;
         try {
-            if (this.purchase.data.salesTickets === undefined) {
+            if (this.purchase.data.salesTickets.length === 0) {
                 this.purchase.data.salesTickets = await this.fitchSalesTickets();
             }
             const offers = this.seats.map((seat) => {

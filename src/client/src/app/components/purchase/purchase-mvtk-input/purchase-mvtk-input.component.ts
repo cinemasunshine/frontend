@@ -21,6 +21,7 @@ export class PurchaseMvtkInputComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
+        window.scrollTo(0, 0);
         this.isLoading = false;
         this.inputValidationModal = false;
         this.authErrorModal = false;

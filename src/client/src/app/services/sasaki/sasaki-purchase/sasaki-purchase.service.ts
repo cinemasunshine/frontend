@@ -110,7 +110,7 @@ export class SasakiPurchaseService {
         args: COA.services.master.IMvtkTicketcodeArgs
     ) {
         const url = `${SasakiPurchaseService.ENDPOINT}/mvtkTicketcode`;
-        return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, args).toPromise();
+        return this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
     }
 
     /**

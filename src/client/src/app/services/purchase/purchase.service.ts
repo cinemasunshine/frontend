@@ -11,6 +11,7 @@ import { SaveType, StorageService } from '../storage/storage.service';
 
 export type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
 export type ICustomerContact = sasaki.factory.transaction.placeOrder.ICustomerContact;
+export type ISalesTicketResult = COA.services.reserve.ISalesTicketResult;
 
 @Injectable()
 export class PurchaseService {
@@ -33,6 +34,8 @@ export class PurchaseService {
         const data: Idata | null = this.storage.load('purchase', SaveType.Local);
         if (data === null) {
             this.data = {
+                salesTickets: [],
+                mvtkTickets: [],
                 orderCount: 0
             };
 
@@ -55,6 +58,8 @@ export class PurchaseService {
      */
     public reset() {
         this.data = {
+            salesTickets: [],
+            mvtkTickets: [],
             orderCount: 0
         };
         this.save();
@@ -90,8 +95,11 @@ export class PurchaseService {
      * @method getTheaterName
      * @returns {string}
      */
-    public getTheaterName() {
-        const individualScreeningEvent = <IIndividualScreeningEvent>this.data.individualScreeningEvent;
+    public getTheaterName(): string {
+        if (this.data.individualScreeningEvent === undefined) {
+            return '';
+        }
+        const individualScreeningEvent = this.data.individualScreeningEvent;
 
         return individualScreeningEvent.superEvent.location.name.ja;
     }
@@ -101,8 +109,11 @@ export class PurchaseService {
      * @method getScreenName
      * @returns {string}
      */
-    public getScreenName() {
-        const individualScreeningEvent = <IIndividualScreeningEvent>this.data.individualScreeningEvent;
+    public getScreenName(): string {
+        if (this.data.individualScreeningEvent === undefined) {
+            return '';
+        }
+        const individualScreeningEvent = this.data.individualScreeningEvent;
 
         return individualScreeningEvent.location.name.ja;
     }
@@ -112,8 +123,11 @@ export class PurchaseService {
      * @method getTitle
      * @returns {string}
      */
-    public getTitle() {
-        const individualScreeningEvent = <IIndividualScreeningEvent>this.data.individualScreeningEvent;
+    public getTitle(): string {
+        if (this.data.individualScreeningEvent === undefined) {
+            return '';
+        }
+        const individualScreeningEvent = this.data.individualScreeningEvent;
 
         return individualScreeningEvent.workPerformed.name;
     }
@@ -123,8 +137,11 @@ export class PurchaseService {
      * @method getAppreciationDate
      * @returns {string}
      */
-    public getAppreciationDate() {
-        const individualScreeningEvent = <IIndividualScreeningEvent>this.data.individualScreeningEvent;
+    public getAppreciationDate(): string {
+        if (this.data.individualScreeningEvent === undefined) {
+            return '';
+        }
+        const individualScreeningEvent = this.data.individualScreeningEvent;
         moment.locale('ja');
 
         return moment(individualScreeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
@@ -135,8 +152,11 @@ export class PurchaseService {
      * @method getStartDate
      * @returns {string}
      */
-    public getStartDate() {
-        const individualScreeningEvent = <IIndividualScreeningEvent>this.data.individualScreeningEvent;
+    public getStartDate(): string {
+        if (this.data.individualScreeningEvent === undefined) {
+            return '';
+        }
+        const individualScreeningEvent = this.data.individualScreeningEvent;
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
@@ -150,8 +170,11 @@ export class PurchaseService {
      * @method getEndDate
      * @returns {string}
      */
-    public getEndDate() {
-        const individualScreeningEvent = <IIndividualScreeningEvent>this.data.individualScreeningEvent;
+    public getEndDate(): string {
+        if (this.data.individualScreeningEvent === undefined) {
+            return '';
+        }
+        const individualScreeningEvent = this.data.individualScreeningEvent;
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
@@ -177,8 +200,23 @@ export class PurchaseService {
     }
 
     /**
+     * ムビチケ合計金額計算
+     * @method getTotalPrice
+     */
+    public getMvtkTotalPrice(): number {
+        let result = 0;
+        if (this.data.seatReservationAuthorization === undefined) {
+            return result;
+        }
+        for (const offer of this.data.seatReservationAuthorization.object.offers) {
+            result += offer.ticketInfo.mvtkSalesPrice;
+        }
+
+        return result;
+    }
+
+    /**
      * ムビチケ対応作品判定
-     * @memberof PurchaseModel
      * @method isUsedMvtk
      * @returns {boolean}
      */
@@ -192,6 +230,107 @@ export class PurchaseService {
         return (coaInfo.flgMvtkUse === '1'
             && coaInfo.dateMvtkBegin !== undefined
             && Number(coaInfo.dateMvtkBegin) <= Number(today));
+    }
+
+    /**
+     * ムビチケでの予約判定
+     * @method isReserveMvtk
+     * @returns {boolean}
+     */
+    public isReserveMvtk(): boolean {
+        let result = false;
+        if (this.data.seatReservationAuthorization === undefined) {
+            return result;
+        }
+        for (const offer of this.data.seatReservationAuthorization.object.offers) {
+            if (offer.ticketInfo.mvtkNum !== '') {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * ムビチケ着券情報取得
+     * @method getMvtkSeatInfoSync
+     */
+    public getMvtkSeatInfoSync(options?: {
+        deleteFlag?: string
+        reservedDeviceType?: string
+    }) {
+        if (this.data.seatReservationAuthorization === undefined
+            || this.data.seatReservationAuthorization.result === undefined
+            || this.data.individualScreeningEvent === undefined
+            || this.data.mvtkTickets === undefined) {
+            throw new Error('status is different');
+        }
+        const mvtkPurchaseNoInfoList: mvtkReserve.services.seat.seatInfoSync.IKnyknrNoInfo[] = [];
+        const mvtkseat: { zskCd: string; }[] = [];
+
+        for (const offer of this.data.seatReservationAuthorization.object.offers) {
+            const mvtkTicket = this.data.mvtkTickets.find((ticket) => {
+                return (ticket.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
+                    && ticket.mvtkTicketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
+            });
+            if (mvtkTicket === undefined || mvtkTicket.input === undefined) {
+                continue;
+            }
+            const mvtkPurchaseNoInfo = mvtkPurchaseNoInfoList.find((info) => {
+                return (info.knyknrNo === mvtkTicket.knyknrNoInfo.knyknrNo);
+            });
+            if (mvtkPurchaseNoInfo !== undefined) {
+                const knshInfo = mvtkPurchaseNoInfo.knshInfo.find((info) => {
+                    return (info.knshTyp === mvtkTicket.ykknInfo.ykknshTyp);
+                });
+                if (knshInfo !== undefined) {
+                    knshInfo.miNum += 1;
+                } else {
+                    mvtkPurchaseNoInfo.knshInfo.push({
+                        knshTyp: mvtkTicket.ykknInfo.ykknshTyp,
+                        miNum: 1
+                    });
+                }
+            } else {
+                mvtkPurchaseNoInfoList.push({
+                    knyknrNo: mvtkTicket.knyknrNoInfo.knyknrNo,
+                    pinCd: mvtkTicket.input.pinCd,
+                    knshInfo: [{
+                        knshTyp: mvtkTicket.ykknInfo.ykknshTyp,
+                        miNum: 1
+                    }]
+                });
+            }
+            mvtkseat.push({ zskCd: offer.seatNumber });
+        }
+        if (mvtkPurchaseNoInfoList.length === 0 || mvtkseat.length === 0) {
+            throw new Error('status is different');
+        }
+        const DIGITS = -2;
+        const coaInfo = this.data.individualScreeningEvent.coaInfo;
+        const day = moment(coaInfo.dateJouei).format('YYYY/MM/DD');
+        const time = `${new TimeFormatPipe().transform(coaInfo.dateJouei, this.data.individualScreeningEvent.startDate)}:00`;
+        const tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
+        const systemReservationNumber = `${coaInfo.dateJouei}${tmpReserveNum}`;
+        const siteCode = `00${coaInfo.theaterCode.slice(DIGITS)}`;
+        const deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '0' : options.deleteFlag;
+        const reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
+        const skhnCd = `${coaInfo.titleCode}${`00${coaInfo.titleBranchNum}`.slice(DIGITS)}`;
+
+        return {
+            kgygishCd: environment.MVTK_COMPANY_CODE,
+            yykDvcTyp: reservedDeviceType,
+            trkshFlg: deleteFlag,
+            kgygishSstmZskyykNo: systemReservationNumber,
+            kgygishUsrZskyykNo: String(tmpReserveNum),
+            jeiDt: `${day} ${time}`,
+            kijYmd: day,
+            stCd: siteCode,
+            screnCd: coaInfo.screenCode,
+            knyknrNoInfo: mvtkPurchaseNoInfoList,
+            zskInfo: mvtkseat,
+            skhnCd: skhnCd
+        };
     }
 
     /**
@@ -271,6 +410,20 @@ export class PurchaseService {
         };
         this.data.seatReservationAuthorization =
             await this.sasakiPurchase.changeSeatReservation(changeSeatReservationArgs);
+        if (this.data.seatReservationAuthorization === undefined) {
+            throw new Error('status is different');
+        }
+        if (this.isReserveMvtk()) {
+            const createMvtkAuthorizationArgs = {
+                transactionId: this.data.transaction.id,
+                mvtk: {
+                    price: this.getMvtkTotalPrice(),
+                    transactionId: this.data.transaction.id,
+                    seatInfoSyncIn: this.getMvtkSeatInfoSync()
+                }
+            };
+            this.data.mvtkAuthorization = await this.sasakiPurchase.createMvtkAuthorization(createMvtkAuthorizationArgs);
+        }
         this.save();
     }
 
@@ -348,14 +501,19 @@ export class PurchaseService {
         if (this.data.transaction === undefined) {
             throw new Error('status is different');
         }
-        // TODO
-        // ムビチケ使用
+        if (this.isReserveMvtk()) {
+            // ムビチケ使用
+            const mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync();
+            await this.sasakiPurchase.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
+        }
 
         // 取引確定
         const order = await this.sasakiPurchase.transactionConfirm({
             transactionId: this.data.transaction.id
         });
         this.storage.save('order', order, SaveType.Session);
+
+        // TODO
         // Cognitoへ登録
 
         // 購入情報削除
@@ -380,7 +538,7 @@ export class PurchaseService {
             jhshbtsCd: <any>valid,
             knyknrNoInfoIn: mvtkInputDataList,
             skhnCd: coaInfo.titleCode + `00${coaInfo.titleBranchNum}`.slice(DIGITS),
-            stCd: coaInfo.theaterCode.slice(DIGITS),
+            stCd: Number(coaInfo.theaterCode.slice(DIGITS)).toString(),
             jeiYmd: moment(coaInfo.dateJouei).format('YYYY/MM/DD')
         };
         const mvtkPurchaseNumberAuthResult = await this.sasakiPurchase.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs);
@@ -414,6 +572,7 @@ export class PurchaseService {
                 const data = {
                     mvtkTicketcodeResult: mvtkTicketcodeResult,
                     knyknrNoInfo: knyknrNoInfo,
+                    ykknInfo: ykknInfo,
                     input: mvtkInputDataList.find((mvtkInputData) => {
                         return (mvtkInputData.knyknrNo === knyknrNoInfo.knyknrNo);
                     })
@@ -444,7 +603,7 @@ interface Idata {
     /**
      * 販売可能チケット情報
      */
-    salesTickets?: ISalesTicket[];
+    salesTickets: ISalesTicketResult[];
     /**
      * 予約座席
      */
@@ -474,12 +633,13 @@ interface Idata {
     /**
      * ムビチケ情報
      */
-    mvtkTickets?: IMvtkTicket[];
-}
-
-export interface ISalesTicket extends COA.services.reserve.ISalesTicketResult {
-    glasses: boolean;
-    mvtkNum: string;
+    mvtkTickets: IMvtkTicket[];
+    /**
+     * ムビチケ使用情報
+     */
+    mvtkAuthorization?: {
+        id: string;
+    };
 }
 
 export interface IGmoTokenObject {
@@ -490,8 +650,9 @@ export interface IGmoTokenObject {
 }
 
 export interface IMvtkTicket {
-    mvtkTicketcodeResult: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult;
+    mvtkTicketcodeResult: COA.services.master.IMvtkTicketcodeResult;
     knyknrNoInfo: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberInfo;
+    ykknInfo: mvtkReserve.services.auth.purchaseNumberAuth.IValidTicket;
     input?: {
         knyknrNo: string;
         pinCd: string;

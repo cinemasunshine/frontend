@@ -23,7 +23,7 @@ export class PurchaseOverlapComponent implements OnInit {
     ) { }
 
     public async ngOnInit() {
-        console.log(this.router);
+        window.scrollTo(0, 0);
         try {
             // イベント情報取得
             this.individualScreeningEvent = <IIndividualScreeningEvent>this.storage.load('individualScreeningEvent', SaveType.Session);

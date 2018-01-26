@@ -6,13 +6,11 @@
     </p>
     <ul class="box radius bg-light-gray mb-middle mvtk-lists">
 
-        <li>
+        <li *ngFor="let mvtkTicket of purchase.data.mvtkTickets">
             <dl class="d-table">
-                <dt class="d-td">ムビチケ購入番号 8481363848</dt>
+                <dt class="d-td">ムビチケ購入番号 {{ mvtkTicket.input.knyknrNo }}</dt>
                 <dd class="d-td width-medium">
-                    <p>
-                        <strong>ﾑﾋﾞﾁｹ一般 × 10</strong>
-                    </p>
+                    <strong>{{ mvtkTicket.mvtkTicketcodeResult.ticketName }} × {{ mvtkTicket.ykknInfo.ykknKnshbtsmiNum }}</strong>
                 </dd>
             </dl>
         </li>
@@ -21,7 +19,7 @@
 
 
     <form (ngSubmit)="onSubmit()">
-        <app-buttons nextLabel="券種選択へ戻る" prevLabel="戻る" prevLink="purchase/mvtk/input"></app-buttons>
+        <app-buttons nextLabel="券種選択へ戻る" prevLabel="戻る" prevLink="/purchase/mvtk/input"></app-buttons>
     </form>
     <app-site-seal></app-site-seal>
 </div>

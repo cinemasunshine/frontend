@@ -50,6 +50,7 @@ export class PurchaseScheduleComponent implements OnInit {
      * @returns {Promise<void>}
      */
     public async ngOnInit(): Promise<void> {
+        window.scrollTo(0, 0);
         this.isLoading = true;
         try {
             this.theaters = await this.sasakiMaster.getTheaters();
