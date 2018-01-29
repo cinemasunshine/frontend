@@ -22,3 +22,14 @@ export async function getOrder(req: Request, res: Response): Promise<void> {
         errorProsess(res, err);
     }
 }
+
+/**
+ * 照会表示
+ * @function render
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+export async function render(req: Request, res: Response): Promise<void> {
+    
+}
