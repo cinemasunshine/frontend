@@ -312,7 +312,7 @@ export class PurchaseService {
         const time = `${new TimeFormatPipe().transform(coaInfo.dateJouei, this.data.individualScreeningEvent.startDate)}:00`;
         const tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
         const systemReservationNumber = `${coaInfo.dateJouei}${tmpReserveNum}`;
-        const siteCode = `00${coaInfo.theaterCode.slice(DIGITS)}`;
+        const siteCode = `00${coaInfo.theaterCode}`.slice(DIGITS);
         const deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '0' : options.deleteFlag;
         const reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
         const skhnCd = `${coaInfo.titleCode}${`00${coaInfo.titleBranchNum}`.slice(DIGITS)}`;
@@ -422,6 +422,7 @@ export class PurchaseService {
                     seatInfoSyncIn: this.getMvtkSeatInfoSync()
                 }
             };
+            console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
             this.data.mvtkAuthorization = await this.sasakiPurchase.createMvtkAuthorization(createMvtkAuthorizationArgs);
         }
         this.save();
@@ -542,7 +543,6 @@ export class PurchaseService {
             jeiYmd: moment(coaInfo.dateJouei).format('YYYY/MM/DD')
         };
         const mvtkPurchaseNumberAuthResult = await this.sasakiPurchase.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs);
-        console.log('mvtkPurchaseNumberAuthResult', mvtkPurchaseNumberAuthResult);
         const success = 'N000';
         if (mvtkPurchaseNumberAuthResult.resultInfo.status !== success
             || mvtkPurchaseNumberAuthResult.ykknmiNumSum === null

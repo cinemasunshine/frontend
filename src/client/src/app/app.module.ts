@@ -6,9 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
 import { BaseComponent } from './components/base/base.component';
 import { ErrorComponent } from './components/error/error.component';
+import { ExpiredComponent } from './components/expired/expired.component';
 import { InquiryBaseComponent } from './components/inquiry/inquiry-base/inquiry-base.component';
 import { InquiryConfirmComponent } from './components/inquiry/inquiry-confirm/inquiry-confirm.component';
 import { InquiryLoginComponent } from './components/inquiry/inquiry-login/inquiry-login.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ButtonsComponent } from './components/parts/buttons/buttons.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
 import { HeaderComponent } from './components/parts/header/header.component';
@@ -17,12 +19,12 @@ import { LoadingComponent } from './components/parts/loading/loading.component';
 import { ModalComponent } from './components/parts/modal/modal.component';
 import { NextButtonComponent } from './components/parts/next-button/next-button.component';
 import {
-  PurchaseFilmOrderPerformanceComponent
+    PurchaseFilmOrderPerformanceComponent
 } from './components/parts/purchase-film-order-performance/purchase-film-order-performance.component';
 import { PurchaseFilmOrderComponent } from './components/parts/purchase-film-order/purchase-film-order.component';
-import { PurchaseNotesComponent } from './components/parts/purchase-notes/purchase-notes.component';
+import { PurchaseNoteComponent } from './components/parts/purchase-note/purchase-note.component';
 import { PurchaseStepComponent } from './components/parts/purchase-step/purchase-step.component';
-import { PurchaseTermsComponent } from './components/parts/purchase-terms/purchase-terms.component';
+import { PurchaseTermComponent } from './components/parts/purchase-term/purchase-term.component';
 import { ScreenComponent } from './components/parts/screen/screen.component';
 import { SeatInfoComponent } from './components/parts/seat-info/seat-info.component';
 import { SiteSealComponent } from './components/parts/site-seal/site-seal.component';
@@ -49,59 +51,61 @@ import { SasakiPurchaseService } from './services/sasaki/sasaki-purchase/sasaki-
 import { StorageService } from './services/storage/storage.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PurchaseBaseComponent,
-    PurchaseCompleteComponent,
-    PurchaseScheduleComponent,
-    PurchaseSeatComponent,
-    PurchaseTicketComponent,
-    PurchaseInputComponent,
-    PurchaseConfirmComponent,
-    PurchaseMvtkInputComponent,
-    PurchaseMvtkConfirmComponent,
-    InquiryBaseComponent,
-    InquiryLoginComponent,
-    InquiryConfirmComponent,
-    ScreenComponent,
-    HeaderComponent,
-    FooterComponent,
-    PurchaseStepComponent,
-    LoadingComponent,
-    SiteSealComponent,
-    ModalComponent,
-    ButtonsComponent,
-    PurchaseNotesComponent,
-    PurchaseTermsComponent,
-    PurchaseTransactionComponent,
-    ErrorComponent,
-    PurchaseFilmOrderComponent,
-    PurchaseFilmOrderPerformanceComponent,
-    TimeFormatPipe,
-    DurationPipe,
-    SeatInfoComponent,
-    IconComponent,
-    LibphonenumberFormatPipe,
-    PurchaseOverlapComponent,
-    BaseComponent,
-    NextButtonComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [
-    PurchaseGuardService,
-    SasakiInquiryService,
-    SasakiMasterService,
-    SasakiPurchaseService,
-    ErrorService,
-    StorageService,
-    PurchaseService
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        PurchaseBaseComponent,
+        PurchaseCompleteComponent,
+        PurchaseScheduleComponent,
+        PurchaseSeatComponent,
+        PurchaseTicketComponent,
+        PurchaseInputComponent,
+        PurchaseConfirmComponent,
+        PurchaseMvtkInputComponent,
+        PurchaseMvtkConfirmComponent,
+        InquiryBaseComponent,
+        InquiryLoginComponent,
+        InquiryConfirmComponent,
+        ScreenComponent,
+        HeaderComponent,
+        FooterComponent,
+        PurchaseStepComponent,
+        LoadingComponent,
+        SiteSealComponent,
+        ModalComponent,
+        ButtonsComponent,
+        PurchaseTransactionComponent,
+        ErrorComponent,
+        PurchaseFilmOrderComponent,
+        PurchaseFilmOrderPerformanceComponent,
+        TimeFormatPipe,
+        DurationPipe,
+        SeatInfoComponent,
+        IconComponent,
+        LibphonenumberFormatPipe,
+        PurchaseOverlapComponent,
+        BaseComponent,
+        NextButtonComponent,
+        NotFoundComponent,
+        ExpiredComponent,
+        PurchaseTermComponent,
+        PurchaseNoteComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    providers: [
+        PurchaseGuardService,
+        SasakiInquiryService,
+        SasakiMasterService,
+        SasakiPurchaseService,
+        ErrorService,
+        StorageService,
+        PurchaseService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

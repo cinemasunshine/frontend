@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BaseComponent } from './components/base/base.component';
 import { ErrorComponent } from './components/error/error.component';
+import { ExpiredComponent } from './components/expired/expired.component';
 import { InquiryConfirmComponent } from './components/inquiry/inquiry-confirm/inquiry-confirm.component';
 import { InquiryLoginComponent } from './components/inquiry/inquiry-login/inquiry-login.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PurchaseBaseComponent } from './components/purchase/purchase-base/purchase-base.component';
 import { PurchaseCompleteComponent } from './components/purchase/purchase-complete/purchase-complete.component';
 import { PurchaseConfirmComponent } from './components/purchase/purchase-confirm/purchase-confirm.component';
@@ -44,7 +46,15 @@ const routes: Routes = [
             { path: 'purchase/mvtk/confirm', component: PurchaseMvtkConfirmComponent }
         ]
     },
-    { path: '**', component: ErrorComponent }
+    {
+        path: '',
+        component: BaseComponent,
+        children: [
+            { path: 'error', component: ErrorComponent },
+            { path: 'expired', component: ExpiredComponent },
+            { path: '**', component: NotFoundComponent }
+        ]
+    }
 ];
 
 @NgModule({

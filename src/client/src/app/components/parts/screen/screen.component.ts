@@ -21,6 +21,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     public scale: number;
     public height: number;
     public origin: string;
+    public theaterCode: string;
+    public screenCode: string;
 
     constructor(
         private elementRef: ElementRef,
@@ -190,9 +192,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
             '02': -2,
             '03': -3
         };
-        const theaterCode = `00${this.purchase.data.individualScreeningEvent.superEvent.location.branchCode}`.slice(DIGITS['02']);
-        const screenCode = `000${this.purchase.data.individualScreeningEvent.location.branchCode}`.slice(DIGITS['03']);
-        const screen = await this.http.get<IScreen>(`/assets/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
+        this.theaterCode = `00${this.purchase.data.individualScreeningEvent.superEvent.location.branchCode}`.slice(DIGITS['02']);
+        this.screenCode = `000${this.purchase.data.individualScreeningEvent.location.branchCode}`.slice(DIGITS['03']);
+        const screen = await this.http.get<IScreen>(`/assets/json/theater/${this.theaterCode}/${this.screenCode}.json`).toPromise();
         const setting = await this.http.get<IScreen>('/assets/json/theater/setting.json').toPromise();
         const seatStatus = await this.sasakiPurchase.getSeatState({
             theaterCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode,

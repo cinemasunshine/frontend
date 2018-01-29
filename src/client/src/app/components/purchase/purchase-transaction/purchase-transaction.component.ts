@@ -64,7 +64,7 @@ export class PurchaseTransactionComponent implements OnInit {
                 return;
             }
 
-             this.purchase.transactionStartProcess({
+            await this.purchase.transactionStartProcess({
                 passportToken: <string>this.parameters.passportToken,
                 individualScreeningEvent: individualScreeningEvent
             });

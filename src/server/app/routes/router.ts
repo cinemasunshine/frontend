@@ -9,10 +9,10 @@ import inquiryRouter from './inquiry';
 export default (app: express.Application) => {
     app.use('/api/purchase', purchaseRouter);
     app.use('/api/master', masterRouter);
-    app.use('/api/inquiry', inquiryRouter);
+    app.use('/inquiry', inquiryRouter);
     app.get('/', (_, res) => {
         res.locals.env = process.env.NODE_ENV;
-        res.render('index');
+        res.render('purchase/index');
     });
     app.get('*', (_, res) => {
         res.redirect('/');

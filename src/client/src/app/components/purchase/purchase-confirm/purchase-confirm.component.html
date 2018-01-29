@@ -53,7 +53,7 @@
             購入情報
             <div class="right">
                 <div class="button light-gray-button change-button">
-                    <a href="/purchase/input">変更</a>
+                    <a routerLink="/purchase/input">変更</a>
                 </div>
             </div>
         </h2>
@@ -88,9 +88,9 @@
 
         <h2 class="section-ttl">注意事項(重要)</h2>
         <p class="mb-small">下記項目をご確認いただきチェックを入れて「購入完了」ボタンを押してください。</p>
-        <div class="box radius bg-ultra-light-gray small-x-text notes mb-middle">
-            
-        </div>
+        
+        <app-purchase-note class="mb-middle" [theaterCode]="purchase.data.individualScreeningEvent?.superEvent.location.branchCode.slice(-2)"></app-purchase-note>
+
         <form [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
             <div class="mb-x-large text-center">
                 <input type="checkbox" formControlName="notes" id="notes">
@@ -105,3 +105,6 @@
     </div>
     <app-site-seal></app-site-seal>
 </div>
+
+
+<app-loading [show]="isLoading"></app-loading>

@@ -11,7 +11,7 @@
             'transform-origin': origin,
             'transform': 'scale(' + scale + ')'
         }">
-            <div class="screen-inner {{ data.screenType }}" 
+            <div class="screen-inner {{ data.screenType }} screen-{{ theaterCode }}-{{ screenCode }}" 
             [ngStyle]="{ 'width.px': data.screen.size.w, 'height.px': data.screen.size.h }"
             (click)="scaleUp($event)">
                 
@@ -36,7 +36,7 @@
                 }">{{ columnLabel.label }}</div>
 
                 <div *ngFor="let lineLabel of data.lineLabels" 
-                class="object label-object column-object line-object-{{ lineLabel.id }}" 
+                class="object label-object line-object line-object-{{ lineLabel.id }}" 
                 [ngStyle]="{
                     'width.px': lineLabel.w,
                     'height.px': lineLabel.h, 

@@ -34,6 +34,8 @@
     <h2 class="section-ttl">利用規約</h2>
     <p class="mb-small">利用規約に同意した上で「次へ」ボタンを押してください。</p>
 
+    <app-purchase-term  class="mb-middle" [theaterCode]="purchase.data.individualScreeningEvent?.superEvent.location.branchCode.slice(-2)"></app-purchase-term>
+
     <form [formGroup]="seatForm" (ngSubmit)="onSubmit()">
         <div class="mb-x-large text-center">
             <input type="checkbox" formControlName="terms" id="terms">
