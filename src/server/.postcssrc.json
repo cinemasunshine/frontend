@@ -1,0 +1,10 @@
+{
+  "use": [
+    "autoprefixer"
+  ],
+  "input": "src/server/public/css/**/*.css",
+  "dir": "dist/server/public/css",
+  "autoprefixer": {
+    "browsers": "last 5 versions"
+  }
+}

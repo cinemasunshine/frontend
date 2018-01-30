@@ -3,6 +3,7 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 // tslint:disable-next-line:no-require-imports
 import expressValidator = require('express-validator');
+import * as expressLayouts from 'express-ejs-layouts';
 import * as helmet from 'helmet';
 import basicAuth from './middlewares/basicAuth/basic-auth.middleware';
 import benchmarks from './middlewares/benchmarks/benchmarks.middleware';
@@ -31,6 +32,8 @@ app.use(cookieParser());
 app.use(expressValidator()); // バリデーション
 app.set('views', `${__dirname}/views`); // view設定
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.use(express.static(`${__dirname}/../public`)); // server
 app.use(express.static(`${__dirname}/../dist/client`)); // client
 
 router(app);

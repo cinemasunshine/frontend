@@ -51,7 +51,7 @@ function getTheater(req, res) {
             log('getTheaters');
             const options = base_controller_1.getOptions(req);
             const args = req.query;
-            const result = yield yield sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
+            const result = yield sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
             res.json(result);
         }
         catch (err) {

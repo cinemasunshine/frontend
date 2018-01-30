@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 // tslint:disable-next-line:no-require-imports
 const expressValidator = require("express-validator");
+const expressLayouts = require("express-ejs-layouts");
 const helmet = require("helmet");
 const basic_auth_middleware_1 = require("./middlewares/basicAuth/basic-auth.middleware");
 const benchmarks_middleware_1 = require("./middlewares/benchmarks/benchmarks.middleware");
@@ -29,6 +30,8 @@ app.use(cookieParser());
 app.use(expressValidator()); // バリデーション
 app.set('views', `${__dirname}/views`); // view設定
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.use(express.static(`${__dirname}/../public`)); // server
 app.use(express.static(`${__dirname}/../dist/client`)); // client
 router_1.default(app);
 module.exports = app;

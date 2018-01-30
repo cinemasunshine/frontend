@@ -39,7 +39,7 @@ export async function getTheater(req: Request, res: Response): Promise<void> {
         log('getTheaters');
         const options = getOptions(req);
         const args = req.query;
-        const result = await await sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
+        const result = await sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
