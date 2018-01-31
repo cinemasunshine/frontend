@@ -42,6 +42,8 @@ import { PurchaseTransactionComponent } from './components/purchase/purchase-tra
 import { DurationPipe } from './pipes/duration/duration.pipe';
 import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format/libphonenumber-format.pipe';
 import { TimeFormatPipe } from './pipes/time-format/time-format.pipe';
+import { AwsCognitoService } from './services/aws-cognito/aws-cognito.service';
+import { CallNativeService } from './services/call-native/call-native.service';
 import { ErrorService } from './services/error/error.service';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
 import { PurchaseService } from './services/purchase/purchase.service';
@@ -104,7 +106,9 @@ import { StorageService } from './services/storage/storage.service';
         SasakiPurchaseService,
         ErrorService,
         StorageService,
-        PurchaseService
+        PurchaseService,
+        AwsCognitoService,
+        CallNativeService
     ],
     bootstrap: [AppComponent]
 })

@@ -10,6 +10,5 @@ export class PurchaseBaseComponent implements OnInit {
     constructor() { }
 
     public ngOnInit() {
-
     }
 }

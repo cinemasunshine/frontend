@@ -323,3 +323,33 @@ function transactionConfirm(req, res) {
     });
 }
 exports.transactionConfirm = transactionConfirm;
+/**
+ * スケジュールリスト取得
+ * @memberof Purchase.PerformancesModule
+ * @function getSchedule
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+function getSchedule(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const options = base_controller_1.getOptions(req);
+            const args = {
+                startFrom: req.query.startFrom,
+                startThrough: req.query.startThrough
+            };
+            const theaters = yield sasaki.service.organization(options).searchMovieTheaters();
+            const screeningEvents = yield sasaki.service.event(options).searchIndividualScreeningEvent(args);
+            const result = {
+                theaters: theaters,
+                screeningEvents: screeningEvents
+            };
+            res.json({ result: result });
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.getSchedule = getSchedule;

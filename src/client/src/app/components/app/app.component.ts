@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AwsCognitoService } from '../../services/aws-cognito/aws-cognito.service';
 
 @Component({
     selector: 'app-root',
@@ -6,4 +7,9 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+    constructor(
+        public awsCognito: AwsCognitoService
+    ) {
+
+    }
 }

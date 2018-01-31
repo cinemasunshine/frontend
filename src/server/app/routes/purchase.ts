@@ -20,5 +20,6 @@ router.post('/mvtksSatInfoSync', purchase.mvtksSatInfoSync);
 router.post('/setCustomerContact', purchase.setCustomerContact);
 router.post('/transactionConfirm', purchase.transactionConfirm);
 router.post('/transactionStart', purchase.transactionStart);
+router.post('/getSchedule', purchase.getSchedule);
 
 export default router;

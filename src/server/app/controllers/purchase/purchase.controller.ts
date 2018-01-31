@@ -272,3 +272,30 @@ export async function transactionConfirm(req: Request, res: Response): Promise<v
         errorProsess(res, err);
     }
 }
+
+/**
+ * スケジュールリスト取得
+ * @memberof Purchase.PerformancesModule
+ * @function getSchedule
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+export async function getSchedule(req: Request, res: Response): Promise<void> {
+    try {
+        const options = getOptions(req);
+        const args = {
+            startFrom: req.query.startFrom,
+            startThrough: req.query.startThrough
+        };
+        const theaters = await sasaki.service.organization(options).searchMovieTheaters();
+        const screeningEvents = await sasaki.service.event(options).searchIndividualScreeningEvent(args);
+        const result = {
+            theaters: theaters,
+            screeningEvents: screeningEvents
+        };
+        res.json({ result: result });
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}

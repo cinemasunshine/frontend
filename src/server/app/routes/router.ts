@@ -6,6 +6,7 @@ import purchaseRouter from './purchase';
 import masterRouter from './master';
 import inquiryRouter from './inquiry';
 import methodRouter from './method';
+import { getSchedule } from '../controllers/purchase/purchase.controller';
 
 export default (app: express.Application) => {
     app.set('layout', 'layouts/layout');
@@ -20,6 +21,7 @@ export default (app: express.Application) => {
     app.use('/api/master', masterRouter);
     app.use('/inquiry', inquiryRouter);
     app.use('/method', methodRouter);
+    app.get('/purchase/performances/getSchedule', getSchedule);
     app.get('/', (_, res) => {
         res.locals.env = process.env.NODE_ENV;
         res.render('purchase/index');

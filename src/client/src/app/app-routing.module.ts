@@ -21,12 +21,12 @@ import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.s
 
 const routes: Routes = [
     { path: '', redirectTo: 'purchase/transaction', pathMatch: 'full' },
+    { path: 'purchase/transaction', component: PurchaseTransactionComponent },
     {
         path: '',
         component: BaseComponent,
         children: [
             { path: 'purchase/schedule', component: PurchaseScheduleComponent },
-            { path: 'purchase/transaction', component: PurchaseTransactionComponent },
             { path: 'purchase/overlap', component: PurchaseOverlapComponent },
             { path: 'inquiry/login/:theater', component: InquiryLoginComponent },
             { path: 'inquiry/confirm', component: InquiryConfirmComponent }

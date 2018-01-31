@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as libphonenumber from 'libphonenumber-js';
 import * as moment from 'moment';
 import { LibphonenumberFormatPipe } from '../../../pipes/libphonenumber-format/libphonenumber-format.pipe';
+import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
 import { IGmoTokenObject, PurchaseService } from '../../../services/purchase/purchase.service';
 
@@ -27,7 +28,8 @@ export class PurchaseInputComponent implements OnInit {
         private elementRef: ElementRef,
         private formBuilder: FormBuilder,
         private router: Router,
-        private error: ErrorService
+        private error: ErrorService,
+        private awsCognito: AwsCognitoService
     ) { }
 
     public ngOnInit() {
@@ -60,6 +62,20 @@ export class PurchaseInputComponent implements OnInit {
             return;
         }
         this.isLoading = true;
+        try {
+            const args = {
+                datasetName: 'profile',
+                value: {
+                    familyName: this.inputForm.controls.familyName.value,
+                    givenName: this.inputForm.controls.givenName.value,
+                    email: this.inputForm.controls.email.value,
+                    telephone: this.inputForm.controls.telephone.value
+                }
+            };
+            this.awsCognito.updateRecords(args);
+        } catch (err) {
+            console.log(err);
+        }
         try {
             if (this.purchase.data.transaction === undefined) {
                 throw new Error('status is different');

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
@@ -31,7 +32,8 @@ export class PurchaseTransactionComponent implements OnInit {
         private router: Router,
         private sasakiMaster: SasakiMasterService,
         private purchase: PurchaseService,
-        private error: ErrorService
+        private error: ErrorService,
+        private awsCognito: AwsCognitoService
     ) { }
 
     /**
@@ -42,6 +44,11 @@ export class PurchaseTransactionComponent implements OnInit {
             this.parameters = this.storage.load('parameters', SaveType.Session);
             if (!this.parametersChack()) {
                 throw new Error('parameters is undefined');
+            }
+            // TODO ticketアプリテスト
+            this.parameters.identityId = 'ap-northeast-1:c93ad6a4-47e6-4023-a078-2a9ea80c15c9';
+            if (this.parameters.identityId !== undefined) {
+                await this.awsCognito.authenticateWithDeviceId(this.parameters.identityId);
             }
             // イベント情報取得
             const individualScreeningEvent = await this.sasakiMaster.getEvent({
