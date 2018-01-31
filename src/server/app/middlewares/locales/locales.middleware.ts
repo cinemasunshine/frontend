@@ -6,7 +6,6 @@ import { NextFunction, Request, Response } from 'express';
 import * as i18n from 'i18n';
 
 const directory = `${__dirname}/../../locales`;
-console.log(directory);
 i18n.configure({
     locales: ['ja'],
     defaultLocale: 'ja',

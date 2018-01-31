@@ -13,13 +13,13 @@
     <div class="box radius bg-ultra-light-gray mb-large">
         <div class="section-ttl text-center"><%- __('inquiry.confirm.sectionTitle') %></div>
         <p class="small-x-text mb-small read"><%- __('inquiry.confirm.sectionText') %></p>
-        <div class="small-x-text bookmark"><img src="/images/default/inquiry/bookmark.svg" alt=""></div>
+        <div class="small-x-text bookmark"><img src="/images/inquiry/bookmark.svg" alt=""></div>
     </div>
 
     <div class="box radius bg-light-gray mb-large">
         <dl>
-            <dt><%- __('common.purchase_number') %></dt>
-            <dd><strong class="red-text large-x-text"><%= inquiryModel.login.reserveNum %></strong></dd>
+            <dt><%- __('common.purchaseNumber') %></dt>
+            <dd><strong class="red-text large-x-text"><%= inquiryModel.input.reserveNum %></strong></dd>
             <dd class="small-x-text"><%- __('inquiry.confirm.note') %></dd>
         </dl>
     </div>
@@ -56,7 +56,13 @@
                 <div class="box">
                     <div class="mb-xx-small small-text"><strong><%- __('common.appreciationDate') %></strong></div>
                     <div class="mb-x-small">
-                        <%= moment(offer.itemOffered.reservationFor.coaInfo.dateJouei).format('YYYY年MM月DD日') %>(<%= __('week[' + moment(offer.itemOffered.reservationFor.coaInfo.dateJouei).format('ddd') + ']') %>) <%= timeFormat(offer.itemOffered.reservationFor.startDate, offer.itemOffered.reservationFor.coaInfo.dateJouei) %> - <%= timeFormat(offer.itemOffered.reservationFor.endDate, offer.itemOffered.reservationFor.coaInfo.dateJouei) %>
+                        <%
+                        moment.locale('ja');
+                        const date = moment(offer.itemOffered.reservationFor.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
+                        const startTime = timeFormat(offer.itemOffered.reservationFor.startDate, offer.itemOffered.reservationFor.coaInfo.dateJouei);
+                        const endTime = timeFormat(offer.itemOffered.reservationFor.endDate, offer.itemOffered.reservationFor.coaInfo.dateJouei);
+                         %>
+                        <%= date %> <%= startTime %> - <%= endTime %>
                     </div>
                     <div class="mb-xx-small small-text"><strong><%- __('common.theater') %></strong></div>
                     <div class="mb-x-small"><%= inquiryModel.movieTheaterOrganization.location.name.ja %></div>

@@ -15,6 +15,8 @@ const sasaki = require("@motionpicture/sskts-api-nodejs-client");
 const base_controller_1 = require("../base/base.controller");
 const debug = require("debug");
 const inquiry_model_1 = require("../../models/inquiry/inquiry.model");
+const moment = require("moment");
+const http_status_1 = require("http-status");
 const log = debug('SSKTS:inquiry');
 /**
  * 予約情報取得
@@ -56,7 +58,6 @@ function login(req, res) {
             inquiryModel.save(req.session);
             res.locals.inquiryModel = inquiryModel;
             res.locals.error = null;
-            log(inquiryModel);
             res.render('inquiry/login');
         }
         catch (err) {
@@ -77,10 +78,10 @@ exports.login = login;
 function auth(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         log('auth');
+        const options = base_controller_1.getOptions(req);
+        const inquiryModel = new inquiry_model_1.InquiryModel(req.session.inquiry);
         try {
             loginForm(req);
-            const options = base_controller_1.getOptions(req);
-            const inquiryModel = new inquiry_model_1.InquiryModel(req.session.inquiry);
             if (inquiryModel.movieTheaterOrganization === undefined) {
                 throw new Error('movieTheaterOrganization is undefined');
             }
@@ -99,9 +100,16 @@ function auth(req, res) {
                 });
                 if (inquiryModel.order === undefined) {
                     log('NOT FOUND');
-                    res.locals.inquiryModel = inquiryModel;
-                    res.locals.error = getInquiryError(req);
-                    return res.render('inquiry/login');
+                    const error = {
+                        code: 404,
+                        errors: [{
+                                name: 'SSKTSError',
+                                reason: 'NotFound',
+                                entityName: 'order',
+                                message: 'Not Found: order.'
+                            }]
+                    };
+                    throw error;
                 }
                 inquiryModel.save(req.session);
                 const orderNumber = inquiryModel.order.orderNumber;
@@ -116,6 +124,11 @@ function auth(req, res) {
         }
         catch (err) {
             log(err);
+            if (err.code !== undefined && err.code === http_status_1.NOT_FOUND) {
+                res.locals.inquiryModel = inquiryModel;
+                res.locals.error = getInquiryError(req);
+                return res.render('inquiry/login');
+            }
             res.locals.error = err;
             res.render('error/index');
         }
@@ -139,6 +152,8 @@ function confirm(req, res) {
         }
         const inquiryModel = new inquiry_model_1.InquiryModel(req.session.inquiry);
         res.locals.inquiryModel = inquiryModel;
+        res.locals.moment = moment;
+        res.locals.timeFormat = timeFormat;
         delete req.session.inquiry;
         res.render('inquiry/confirm');
     });
@@ -177,4 +192,19 @@ function getInquiryError(req) {
             value: ''
         }
     };
+}
+/**
+ * 時間フォーマット
+ * @function timeFormat
+ * @param {string} referenceDate 基準日
+ * @param {Date} screeningTime 時間
+ * @returns {string}
+ */
+function timeFormat(screeningTime, referenceDate) {
+    const DIGITS = -2;
+    const HOUR = 60;
+    const diff = moment(screeningTime).diff(moment(referenceDate), 'minutes');
+    const hour = (`00${Math.floor(diff / HOUR)}`).slice(DIGITS);
+    const minutes = moment(screeningTime).format('mm');
+    return `${hour}:${minutes}`;
 }
