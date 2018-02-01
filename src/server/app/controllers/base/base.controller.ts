@@ -28,8 +28,8 @@ export function getOptions(req: Request) {
 /**
  * エラー
  * @function error
- * @param {Response} res 
- * @param {any} err 
+ * @param {Response} res
+ * @param {any} err
  */
 export function errorProsess(res: Response, err: any) {
     log('errorProsess', err);

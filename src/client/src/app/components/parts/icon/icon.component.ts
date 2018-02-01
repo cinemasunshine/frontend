@@ -14,7 +14,7 @@ export class IconComponent implements OnInit {
 
     constructor(private sanitizer: DomSanitizer) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.styles = this.sanitizer.bypassSecurityTrustStyle('');
         if (this.width !== undefined && this.height !== undefined) {
             const style = `width: ${this.width}px; height: ${this.height}px; background-size: ${this.width}px ${this.height}px;`;

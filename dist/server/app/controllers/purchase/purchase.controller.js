@@ -14,9 +14,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const COA = require("@motionpicture/coa-service");
 const mvtkReserve = require("@motionpicture/mvtk-reserve-service");
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
-const base_controller_1 = require("../base/base.controller");
-const moment = require("moment");
 const debug = require("debug");
+const moment = require("moment");
+const base_controller_1 = require("../base/base.controller");
 const log = debug('SSKTS:purchase');
 /**
  * 座席ステータス取得
@@ -53,7 +53,7 @@ function transactionStart(req, res) {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
             args.expires = moment(args.expires).toDate();
-            const result = yield sasaki.service.transaction.placeOrder(options).start(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).start(args);
             res.json(result);
         }
         catch (err) {
@@ -75,7 +75,7 @@ function createSeatReservation(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).createSeatReservationAuthorization(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).createSeatReservationAuthorization(args);
             res.json(result);
         }
         catch (err) {
@@ -97,7 +97,7 @@ function changeSeatReservation(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).changeSeatReservationOffers(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).changeSeatReservationOffers(args);
             res.json(result);
         }
         catch (err) {
@@ -119,7 +119,7 @@ function cancelSeatReservation(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).cancelSeatReservationAuthorization(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).cancelSeatReservationAuthorization(args);
             res.json(result);
         }
         catch (err) {
@@ -183,7 +183,7 @@ function createMvtkAuthorization(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).createMvtkAuthorization(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).createMvtkAuthorization(args);
             res.json(result);
         }
         catch (err) {
@@ -205,7 +205,7 @@ function cancelMvtkAuthorization(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).cancelMvtkAuthorization(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).cancelMvtkAuthorization(args);
             res.json(result);
         }
         catch (err) {
@@ -227,7 +227,7 @@ function setCustomerContact(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).setCustomerContact(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).setCustomerContact(args);
             res.json(result);
         }
         catch (err) {
@@ -249,7 +249,7 @@ function createCreditCardAuthorization(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).createCreditCardAuthorization(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).createCreditCardAuthorization(args);
             res.json(result);
         }
         catch (err) {
@@ -271,7 +271,7 @@ function cancelCreditCardAuthorization(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).cancelCreditCardAuthorization(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).cancelCreditCardAuthorization(args);
             res.json(result);
         }
         catch (err) {
@@ -314,7 +314,7 @@ function transactionConfirm(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.transaction.placeOrder(options).confirm(args);
+            const result = yield new sasaki.service.transaction.PlaceOrder(options).confirm(args);
             res.json(result);
         }
         catch (err) {
@@ -339,8 +339,8 @@ function getSchedule(req, res) {
                 startFrom: req.query.startFrom,
                 startThrough: req.query.startThrough
             };
-            const theaters = yield sasaki.service.organization(options).searchMovieTheaters();
-            const screeningEvents = yield sasaki.service.event(options).searchIndividualScreeningEvent(args);
+            const theaters = yield new sasaki.service.Organization(options).searchMovieTheaters();
+            const screeningEvents = yield new sasaki.service.Event(options).searchIndividualScreeningEvent(args);
             const result = {
                 theaters: theaters,
                 screeningEvents: screeningEvents

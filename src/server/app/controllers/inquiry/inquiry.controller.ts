@@ -2,12 +2,12 @@
  * 照会
  */
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
-import { Request, Response } from 'express';
-import { getOptions, errorProsess } from '../base/base.controller';
 import * as debug from 'debug';
-import { InquiryModel } from '../../models/inquiry/inquiry.model';
-import * as moment from 'moment';
+import { Request, Response } from 'express';
 import { NOT_FOUND } from 'http-status';
+import * as moment from 'moment';
+import { InquiryModel } from '../../models/inquiry/inquiry.model';
+import { errorProsess, getOptions } from '../base/base.controller';
 const log = debug('SSKTS:inquiry');
 /**
  * 予約情報取得
@@ -20,7 +20,7 @@ export async function getOrder(req: Request, res: Response): Promise<void> {
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.order(options).findByOrderInquiryKey(args);
+        const result = await new sasaki.service.Order(options).findByOrderInquiryKey(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -40,7 +40,7 @@ export async function login(req: Request, res: Response): Promise<void> {
         const inquiryModel = new InquiryModel((<Express.Session>req.session).inquiry);
         const options = getOptions(req);
         const args = { branchCode: req.query.theater };
-        inquiryModel.movieTheaterOrganization = await sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
+        inquiryModel.movieTheaterOrganization = await new sasaki.service.Organization(options).findMovieTheaterByBranchCode(args);
         inquiryModel.input.reserveNum = (req.query.reserve !== undefined) ? req.query.reserve : '';
         inquiryModel.save(req.session);
         res.locals.inquiryModel = inquiryModel;
@@ -77,7 +77,7 @@ export async function auth(req: Request, res: Response): Promise<void> {
         inquiryModel.save(req.session);
         if (validationResult.isEmpty()) {
             const theaterCode = inquiryModel.movieTheaterOrganization.location.branchCode;
-            inquiryModel.order = await sasaki.service.order(options).findByOrderInquiryKey({
+            inquiryModel.order = await new sasaki.service.Order(options).findByOrderInquiryKey({
                 telephone: inquiryModel.input.telephone,
                 confirmationNumber: Number(inquiryModel.input.reserveNum),
                 theaterCode: inquiryModel.movieTheaterOrganization.location.branchCode
@@ -93,7 +93,7 @@ export async function auth(req: Request, res: Response): Promise<void> {
                         message: 'Not Found: order.'
                     }]
                 };
-                throw error
+                throw error;
             }
             inquiryModel.save(req.session);
             const orderNumber = inquiryModel.order.orderNumber;
@@ -154,7 +154,7 @@ function loginForm(req: Request): void {
     ).isLength({
         min: minLength
     });
-};
+}
 
 /**
  * 照会エラー取得

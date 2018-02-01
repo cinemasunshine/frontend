@@ -9,7 +9,7 @@ export class InquiryLoginComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

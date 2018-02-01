@@ -10,7 +10,7 @@
     "build-client-test": "ng build --environment=test --output-path=./dist/client/test --aot",
     "build-client-production": "ng build --environment=prod --output-path=./dist/client/production --aot",
     "test-client": "ng test --code-coverage",
-    "lint-client": "ng lint",
+    "lint-client": "tslint --config tslint.json src/client/**/**.ts --exclude **/**.spec.ts --project src/client/tsconfig.json",
     "e2e": "ng e2e",
     "css-server": "npm run scss-server && postcss -c src/server/.postcssrc.json",
     "scss-server": "node-sass src/server/public/scss --output dist/server/public/css",
@@ -18,7 +18,8 @@
     "start-server": "node dist/server/index",
     "start-server-ssl": "node dist/server/ssl",
     "build-server": "tsc --project src/server --outDir dist/server --locale ja-jp",
-    "build": "npm run build-sever && npm run build-client",
+    "lint-server": "tslint --config tslint.json src/server/**/**.ts --exclude **/**.spec.ts --project src/server/tsconfig.json",
+    "build": "npm run build-sever && npm run build-sever && npm run build-client",
     "version": "git add -A"
   },
   "private": true,

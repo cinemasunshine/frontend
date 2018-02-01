@@ -12,11 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * 照会
  */
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
-const base_controller_1 = require("../base/base.controller");
 const debug = require("debug");
-const inquiry_model_1 = require("../../models/inquiry/inquiry.model");
-const moment = require("moment");
 const http_status_1 = require("http-status");
+const moment = require("moment");
+const inquiry_model_1 = require("../../models/inquiry/inquiry.model");
+const base_controller_1 = require("../base/base.controller");
 const log = debug('SSKTS:inquiry');
 /**
  * 予約情報取得
@@ -30,7 +30,7 @@ function getOrder(req, res) {
         try {
             const options = base_controller_1.getOptions(req);
             const args = req.body;
-            const result = yield sasaki.service.order(options).findByOrderInquiryKey(args);
+            const result = yield new sasaki.service.Order(options).findByOrderInquiryKey(args);
             res.json(result);
         }
         catch (err) {
@@ -53,7 +53,7 @@ function login(req, res) {
             const inquiryModel = new inquiry_model_1.InquiryModel(req.session.inquiry);
             const options = base_controller_1.getOptions(req);
             const args = { branchCode: req.query.theater };
-            inquiryModel.movieTheaterOrganization = yield sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
+            inquiryModel.movieTheaterOrganization = yield new sasaki.service.Organization(options).findMovieTheaterByBranchCode(args);
             inquiryModel.input.reserveNum = (req.query.reserve !== undefined) ? req.query.reserve : '';
             inquiryModel.save(req.session);
             res.locals.inquiryModel = inquiryModel;
@@ -93,7 +93,7 @@ function auth(req, res) {
             inquiryModel.save(req.session);
             if (validationResult.isEmpty()) {
                 const theaterCode = inquiryModel.movieTheaterOrganization.location.branchCode;
-                inquiryModel.order = yield sasaki.service.order(options).findByOrderInquiryKey({
+                inquiryModel.order = yield new sasaki.service.Order(options).findByOrderInquiryKey({
                     telephone: inquiryModel.input.telephone,
                     confirmationNumber: Number(inquiryModel.input.reserveNum),
                     theaterCode: inquiryModel.movieTheaterOrganization.location.branchCode
@@ -172,7 +172,6 @@ function loginForm(req) {
         min: minLength
     });
 }
-;
 /**
  * 照会エラー取得
  * @function getInquiryError

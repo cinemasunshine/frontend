@@ -3,6 +3,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
 const uuid = require("uuid");
 /**
+ * 会員種類
+ * @enum MemberType
+ */
+var MemberType;
+(function (MemberType) {
+    /**
+     * 非会員
+     */
+    MemberType[MemberType["NonMember"] = 0] = "NonMember";
+    /**
+     * 会員
+     */
+    MemberType[MemberType["Member"] = 1] = "Member";
+})(MemberType = exports.MemberType || (exports.MemberType = {}));
+/**
  * 認証モデル
  * @class AuthModel
  */
@@ -85,18 +100,3 @@ class AuthModel {
     }
 }
 exports.AuthModel = AuthModel;
-/**
- * 会員種類
- * @enum MemberType
- */
-var MemberType;
-(function (MemberType) {
-    /**
-     * 非会員
-     */
-    MemberType[MemberType["NonMember"] = 0] = "NonMember";
-    /**
-     * 会員
-     */
-    MemberType[MemberType["Member"] = 1] = "Member";
-})(MemberType = exports.MemberType || (exports.MemberType = {}));

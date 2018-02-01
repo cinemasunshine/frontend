@@ -3,10 +3,10 @@
  */
 import * as COA from '@motionpicture/coa-service';
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
-import * as moment from 'moment';
-import { Request, Response } from 'express';
-import { getOptions, errorProsess } from '../base/base.controller';
 import * as debug from 'debug';
+import { Request, Response } from 'express';
+import * as moment from 'moment';
+import { errorProsess, getOptions } from '../base/base.controller';
 const log = debug('SSKTS:master');
 
 /**
@@ -20,7 +20,7 @@ export async function getTheaters(req: Request, res: Response): Promise<void> {
     try {
         log('getTheaters');
         const options = getOptions(req);
-        const result = await sasaki.service.organization(options).searchMovieTheaters();
+        const result = await new sasaki.service.Organization(options).searchMovieTheaters();
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -39,7 +39,7 @@ export async function getTheater(req: Request, res: Response): Promise<void> {
         log('getTheaters');
         const options = getOptions(req);
         const args = req.query;
-        const result = await sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
+        const result = await new sasaki.service.Organization(options).findMovieTheaterByBranchCode(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -63,7 +63,7 @@ export async function getSchedules(req: Request, res: Response): Promise<void> {
         if (args.startThrough !== undefined) {
             args.startThrough = moment(req.query.startThrough).toDate();
         }
-        const result = await sasaki.service.event(options).searchIndividualScreeningEvent(args);
+        const result = await new sasaki.service.Event(options).searchIndividualScreeningEvent(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -82,7 +82,7 @@ export async function getEvent(req: Request, res: Response): Promise<void> {
         log('getEvent');
         const options = getOptions(req);
         const args = req.query;
-        const result = await sasaki.service.event(options).findIndividualScreeningEvent(args);
+        const result = await new sasaki.service.Event(options).findIndividualScreeningEvent(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);

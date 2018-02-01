@@ -4,10 +4,10 @@
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
-import { Request, Response } from 'express';
-import { getOptions, errorProsess } from '../base/base.controller';
-import * as moment from 'moment';
 import * as debug from 'debug';
+import { Request, Response } from 'express';
+import * as moment from 'moment';
+import { errorProsess, getOptions } from '../base/base.controller';
 const log = debug('SSKTS:purchase');
 
 /**
@@ -41,7 +41,7 @@ export async function transactionStart(req: Request, res: Response): Promise<voi
         const options = getOptions(req);
         const args = req.body;
         args.expires = moment(args.expires).toDate();
-        const result = await sasaki.service.transaction.placeOrder(options).start(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).start(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -60,7 +60,7 @@ export async function createSeatReservation(req: Request, res: Response): Promis
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).createSeatReservationAuthorization(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).createSeatReservationAuthorization(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -79,7 +79,7 @@ export async function changeSeatReservation(req: Request, res: Response): Promis
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).changeSeatReservationOffers(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).changeSeatReservationOffers(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -98,7 +98,7 @@ export async function cancelSeatReservation(req: Request, res: Response): Promis
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).cancelSeatReservationAuthorization(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).cancelSeatReservationAuthorization(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -153,7 +153,7 @@ export async function createMvtkAuthorization(req: Request, res: Response): Prom
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).createMvtkAuthorization(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).createMvtkAuthorization(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -172,7 +172,7 @@ export async function cancelMvtkAuthorization(req: Request, res: Response): Prom
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).cancelMvtkAuthorization(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).cancelMvtkAuthorization(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -191,7 +191,7 @@ export async function setCustomerContact(req: Request, res: Response): Promise<v
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).setCustomerContact(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).setCustomerContact(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -210,7 +210,7 @@ export async function createCreditCardAuthorization(req: Request, res: Response)
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).createCreditCardAuthorization(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).createCreditCardAuthorization(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -229,7 +229,7 @@ export async function cancelCreditCardAuthorization(req: Request, res: Response)
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).cancelCreditCardAuthorization(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).cancelCreditCardAuthorization(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -266,7 +266,7 @@ export async function transactionConfirm(req: Request, res: Response): Promise<v
     try {
         const options = getOptions(req);
         const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).confirm(args);
+        const result = await new sasaki.service.transaction.PlaceOrder(options).confirm(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -288,8 +288,8 @@ export async function getSchedule(req: Request, res: Response): Promise<void> {
             startFrom: req.query.startFrom,
             startThrough: req.query.startThrough
         };
-        const theaters = await sasaki.service.organization(options).searchMovieTheaters();
-        const screeningEvents = await sasaki.service.event(options).searchIndividualScreeningEvent(args);
+        const theaters = await new sasaki.service.Organization(options).searchMovieTheaters();
+        const screeningEvents = await new sasaki.service.Event(options).searchIndividualScreeningEvent(args);
         const result = {
             theaters: theaters,
             screeningEvents: screeningEvents

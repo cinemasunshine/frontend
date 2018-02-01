@@ -2,11 +2,11 @@
  * ルーティング
  */
 import * as express from 'express';
-import purchaseRouter from './purchase';
-import masterRouter from './master';
-import inquiryRouter from './inquiry';
-import methodRouter from './method';
 import { getSchedule } from '../controllers/purchase/purchase.controller';
+import inquiryRouter from './inquiry';
+import masterRouter from './master';
+import methodRouter from './method';
+import purchaseRouter from './purchase';
 
 export default (app: express.Application) => {
     app.set('layout', 'layouts/layout');

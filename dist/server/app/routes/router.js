@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const purchase_1 = require("./purchase");
-const master_1 = require("./master");
-const inquiry_1 = require("./inquiry");
-const method_1 = require("./method");
 const purchase_controller_1 = require("../controllers/purchase/purchase.controller");
+const inquiry_1 = require("./inquiry");
+const master_1 = require("./master");
+const method_1 = require("./method");
+const purchase_1 = require("./purchase");
 exports.default = (app) => {
     app.set('layout', 'layouts/layout');
     app.use((req, res, next) => {
@@ -27,8 +27,7 @@ exports.default = (app) => {
         res.redirect(`/?${params}`);
     });
     app.get('/', (_, res) => {
-        res.locals.NODE_ENV = process.env.NODE_ENV;
-        res.locals.GMO_ENDPOINT = process.env.GMO_ENDPOINT;
+        res.locals.env = process.env.NODE_ENV;
         res.render('purchase/index', { layout: false });
     });
     app.get('*', (_, res) => {

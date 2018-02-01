@@ -9,7 +9,7 @@ export class SeatInfoComponent implements OnInit {
   @Input() public type: string;
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

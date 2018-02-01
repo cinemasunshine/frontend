@@ -13,6 +13,7 @@ export class CallNativeService {
      * @param data {any}
      */
     private postMessage(data: any) {
+        const TARGET_VIEW = 'mainView';
         try {
             const json: string = JSON.stringify(data);
             (<any>window).wizViewMessenger.postMessage(json, TARGET_VIEW);
@@ -55,11 +56,6 @@ export class CallNativeService {
         }
     }
 }
-
-/**
- * 呼び出し先
- */
-const TARGET_VIEW = 'mainView';
 
 /**
  * URLの読み込み先として使用するブラウザーの種別。

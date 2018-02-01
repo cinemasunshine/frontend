@@ -5,6 +5,45 @@
 import * as moment from 'moment';
 
 /**
+ * @memberof services.util
+ * @enum DIGITS
+ * @type number
+ */
+export enum DIGITS {
+    '02' = -2,
+    '03' = -3,
+    '08' = -8
+}
+
+/**
+ * 環境
+ * @memberof services.util
+ * @enum ENV
+ * @type string
+ */
+export enum ENV {
+    /**
+     * 開発
+     */
+    Development = 'development',
+    /**
+     * テスト
+     */
+    Test = 'test',
+    /**
+     * 本番
+     */
+    Production = 'production'
+}
+
+/**
+ * ムビチケ興行会社コード
+ * @memberof services.util
+ * @const MVTK_COMPANY_CODE
+ */
+export const MVTK_COMPANY_CODE = 'SSK000';
+
+/**
  * 時間フォーマット
  * @memberof services.util
  * @function timeFormat
@@ -77,42 +116,3 @@ export function bace64Encode(str: string): string {
 export function base64Decode(str: string): string {
     return new Buffer(str, 'base64').toString();
 }
-
-/**
- * @memberof services.util
- * @enum DIGITS
- * @type number
- */
-export enum DIGITS {
-    '02' = -2,
-    '03' = -3,
-    '08' = -8
-}
-
-/**
- * 環境
- * @memberof services.util
- * @enum ENV
- * @type string
- */
-export enum ENV {
-    /**
-     * 開発
-     */
-    Development = 'development',
-    /**
-     * テスト
-     */
-    Test = 'test',
-    /**
-     * 本番
-     */
-    Production = 'production'
-}
-
-/**
- * ムビチケ興行会社コード
- * @memberof services.util
- * @const MVTK_COMPANY_CODE
- */
-export const MVTK_COMPANY_CODE = 'SSK000';

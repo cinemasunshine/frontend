@@ -1,6 +1,22 @@
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
 import * as uuid from 'uuid';
 
+
+/**
+ * 会員種類
+ * @enum MemberType
+ */
+export enum MemberType {
+    /**
+     * 非会員
+     */
+    NonMember = 0,
+    /**
+     * 会員
+     */
+    Member = 1
+}
+
 /**
  * 認証セッション
  * @interface IAuthSession
@@ -133,19 +149,4 @@ export class AuthModel {
     public isMember(): boolean {
         return (this.memberType === MemberType.Member);
     }
-}
-
-/**
- * 会員種類
- * @enum MemberType
- */
-export enum MemberType {
-    /**
-     * 非会員
-     */
-    NonMember = 0,
-    /**
-     * 会員
-     */
-    Member = 1
 }

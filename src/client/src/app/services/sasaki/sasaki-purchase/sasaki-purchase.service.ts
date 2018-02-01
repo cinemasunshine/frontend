@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class SasakiPurchaseService {
-    static ENDPOINT = `${environment.API_ENDPOINT}/api/purchase`;
+    public static ENDPOINT = `${environment.API_ENDPOINT}/api/purchase`;
 
     constructor(private http: HttpClient) { }
 

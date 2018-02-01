@@ -13,9 +13,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const COA = require("@motionpicture/coa-service");
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
+const debug = require("debug");
 const moment = require("moment");
 const base_controller_1 = require("../base/base.controller");
-const debug = require("debug");
 const log = debug('SSKTS:master');
 /**
  * 劇場一覧取得
@@ -29,7 +29,7 @@ function getTheaters(req, res) {
         try {
             log('getTheaters');
             const options = base_controller_1.getOptions(req);
-            const result = yield sasaki.service.organization(options).searchMovieTheaters();
+            const result = yield new sasaki.service.Organization(options).searchMovieTheaters();
             res.json(result);
         }
         catch (err) {
@@ -51,7 +51,7 @@ function getTheater(req, res) {
             log('getTheaters');
             const options = base_controller_1.getOptions(req);
             const args = req.query;
-            const result = yield sasaki.service.organization(options).findMovieTheaterByBranchCode(args);
+            const result = yield new sasaki.service.Organization(options).findMovieTheaterByBranchCode(args);
             res.json(result);
         }
         catch (err) {
@@ -78,7 +78,7 @@ function getSchedules(req, res) {
             if (args.startThrough !== undefined) {
                 args.startThrough = moment(req.query.startThrough).toDate();
             }
-            const result = yield sasaki.service.event(options).searchIndividualScreeningEvent(args);
+            const result = yield new sasaki.service.Event(options).searchIndividualScreeningEvent(args);
             res.json(result);
         }
         catch (err) {
@@ -100,7 +100,7 @@ function getEvent(req, res) {
             log('getEvent');
             const options = base_controller_1.getOptions(req);
             const args = req.query;
-            const result = yield sasaki.service.event(options).findIndividualScreeningEvent(args);
+            const result = yield new sasaki.service.Event(options).findIndividualScreeningEvent(args);
             res.json(result);
         }
         catch (err) {

@@ -6,6 +6,44 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const moment = require("moment");
 /**
+ * @memberof services.util
+ * @enum DIGITS
+ * @type number
+ */
+var DIGITS;
+(function (DIGITS) {
+    DIGITS[DIGITS["02"] = -2] = "02";
+    DIGITS[DIGITS["03"] = -3] = "03";
+    DIGITS[DIGITS["08"] = -8] = "08";
+})(DIGITS = exports.DIGITS || (exports.DIGITS = {}));
+/**
+ * 環境
+ * @memberof services.util
+ * @enum ENV
+ * @type string
+ */
+var ENV;
+(function (ENV) {
+    /**
+     * 開発
+     */
+    ENV["Development"] = "development";
+    /**
+     * テスト
+     */
+    ENV["Test"] = "test";
+    /**
+     * 本番
+     */
+    ENV["Production"] = "production";
+})(ENV = exports.ENV || (exports.ENV = {}));
+/**
+ * ムビチケ興行会社コード
+ * @memberof services.util
+ * @const MVTK_COMPANY_CODE
+ */
+exports.MVTK_COMPANY_CODE = 'SSK000';
+/**
  * 時間フォーマット
  * @memberof services.util
  * @function timeFormat
@@ -76,41 +114,3 @@ function base64Decode(str) {
     return new Buffer(str, 'base64').toString();
 }
 exports.base64Decode = base64Decode;
-/**
- * @memberof services.util
- * @enum DIGITS
- * @type number
- */
-var DIGITS;
-(function (DIGITS) {
-    DIGITS[DIGITS["02"] = -2] = "02";
-    DIGITS[DIGITS["03"] = -3] = "03";
-    DIGITS[DIGITS["08"] = -8] = "08";
-})(DIGITS = exports.DIGITS || (exports.DIGITS = {}));
-/**
- * 環境
- * @memberof services.util
- * @enum ENV
- * @type string
- */
-var ENV;
-(function (ENV) {
-    /**
-     * 開発
-     */
-    ENV["Development"] = "development";
-    /**
-     * テスト
-     */
-    ENV["Test"] = "test";
-    /**
-     * 本番
-     */
-    ENV["Production"] = "production";
-})(ENV = exports.ENV || (exports.ENV = {}));
-/**
- * ムビチケ興行会社コード
- * @memberof services.util
- * @const MVTK_COMPANY_CODE
- */
-exports.MVTK_COMPANY_CODE = 'SSK000';
