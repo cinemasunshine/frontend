@@ -2,20 +2,7 @@
  * 共通
  * @namespace services.util
  */
-import { Request } from 'express';
 import * as moment from 'moment';
-
-/**
- * アプリ判定
- * @memberof services.util
- * @function isApp
- * @param {Request} req
- * @returns {boolean}
- */
-export function isApp(req: Request): boolean {
-
-    return (req.session !== undefined && req.session.awsCognitoIdentityId !== undefined);
-}
 
 /**
  * 時間フォーマット

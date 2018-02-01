@@ -32,7 +32,7 @@ export class PurchaseInputComponent implements OnInit {
         private awsCognito: AwsCognitoService
     ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
         window.scrollTo(0, 0);
         this.isLoading = false;
         this.cardExpiration = {
@@ -40,7 +40,22 @@ export class PurchaseInputComponent implements OnInit {
             month: []
         };
         this.inputForm = this.createForm();
-        console.log(this.inputForm);
+        if (this.awsCognito.isAuthenticate()) {
+            const records = await this.awsCognito.getRecords({
+                datasetName: 'profile'
+            });
+            if (records.familyName !== undefined
+                || records.givenName !== undefined
+                || records.email !== undefined
+                || records.emailConfirm !== undefined
+                || records.telephone !== undefined) {
+                this.inputForm.controls.familyName.setValue(records.familyName);
+                this.inputForm.controls.givenName.setValue(records.givenName);
+                this.inputForm.controls.email.setValue(records.email);
+                this.inputForm.controls.emailConfirm.setValue(records.email);
+                this.inputForm.controls.telephone.setValue(records.telephone);
+            }
+        }
     }
 
     /**
@@ -62,20 +77,6 @@ export class PurchaseInputComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        try {
-            const args = {
-                datasetName: 'profile',
-                value: {
-                    familyName: this.inputForm.controls.familyName.value,
-                    givenName: this.inputForm.controls.givenName.value,
-                    email: this.inputForm.controls.email.value,
-                    telephone: this.inputForm.controls.telephone.value
-                }
-            };
-            this.awsCognito.updateRecords(args);
-        } catch (err) {
-            console.log(err);
-        }
         try {
             if (this.purchase.data.transaction === undefined) {
                 throw new Error('status is different');
@@ -221,6 +222,7 @@ export class PurchaseInputComponent implements OnInit {
             securityCode: { value: '', validators: [Validators.required] },
             holderName: { value: '', validators: [Validators.required] }
         };
+
         if (this.purchase.data.customerContact !== undefined) {
             // 購入者情報入力済み
             customerContact.familyName.value = this.purchase.data.customerContact.familyName;

@@ -34,8 +34,7 @@ app.set('views', `${__dirname}/views`); // view設定
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.use(express.static(`${__dirname}/../public`)); // server
-app.use(express.static(`${__dirname}/../dist/client`)); // client
-
+app.use(express.static(`${__dirname}/../../client/${process.env.NODE_ENV}`)); // client
 router(app);
 
 export = app;

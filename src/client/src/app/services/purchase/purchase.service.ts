@@ -5,6 +5,7 @@ import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
 import * as moment from 'moment';
 import { environment } from '../../../environments/environment';
 import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
+import { AwsCognitoService } from '../aws-cognito/aws-cognito.service';
 import { SasakiMasterService } from '../sasaki/sasaki-master/sasaki-master.service';
 import { SasakiPurchaseService } from '../sasaki/sasaki-purchase/sasaki-purchase.service';
 import { SaveType, StorageService } from '../storage/storage.service';
@@ -21,7 +22,8 @@ export class PurchaseService {
     constructor(
         private storage: StorageService,
         private sasakiPurchase: SasakiPurchaseService,
-        private sasakiMaster: SasakiMasterService
+        private sasakiMaster: SasakiMasterService,
+        private awsCognito: AwsCognitoService
     ) {
         this.load();
     }
@@ -438,6 +440,20 @@ export class PurchaseService {
     }) {
         // 入力情報を登録
         this.data.customerContact = await this.sasakiPurchase.setCustomerContact(args);
+        try {
+            const updateRecordsArgs = {
+                datasetName: 'profile',
+                value: {
+                    familyName: args.contact.familyName,
+                    givenName: args.contact.givenName,
+                    email: args.contact.email,
+                    telephone: args.contact.telephone
+                }
+            };
+            await this.awsCognito.updateRecords(updateRecordsArgs);
+        } catch (err) {
+            console.log(err);
+        }
         this.save();
     }
 
@@ -470,9 +486,10 @@ export class PurchaseService {
             method: METHOD_LUMP,
             creditCard: creditCard
         };
+        this.data.orderCount += 1;
+        this.save();
         this.data.creditCardAuthorization =
             await this.sasakiPurchase.createCreditCardAuthorization(createCreditCardAuthorizationArgs);
-        this.data.orderCount += 1;
         this.save();
     }
 
@@ -514,8 +531,30 @@ export class PurchaseService {
         });
         this.storage.save('order', order, SaveType.Session);
 
-        // TODO
         // Cognitoへ登録
+        try {
+            const reservationRecord = await this.awsCognito.getRecords({
+                datasetName: 'reservation'
+            });
+            if (reservationRecord.orders === undefined) {
+                reservationRecord.orders = [];
+            }
+            reservationRecord.orders.push(order);
+            (<sasaki.factory.order.IOrder[]>reservationRecord.orders).forEach((recordOrder, index) => {
+                const endDate = moment(recordOrder.acceptedOffers[0].itemOffered.reservationFor.endDate).unix();
+                const limitDate = moment().subtract(1, 'month').unix();
+                if (endDate < limitDate) {
+                    reservationRecord.orders.splice(index, 1);
+                }
+            });
+            const updateRecordsArgs = {
+                datasetName: 'reservation',
+                value: reservationRecord
+            };
+            await this.awsCognito.updateRecords(updateRecordsArgs);
+        } catch (err) {
+            console.log('awsCognito: updateRecords', err);
+        }
 
         // 購入情報削除
         this.reset();

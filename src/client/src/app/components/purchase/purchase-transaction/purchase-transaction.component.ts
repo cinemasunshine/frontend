@@ -45,8 +45,8 @@ export class PurchaseTransactionComponent implements OnInit {
             if (!this.parametersChack()) {
                 throw new Error('parameters is undefined');
             }
-            // TODO ticketアプリテスト
-            this.parameters.identityId = 'ap-northeast-1:c93ad6a4-47e6-4023-a078-2a9ea80c15c9';
+            // ticketアプリテスト
+            // this.parameters.identityId = 'ap-northeast-1:c93ad6a4-47e6-4023-a078-2a9ea80c15c9';
             if (this.parameters.identityId !== undefined) {
                 await this.awsCognito.authenticateWithDeviceId(this.parameters.identityId);
             }

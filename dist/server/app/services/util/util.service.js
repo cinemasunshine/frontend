@@ -1,17 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const moment = require("moment");
 /**
- * アプリ判定
- * @memberof services.util
- * @function isApp
- * @param {Request} req
- * @returns {boolean}
+ * 共通
+ * @namespace services.util
  */
-function isApp(req) {
-    return (req.session !== undefined && req.session.awsCognitoIdentityId !== undefined);
-}
-exports.isApp = isApp;
+const moment = require("moment");
 /**
  * 時間フォーマット
  * @memberof services.util

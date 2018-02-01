@@ -19,9 +19,17 @@ exports.default = (app) => {
     app.use('/inquiry', inquiry_1.default);
     app.use('/method', method_1.default);
     app.get('/purchase/performances/getSchedule', purchase_controller_1.getSchedule);
+    app.get('/purchase/transaction', (req, res) => {
+        let params = `performanceId=${req.query.performanceId}&passportToken=${req.query.passportToken}`;
+        if (req.query.identityId !== undefined) {
+            params += `&identityId=${req.query.identityId}`;
+        }
+        res.redirect(`/?${params}`);
+    });
     app.get('/', (_, res) => {
-        res.locals.env = process.env.NODE_ENV;
-        res.render('purchase/index');
+        res.locals.NODE_ENV = process.env.NODE_ENV;
+        res.locals.GMO_ENDPOINT = process.env.GMO_ENDPOINT;
+        res.render('purchase/index', { layout: false });
     });
     app.get('*', (_, res) => {
         res.redirect('/');

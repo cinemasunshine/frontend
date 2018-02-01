@@ -1,8 +1,13 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-
 export const environment = {
-  production: false
+    production: false,
+    PORTAL_SITE_URL: 'http://devssktsportal.azurewebsites.net',
+    APP_SITE_URL: 'https://sskts-ticket-test.azurewebsites.net',
+    API_ENDPOINT: 'https://sskts-frontend-test.azurewebsites.net',
+    ENTRANCE_SERVER_URL: 'https://d24x7394fq3aqi.cloudfront.net',
+    MVTK_COMPANY_CODE: 'SSK000',
+
+    COGNITO_REGION: 'ap-northeast-1', // identity poolのリージョンを指定する
+    COGNITO_IDENTITY_POOL_ID: 'ap-northeast-1:6a67f523-93c3-4766-b96f-6552f21abd8d', // identity poolのID(AWS consoleで確認)
+    COGNITO_USER_POOL_ID: '',
+    COGNITO_CLIENT_ID: '',
 };
