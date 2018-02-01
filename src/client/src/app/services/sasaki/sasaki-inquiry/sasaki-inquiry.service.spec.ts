@@ -1,15 +1,15 @@
-import { TestBed, inject } from '@angular/core/testing';
+// import { TestBed, inject } from '@angular/core/testing';
 
-import { SasakiInquiryService } from './sasaki-inquiry.service';
+// import { SasakiInquiryService } from './sasaki-inquiry.service';
 
-describe('SasakiInquiryService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [SasakiInquiryService]
-    });
-  });
+// describe('SasakiInquiryService', () => {
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({
+//       providers: [SasakiInquiryService]
+//     });
+//   });
 
-  it('should be created', inject([SasakiInquiryService], (service: SasakiInquiryService) => {
-    expect(service).toBeTruthy();
-  }));
-});
+//   it('should be created', inject([SasakiInquiryService], (service: SasakiInquiryService) => {
+//     expect(service).toBeTruthy();
+//   }));
+// });

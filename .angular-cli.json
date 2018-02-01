@@ -26,6 +26,7 @@
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
+        "local": "environments/environment.ts",
         "dev": "environments/environment.dev.ts",
         "test": "environments/environment.test.ts",
         "prod": "environments/environment.prod.ts"
@@ -53,7 +54,7 @@
   ],
   "test": {
     "karma": {
-      "config": "./karma.conf.js"
+      "config": "src/client/karma.conf.js"
     }
   },
   "defaults": {
