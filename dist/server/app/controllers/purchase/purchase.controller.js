@@ -324,6 +324,28 @@ function transactionConfirm(req, res) {
 }
 exports.transactionConfirm = transactionConfirm;
 /**
+ * メール送信
+ * @function sendEmailNotification
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+function sendEmailNotification(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('transactionConfirm');
+        try {
+            const options = base_controller_1.getOptions(req);
+            const args = req.body;
+            const result = yield sasaki.service.transaction.placeOrder(options).sendEmailNotification(args);
+            res.json(result);
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.sendEmailNotification = sendEmailNotification;
+/**
  * スケジュールリスト取得
  * @memberof Purchase.PerformancesModule
  * @function getSchedule

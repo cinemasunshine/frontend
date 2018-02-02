@@ -533,28 +533,30 @@ export class PurchaseService {
         this.storage.save('transaction', this.data.transaction, SaveType.Session);
 
         // Cognitoへ登録
-        try {
-            const reservationRecord = await this.awsCognito.getRecords({
-                datasetName: 'reservation'
-            });
-            if (reservationRecord.orders === undefined) {
-                reservationRecord.orders = [];
-            }
-            reservationRecord.orders.push(order);
-            (<sasaki.factory.order.IOrder[]>reservationRecord.orders).forEach((recordOrder, index) => {
-                const endDate = moment(recordOrder.acceptedOffers[0].itemOffered.reservationFor.endDate).unix();
-                const limitDate = moment().subtract(1, 'month').unix();
-                if (endDate < limitDate) {
-                    reservationRecord.orders.splice(index, 1);
+        if (this.awsCognito.isAuthenticate()) {
+            try {
+                const reservationRecord = await this.awsCognito.getRecords({
+                    datasetName: 'reservation'
+                });
+                if (reservationRecord.orders === undefined) {
+                    reservationRecord.orders = [];
                 }
-            });
-            const updateRecordsArgs = {
-                datasetName: 'reservation',
-                value: reservationRecord
-            };
-            await this.awsCognito.updateRecords(updateRecordsArgs);
-        } catch (err) {
-            console.log('awsCognito: updateRecords', err);
+                reservationRecord.orders.push(order);
+                (<sasaki.factory.order.IOrder[]>reservationRecord.orders).forEach((recordOrder, index) => {
+                    const endDate = moment(recordOrder.acceptedOffers[0].itemOffered.reservationFor.endDate).unix();
+                    const limitDate = moment().subtract(1, 'month').unix();
+                    if (endDate < limitDate) {
+                        reservationRecord.orders.splice(index, 1);
+                    }
+                });
+                const updateRecordsArgs = {
+                    datasetName: 'reservation',
+                    value: reservationRecord
+                };
+                await this.awsCognito.updateRecords(updateRecordsArgs);
+            } catch (err) {
+                console.log('awsCognito: updateRecords', err);
+            }
         }
 
         // 購入情報削除
