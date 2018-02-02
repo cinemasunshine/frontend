@@ -33,7 +33,7 @@ export class PurchaseService {
      * @method load
      */
     public load() {
-        const data: Idata | null = this.storage.load('purchase', SaveType.Local);
+        const data: Idata | null = this.storage.load('purchase', SaveType.Session);
         if (data === null) {
             this.data = {
                 salesTickets: [],
@@ -51,7 +51,7 @@ export class PurchaseService {
      * @method save
      */
     public save() {
-        this.storage.save('purchase', this.data, SaveType.Local);
+        this.storage.save('purchase', this.data, SaveType.Session);
     }
 
     /**
@@ -530,6 +530,7 @@ export class PurchaseService {
             transactionId: this.data.transaction.id
         });
         this.storage.save('order', order, SaveType.Session);
+        this.storage.save('transaction', this.data.transaction, SaveType.Session);
 
         // Cognitoへ登録
         try {

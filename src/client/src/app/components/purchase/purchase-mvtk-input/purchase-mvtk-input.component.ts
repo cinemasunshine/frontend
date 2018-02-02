@@ -10,6 +10,7 @@ import { PurchaseService } from '../../../services/purchase/purchase.service';
 })
 export class PurchaseMvtkInputComponent implements OnInit {
     public mvtkForms: FormGroup[];
+    public mvtkInputForm: FormGroup;
     public inputValidationModal: boolean;
     public authErrorModal: boolean;
     public isLoading: boolean;
@@ -27,6 +28,7 @@ export class PurchaseMvtkInputComponent implements OnInit {
         this.authErrorModal = false;
         this.mvtkForms = [];
         this.mvtkForms.push(this.createForm());
+        this.mvtkInputForm = this.formBuilder.group({});
     }
 
     /**
@@ -80,6 +82,10 @@ export class PurchaseMvtkInputComponent implements OnInit {
 
             return;
         }
+        if (this.mvtkInputForm.disabled) {
+            return;
+        }
+        this.mvtkInputForm.disable();
         this.isLoading = true;
         try {
             const mvtkData = mvtkForms.map((mvtkForm) => {
@@ -94,7 +100,7 @@ export class PurchaseMvtkInputComponent implements OnInit {
             console.log(err);
             this.isLoading = false;
             this.authErrorModal = true;
-
+            this.mvtkInputForm.disable();
         }
     }
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorService } from '../../../services/error/error.service';
 import { IMvtkTicket, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
@@ -18,9 +19,11 @@ export class PurchaseTicketComponent implements OnInit {
     public notSelectModal: boolean;
     public salesTickets: ISalesTicketResult[];
     public salesMvtkTickets: ISalesMvtkTicket[];
+    public ticketForm: FormGroup;
 
     constructor(
         public purchase: PurchaseService,
+        private formBuilder: FormBuilder,
         private router: Router,
         private error: ErrorService
     ) { }
@@ -32,6 +35,7 @@ export class PurchaseTicketComponent implements OnInit {
         this.ticketsModal = false;
         this.discountConditionsModal = false;
         this.notSelectModal = false;
+        this.ticketForm = this.formBuilder.group({});
         try {
             this.salesTickets = this.createSalseTickets();
             this.salesMvtkTickets = this.createSalseMvtkTickets();
@@ -153,6 +157,10 @@ export class PurchaseTicketComponent implements OnInit {
 
             return;
         }
+        if (this.ticketForm.disabled) {
+            return;
+        }
+        this.ticketForm.disable();
         this.isLoading = true;
         try {
             const offers = this.offers.map((offer) => {

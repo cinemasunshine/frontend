@@ -21,5 +21,6 @@ router.post('/setCustomerContact', purchase.setCustomerContact);
 router.post('/transactionConfirm', purchase.transactionConfirm);
 router.post('/transactionStart', purchase.transactionStart);
 router.post('/getSchedule', purchase.getSchedule);
+router.post('/sendEmailNotification', purchase.sendEmailNotification);
 
 export default router;

@@ -274,6 +274,26 @@ export async function transactionConfirm(req: Request, res: Response): Promise<v
 }
 
 /**
+ * メール送信
+ * @function sendEmailNotification
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+export async function sendEmailNotification(req: Request, res: Response): Promise<void> {
+    log('transactionConfirm');
+    try {
+        const options = getOptions(req);
+        const args = req.body;
+        const result = await sasaki.service.transaction.placeOrder(options).sendEmailNotification(args);
+        res.json(result);
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}
+
+
+/**
  * スケジュールリスト取得
  * @memberof Purchase.PerformancesModule
  * @function getSchedule

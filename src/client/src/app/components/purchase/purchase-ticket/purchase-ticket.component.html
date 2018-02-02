@@ -49,7 +49,7 @@
             <br>※車椅子席をご希望の方は、お手数ですが通常のお席をご購入の上、対象の劇場にご連絡ください。
             <br>※ムビチケ券によっては別途追加料金が発生する場合がありますのでご了承ください。</p>
     </div>
-    <form (ngSubmit)="onSubmit()">
+    <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
         <app-buttons nextLabel="次へ" prevLabel="戻る" prevLink="/purchase/seat"></app-buttons>
     </form>
     <app-site-seal></app-site-seal>

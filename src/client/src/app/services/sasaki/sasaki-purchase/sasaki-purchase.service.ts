@@ -168,6 +168,17 @@ export class SasakiPurchaseService {
         return this.http.post<sasaki.factory.transaction.placeOrder.ITransaction>(url, args).toPromise();
     }
 
+    /**
+     * メール送信
+     * @param {ItransactionStartIn} args
+     */
+    public sendEmailNotification(
+        args: IsendEmailNotificationIn
+    ) {
+        const url = `${SasakiPurchaseService.ENDPOINT}/sendEmailNotification`;
+        return this.http.post<sasaki.factory.task.sendEmailNotification.ITask>(url, args).toPromise();
+    }
+
 }
 
 type ICreditCard = sasaki.factory.paymentMethod.paymentCard.creditCard.IUncheckedCardRaw
@@ -312,6 +323,17 @@ export interface ItransactionStartIn {
      * 指定しなければ、バックエンドで許可証を発行しにいく
      */
     passportToken?: string;
+}
+
+export interface IsendEmailNotificationIn {
+    /**
+     * 取引ID
+     */
+    transactionId: string;
+    /**
+     * Eメールメッセージ属性
+     */
+    emailMessageAttributes: sasaki.factory.creativeWork.message.email.IAttributes;
 }
 
 export type IOrder = sasaki.factory.order.IOrder;

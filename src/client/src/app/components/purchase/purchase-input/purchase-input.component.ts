@@ -63,6 +63,9 @@ export class PurchaseInputComponent implements OnInit {
      * @method onSubmit
      */
     public async onSubmit() {
+        if (this.inputForm.disabled) {
+            return;
+        }
         if (this.inputForm.invalid) {
             const element: HTMLElement = this.elementRef.nativeElement;
             const validation = <HTMLElement>element.querySelector('.validation');
@@ -76,6 +79,7 @@ export class PurchaseInputComponent implements OnInit {
 
             return;
         }
+        this.inputForm.disable();
         this.isLoading = true;
         try {
             if (this.purchase.data.transaction === undefined) {
@@ -93,6 +97,7 @@ export class PurchaseInputComponent implements OnInit {
                 this.inputForm.controls.cardNumber.setValue('');
                 this.inputForm.controls.securityCode.setValue('');
                 this.inputForm.controls.holderName.setValue('');
+                this.inputForm.disable();
 
                 return;
             }

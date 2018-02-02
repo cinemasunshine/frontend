@@ -41,9 +41,15 @@ const routes: Routes = [
             { path: 'purchase/ticket', component: PurchaseTicketComponent },
             { path: 'purchase/input', component: PurchaseInputComponent },
             { path: 'purchase/confirm', component: PurchaseConfirmComponent },
-            { path: 'purchase/complete', component: PurchaseCompleteComponent },
             { path: 'purchase/mvtk/input', component: PurchaseMvtkInputComponent },
             { path: 'purchase/mvtk/confirm', component: PurchaseMvtkConfirmComponent }
+        ]
+    },
+    {
+        path: '',
+        component: PurchaseBaseComponent,
+        children: [
+            { path: 'purchase/complete', component: PurchaseCompleteComponent }
         ]
     },
     {
