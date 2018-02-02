@@ -164,7 +164,7 @@ interface ICoaSchedule {
 }
 
 let coaSchedules: ICoaSchedule[] = [];
-coaSchedulesUpdate();
+coaSchedulesUpdate().then().catch();
 
 /**
  * COAスケジュール更新

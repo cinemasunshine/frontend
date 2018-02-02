@@ -175,7 +175,7 @@ function getSchedule(req, res) {
 }
 exports.getSchedule = getSchedule;
 let coaSchedules = [];
-coaSchedulesUpdate();
+coaSchedulesUpdate().then().catch();
 /**
  * COAスケジュール更新
  * @function coaSchedulesUpdate
