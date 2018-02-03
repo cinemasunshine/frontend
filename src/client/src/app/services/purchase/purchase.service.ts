@@ -529,8 +529,12 @@ export class PurchaseService {
         const order = await this.sasakiPurchase.transactionConfirm({
             transactionId: this.data.transaction.id
         });
-        this.storage.save('order', order, SaveType.Session);
-        this.storage.save('transaction', this.data.transaction, SaveType.Session);
+        const complete = {
+            order: order,
+            transaction: this.data.transaction,
+            movieTheaterOrganization: this.data.movieTheaterOrganization
+        };
+        this.storage.save('complete', complete, SaveType.Session);
 
         // Cognitoへ登録
         if (this.awsCognito.isAuthenticate()) {

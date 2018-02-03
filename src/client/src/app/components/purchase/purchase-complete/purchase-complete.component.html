@@ -10,7 +10,7 @@
             <dl>
                 <dt>予約番号</dt>
                 <dd>
-                    <strong class="red-text large-x-text">{{ order.confirmationNumber }}</strong>
+                    <strong class="red-text large-x-text">{{ data.order.confirmationNumber }}</strong>
                     <p class="small-x-text">※チケットの発行等に必要な番号となりますので必ず忘れないようにしてください。</p>
                 </dd>
             </dl>
@@ -39,7 +39,7 @@
             <dl>
                 <dt>座席</dt>
                 <dd>
-                    <p *ngFor="let offer of this.order.acceptedOffers">
+                    <p *ngFor="let offer of data.order.acceptedOffers">
                         {{ offer.itemOffered.reservedTicket.coaTicketInfo.seatNum }} {{ offer.itemOffered.reservedTicket.coaTicketInfo.ticketName
                         }} ￥{{ offer.price }}
                     </p>
@@ -49,13 +49,13 @@
         <li>
             <dl>
                 <dt>ご利用金額</dt>
-                <dd>￥{{ order.price }}</dd>
+                <dd>￥{{ data.order.price }}</dd>
             </dl>
         </li>
         <li>
             <dl>
                 <dt>メールアドレス</dt>
-                <dd>{{ order.customer.email }}</dd>
+                <dd>{{ data.order.customer.email }}</dd>
             </dl>
         </li>
     </ul>
@@ -67,11 +67,11 @@
                 <br>購入完了後、購入完了メールが届かない場合は下記2点をご確認ください。
                 <br>また、購入完了メールは自動送信のため再送信は致しかねます。
                 <br>購入できているかのご確認は「予約番号」をお控えのうえ
-                <a class="inquiry-login-link" href="/inquiry/login?theater=101&amp;reserve=161073" target="_blank">チケット照会ページ</a>よりご確認ください。
+                <a class="inquiry-login-link" href="{{ getInquiryUrl() }}" target="_blank">チケット照会ページ</a>よりご確認ください。
                 <br>・ご入力いただいたメールアドレスに不備があった場合やメールの着信を拒否されている場合は購入完了メールが受け取れない場合があります。
                 <br>・プロバイダのメール設定、携帯キャリア会社のメール設定のフィルタリング機能を有効にしている方は「削除フォルダ」または「迷惑メールフォルダ」をご確認ください。</p>
             <div class="button dark-blue-button print-button center-button not-print">
-                <a class="icon-print-white" href="#">印刷する</a>
+                <a class="icon-print-white" (click)="print()">印刷する</a>
             </div>
         </div>
 
@@ -92,11 +92,11 @@
                                 <img src="/assets/images/purchase/complete/qr.svg" alt="">
                             </div>
                             <div class="button blue-button inquiry-button mb-small center-button">
-                                <a class="icon-new-tab-white" href="/inquiry/login?theater=101&amp;reserve=161073" target="_blank">チケット情報確認</a>
+                                <a class="icon-new-tab-white" href="{{ getInquiryUrl() }}" target="_blank">チケット情報確認</a>
                             </div>
                             <p>スマートフォンをお持ちでない方は当日チケット発券/入場も可能です。
                                 <br>発券方法は
-                                <a class="icon-new-tab-blue" href="/method/ticketing" target="_blank">こちら</a>
+                                <a class="icon-new-tab-blue" href="{{ environment.API_ENDPOINT }}/method/ticketing" target="_blank">こちら</a>
                             </p>
                         </dd>
                     </dl>
