@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.4.1 - 2017-02-02
+### Fixed
+ - OAスケジュールと整合性を合わせる修正
+ - スマホアプリ用文言修正
+
 ## 2.4.0 - 2017-01-23
 ### Added
  - スクリーン生成API追加

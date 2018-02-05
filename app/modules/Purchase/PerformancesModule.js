@@ -152,13 +152,16 @@ function getSchedule(req, res) {
             // };
             // log(args);
             const screeningEvents = yield sasaki.service.event(options).searchIndividualScreeningEvent(args);
-            const checkedScreeningEvents = yield checkedSchedules({
+            const diffCheckedScreeningEvents = yield checkedSchedules({
                 theaters: theaters,
                 screeningEvents: screeningEvents
             });
+            const availableCheckedScreeningEvents = diffCheckedScreeningEvents.filter((screeningEvent) => {
+                return (screeningEvent.coaInfo.availableNum > 0);
+            });
             const result = {
                 theaters: theaters,
-                screeningEvents: checkedScreeningEvents
+                screeningEvents: availableCheckedScreeningEvents
             };
             res.json({ result: result });
         }
@@ -175,7 +178,7 @@ function getSchedule(req, res) {
 }
 exports.getSchedule = getSchedule;
 let coaSchedules = [];
-coaSchedulesUpdate();
+coaSchedulesUpdate().then().catch();
 /**
  * COAスケジュール更新
  * @function coaSchedulesUpdate
