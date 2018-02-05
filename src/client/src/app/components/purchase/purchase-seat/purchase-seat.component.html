@@ -2,7 +2,7 @@
     <h1 class="page-ttl">座席選択</h1>
     <p class="read">ご希望の座席を選択して「次へ」ボタンを押してください。
         <br>選択できる座席数は最大
-        <span class="seat-limit-text">4</span>席までとなります。
+        <span class="seat-limit-text">{{ purchase.data.individualScreeningEvent?.coaInfo.availableNum }}</span>席までとなります。
         <br>
         <span class="sp-text">画面をタッチすると画面がズームしますので座席を選択してください。
             <br>
