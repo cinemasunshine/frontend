@@ -137,13 +137,16 @@ export async function getSchedule(req: Request, res: Response): Promise<void> {
         // };
         // log(args);
         const screeningEvents = await sasaki.service.event(options).searchIndividualScreeningEvent(args);
-        const checkedScreeningEvents = await checkedSchedules({
+        const diffCheckedScreeningEvents = await checkedSchedules({
             theaters: theaters,
             screeningEvents: screeningEvents
         });
+        const availableCheckedScreeningEvents = diffCheckedScreeningEvents.filter((screeningEvent) => {
+            return (screeningEvent.coaInfo.availableNum > 0);
+        });
         const result = {
             theaters: theaters,
-            screeningEvents: checkedScreeningEvents
+            screeningEvents: availableCheckedScreeningEvents
         };
         res.json({ result: result });
     } catch (err) {
