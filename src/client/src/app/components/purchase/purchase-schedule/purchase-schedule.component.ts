@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
+import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
+import { SasakiService } from '../../../services/sasaki/sasaki.service';
 
 type IMovieTheater = sasaki.factory.organization.movieTheater.IPublicFields;
 type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
@@ -33,7 +34,8 @@ export class PurchaseScheduleComponent implements OnInit {
     constructor(
         private sasakiMaster: SasakiMasterService,
         private error: ErrorService,
-        private purchase: PurchaseService
+        private purchase: PurchaseService,
+        private sasakiService: SasakiService
     ) {
         this.theaters = [];
         this.dateList = [];
@@ -64,6 +66,14 @@ export class PurchaseScheduleComponent implements OnInit {
             this.error.redirect(err);
         }
         this.isLoading = false;
+        try {
+            await this.sasakiService.getServices();
+            console.log(this.sasakiService.oauth2Client);
+            const searchMovieTheaters = await this.sasakiService.organization.searchMovieTheaters();
+            console.log(searchMovieTheaters);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     /**

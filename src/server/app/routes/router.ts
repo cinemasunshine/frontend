@@ -3,6 +3,7 @@
  */
 import * as express from 'express';
 import { getSchedule } from '../controllers/purchase/purchase.controller';
+import authorizeRouter from './authorize';
 import inquiryRouter from './inquiry';
 import masterRouter from './master';
 import methodRouter from './method';
@@ -19,6 +20,7 @@ export default (app: express.Application) => {
     });
     app.use('/api/purchase', purchaseRouter);
     app.use('/api/master', masterRouter);
+    app.use('/api/authorize', authorizeRouter);
     app.use('/inquiry', inquiryRouter);
     app.use('/method', methodRouter);
     app.get('/purchase/performances/getSchedule', getSchedule);

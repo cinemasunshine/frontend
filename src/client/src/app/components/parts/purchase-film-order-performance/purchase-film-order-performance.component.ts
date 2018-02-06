@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
+import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import { environment } from '../../../../environments/environment';
 
 type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;

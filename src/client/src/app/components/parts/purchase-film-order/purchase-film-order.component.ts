@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
+import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 
 type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
 interface IFilmOrder {

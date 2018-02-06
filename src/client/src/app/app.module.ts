@@ -50,6 +50,7 @@ import { PurchaseService } from './services/purchase/purchase.service';
 import { SasakiInquiryService } from './services/sasaki/sasaki-inquiry/sasaki-inquiry.service';
 import { SasakiMasterService } from './services/sasaki/sasaki-master/sasaki-master.service';
 import { SasakiPurchaseService } from './services/sasaki/sasaki-purchase/sasaki-purchase.service';
+import { SasakiService } from './services/sasaki/sasaki.service';
 import { StorageService } from './services/storage/storage.service';
 
 @NgModule({
@@ -108,7 +109,8 @@ import { StorageService } from './services/storage/storage.service';
         StorageService,
         PurchaseService,
         AwsCognitoService,
-        CallNativeService
+        CallNativeService,
+        SasakiService
     ],
     bootstrap: [AppComponent]
 })

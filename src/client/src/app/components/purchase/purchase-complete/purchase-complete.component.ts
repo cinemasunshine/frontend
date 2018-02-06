@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
+import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 import { TimeFormatPipe } from '../../../pipes/time-format/time-format.pipe';
