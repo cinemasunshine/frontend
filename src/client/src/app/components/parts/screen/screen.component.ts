@@ -4,7 +4,7 @@ import * as COA from '@motionpicture/coa-service';
 import 'rxjs/add/operator/toPromise';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
-import { SasakiPurchaseService } from '../../../services/sasaki/sasaki-purchase/sasaki-purchase.service';
+import { SasakiService } from '../../../services/sasaki/sasaki.service';
 
 @Component({
     selector: 'app-screen',
@@ -27,8 +27,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     constructor(
         private elementRef: ElementRef,
         private http: HttpClient,
-        private sasakiPurchase: SasakiPurchaseService,
         private purchase: PurchaseService,
+        private sasakiService: SasakiService,
         private error: ErrorService
     ) { }
 
@@ -196,7 +196,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         this.screenCode = `000${this.purchase.data.individualScreeningEvent.location.branchCode}`.slice(DIGITS['03']);
         const screen = await this.http.get<IScreen>(`/assets/json/theater/${this.theaterCode}/${this.screenCode}.json`).toPromise();
         const setting = await this.http.get<IScreen>('/assets/json/theater/setting.json').toPromise();
-        const seatStatus = await this.sasakiPurchase.getSeatState({
+        await this.sasakiService.getServices();
+        const seatStatus = await this.sasakiService.getSeatState({
             theaterCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode,
             dateJouei: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei,
             titleCode: this.purchase.data.individualScreeningEvent.coaInfo.titleCode,

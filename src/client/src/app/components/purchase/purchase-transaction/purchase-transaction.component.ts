@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
-import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
+import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { SaveType, StorageService } from '../../../services/storage/storage.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class PurchaseTransactionComponent implements OnInit {
     constructor(
         private storage: StorageService,
         private router: Router,
-        private sasakiMaster: SasakiMasterService,
+        private sasakiService: SasakiService,
         private purchase: PurchaseService,
         private error: ErrorService,
         private awsCognito: AwsCognitoService
@@ -50,8 +50,9 @@ export class PurchaseTransactionComponent implements OnInit {
             if (this.parameters.identityId !== undefined) {
                 await this.awsCognito.authenticateWithDeviceId(this.parameters.identityId);
             }
+            await this.sasakiService.getServices();
             // イベント情報取得
-            const individualScreeningEvent = await this.sasakiMaster.getEvent({
+            const individualScreeningEvent = await this.sasakiService.event.findIndividualScreeningEvent({
                 identifier: (<string>this.parameters.performanceId)
             });
             // 開始可能日判定

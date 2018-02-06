@@ -3,7 +3,6 @@ import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
-import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 
 type IMovieTheater = sasaki.factory.organization.movieTheater.IPublicFields;
@@ -32,7 +31,6 @@ export class PurchaseScheduleComponent implements OnInit {
     public conditions: { theater: string; date: string };
 
     constructor(
-        private sasakiMaster: SasakiMasterService,
         private error: ErrorService,
         private purchase: PurchaseService,
         private sasakiService: SasakiService
@@ -55,7 +53,8 @@ export class PurchaseScheduleComponent implements OnInit {
         window.scrollTo(0, 0);
         this.isLoading = true;
         try {
-            this.theaters = await this.sasakiMaster.getTheaters();
+            await this.sasakiService.getServices();
+            this.theaters = await this.sasakiService.organization.searchMovieTheaters();
             this.dateList = this.getDateList(3);
             this.conditions = {
                 theater: this.theaters[0].location.branchCode,
@@ -66,14 +65,6 @@ export class PurchaseScheduleComponent implements OnInit {
             this.error.redirect(err);
         }
         this.isLoading = false;
-        try {
-            await this.sasakiService.getServices();
-            console.log(this.sasakiService.oauth2Client);
-            const searchMovieTheaters = await this.sasakiService.organization.searchMovieTheaters();
-            console.log(searchMovieTheaters);
-        } catch (err) {
-            console.log(err);
-        }
     }
 
     /**
@@ -103,10 +94,11 @@ export class PurchaseScheduleComponent implements OnInit {
         this.isLoading = true;
         this.filmOrder = [];
         try {
-            this.schedules = await this.sasakiMaster.getSchedules({
+            await this.sasakiService.getServices();
+            this.schedules = await this.sasakiService.event.searchIndividualScreeningEvent({
                 theater: this.conditions.theater,
-                startFrom: (<any>moment(this.conditions.date).toISOString()),
-                startThrough: (<any>moment(this.conditions.date).add(1, 'day').toISOString())
+                startFrom: moment(this.conditions.date).toDate(),
+                startThrough: moment(this.conditions.date).add(1, 'day').toDate()
             });
             this.filmOrder = this.getEventFilmOrder();
             console.log(this.filmOrder);

@@ -5,7 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { TimeFormatPipe } from '../../../pipes/time-format/time-format.pipe';
 import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
-import { SasakiPurchaseService } from '../../../services/sasaki/sasaki-purchase/sasaki-purchase.service';
+import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { SaveType, StorageService } from '../../../services/storage/storage.service';
 
 @Component({
@@ -25,8 +25,8 @@ export class PurchaseCompleteComponent implements OnInit {
     constructor(
         private storage: StorageService,
         private error: ErrorService,
-        private sasakiPurchase: SasakiPurchaseService,
-        private awsCognito: AwsCognitoService
+        private awsCognito: AwsCognitoService,
+        private sasakiService: SasakiService
     ) { }
 
     public ngOnInit() {
@@ -145,7 +145,8 @@ export class PurchaseCompleteComponent implements OnInit {
             }
         };
         try {
-            this.data.sendEmailNotification = await this.sasakiPurchase.sendEmailNotification(sendEmailNotificationArgs);
+            this.data.sendEmailNotification =
+                await this.sasakiService.transaction.placeOrder.sendEmailNotification(sendEmailNotificationArgs);
         } catch (err) {
             const limit = 10;
             if (count < limit) {
@@ -179,8 +180,8 @@ ${this.getScreenName()}
 
 [座席]
 ${this.data.order.acceptedOffers.map((offer) => {
-    return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.price}`;
-}).join('\n')}
+                return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.price}`;
+            }).join('\n')}
 [合計]
 ￥${this.data.order.price}
 
@@ -231,8 +232,8 @@ ${this.getScreenName()}
 
 [座席]
 ${this.data.order.acceptedOffers.map((offer) => {
-    return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.price}`;
-}).join('\n')}
+                return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.price}`;
+            }).join('\n')}
 [合計]
 ￥${this.data.order.price}
 

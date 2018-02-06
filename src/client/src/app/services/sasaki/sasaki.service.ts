@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as COA from '@motionpicture/coa-service';
+import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
+import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
 import { environment } from '../../../environments/environment';
 
@@ -15,10 +18,11 @@ export class SasakiService {
     public transaction: {
         placeOrder: sasaki.service.transaction.PlaceOrder
     };
+    private expired: number;
 
-    constructor(private http: HttpClient) {
-
-    }
+    constructor(
+        private http: HttpClient
+    ) { }
 
     /**
      * getServices
@@ -44,7 +48,9 @@ export class SasakiService {
      * @method createOption
      */
     public async createOption() {
-        if (this.oauth2Client === undefined || this.oauth2Client.credentials === undefined) {
+        if (this.oauth2Client === undefined
+            || this.oauth2Client.credentials === undefined
+            || this.expired < moment().unix()) {
             await this.authorize();
         }
         return {
@@ -60,24 +66,80 @@ export class SasakiService {
         const url = `${environment.API_ENDPOINT}/api/authorize/getCredentials`;
         const credentials = await this.http.get<any>(url, {}).toPromise();
         const option = {
-            domain: environment.AUTHORIZE_SERVER_DOMAIN,
+            domain: '',
             clientId: '',
             redirectUri: '',
             logoutUri: '',
             responseType: '',
-            scope: [
-                `${environment.RESOURCE_SERVER_URL}/transactions`,
-                `${environment.RESOURCE_SERVER_URL}/events.read-only`,
-                `${environment.RESOURCE_SERVER_URL}/organizations.read-only`,
-                `${environment.RESOURCE_SERVER_URL}/orders.read-only`,
-                `${environment.RESOURCE_SERVER_URL}/places.read-only`
-            ].join(','),
+            scope: '',
             state: '',
             nonce: null,
-            tokenIssuer: environment.TOKEN_ISSUER
+            tokenIssuer: ''
         };
         this.oauth2Client = sasaki.createAuthInstance(option);
         this.oauth2Client.setCredentials(credentials);
+        const expired = 15;
+        this.expired = moment().add(expired, 'minutes').unix();
+    }
+
+    /**
+     * ムビチケ照会
+     * @param {mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn} args
+     */
+    public mvtkPurchaseNumberAuth(
+        args: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/purchase/mvtkPurchaseNumberAuth`;
+        return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, args).toPromise();
+    }
+
+    /**
+     * ムビチケ座席指定情報連携
+     * @param {mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn} args
+     */
+    public mvtksSatInfoSync(
+        args: mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/purchase/mvtksSatInfoSync`;
+        return this.http.post<mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncResult>(url, args).toPromise();
+    }
+
+    /**
+     * 座席ステータス取得
+     * @param {COA.services.reserve.IStateReserveSeatArgs} args
+     */
+    public getSeatState(
+        args: COA.services.reserve.IStateReserveSeatArgs
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/purchase/getSeatState`;
+        return this.http.get<COA.services.reserve.IStateReserveSeatResult>(url, {
+            params: <any>args
+        }).toPromise();
+    }
+
+    /**
+     * ムビチケチケットコード取得
+     * @param {COA.services.master.IMvtkTicketcodeArgs} args
+     */
+    public mvtkTicketcode(
+        args: COA.services.master.IMvtkTicketcodeArgs
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/purchase/mvtkTicketcode`;
+        return this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
+    }
+
+    /**
+     * 券種取得
+     * @method getSalesTickets
+     * @param {COA.services.reserve.ISalesTicketArgs} args
+     */
+    public getSalesTickets(
+        args: COA.services.reserve.ISalesTicketArgs
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/master/getSalesTickets`;
+        return this.http.get<COA.services.reserve.ISalesTicketResult[]>(url, {
+            params: <any>args
+        }).toPromise();
     }
 
 }

@@ -47,9 +47,6 @@ import { CallNativeService } from './services/call-native/call-native.service';
 import { ErrorService } from './services/error/error.service';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
 import { PurchaseService } from './services/purchase/purchase.service';
-import { SasakiInquiryService } from './services/sasaki/sasaki-inquiry/sasaki-inquiry.service';
-import { SasakiMasterService } from './services/sasaki/sasaki-master/sasaki-master.service';
-import { SasakiPurchaseService } from './services/sasaki/sasaki-purchase/sasaki-purchase.service';
 import { SasakiService } from './services/sasaki/sasaki.service';
 import { StorageService } from './services/storage/storage.service';
 
@@ -102,9 +99,6 @@ import { StorageService } from './services/storage/storage.service';
     ],
     providers: [
         PurchaseGuardService,
-        SasakiInquiryService,
-        SasakiMasterService,
-        SasakiPurchaseService,
         ErrorService,
         StorageService,
         PurchaseService,

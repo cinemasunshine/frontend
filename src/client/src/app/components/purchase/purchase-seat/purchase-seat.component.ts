@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorService } from '../../../services/error/error.service';
 import { IIndividualScreeningEvent, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
-import { SasakiMasterService } from '../../../services/sasaki/sasaki-master/sasaki-master.service';
+import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { ISeat } from '../../parts/screen/screen.component';
 
 @Component({
@@ -22,7 +22,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         public purchase: PurchaseService,
         private router: Router,
         private formBuilder: FormBuilder,
-        private sasakiMaster: SasakiMasterService,
+        private sasakiService: SasakiService,
         private error: ErrorService
     ) { }
 
@@ -58,7 +58,8 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
      */
     public async fitchSalesTickets() {
         const individualScreeningEvent = <IIndividualScreeningEvent>this.purchase.data.individualScreeningEvent;
-        const salesTickets = await this.sasakiMaster.getSalesTickets({
+        await this.sasakiService.getServices();
+        const salesTickets = await this.sasakiService.getSalesTickets({
             theaterCode: individualScreeningEvent.coaInfo.theaterCode,
             dateJouei: individualScreeningEvent.coaInfo.dateJouei,
             titleCode: individualScreeningEvent.coaInfo.titleCode,

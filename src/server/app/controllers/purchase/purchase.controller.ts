@@ -6,7 +6,6 @@ import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
 import * as debug from 'debug';
 import { Request, Response } from 'express';
-import * as moment from 'moment';
 import { errorProsess, getOptions } from '../base/base.controller';
 const log = debug('SSKTS:purchase');
 
@@ -22,83 +21,6 @@ export async function getSeatState(req: Request, res: Response): Promise<void> {
     try {
         const args = req.query;
         const result = await COA.services.reserve.stateReserveSeat(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * 取引開始
- * @function transactionStart
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function transactionStart(req: Request, res: Response): Promise<void> {
-    log('transactionStart');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        args.expires = moment(args.expires).toDate();
-        const result = await new sasaki.service.transaction.PlaceOrder(options).start(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * 座席登録
- * @function createSeatReservation
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function createSeatReservation(req: Request, res: Response): Promise<void> {
-    log('createSeatReservation');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).createSeatReservationAuthorization(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * 座席更新
- * @function changeSeatReservation
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function changeSeatReservation(req: Request, res: Response): Promise<void> {
-    log('changeSeatReservation');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).changeSeatReservationOffers(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * 座席削除
- * @function cancelSeatReservation
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function cancelSeatReservation(req: Request, res: Response): Promise<void> {
-    log('cancelSeatReservation');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).cancelSeatReservationAuthorization(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -141,100 +63,6 @@ export async function mvtkPurchaseNumberAuth(req: Request, res: Response): Promi
     }
 }
 
-/**
- * ムビチケ登録
- * @function createMvtkAuthorization
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function createMvtkAuthorization(req: Request, res: Response): Promise<void> {
-    log('createMvtkAuthorization');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).createMvtkAuthorization(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * ムビチケ削除
- * @function cancelMvtkAuthorization
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function cancelMvtkAuthorization(req: Request, res: Response): Promise<void> {
-    log('cancelMvtkAuthorization');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).cancelMvtkAuthorization(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * 購入者情報登録
- * @function setCustomerContact
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function setCustomerContact(req: Request, res: Response): Promise<void> {
-    log('setCustomerContact');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).setCustomerContact(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * クレジットカード登録
- * @function createCreditCardAuthorization
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function createCreditCardAuthorization(req: Request, res: Response): Promise<void> {
-    log('createCreditCardAuthorization');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).createCreditCardAuthorization(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * クレジットカード削除
- * @function cancelCreditCardAuthorization
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function cancelCreditCardAuthorization(req: Request, res: Response): Promise<void> {
-    log('cancelCreditCardAuthorization');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).cancelCreditCardAuthorization(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
 
 /**
  * ムビチケ座席指定情報連携
@@ -253,45 +81,6 @@ export async function mvtksSatInfoSync(req: Request, res: Response): Promise<voi
         errorProsess(res, err);
     }
 }
-
-/**
- * 購入確定
- * @function setCustomerContact
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function transactionConfirm(req: Request, res: Response): Promise<void> {
-    log('transactionConfirm');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.transaction.PlaceOrder(options).confirm(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
-/**
- * メール送信
- * @function sendEmailNotification
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function sendEmailNotification(req: Request, res: Response): Promise<void> {
-    log('transactionConfirm');
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await sasaki.service.transaction.placeOrder(options).sendEmailNotification(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
-
 
 /**
  * スケジュールリスト取得
