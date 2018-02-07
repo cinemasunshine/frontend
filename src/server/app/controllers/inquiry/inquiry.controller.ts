@@ -7,25 +7,8 @@ import { Request, Response } from 'express';
 import { NOT_FOUND } from 'http-status';
 import * as moment from 'moment';
 import { InquiryModel } from '../../models/inquiry/inquiry.model';
-import { errorProsess, getOptions } from '../base/base.controller';
+import { getOptions } from '../base/base.controller';
 const log = debug('SSKTS:inquiry');
-/**
- * 予約情報取得
- * @function getOrder
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-export async function getOrder(req: Request, res: Response): Promise<void> {
-    try {
-        const options = getOptions(req);
-        const args = req.body;
-        const result = await new sasaki.service.Order(options).findByOrderInquiryKey(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
 
 /**
  * 照会表示

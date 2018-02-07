@@ -19,27 +19,6 @@ const inquiry_model_1 = require("../../models/inquiry/inquiry.model");
 const base_controller_1 = require("../base/base.controller");
 const log = debug('SSKTS:inquiry');
 /**
- * 予約情報取得
- * @function getOrder
- * @param {Request} req
- * @param {Response} res
- * @returns {Promise<void>}
- */
-function getOrder(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const options = base_controller_1.getOptions(req);
-            const args = req.body;
-            const result = yield new sasaki.service.Order(options).findByOrderInquiryKey(args);
-            res.json(result);
-        }
-        catch (err) {
-            base_controller_1.errorProsess(res, err);
-        }
-    });
-}
-exports.getOrder = getOrder;
-/**
  * 照会表示
  * @function render
  * @param {Request} req
