@@ -29,7 +29,7 @@ export class PurchaseConfirmComponent implements OnInit {
     }
 
     public async onSubmit() {
-        if (this.confirmForm.invalid || this.confirmForm.disable) {
+        if (this.confirmForm.invalid || this.confirmForm.disabled) {
             return;
         }
         this.confirmForm.disable();

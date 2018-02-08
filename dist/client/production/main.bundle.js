@@ -2927,7 +2927,7 @@ var PurchaseConfirmComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (this.confirmForm.invalid || this.confirmForm.disable) {
+                        if (this.confirmForm.invalid || this.confirmForm.disabled) {
                             return [2 /*return*/];
                         }
                         this.confirmForm.disable();
