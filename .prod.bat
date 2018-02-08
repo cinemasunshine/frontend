@@ -1,7 +1,0 @@
-set SSKTS_API_ENDPOINT=https://sskts-api-production.azurewebsites.net
-set AUTHORIZE_SERVER_DOMAIN=sskts-production.auth.ap-northeast-1.amazoncognito.com
-set RESOURCE_SERVER_URL=https://sskts-api-production.azurewebsites.net
-set CLIENT_ID=3bdfg44fqoi0p2st3fmdcbvr92
-set CLIENT_SECRET=1ln434sqss3eh9icdt92u94k2uqr69cgivc9ejv48uqbgr0iufeb
-set COA_ENDPOINT=https://api1.css-ebox.jp
-set COA_REFRESH_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkX2F0IjoxNDc5MjYwODQ4LCJhdXRoX2lkIjoiMzMxNSJ9.jx-w7D3YLP7UbY4mzJYC9xr368FiKWcpR2_L9mZfehQ
