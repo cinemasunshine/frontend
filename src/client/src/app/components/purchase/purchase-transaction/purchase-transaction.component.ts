@@ -76,6 +76,7 @@ export class PurchaseTransactionComponent implements OnInit {
                 passportToken: <string>this.parameters.passportToken,
                 individualScreeningEvent: individualScreeningEvent
             });
+            this.storage.remove('parameters', SaveType.Session);
             this.router.navigate(['/purchase/seat'], { replaceUrl: true });
         } catch (err) {
             this.error.redirect(err);

@@ -2927,7 +2927,7 @@ var PurchaseConfirmComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (this.confirmForm.invalid && this.confirmForm.disable) {
+                        if (this.confirmForm.invalid || this.confirmForm.disable) {
                             return [2 /*return*/];
                         }
                         this.confirmForm.disable();
@@ -4720,7 +4720,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
                             this.notSelectSeatModal = true;
                             return [2 /*return*/];
                         }
-                        if (this.seatForm.invalid && this.seatForm.disabled) {
+                        if (this.seatForm.invalid || this.seatForm.disabled) {
                             return [2 /*return*/];
                         }
                         this.seatForm.disable();
@@ -5511,6 +5511,7 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                             })];
                     case 5:
                         _a.sent();
+                        this.storage.remove('parameters', __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__["a" /* SaveType */].Session);
                         this.router.navigate(['/purchase/seat'], { replaceUrl: true });
                         return [3 /*break*/, 7];
                     case 6:
@@ -7052,7 +7053,6 @@ var SaveType;
 })(SaveType || (SaveType = {}));
 var StorageService = /** @class */ (function () {
     function StorageService() {
-        console.log('StorageService');
     }
     StorageService.prototype.load = function (key, saveType) {
         var storage = (saveType === SaveType.Session) ? sessionStorage : localStorage;
