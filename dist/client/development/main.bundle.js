@@ -3327,6 +3327,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                         if (this.purchase.data.transaction === undefined) {
                             throw new Error('status is different');
                         }
+                        if (!(this.purchase.getTotalPrice() - this.purchase.getMvtkTotalPrice() > 0)) return [3 /*break*/, 6];
                         _b.label = 2;
                     case 2:
                         _b.trys.push([2, 5, , 6]);
@@ -6487,9 +6488,9 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.ticketRegistrationProcess = function (offers) {
         return __awaiter(this, void 0, void 0, function () {
-            var changeSeatReservationArgs, _a, createMvtkAuthorizationArgs;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var changeSeatReservationArgs, _a, createMvtkAuthorizationArgs, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         if (this.data.transaction === undefined
                             || this.data.tmpSeatReservationAuthorization === undefined
@@ -6498,7 +6499,7 @@ var PurchaseService = /** @class */ (function () {
                         }
                         return [4 /*yield*/, this.sasakiService.getServices()];
                     case 1:
-                        _b.sent();
+                        _c.sent();
                         changeSeatReservationArgs = {
                             transactionId: this.data.transaction.id,
                             actionId: this.data.tmpSeatReservationAuthorization.id,
@@ -6509,16 +6510,15 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.sasakiService.transaction.placeOrder.changeSeatReservationOffers(changeSeatReservationArgs)];
                     case 2:
                         _a.seatReservationAuthorization =
-                            _b.sent();
+                            _c.sent();
                         if (this.data.seatReservationAuthorization === undefined) {
                             throw new Error('status is different');
                         }
                         if (!this.isReserveMvtk()) return [3 /*break*/, 4];
-                        if (this.data.mvtkAuthorization === undefined) {
+                        if (this.data.mvtkTickets === undefined) {
                             throw new Error('status is different');
                         }
                         createMvtkAuthorizationArgs = {
-                            actionId: this.data.mvtkAuthorization.id,
                             transactionId: this.data.transaction.id,
                             mvtk: {
                                 price: this.getMvtkTotalPrice(),
@@ -6527,11 +6527,12 @@ var PurchaseService = /** @class */ (function () {
                             }
                         };
                         console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
-                        return [4 /*yield*/, this.sasakiService.transaction.placeOrder.cancelMvtkAuthorization(createMvtkAuthorizationArgs)];
+                        _b = this.data;
+                        return [4 /*yield*/, this.sasakiService.transaction.placeOrder.createMvtkAuthorization(createMvtkAuthorizationArgs)];
                     case 3:
-                        _b.sent();
-                        this.data.mvtkAuthorization = undefined;
-                        _b.label = 4;
+                        _b.mvtkAuthorization =
+                            _c.sent();
+                        _c.label = 4;
                     case 4:
                         this.save();
                         return [2 /*return*/];

@@ -85,21 +85,23 @@ export class PurchaseInputComponent implements OnInit {
             if (this.purchase.data.transaction === undefined) {
                 throw new Error('status is different');
             }
-            try {
-                this.purchase.data.gmoTokenObject = await this.getGmoObject();
-                // クレジットカード処理
-                await this.purchase.creditCardPaymentProcess((<IGmoTokenObject>this.purchase.data.gmoTokenObject).token);
-            } catch (err) {
-                console.error(err);
-                // クレジットカード処理失敗
-                this.isLoading = false;
-                this.creditCardAlertModal = true;
-                this.inputForm.controls.cardNumber.setValue('');
-                this.inputForm.controls.securityCode.setValue('');
-                this.inputForm.controls.holderName.setValue('');
-                this.inputForm.disable();
+            if (this.purchase.getTotalPrice() - this.purchase.getMvtkTotalPrice() > 0) {
+                try {
+                    this.purchase.data.gmoTokenObject = await this.getGmoObject();
+                    // クレジットカード処理
+                    await this.purchase.creditCardPaymentProcess((<IGmoTokenObject>this.purchase.data.gmoTokenObject).token);
+                } catch (err) {
+                    console.error(err);
+                    // クレジットカード処理失敗
+                    this.isLoading = false;
+                    this.creditCardAlertModal = true;
+                    this.inputForm.controls.cardNumber.setValue('');
+                    this.inputForm.controls.securityCode.setValue('');
+                    this.inputForm.controls.holderName.setValue('');
+                    this.inputForm.disable();
 
-                return;
+                    return;
+                }
             }
             // 入力情報を登録
             const setCustomerContactArgs = {

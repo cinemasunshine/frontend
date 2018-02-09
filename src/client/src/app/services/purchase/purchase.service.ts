@@ -417,11 +417,10 @@ export class PurchaseService {
             throw new Error('status is different');
         }
         if (this.isReserveMvtk()) {
-            if (this.data.mvtkAuthorization === undefined) {
+            if (this.data.mvtkTickets === undefined) {
                 throw new Error('status is different');
             }
             const createMvtkAuthorizationArgs = {
-                actionId: this.data.mvtkAuthorization.id,
                 transactionId: this.data.transaction.id,
                 mvtk: {
                     price: this.getMvtkTotalPrice(),
@@ -430,8 +429,8 @@ export class PurchaseService {
                 }
             };
             console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
-            await this.sasakiService.transaction.placeOrder.cancelMvtkAuthorization(createMvtkAuthorizationArgs);
-            this.data.mvtkAuthorization = undefined;
+            this.data.mvtkAuthorization =
+                await this.sasakiService.transaction.placeOrder.createMvtkAuthorization(createMvtkAuthorizationArgs);
         }
         this.save();
     }
