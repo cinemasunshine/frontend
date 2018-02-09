@@ -6488,7 +6488,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.ticketRegistrationProcess = function (offers) {
         return __awaiter(this, void 0, void 0, function () {
-            var changeSeatReservationArgs, _a, createMvtkAuthorizationArgs, _b;
+            var changeSeatReservationArgs, _a, cancelMvtkAuthorizationArgs, createMvtkAuthorizationArgs, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -6514,10 +6514,21 @@ var PurchaseService = /** @class */ (function () {
                         if (this.data.seatReservationAuthorization === undefined) {
                             throw new Error('status is different');
                         }
-                        if (!this.isReserveMvtk()) return [3 /*break*/, 4];
+                        if (!this.isReserveMvtk()) return [3 /*break*/, 6];
                         if (this.data.mvtkTickets === undefined) {
                             throw new Error('status is different');
                         }
+                        if (!(this.data.mvtkAuthorization !== undefined)) return [3 /*break*/, 4];
+                        cancelMvtkAuthorizationArgs = {
+                            transactionId: this.data.transaction.id,
+                            actionId: this.data.mvtkAuthorization.id
+                        };
+                        return [4 /*yield*/, this.sasakiService.transaction.placeOrder.cancelMvtkAuthorization(cancelMvtkAuthorizationArgs)];
+                    case 3:
+                        _c.sent();
+                        this.save();
+                        _c.label = 4;
+                    case 4:
                         createMvtkAuthorizationArgs = {
                             transactionId: this.data.transaction.id,
                             mvtk: {
@@ -6529,11 +6540,11 @@ var PurchaseService = /** @class */ (function () {
                         console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
                         _b = this.data;
                         return [4 /*yield*/, this.sasakiService.transaction.placeOrder.createMvtkAuthorization(createMvtkAuthorizationArgs)];
-                    case 3:
+                    case 5:
                         _b.mvtkAuthorization =
                             _c.sent();
-                        _c.label = 4;
-                    case 4:
+                        _c.label = 6;
+                    case 6:
                         this.save();
                         return [2 /*return*/];
                 }

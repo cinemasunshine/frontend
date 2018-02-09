@@ -420,6 +420,15 @@ export class PurchaseService {
             if (this.data.mvtkTickets === undefined) {
                 throw new Error('status is different');
             }
+            if (this.data.mvtkAuthorization !== undefined) {
+                // キャンセル処理
+                const cancelMvtkAuthorizationArgs = {
+                    transactionId: this.data.transaction.id,
+                    actionId: this.data.mvtkAuthorization.id
+                };
+                await this.sasakiService.transaction.placeOrder.cancelMvtkAuthorization(cancelMvtkAuthorizationArgs);
+                this.save();
+            }
             const createMvtkAuthorizationArgs = {
                 transactionId: this.data.transaction.id,
                 mvtk: {
