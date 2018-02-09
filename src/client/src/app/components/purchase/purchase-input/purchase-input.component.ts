@@ -85,7 +85,7 @@ export class PurchaseInputComponent implements OnInit {
             if (this.purchase.data.transaction === undefined) {
                 throw new Error('status is different');
             }
-            if (this.purchase.getTotalPrice() - this.purchase.getMvtkTotalPrice() > 0) {
+            if (this.purchase.getTotalPrice() > 0) {
                 try {
                     this.purchase.data.gmoTokenObject = await this.getGmoObject();
                     // クレジットカード処理

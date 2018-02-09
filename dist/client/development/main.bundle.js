@@ -3327,7 +3327,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                         if (this.purchase.data.transaction === undefined) {
                             throw new Error('status is different');
                         }
-                        if (!(this.purchase.getTotalPrice() - this.purchase.getMvtkTotalPrice() > 0)) return [3 /*break*/, 6];
+                        if (!(this.purchase.getTotalPrice() > 0)) return [3 /*break*/, 6];
                         _b.label = 2;
                     case 2:
                         _b.trys.push([2, 5, , 6]);
