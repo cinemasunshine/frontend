@@ -12,6 +12,7 @@ import { PurchaseService } from '../../../services/purchase/purchase.service';
 export class PurchaseConfirmComponent implements OnInit {
     public confirmForm: FormGroup;
     public isLoading: boolean;
+    public disable: boolean;
 
     constructor(
         public purchase: PurchaseService,
@@ -26,13 +27,14 @@ export class PurchaseConfirmComponent implements OnInit {
         this.confirmForm = this.formBuilder.group({
             notes: [false, [Validators.requiredTrue]]
         });
+        this.disable = false;
     }
 
     public async onSubmit() {
-        if (this.confirmForm.invalid || this.confirmForm.disabled) {
+        if (this.confirmForm.invalid || this.disable) {
             return;
         }
-        this.confirmForm.disable();
+        this.disable = true;
         this.isLoading = true;
         try {
             await this.purchase.purchaseRegistrationProcess();

@@ -2671,7 +2671,7 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      */
     PurchaseCompleteComponent.prototype.getStartDate = function () {
         var timeFormat = new __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
-        return timeFormat.transform(this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei, this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate);
+        return timeFormat.transform(this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate, this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei);
     };
     /**
      * 上映終了取得
@@ -2680,7 +2680,7 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      */
     PurchaseCompleteComponent.prototype.getEndDate = function () {
         var timeFormat = new __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
-        return timeFormat.transform(this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei, this.data.order.acceptedOffers[0].itemOffered.reservationFor.endDate);
+        return timeFormat.transform(this.data.order.acceptedOffers[0].itemOffered.reservationFor.endDate, this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei);
     };
     /**
      * 照会URL取得
@@ -2920,6 +2920,7 @@ var PurchaseConfirmComponent = /** @class */ (function () {
         this.confirmForm = this.formBuilder.group({
             notes: [false, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["u" /* Validators */].requiredTrue]]
         });
+        this.disable = false;
     };
     PurchaseConfirmComponent.prototype.onSubmit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -2927,10 +2928,10 @@ var PurchaseConfirmComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (this.confirmForm.invalid || this.confirmForm.disabled) {
+                        if (this.confirmForm.invalid || this.disable) {
                             return [2 /*return*/];
                         }
-                        this.confirmForm.disable();
+                        this.disable = true;
                         this.isLoading = true;
                         _a.label = 1;
                     case 1:
@@ -3271,6 +3272,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                             month: []
                         };
                         this.inputForm = this.createForm();
+                        this.disable = false;
                         if (!this.awsCognito.isAuthenticate()) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.awsCognito.getRecords({
                                 datasetName: 'profile'
@@ -3304,7 +3306,10 @@ var PurchaseInputComponent = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        if (this.inputForm.disabled) {
+                        if (this.disable) {
+                            this.inputForm.disable({
+                                onlySelf: false
+                            });
                             return [2 /*return*/];
                         }
                         if (this.inputForm.invalid) {
@@ -3319,7 +3324,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                             window.scrollTo(undefined, top_1);
                             return [2 /*return*/];
                         }
-                        this.inputForm.disable();
+                        this.disable = true;
                         this.isLoading = true;
                         _b.label = 1;
                     case 1:
@@ -3350,7 +3355,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                         this.inputForm.controls.cardNumber.setValue('');
                         this.inputForm.controls.securityCode.setValue('');
                         this.inputForm.controls.holderName.setValue('');
-                        this.inputForm.disable();
+                        this.disable = false;
                         return [2 /*return*/];
                     case 6:
                         setCustomerContactArgs = {
@@ -3848,6 +3853,7 @@ var PurchaseMvtkInputComponent = /** @class */ (function () {
         this.mvtkForms = [];
         this.mvtkForms.push(this.createForm());
         this.mvtkInputForm = this.formBuilder.group({});
+        this.disable = false;
     };
     /**
      * フォーム作成
@@ -3901,10 +3907,10 @@ var PurchaseMvtkInputComponent = /** @class */ (function () {
                             this.inputValidationModal = true;
                             return [2 /*return*/];
                         }
-                        if (this.mvtkInputForm.disabled) {
+                        if (this.disable) {
                             return [2 /*return*/];
                         }
-                        this.mvtkInputForm.disable();
+                        this.disable = true;
                         this.isLoading = true;
                         _a.label = 1;
                     case 1:
@@ -3925,7 +3931,7 @@ var PurchaseMvtkInputComponent = /** @class */ (function () {
                         console.log(err_1);
                         this.isLoading = false;
                         this.authErrorModal = true;
-                        this.mvtkInputForm.disable();
+                        this.disable = false;
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -4144,7 +4150,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
      */
     PurchaseOverlapComponent.prototype.getStartDate = function () {
         var timeFormat = new __WEBPACK_IMPORTED_MODULE_4__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
-        return timeFormat.transform(this.individualScreeningEvent.coaInfo.dateJouei, this.individualScreeningEvent.startDate);
+        return timeFormat.transform(this.individualScreeningEvent.startDate, this.individualScreeningEvent.coaInfo.dateJouei);
     };
     /**
      * 上映終了取得
@@ -4153,7 +4159,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
      */
     PurchaseOverlapComponent.prototype.getEndDate = function () {
         var timeFormat = new __WEBPACK_IMPORTED_MODULE_4__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
-        return timeFormat.transform(this.individualScreeningEvent.coaInfo.dateJouei, this.individualScreeningEvent.endDate);
+        return timeFormat.transform(this.individualScreeningEvent.endDate, this.individualScreeningEvent.coaInfo.dateJouei);
     };
     return PurchaseOverlapComponent;
 }());
@@ -4651,6 +4657,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
         this.seatForm = this.formBuilder.group({
             terms: [false, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["u" /* Validators */].requiredTrue]]
         });
+        this.disable = false;
     };
     PurchaseSeatComponent.prototype.ngAfterViewInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -4721,10 +4728,10 @@ var PurchaseSeatComponent = /** @class */ (function () {
                             this.notSelectSeatModal = true;
                             return [2 /*return*/];
                         }
-                        if (this.seatForm.invalid || this.seatForm.disabled) {
+                        if (this.seatForm.invalid || this.disable) {
                             return [2 /*return*/];
                         }
-                        this.seatForm.disable();
+                        this.disable = true;
                         this.isLoading = true;
                         _b.label = 1;
                     case 1:
@@ -4852,7 +4859,7 @@ function View_PurchaseTicketComponent_4(_l) { return __WEBPACK_IMPORTED_MODULE_1
         var pd_0 = (_co.ticketSelect($event, _v.parent.context.$implicit) !== false);
         ad = (pd_0 && ad);
     } return ad; }, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](3, null, ["\n                            ", " \uFFE5", "\n                        "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "]))], null, function (_ck, _v) { var currVal_0 = _v.parent.context.$implicit.ticketInfo.ticketName; var currVal_1 = _v.parent.context.$implicit.ticketInfo.salePrice; _ck(_v, 3, 0, currVal_0, currVal_1); }); }
-function View_PurchaseTicketComponent_2(_l) { return __WEBPACK_IMPORTED_MODULE_1__angular_core__["_37" /* ɵvid */](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](0, 0, null, null, 16, "li", [], [[2, "validation", null]], null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n            "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](2, 0, null, null, 13, "dl", [["class", "d-table"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](4, 0, null, null, 1, "dt", [["class", "d-td seat-code"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](5, null, ["", ""])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](7, 0, null, null, 7, "dd", [["class", "d-td width-medium"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_10" /* ɵand */](16777216, null, null, 1, null, View_PurchaseTicketComponent_3)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_14" /* ɵdid */](10, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_3__angular_common__["i" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["Y" /* ViewContainerRef */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["V" /* TemplateRef */]], { ngIf: [0, "ngIf"] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_10" /* ɵand */](16777216, null, null, 1, null, View_PurchaseTicketComponent_4)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_14" /* ɵdid */](13, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_3__angular_common__["i" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["Y" /* ViewContainerRef */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["V" /* TemplateRef */]], { ngIf: [0, "ngIf"] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n            "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n        "]))], function (_ck, _v) { var currVal_2 = !_v.context.$implicit.selected; _ck(_v, 10, 0, currVal_2); var currVal_3 = _v.context.$implicit.selected; _ck(_v, 13, 0, currVal_3); }, function (_ck, _v) { var currVal_0 = _v.context.$implicit.validation; _ck(_v, 0, 0, currVal_0); var currVal_1 = _v.context.$implicit.seatNumber; _ck(_v, 5, 0, currVal_1); }); }
+function View_PurchaseTicketComponent_2(_l) { return __WEBPACK_IMPORTED_MODULE_1__angular_core__["_37" /* ɵvid */](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](0, 0, null, null, 16, "li", [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n            "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](2, 0, null, null, 13, "dl", [["class", "d-table"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](4, 0, null, null, 1, "dt", [["class", "d-td seat-code"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](5, null, ["", ""])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](7, 0, null, null, 7, "dd", [["class", "d-td width-medium"]], [[2, "validation", null]], null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_10" /* ɵand */](16777216, null, null, 1, null, View_PurchaseTicketComponent_3)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_14" /* ɵdid */](10, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_3__angular_common__["i" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["Y" /* ViewContainerRef */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["V" /* TemplateRef */]], { ngIf: [0, "ngIf"] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_10" /* ɵand */](16777216, null, null, 1, null, View_PurchaseTicketComponent_4)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_14" /* ɵdid */](13, 16384, null, 0, __WEBPACK_IMPORTED_MODULE_3__angular_common__["i" /* NgIf */], [__WEBPACK_IMPORTED_MODULE_1__angular_core__["Y" /* ViewContainerRef */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["V" /* TemplateRef */]], { ngIf: [0, "ngIf"] }, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n            "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n        "]))], function (_ck, _v) { var currVal_2 = !_v.context.$implicit.selected; _ck(_v, 10, 0, currVal_2); var currVal_3 = _v.context.$implicit.selected; _ck(_v, 13, 0, currVal_3); }, function (_ck, _v) { var currVal_0 = _v.context.$implicit.seatNumber; _ck(_v, 5, 0, currVal_0); var currVal_1 = _v.context.$implicit.validation; _ck(_v, 7, 0, currVal_1); }); }
 function View_PurchaseTicketComponent_5(_l) { return __WEBPACK_IMPORTED_MODULE_1__angular_core__["_37" /* ɵvid */](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](0, 0, null, null, 25, "li", [], [[2, "disabled", null]], null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n            "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](2, 0, null, null, 22, "dl", [["class", "d-table"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](4, 0, null, null, 10, "dt", [["class", "d-td"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](6, 0, null, null, 4, "div", [["class", "mb-xx-small"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                        "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](8, 0, null, null, 1, "strong", [], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](9, null, ["\n                            ", " \uFFE5", "\n                        "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](12, 0, null, null, 1, "p", [["class", "small-x-text"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](13, null, ["\u30E0\u30D3\u30C1\u30B1\u8CFC\u5165\u756A\u53F7 ", ""])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](16, 0, null, null, 7, "dd", [["class", "d-td width-small"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](18, 0, null, null, 4, "div", [["class", "button blue-button ticket-type-select"]], null, null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n                        "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](20, 0, null, null, 1, "a", [], null, [[null, "click"]], function (_v, en, $event) { var ad = true; var _co = _v.component; if (("click" === en)) {
         var pd_0 = (_co.selectMvtkTicket(_v.context.$implicit) !== false);
         ad = (pd_0 && ad);
@@ -4969,6 +4976,7 @@ var PurchaseTicketComponent = /** @class */ (function () {
         this.discountConditionsModal = false;
         this.notSelectModal = false;
         this.ticketForm = this.formBuilder.group({});
+        this.disable = false;
         try {
             this.salesTickets = this.createSalseTickets();
             this.salesMvtkTickets = this.createSalseMvtkTickets();
@@ -5096,10 +5104,10 @@ var PurchaseTicketComponent = /** @class */ (function () {
                             this.discountConditionsModal = true;
                             return [2 /*return*/];
                         }
-                        if (this.ticketForm.disabled) {
+                        if (this.disable) {
                             return [2 /*return*/];
                         }
-                        this.ticketForm.disable();
+                        this.disable = true;
                         this.isLoading = true;
                         _a.label = 1;
                     case 1:
@@ -6231,7 +6239,7 @@ var PurchaseService = /** @class */ (function () {
         }
         var individualScreeningEvent = this.data.individualScreeningEvent;
         var timeFormat = new __WEBPACK_IMPORTED_MODULE_2__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
-        return timeFormat.transform(individualScreeningEvent.coaInfo.dateJouei, individualScreeningEvent.startDate);
+        return timeFormat.transform(individualScreeningEvent.startDate, individualScreeningEvent.coaInfo.dateJouei);
     };
     /**
      * 上映終了取得
@@ -6244,7 +6252,7 @@ var PurchaseService = /** @class */ (function () {
         }
         var individualScreeningEvent = this.data.individualScreeningEvent;
         var timeFormat = new __WEBPACK_IMPORTED_MODULE_2__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
-        return timeFormat.transform(individualScreeningEvent.coaInfo.dateJouei, individualScreeningEvent.endDate);
+        return timeFormat.transform(individualScreeningEvent.endDate, individualScreeningEvent.coaInfo.dateJouei);
     };
     /**
      * 合計金額計算
@@ -6657,9 +6665,12 @@ var PurchaseService = /** @class */ (function () {
             || this.data.individualScreeningEvent === undefined) {
             throw new Error('status is different');
         }
-        var DIGITS = -2;
-        var orderCount = ("00" + this.data.orderCount).slice(DIGITS);
-        var tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
+        var DIGITS = {
+            '02': -2,
+            '08': -8
+        };
+        var orderCount = ("00" + this.data.orderCount).slice(DIGITS['02']);
+        var tmpReserveNum = ("00000000" + this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum).slice(DIGITS['08']);
         var theaterCode = this.data.individualScreeningEvent.coaInfo.theaterCode;
         var reserveDate = __WEBPACK_IMPORTED_MODULE_0_moment__().format('YYYYMMDD');
         // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)

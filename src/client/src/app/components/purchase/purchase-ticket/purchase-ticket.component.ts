@@ -20,6 +20,7 @@ export class PurchaseTicketComponent implements OnInit {
     public salesTickets: ISalesTicketResult[];
     public salesMvtkTickets: ISalesMvtkTicket[];
     public ticketForm: FormGroup;
+    public disable: boolean;
 
     constructor(
         public purchase: PurchaseService,
@@ -36,6 +37,7 @@ export class PurchaseTicketComponent implements OnInit {
         this.discountConditionsModal = false;
         this.notSelectModal = false;
         this.ticketForm = this.formBuilder.group({});
+        this.disable = false;
         try {
             this.salesTickets = this.createSalseTickets();
             this.salesMvtkTickets = this.createSalseMvtkTickets();
@@ -157,10 +159,10 @@ export class PurchaseTicketComponent implements OnInit {
 
             return;
         }
-        if (this.ticketForm.disabled) {
+        if (this.disable) {
             return;
         }
-        this.ticketForm.disable();
+        this.disable = true;
         this.isLoading = true;
         try {
             const offers = this.offers.map((offer) => {

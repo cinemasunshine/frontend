@@ -95,8 +95,8 @@ export class PurchaseCompleteComponent implements OnInit {
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei,
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate
+            this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate,
+            this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei
         );
     }
 
@@ -109,8 +109,8 @@ export class PurchaseCompleteComponent implements OnInit {
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei,
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.endDate
+            this.data.order.acceptedOffers[0].itemOffered.reservationFor.endDate,
+            this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei
         );
     }
 

@@ -16,10 +16,10 @@
     </div>
 
     <ul class="box radius bg-light-gray mb-middle seats">
-        <li *ngFor="let offer of offers" [class.validation]="offer.validation">
+        <li *ngFor="let offer of offers">
             <dl class="d-table">
                 <dt class="d-td seat-code">{{ offer.seatNumber }}</dt>
-                <dd class="d-td width-medium">
+                <dd class="d-td width-medium" [class.validation]="offer.validation">
                     <div *ngIf="!offer.selected" class="button blue-button">
                         <a (click)="ticketSelect($event, offer)">券種を選択してください</a>
                     </div>

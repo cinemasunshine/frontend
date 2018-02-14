@@ -22,6 +22,7 @@ export class PurchaseInputComponent implements OnInit {
     public isLoading: boolean;
     public securityCodeModal: boolean;
     public creditCardAlertModal: boolean;
+    public disable: boolean;
 
     constructor(
         public purchase: PurchaseService,
@@ -40,6 +41,7 @@ export class PurchaseInputComponent implements OnInit {
             month: []
         };
         this.inputForm = this.createForm();
+        this.disable = false;
         if (this.awsCognito.isAuthenticate()) {
             const records = await this.awsCognito.getRecords({
                 datasetName: 'profile'
@@ -63,7 +65,10 @@ export class PurchaseInputComponent implements OnInit {
      * @method onSubmit
      */
     public async onSubmit() {
-        if (this.inputForm.disabled) {
+        if (this.disable) {
+            this.inputForm.disable({
+                onlySelf: false
+            });
             return;
         }
         if (this.inputForm.invalid) {
@@ -79,7 +84,7 @@ export class PurchaseInputComponent implements OnInit {
 
             return;
         }
-        this.inputForm.disable();
+        this.disable = true;
         this.isLoading = true;
         try {
             if (this.purchase.data.transaction === undefined) {
@@ -98,7 +103,7 @@ export class PurchaseInputComponent implements OnInit {
                     this.inputForm.controls.cardNumber.setValue('');
                     this.inputForm.controls.securityCode.setValue('');
                     this.inputForm.controls.holderName.setValue('');
-                    this.inputForm.disable();
+                    this.disable = false;
 
                     return;
                 }

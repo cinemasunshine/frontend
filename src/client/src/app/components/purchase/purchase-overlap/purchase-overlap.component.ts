@@ -97,8 +97,8 @@ export class PurchaseOverlapComponent implements OnInit {
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.individualScreeningEvent.coaInfo.dateJouei,
-            this.individualScreeningEvent.startDate
+            this.individualScreeningEvent.startDate,
+            this.individualScreeningEvent.coaInfo.dateJouei
         );
     }
 
@@ -111,8 +111,8 @@ export class PurchaseOverlapComponent implements OnInit {
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.individualScreeningEvent.coaInfo.dateJouei,
-            this.individualScreeningEvent.endDate
+            this.individualScreeningEvent.endDate,
+            this.individualScreeningEvent.coaInfo.dateJouei
         );
     }
 

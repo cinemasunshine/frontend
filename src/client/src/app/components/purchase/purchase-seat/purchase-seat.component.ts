@@ -17,6 +17,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     public notSelectSeatModal: boolean;
     public upperLimitModal: boolean;
     public seats: ISeat[];
+    public disable: boolean;
 
     constructor(
         public purchase: PurchaseService,
@@ -34,6 +35,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         this.seatForm = this.formBuilder.group({
             terms: [false, [Validators.requiredTrue]]
         });
+        this.disable = false;
     }
 
     public async ngAfterViewInit() {
@@ -79,10 +81,10 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             this.notSelectSeatModal = true;
             return;
         }
-        if (this.seatForm.invalid || this.seatForm.disabled) {
+        if (this.seatForm.invalid || this.disable) {
             return;
         }
-        this.seatForm.disable();
+        this.disable = true;
         this.isLoading = true;
         try {
             if (this.purchase.data.salesTickets.length === 0) {

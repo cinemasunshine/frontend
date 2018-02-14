@@ -160,8 +160,8 @@ export class PurchaseService {
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            individualScreeningEvent.coaInfo.dateJouei,
-            individualScreeningEvent.startDate
+            individualScreeningEvent.startDate,
+            individualScreeningEvent.coaInfo.dateJouei
         );
     }
 
@@ -178,8 +178,8 @@ export class PurchaseService {
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            individualScreeningEvent.coaInfo.dateJouei,
-            individualScreeningEvent.endDate
+            individualScreeningEvent.endDate,
+            individualScreeningEvent.coaInfo.dateJouei
         );
     }
 
@@ -519,9 +519,13 @@ export class PurchaseService {
             || this.data.individualScreeningEvent === undefined) {
             throw new Error('status is different');
         }
-        const DIGITS = -2;
-        const orderCount = `00${this.data.orderCount}`.slice(DIGITS);
-        const tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
+        const DIGITS = {
+            '02': -2,
+            '08': -8
+        };
+        const orderCount = `00${this.data.orderCount}`.slice(DIGITS['02']);
+        const tmpReserveNum =
+            `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['08']);
         const theaterCode = this.data.individualScreeningEvent.coaInfo.theaterCode;
         const reserveDate = moment().format('YYYYMMDD');
         // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)
