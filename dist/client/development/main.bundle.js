@@ -1483,7 +1483,7 @@ var PurchaseFilmOrderComponent = /** @class */ (function () {
     function PurchaseFilmOrderComponent() {
     }
     PurchaseFilmOrderComponent.prototype.ngOnInit = function () {
-        this.title = this.data.films[0].workPerformed.name;
+        this.title = this.data.films[0].name.ja;
         this.duration = this.data.films[0].workPerformed.duration;
     };
     return PurchaseFilmOrderComponent;
@@ -2653,7 +2653,7 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseCompleteComponent.prototype.getTitle = function () {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.workPerformed.name;
+        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.name.ja;
     };
     /**
      * 鑑賞日取得
@@ -4132,7 +4132,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseOverlapComponent.prototype.getTitle = function () {
-        return this.individualScreeningEvent.workPerformed.name;
+        return this.individualScreeningEvent.name.ja;
     };
     /**
      * 鑑賞日取得
@@ -6213,7 +6213,7 @@ var PurchaseService = /** @class */ (function () {
             return '';
         }
         var individualScreeningEvent = this.data.individualScreeningEvent;
-        return individualScreeningEvent.workPerformed.name;
+        return individualScreeningEvent.name.ja;
     };
     /**
      * 鑑賞日取得

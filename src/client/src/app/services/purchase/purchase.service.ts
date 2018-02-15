@@ -129,7 +129,7 @@ export class PurchaseService {
         }
         const individualScreeningEvent = this.data.individualScreeningEvent;
 
-        return individualScreeningEvent.workPerformed.name;
+        return individualScreeningEvent.name.ja;
     }
 
     /**

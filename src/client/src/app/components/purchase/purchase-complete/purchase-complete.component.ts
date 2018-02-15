@@ -72,7 +72,7 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getTitle() {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.workPerformed.name;
+        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.name.ja;
     }
 
     /**

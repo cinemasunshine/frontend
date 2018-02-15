@@ -74,7 +74,7 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getTitle() {
-        return this.individualScreeningEvent.workPerformed.name;
+        return this.individualScreeningEvent.name.ja;
     }
 
     /**

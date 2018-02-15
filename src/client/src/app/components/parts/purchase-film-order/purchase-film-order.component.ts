@@ -20,7 +20,7 @@ export class PurchaseFilmOrderComponent implements OnInit {
     constructor() { }
 
     public ngOnInit() {
-        this.title = this.data.films[0].workPerformed.name;
+        this.title = this.data.films[0].name.ja;
         this.duration = this.data.films[0].workPerformed.duration;
     }
 
