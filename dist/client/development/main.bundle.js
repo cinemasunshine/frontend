@@ -277,7 +277,7 @@ var styles_AppComponent = [__WEBPACK_IMPORTED_MODULE_0__app_component_scss_shim_
 var RenderType_AppComponent = __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* ɵcrt */]({ encapsulation: 0, styles: styles_AppComponent, data: {} });
 
 function View_AppComponent_0(_l) { return __WEBPACK_IMPORTED_MODULE_1__angular_core__["_37" /* ɵvid */](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](0, 0, null, null, 4, "div", [["class", "wrapper"]], [[2, "ticket-app", null]], null, null, null, null)), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n    "])), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](2, 16777216, null, null, 1, "router-outlet", [], null, null, null, null, null)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_14" /* ɵdid */](3, 212992, null, 0, __WEBPACK_IMPORTED_MODULE_2__angular_router__["o" /* RouterOutlet */], [__WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ChildrenOutletContexts */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["Y" /* ViewContainerRef */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["k" /* ComponentFactoryResolver */], [8, null], __WEBPACK_IMPORTED_MODULE_1__angular_core__["i" /* ChangeDetectorRef */]], null, null), (_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_35" /* ɵted */](-1, null, ["\n"]))], function (_ck, _v) { _ck(_v, 3, 0); }, function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.awsCognito.isAuthenticate(); _ck(_v, 0, 0, currVal_0); }); }
-function View_AppComponent_Host_0(_l) { return __WEBPACK_IMPORTED_MODULE_1__angular_core__["_37" /* ɵvid */](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](0, 0, null, null, 1, "app-root", [], null, null, null, View_AppComponent_0, RenderType_AppComponent)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_14" /* ɵdid */](1, 49152, null, 0, __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */], [__WEBPACK_IMPORTED_MODULE_4__services_aws_cognito_aws_cognito_service__["a" /* AwsCognitoService */]], null, null)], null, null); }
+function View_AppComponent_Host_0(_l) { return __WEBPACK_IMPORTED_MODULE_1__angular_core__["_37" /* ɵvid */](0, [(_l()(), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* ɵeld */](0, 0, null, null, 1, "app-root", [], null, null, null, View_AppComponent_0, RenderType_AppComponent)), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_14" /* ɵdid */](1, 49152, null, 0, __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */], [__WEBPACK_IMPORTED_MODULE_4__services_aws_cognito_aws_cognito_service__["a" /* AwsCognitoService */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["l" /* Router */]], null, null)], null, null); }
 var AppComponentNgFactory = __WEBPACK_IMPORTED_MODULE_1__angular_core__["_11" /* ɵccf */]("app-root", __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */], View_AppComponent_Host_0, {}, {}, []);
 
 
@@ -306,11 +306,29 @@ var styles = ["p[_ngcontent-%COMP%] {\n  font-size: 50px; }"];
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_aws_cognito_aws_cognito_service__ = __webpack_require__("../../../../../src/client/src/app/services/aws-cognito/aws-cognito.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__("../../../../../src/client/src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_aws_cognito_aws_cognito_service__ = __webpack_require__("../../../../../src/client/src/app/services/aws-cognito/aws-cognito.service.ts");
+
+
 
 var AppComponent = /** @class */ (function () {
-    function AppComponent(awsCognito) {
+    function AppComponent(awsCognito, router) {
         this.awsCognito = awsCognito;
+        this.router = router;
+        this.router.events.subscribe(function (event) {
+            if (event instanceof __WEBPACK_IMPORTED_MODULE_0__angular_router__["d" /* NavigationEnd */]) {
+                // Googleアナリティクス pageview
+                try {
+                    ga('create', __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].ANALYTICS_ID, 'auto');
+                    ga('set', 'page', event.urlAfterRedirects);
+                    ga('send', 'pageview');
+                }
+                catch (err) {
+                    console.error(err);
+                }
+            }
+        });
     }
     return AppComponent;
 }());
@@ -2928,7 +2946,11 @@ var PurchaseConfirmComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (this.confirmForm.invalid || this.disable) {
+                        if (this.disable) {
+                            return [2 /*return*/];
+                        }
+                        if (this.confirmForm.invalid) {
+                            this.confirmForm.controls.notes.markAsDirty();
                             return [2 /*return*/];
                         }
                         this.disable = true;
@@ -3302,26 +3324,38 @@ var PurchaseInputComponent = /** @class */ (function () {
      */
     PurchaseInputComponent.prototype.onSubmit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var element, validation, rect, scrollTop, top_1, _a, err_1, setCustomerContactArgs, err_2;
+            var _this = this;
+            var _a, err_1, setCustomerContactArgs, err_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         if (this.disable) {
-                            this.inputForm.disable({
-                                onlySelf: false
-                            });
                             return [2 /*return*/];
                         }
                         if (this.inputForm.invalid) {
-                            element = this.elementRef.nativeElement;
-                            validation = element.querySelector('.validation');
-                            if (validation === null) {
-                                return [2 /*return*/];
+                            this.inputForm.controls.familyName.markAsDirty();
+                            this.inputForm.controls.givenName.markAsDirty();
+                            this.inputForm.controls.email.markAsDirty();
+                            this.inputForm.controls.emailConfirm.markAsDirty();
+                            this.inputForm.controls.telephone.markAsDirty();
+                            if (this.purchase.getTotalPrice() > 0) {
+                                this.inputForm.controls.cardNumber.markAsDirty();
+                                this.inputForm.controls.cardExpirationMonth.markAsDirty();
+                                this.inputForm.controls.cardExpirationYear.markAsDirty();
+                                this.inputForm.controls.securityCode.markAsDirty();
+                                this.inputForm.controls.holderName.markAsDirty();
                             }
-                            rect = validation.getBoundingClientRect();
-                            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                            top_1 = rect.top + scrollTop - 50;
-                            window.scrollTo(undefined, top_1);
+                            setTimeout(function () {
+                                var element = _this.elementRef.nativeElement;
+                                var validation = element.querySelector('.validation');
+                                if (validation === null) {
+                                    return;
+                                }
+                                var rect = validation.getBoundingClientRect();
+                                var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                                var top = rect.top + scrollTop - 50;
+                                window.scrollTo(undefined, top);
+                            }, 0);
                             return [2 /*return*/];
                         }
                         this.disable = true;
@@ -4746,7 +4780,11 @@ var PurchaseSeatComponent = /** @class */ (function () {
                             this.notSelectSeatModal = true;
                             return [2 /*return*/];
                         }
-                        if (this.seatForm.invalid || this.disable) {
+                        if (this.disable) {
+                            return [2 /*return*/];
+                        }
+                        if (this.seatForm.invalid) {
+                            this.seatForm.controls.terms.markAsDirty();
                             return [2 /*return*/];
                         }
                         this.disable = true;
@@ -7184,7 +7222,8 @@ var environment = {
     AUTHORIZE_SERVER_DOMAIN: 'sskts-development.auth.ap-northeast-1.amazoncognito.com',
     RESOURCE_SERVER_URL: 'https://sskts-api-development.azurewebsites.net',
     SASAKI_API_ENDPOINT: 'https://sskts-api-development.azurewebsites.net',
-    TOKEN_ISSUER: ''
+    TOKEN_ISSUER: '',
+    ANALYTICS_ID: 'UA-99018492-2'
 };
 
 

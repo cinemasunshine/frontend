@@ -66,21 +66,32 @@ export class PurchaseInputComponent implements OnInit {
      */
     public async onSubmit() {
         if (this.disable) {
-            this.inputForm.disable({
-                onlySelf: false
-            });
             return;
         }
         if (this.inputForm.invalid) {
-            const element: HTMLElement = this.elementRef.nativeElement;
-            const validation = <HTMLElement>element.querySelector('.validation');
-            if (validation === null) {
-                return;
+            this.inputForm.controls.familyName.markAsDirty();
+            this.inputForm.controls.givenName.markAsDirty();
+            this.inputForm.controls.email.markAsDirty();
+            this.inputForm.controls.emailConfirm.markAsDirty();
+            this.inputForm.controls.telephone.markAsDirty();
+            if (this.purchase.getTotalPrice() > 0) {
+                this.inputForm.controls.cardNumber.markAsDirty();
+                this.inputForm.controls.cardExpirationMonth.markAsDirty();
+                this.inputForm.controls.cardExpirationYear.markAsDirty();
+                this.inputForm.controls.securityCode.markAsDirty();
+                this.inputForm.controls.holderName.markAsDirty();
             }
-            const rect = validation.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const top = rect.top + scrollTop - 50;
-            window.scrollTo(undefined, top);
+            setTimeout(() => {
+                const element: HTMLElement = this.elementRef.nativeElement;
+                const validation = <HTMLElement>element.querySelector('.validation');
+                if (validation === null) {
+                    return;
+                }
+                const rect = validation.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const top = rect.top + scrollTop - 50;
+                window.scrollTo(undefined, top);
+            }, 0);
 
             return;
         }

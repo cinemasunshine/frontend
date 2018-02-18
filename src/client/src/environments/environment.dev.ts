@@ -14,5 +14,7 @@ export const environment = {
     AUTHORIZE_SERVER_DOMAIN: 'sskts-development.auth.ap-northeast-1.amazoncognito.com',
     RESOURCE_SERVER_URL: 'https://sskts-api-development.azurewebsites.net',
     SASAKI_API_ENDPOINT: 'https://sskts-api-development.azurewebsites.net',
-    TOKEN_ISSUER: ''
+    TOKEN_ISSUER: '',
+
+    ANALYTICS_ID: 'UA-99018492-2'
 };

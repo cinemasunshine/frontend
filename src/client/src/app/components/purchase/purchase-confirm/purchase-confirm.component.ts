@@ -31,7 +31,12 @@ export class PurchaseConfirmComponent implements OnInit {
     }
 
     public async onSubmit() {
-        if (this.confirmForm.invalid || this.disable) {
+        if (this.disable) {
+            return;
+        }
+        if (this.confirmForm.invalid) {
+            this.confirmForm.controls.notes.markAsDirty();
+
             return;
         }
         this.disable = true;

@@ -81,7 +81,12 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             this.notSelectSeatModal = true;
             return;
         }
-        if (this.seatForm.invalid || this.disable) {
+        if (this.disable) {
+            return;
+        }
+        if (this.seatForm.invalid) {
+            this.seatForm.controls.terms.markAsDirty();
+
             return;
         }
         this.disable = true;
