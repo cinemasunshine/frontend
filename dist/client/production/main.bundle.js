@@ -4107,8 +4107,26 @@ var PurchaseOverlapComponent = /** @class */ (function () {
      * 新しい取引へ
      */
     PurchaseOverlapComponent.prototype.newTransaction = function () {
-        this.purchase.reset();
-        location.href = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].ENTRANCE_SERVER_URL + "/purchase/index.html?id=" + this.individualScreeningEvent.identifier;
+        return __awaiter(this, void 0, void 0, function () {
+            var err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.purchase.cancelSeatRegistrationProcess()];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_1 = _a.sent();
+                        console.log(err_1);
+                        return [3 /*break*/, 3];
+                    case 3:
+                        location.href = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].ENTRANCE_SERVER_URL + "/purchase/index.html?id=" + this.individualScreeningEvent.identifier;
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     /**
      * 劇場名取得
@@ -6444,6 +6462,37 @@ var PurchaseService = /** @class */ (function () {
         });
     };
     /**
+     * 座席開放処理
+     * @method cancelSeatRegistrationProcess
+     */
+    PurchaseService.prototype.cancelSeatRegistrationProcess = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var cancelSeatReservationArgs;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.data.transaction === undefined
+                            || this.data.tmpSeatReservationAuthorization === undefined) {
+                            throw new Error('status is different');
+                        }
+                        return [4 /*yield*/, this.sasakiService.getServices()];
+                    case 1:
+                        _a.sent();
+                        cancelSeatReservationArgs = {
+                            transactionId: this.data.transaction.id,
+                            actionId: this.data.tmpSeatReservationAuthorization.id
+                        };
+                        return [4 /*yield*/, this.sasakiService.transaction.placeOrder.cancelSeatReservationAuthorization(cancelSeatReservationArgs)];
+                    case 2:
+                        _a.sent();
+                        this.data.tmpSeatReservationAuthorization = undefined;
+                        this.reset();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
      * 座席登録処理
      * @method seatRegistrationProcess
      */
@@ -6496,7 +6545,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.ticketRegistrationProcess = function (offers) {
         return __awaiter(this, void 0, void 0, function () {
-            var changeSeatReservationArgs, _a, cancelMvtkAuthorizationArgs, createMvtkAuthorizationArgs, _b;
+            var changeSeatReservationArgs, _a, cancelCreditCardAuthorizationArgs, cancelMvtkAuthorizationArgs, createMvtkAuthorizationArgs, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -6522,21 +6571,34 @@ var PurchaseService = /** @class */ (function () {
                         if (this.data.seatReservationAuthorization === undefined) {
                             throw new Error('status is different');
                         }
-                        if (!this.isReserveMvtk()) return [3 /*break*/, 6];
-                        if (this.data.mvtkTickets === undefined) {
-                            throw new Error('status is different');
-                        }
-                        if (!(this.data.mvtkAuthorization !== undefined)) return [3 /*break*/, 4];
+                        if (!(this.data.creditCardAuthorization !== undefined)) return [3 /*break*/, 4];
+                        cancelCreditCardAuthorizationArgs = {
+                            transactionId: this.data.transaction.id,
+                            actionId: this.data.creditCardAuthorization.id
+                        };
+                        return [4 /*yield*/, this.sasakiService.transaction.placeOrder.cancelCreditCardAuthorization(cancelCreditCardAuthorizationArgs)];
+                    case 3:
+                        _c.sent();
+                        this.data.creditCardAuthorization = undefined;
+                        this.save();
+                        _c.label = 4;
+                    case 4:
+                        if (!(this.data.mvtkAuthorization !== undefined)) return [3 /*break*/, 6];
                         cancelMvtkAuthorizationArgs = {
                             transactionId: this.data.transaction.id,
                             actionId: this.data.mvtkAuthorization.id
                         };
                         return [4 /*yield*/, this.sasakiService.transaction.placeOrder.cancelMvtkAuthorization(cancelMvtkAuthorizationArgs)];
-                    case 3:
+                    case 5:
                         _c.sent();
+                        this.data.mvtkAuthorization = undefined;
                         this.save();
-                        _c.label = 4;
-                    case 4:
+                        _c.label = 6;
+                    case 6:
+                        if (!this.isReserveMvtk()) return [3 /*break*/, 8];
+                        if (this.data.mvtkTickets === undefined) {
+                            throw new Error('status is different');
+                        }
                         createMvtkAuthorizationArgs = {
                             transactionId: this.data.transaction.id,
                             mvtk: {
@@ -6548,11 +6610,11 @@ var PurchaseService = /** @class */ (function () {
                         console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
                         _b = this.data;
                         return [4 /*yield*/, this.sasakiService.transaction.placeOrder.createMvtkAuthorization(createMvtkAuthorizationArgs)];
-                    case 5:
+                    case 7:
                         _b.mvtkAuthorization =
                             _c.sent();
-                        _c.label = 6;
-                    case 6:
+                        _c.label = 8;
+                    case 8:
                         this.save();
                         return [2 /*return*/];
                 }

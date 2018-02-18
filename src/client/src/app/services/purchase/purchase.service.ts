@@ -362,6 +362,25 @@ export class PurchaseService {
     }
 
     /**
+     * 座席開放処理
+     * @method cancelSeatRegistrationProcess
+     */
+    public async cancelSeatRegistrationProcess() {
+        if (this.data.transaction === undefined
+        || this.data.tmpSeatReservationAuthorization === undefined) {
+            throw new Error('status is different');
+        }
+        await this.sasakiService.getServices();
+        const cancelSeatReservationArgs = {
+            transactionId: this.data.transaction.id,
+            actionId: this.data.tmpSeatReservationAuthorization.id
+        };
+        await this.sasakiService.transaction.placeOrder.cancelSeatReservationAuthorization(cancelSeatReservationArgs);
+        this.data.tmpSeatReservationAuthorization = undefined;
+        this.reset();
+    }
+
+    /**
      * 座席登録処理
      * @method seatRegistrationProcess
      */
@@ -416,18 +435,29 @@ export class PurchaseService {
         if (this.data.seatReservationAuthorization === undefined) {
             throw new Error('status is different');
         }
+        if (this.data.creditCardAuthorization !== undefined) {
+            // クレジットカード登録済みなら削除
+            const cancelCreditCardAuthorizationArgs = {
+                transactionId: this.data.transaction.id,
+                actionId: this.data.creditCardAuthorization.id
+            };
+            await this.sasakiService.transaction.placeOrder.cancelCreditCardAuthorization(cancelCreditCardAuthorizationArgs);
+            this.data.creditCardAuthorization = undefined;
+            this.save();
+        }
+        if (this.data.mvtkAuthorization !== undefined) {
+            // ムビチケ登録済みなら削除
+            const cancelMvtkAuthorizationArgs = {
+                transactionId: this.data.transaction.id,
+                actionId: this.data.mvtkAuthorization.id
+            };
+            await this.sasakiService.transaction.placeOrder.cancelMvtkAuthorization(cancelMvtkAuthorizationArgs);
+            this.data.mvtkAuthorization = undefined;
+            this.save();
+        }
         if (this.isReserveMvtk()) {
             if (this.data.mvtkTickets === undefined) {
                 throw new Error('status is different');
-            }
-            if (this.data.mvtkAuthorization !== undefined) {
-                // キャンセル処理
-                const cancelMvtkAuthorizationArgs = {
-                    transactionId: this.data.transaction.id,
-                    actionId: this.data.mvtkAuthorization.id
-                };
-                await this.sasakiService.transaction.placeOrder.cancelMvtkAuthorization(cancelMvtkAuthorizationArgs);
-                this.save();
             }
             const createMvtkAuthorizationArgs = {
                 transactionId: this.data.transaction.id,

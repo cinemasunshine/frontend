@@ -45,8 +45,12 @@ export class PurchaseOverlapComponent implements OnInit {
     /**
      * 新しい取引へ
      */
-    public newTransaction() {
-        this.purchase.reset();
+    public async newTransaction() {
+        try {
+            await this.purchase.cancelSeatRegistrationProcess();
+        } catch(err) {
+            console.log(err);
+        }
         location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.individualScreeningEvent.identifier}`;
     }
 
