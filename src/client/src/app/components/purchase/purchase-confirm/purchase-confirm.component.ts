@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 
@@ -13,6 +14,7 @@ export class PurchaseConfirmComponent implements OnInit {
     public confirmForm: FormGroup;
     public isLoading: boolean;
     public disable: boolean;
+    public environment = environment;
 
     constructor(
         public purchase: PurchaseService,

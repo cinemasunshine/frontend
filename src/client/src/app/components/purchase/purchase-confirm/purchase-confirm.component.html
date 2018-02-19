@@ -9,7 +9,8 @@
             作品情報
             <div class="right">
                 <div class="button light-gray-button change-button">
-                    <a href="{{ purchase.data.movieTheaterOrganization?.url }}">変更</a>
+                    <a class="ticket-app-hide" href="{{ purchase.data.movieTheaterOrganization?.url }}">変更</a>
+                    <a class="ticket-app-show" href="{{ environment.APP_SITE_URL }}/#/purchase">変更</a>
                 </div>
             </div>
         </h2>
@@ -42,8 +43,10 @@
             <li>
                 <dl>
                     <dt>座席</dt>
-                    <dd *ngFor="let offer of purchase.data.seatReservationAuthorization?.object.offers">
-                        <p>{{ offer.ticketInfo.ticketName }} ￥{{ offer.ticketInfo.salePrice }}</p>
+                    <dd>
+                        <p *ngFor="let offer of purchase.data.seatReservationAuthorization?.object.offers">
+                            {{ offer.seatNumber }} {{ offer.ticketInfo.ticketName }} ￥{{ offer.ticketInfo.salePrice }}
+                        </p>
                     </dd>
                 </dl>
             </li>
