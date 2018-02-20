@@ -91,8 +91,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
      * @param {Event} event
      * @param {Iseat} seat
      */
-    public seatSelect(event: Event, seat: ISeat) {
-        event.preventDefault();
+    public seatSelect(seat: ISeat) {
         if (this.isMobile() && !this.zoomState) {
             return;
         }
@@ -119,7 +118,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
      * @returns {void}
      */
     public scaleUp(event: MouseEvent) {
-        event.preventDefault();
         if (this.zoomState) {
             return;
         }

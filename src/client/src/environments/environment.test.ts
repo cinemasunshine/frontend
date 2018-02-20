@@ -7,7 +7,7 @@ export const environment = {
     MVTK_COMPANY_CODE: 'SSK000',
 
     COGNITO_REGION: 'ap-northeast-1', // identity poolのリージョンを指定する
-    COGNITO_IDENTITY_POOL_ID: 'ap-northeast-1:6a67f523-93c3-4766-b96f-6552f21abd8d', // identity poolのID(AWS consoleで確認)
+    COGNITO_IDENTITY_POOL_ID: 'ap-northeast-1:b153d3f1-5e67-468e-8c69-ab938cf3d21e', // identity poolのID(AWS consoleで確認)
     COGNITO_USER_POOL_ID: '',
     COGNITO_CLIENT_ID: '',
 

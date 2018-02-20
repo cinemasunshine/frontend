@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { IIndividualScreeningEvent, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
@@ -18,6 +19,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     public upperLimitModal: boolean;
     public seats: ISeat[];
     public disable: boolean;
+    public environment = environment;
 
     constructor(
         public purchase: PurchaseService,

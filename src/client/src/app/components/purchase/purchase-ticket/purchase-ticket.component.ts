@@ -281,8 +281,7 @@ export class PurchaseTicketComponent implements OnInit {
      * @param {Event} event
      * @param {Ioffer} offer
      */
-    public ticketSelect(event: Event, offer: Ioffer) {
-        event.preventDefault();
+    public ticketSelect(offer: Ioffer) {
         this.selectOffer = offer;
         this.ticketsModal = true;
     }

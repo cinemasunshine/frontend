@@ -14,15 +14,13 @@ $mobile: 767px;
 }
 .modal-cover {
     background-color: rgba(0, 0, 0, 0.7);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    height: 100%;
+    width: 100%;
     animation: fadein 0.4s both;
 }
 
 .modal {
+    z-index: 10;
     width: 600px;
     animation: fadein 0.4s both;
     @media screen and (max-width: $mobile){
