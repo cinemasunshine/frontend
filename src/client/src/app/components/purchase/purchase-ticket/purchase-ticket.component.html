@@ -21,12 +21,12 @@
                 <dt class="d-td seat-code">{{ offer.seatNumber }}</dt>
                 <dd class="d-td width-medium" [class.validation]="offer.validation">
                     <div *ngIf="!offer.selected" class="button blue-button">
-                        <a (click)="ticketSelect(offer)">券種を選択してください</a>
+                        <button (click)="ticketSelect(offer)">券種を選択してください</button>
                     </div>
                     <div *ngIf="offer.selected" class="blue-button ghost-button">
-                        <a (click)="ticketSelect(offer)">
+                        <button (click)="ticketSelect(offer)">
                             {{ offer.ticketInfo.ticketName }} ￥{{ offer.ticketInfo.salePrice }}
-                        </a>
+                        </button>
                     </div>
                 </dd>
             </dl>
@@ -76,7 +76,7 @@
                 </dt>
                 <dd class="d-td width-small">
                     <div class="button blue-button ticket-type-select">
-                        <a (click)="selectMvtkTicket(mvtkTicket)">選択</a>
+                        <button (click)="selectMvtkTicket(mvtkTicket)">選択</button>
                     </div>
                 </dd>
             </dl>
@@ -91,7 +91,7 @@
                 </dt>
                 <dd class="d-td width-small">
                     <div class="button blue-button ticket-type-select">
-                        <a (click)="selectSalseTicket(ticket)">選択</a>
+                        <button (click)="selectSalseTicket(ticket)">選択</button>
                     </div>
                 </dd>
             </dl>
