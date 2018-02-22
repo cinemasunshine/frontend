@@ -96,7 +96,7 @@ export interface IlocalNotificationArgs {
     /**
      * ID
      */
-    id: string;
+    id: number;
     /**
      * タイトル
      */
@@ -127,3 +127,4 @@ export interface IlocalNotificationArgs {
      */
     foreground?: boolean;
 }
+

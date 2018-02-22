@@ -37,13 +37,13 @@ export class AwsCognitoService {
         AWS.config.region = AwsCognitoService.REGION;
         let args: {
             IdentityPoolId: string;
-            identityId?: string
+            IdentityId?: string
         };
         if (deviceId !== undefined) {
             this.storage.save('device', { id: deviceId }, SaveType.Session);
             args = {
                 IdentityPoolId: AwsCognitoService.IDENTITY_POOL_ID,
-                identityId: deviceId
+                IdentityId: deviceId
             };
         } else {
             args = {

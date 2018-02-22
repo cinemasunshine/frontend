@@ -147,6 +147,7 @@ export class PurchaseCompleteComponent implements OnInit {
         try {
             this.data.sendEmailNotification =
                 await this.sasakiService.transaction.placeOrder.sendEmailNotification(sendEmailNotificationArgs);
+            this.storage.save('complete', this.data, SaveType.Session);
         } catch (err) {
             const limit = 10;
             if (count < limit) {

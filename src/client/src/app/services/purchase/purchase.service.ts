@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { environment } from '../../../environments/environment';
 import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
 import { AwsCognitoService } from '../aws-cognito/aws-cognito.service';
+import { CallNativeService } from '../call-native/call-native.service';
 import { SasakiService } from '../sasaki/sasaki.service';
 import { SaveType, StorageService } from '../storage/storage.service';
 
@@ -21,7 +22,8 @@ export class PurchaseService {
     constructor(
         private storage: StorageService,
         private sasakiService: SasakiService,
-        private awsCognito: AwsCognitoService
+        private awsCognito: AwsCognitoService,
+        private callNative: CallNativeService
     ) {
         this.load();
     }
@@ -367,7 +369,7 @@ export class PurchaseService {
      */
     public async cancelSeatRegistrationProcess() {
         if (this.data.transaction === undefined
-        || this.data.tmpSeatReservationAuthorization === undefined) {
+            || this.data.tmpSeatReservationAuthorization === undefined) {
             throw new Error('status is different');
         }
         await this.sasakiService.getServices();
@@ -566,7 +568,8 @@ export class PurchaseService {
      * 購入登録処理
      */
     public async purchaseRegistrationProcess() {
-        if (this.data.transaction === undefined) {
+        if (this.data.transaction === undefined
+            || this.data.individualScreeningEvent === undefined) {
             throw new Error('status is different');
         }
         await this.sasakiService.getServices();
@@ -587,8 +590,8 @@ export class PurchaseService {
         };
         this.storage.save('complete', complete, SaveType.Session);
 
-        // Cognitoへ登録
         if (this.awsCognito.isAuthenticate()) {
+            // Cognitoへ登録
             try {
                 const reservationRecord = await this.awsCognito.getRecords({
                     datasetName: 'reservation'
@@ -611,6 +614,25 @@ export class PurchaseService {
                 await this.awsCognito.updateRecords(updateRecordsArgs);
             } catch (err) {
                 console.log('awsCognito: updateRecords', err);
+            }
+
+            // プッシュ通知登録
+            try {
+                const reservationFor = order.acceptedOffers[0].itemOffered.reservationFor;
+                const localNotificationArgs = {
+                    id: Number(order.orderNumber.replace(/\-/g, '')), // ID
+                    title: '鑑賞時間が近づいています。', // タイトル
+                    text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
+                        '作品名: ' + reservationFor.workPerformed.name + '\n' +
+                        '上映開始: ' + moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm'), // テキスト
+                    trigger: {
+                        at: moment(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                    },
+                    foreground: true // 前面表示（デフォルトは前面表示しない）
+                };
+                this.callNative.localNotification(localNotificationArgs);
+            } catch (err) {
+                console.error(err);
             }
         }
 
