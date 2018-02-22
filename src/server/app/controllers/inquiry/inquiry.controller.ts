@@ -23,12 +23,14 @@ export async function login(req: Request, res: Response): Promise<void> {
         const inquiryModel = new InquiryModel((<Express.Session>req.session).inquiry);
         const options = getOptions(req);
         const args = { branchCode: req.query.theater };
+        log('findMovieTheaterByBranchCode', args);
         inquiryModel.movieTheaterOrganization = await new sasaki.service.Organization(options).findMovieTheaterByBranchCode(args);
         inquiryModel.input.reserveNum = (req.query.reserve !== undefined) ? req.query.reserve : '';
         inquiryModel.save(req.session);
         res.locals.inquiryModel = inquiryModel;
         res.locals.error = null;
         res.render('inquiry/login');
+        log('inquiryModel', inquiryModel);
     } catch (err) {
         log(err);
         res.locals.error = err;
@@ -65,7 +67,9 @@ export async function auth(req: Request, res: Response): Promise<void> {
                 confirmationNumber: Number(inquiryModel.input.reserveNum),
                 theaterCode: inquiryModel.movieTheaterOrganization.location.branchCode
             };
+            log('findByOrderInquiryKey', args);
             inquiryModel.order = await new sasaki.service.Order(options).findByOrderInquiryKey(args);
+            log('findByOrderInquiryKey', inquiryModel.order);
             if (inquiryModel.order === undefined) {
                 log('NOT FOUND');
                 const error = {
@@ -81,7 +85,7 @@ export async function auth(req: Request, res: Response): Promise<void> {
             }
             inquiryModel.save(req.session);
             const orderNumber = inquiryModel.order.orderNumber;
-            return res.redirect(`/inquiry/${orderNumber}/?theater=${theaterCode}`);
+            return res.redirect(`/inquiry/confirm/${orderNumber}/?theater=${theaterCode}`);
         } else {
             res.locals.inquiryModel = inquiryModel;
             res.locals.error = validationResult.mapped();

@@ -11,5 +11,5 @@ router.get('/login', inquiry.login);
 // チケット照会ログイン（認証）
 router.post('/login', inquiry.auth);
 // チケット照会
-router.get('/:orderNumber/', inquiry.confirm);
+router.get('/confirm/:orderNumber/', inquiry.confirm);
 exports.default = router;

@@ -13,6 +13,6 @@ router.get('/login', inquiry.login);
 router.post('/login', inquiry.auth);
 
 // チケット照会
-router.get('/:orderNumber/', inquiry.confirm);
+router.get('/confirm/:orderNumber/', inquiry.confirm);
 
 export default router;
