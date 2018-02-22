@@ -72,11 +72,12 @@ function auth(req, res) {
             inquiryModel.save(req.session);
             if (validationResult.isEmpty()) {
                 const theaterCode = inquiryModel.movieTheaterOrganization.location.branchCode;
-                inquiryModel.order = yield new sasaki.service.Order(options).findByOrderInquiryKey({
+                const args = {
                     telephone: inquiryModel.input.telephone,
                     confirmationNumber: Number(inquiryModel.input.reserveNum),
                     theaterCode: inquiryModel.movieTheaterOrganization.location.branchCode
-                });
+                };
+                inquiryModel.order = yield new sasaki.service.Order(options).findByOrderInquiryKey(args);
                 if (inquiryModel.order === undefined) {
                     log('NOT FOUND');
                     const error = {

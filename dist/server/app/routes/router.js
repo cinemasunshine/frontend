@@ -21,18 +21,22 @@ exports.default = (app) => {
     app.use('/inquiry', inquiry_1.default);
     app.use('/method', method_1.default);
     app.get('/purchase/performances/getSchedule', purchase_controller_1.getSchedule);
-    app.get('/purchase/transaction', (req, res) => {
+    app.get('/purchase/transaction', (req, res, _next) => {
         let params = `performanceId=${req.query.performanceId}&passportToken=${req.query.passportToken}`;
         if (req.query.identityId !== undefined) {
             params += `&identityId=${req.query.identityId}`;
         }
         res.redirect(`/?${params}`);
     });
-    app.get('/', (_, res) => {
+    app.get('/', (_req, res, _next) => {
         res.locals.env = process.env.NODE_ENV;
         res.render('purchase/index', { layout: false });
     });
-    app.get('*', (_, res) => {
-        res.redirect('/');
+    app.use((_req, res, _next) => {
+        res.render('notfound/index');
+    });
+    app.use((err, _req, res, _next) => {
+        res.locals.error = err;
+        res.render('error/index');
     });
 };

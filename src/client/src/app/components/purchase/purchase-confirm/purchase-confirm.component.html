@@ -7,10 +7,14 @@
     <div class="form-layout">
         <h2 class="section-ttl">
             作品情報
-            <div class="right">
+            <div class="right ticket-app-hide">
                 <div class="button light-gray-button change-button">
-                    <a class="ticket-app-hide" href="{{ purchase.data.movieTheaterOrganization?.url }}">変更</a>
-                    <a class="ticket-app-show" href="{{ environment.APP_SITE_URL }}/#/purchase">変更</a>
+                    <a href="{{ purchase.data.movieTheaterOrganization?.url }}">変更</a>
+                </div>
+            </div>
+            <div class="right ticket-app-show">
+                <div class="button light-gray-button change-button">
+                    <a href="{{ environment.APP_SITE_URL }}/#/purchase">変更</a>
                 </div>
             </div>
         </h2>
