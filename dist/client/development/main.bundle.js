@@ -1936,9 +1936,7 @@ var ScreenComponent = /** @class */ (function () {
                         err_1 = _a.sent();
                         this.error.redirect(new Error('data is not found'));
                         return [3 /*break*/, 4];
-                    case 4:
-                        this.load.emit(this.getSelectSeats());
-                        return [2 /*return*/];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -1948,12 +1946,14 @@ var ScreenComponent = /** @class */ (function () {
      */
     ScreenComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
+        var time = 300;
         var timer = setInterval(function () {
             if (_this.data !== undefined) {
                 clearInterval(timer);
                 _this.scaleDown();
+                _this.load.emit(_this.getSelectSeats());
             }
-        });
+        }, time);
     };
     /**
      * モバイル判定

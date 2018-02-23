@@ -31,7 +31,7 @@ export class PurchaseScheduleComponent implements OnInit {
     public schedules: IIndividualScreeningEvent[];
     public conditions: { theater: string; date: string };
     public environment = environment;
-    
+
     constructor(
         private error: ErrorService,
         private purchase: PurchaseService,

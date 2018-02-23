@@ -46,19 +46,20 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         } catch (err) {
             this.error.redirect(new Error('data is not found'));
         }
-        this.load.emit(this.getSelectSeats());
     }
 
     /**
      * レンダリング後処理
      */
     public ngAfterViewInit() {
+        const time = 300;
         const timer = setInterval(() => {
             if (this.data !== undefined) {
                 clearInterval(timer);
                 this.scaleDown();
+                this.load.emit(this.getSelectSeats());
             }
-        });
+        }, time);
     }
 
     /**
