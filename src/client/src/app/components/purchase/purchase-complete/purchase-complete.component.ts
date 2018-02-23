@@ -128,23 +128,28 @@ export class PurchaseCompleteComponent implements OnInit {
      * メール送信処理
      */
     public async mailSendProcess(count: number) {
-        const text = (this.awsCognito.isAuthenticate()) ? this.getAppMailText() : this.getMailText();
-        const sendEmailNotificationArgs = {
-            transactionId: this.data.transaction.id,
-            emailMessageAttributes: {
-                sender: {
-                    name: this.data.order.seller.name,
-                    email: 'noreply@ticket-cinemasunshine.com'
-                },
-                toRecipient: {
-                    name: `${this.data.order.customer.familyName} ${this.data.order.customer.givenName}`,
-                    email: this.data.order.customer.email
-                },
-                about: `${this.data.order.seller.name} 購入完了`,
-                text: text
-            }
-        };
         try {
+            const movieTheaterPlace = await this.sasakiService.place.findMovieTheater({
+                branchCode: this.data.movieTheaterOrganization.location.branchCode
+            });
+            const text = (this.awsCognito.isAuthenticate())
+                ? this.getAppMailText(movieTheaterPlace.telephone)
+                : this.getMailText(movieTheaterPlace.telephone);
+            const sendEmailNotificationArgs = {
+                transactionId: this.data.transaction.id,
+                emailMessageAttributes: {
+                    sender: {
+                        name: this.data.order.seller.name,
+                        email: 'noreply@ticket-cinemasunshine.com'
+                    },
+                    toRecipient: {
+                        name: `${this.data.order.customer.familyName} ${this.data.order.customer.givenName}`,
+                        email: this.data.order.customer.email
+                    },
+                    about: `${this.data.order.seller.name} 購入完了`,
+                    text: text
+                }
+            };
             this.data.sendEmailNotification =
                 await this.sasakiService.transaction.placeOrder.sendEmailNotification(sendEmailNotificationArgs);
             this.storage.save('complete', this.data, SaveType.Session);
@@ -162,7 +167,7 @@ export class PurchaseCompleteComponent implements OnInit {
         }
     }
 
-    public getMailText() {
+    public getMailText(telephone: string) {
         // tslint:disable:max-line-length
         return `${this.data.order.customer.familyName} ${this.data.order.customer.givenName} 様
 この度は、${this.data.order.seller.name}のオンライン先売りチケットサービスにてご購入頂き、誠にありがとうございます。お客様がご購入されましたチケットの情報は下記の通りです。
@@ -211,10 +216,10 @@ ${this.getInquiryUrl()}
 
 お問い合わせはこちら
 ${this.data.order.seller.name}
-TEL：${this.data.movieTheaterOrganization.telephone}`;
+TEL：${telephone}`;
     }
 
-    public getAppMailText() {
+    public getAppMailText(telephone: string) {
         // tslint:disable:max-line-length
         return `${this.data.order.customer.familyName} ${this.data.order.customer.givenName} 様
 この度は、${this.data.order.seller.name}のオンライン先売りチケットサービスにてご購入頂き、誠にありがとうございます。お客様がご購入されましたチケットの情報は下記の通りです。
@@ -262,6 +267,6 @@ ${this.getInquiryUrl()}
 
 お問い合わせはこちら
 ${this.data.order.seller.name}
-TEL：${this.data.movieTheaterOrganization.telephone}`;
+TEL：${telephone}`;
     }
 }
