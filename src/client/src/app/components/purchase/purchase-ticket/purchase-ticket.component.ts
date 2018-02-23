@@ -87,7 +87,7 @@ export class PurchaseTicketComponent implements OnInit {
                     id: `${mvtkTicket.knyknrNoInfo.knyknrNo}${mvtkTicket.ykknInfo.ykknshTyp}${count}`,
                     selected: false,
                     addGlasses: 0,
-                    salePrice: Number(mvtkTicket.ykknInfo.knshknhmbiUnip),
+                    salePrice: Number(mvtkTicket.mvtkTicketcodeResult.addPrice),
                     ticketName: mvtkTicket.mvtkTicketcodeResult.ticketName
                 };
                 const noGlasses = Object.assign(noGlassesBase, mvtkTicket);
@@ -98,7 +98,8 @@ export class PurchaseTicketComponent implements OnInit {
                         id: `${mvtkTicket.knyknrNoInfo.knyknrNo}${mvtkTicket.ykknInfo.ykknshTyp}${count}`,
                         selected: false,
                         addGlasses: Number(mvtkTicket.mvtkTicketcodeResult.addPriceGlasses),
-                        salePrice: Number(mvtkTicket.ykknInfo.knshknhmbiUnip) + Number(mvtkTicket.mvtkTicketcodeResult.addPriceGlasses),
+                        salePrice:
+                            Number(mvtkTicket.mvtkTicketcodeResult.addPriceGlasses) + Number(mvtkTicket.mvtkTicketcodeResult.addPrice),
                         ticketName: `${mvtkTicket.mvtkTicketcodeResult.ticketName} メガネ込み`
                     };
                     const glasses = Object.assign(glassesBase, mvtkTicket);

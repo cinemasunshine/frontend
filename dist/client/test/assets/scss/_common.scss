@@ -38,6 +38,8 @@ body {
     background-color: #E2E1E0;
     @media screen and (max-width: $tablet){
         font-weight: normal;
+        -webkit-touch-callout: none;
+        user-select: none;
     }
     @media screen and (max-width: $mobile){
         font-size: 14px;
@@ -759,5 +761,11 @@ p {
     }
     100% {
         opacity: 0;
+    }
+}
+
+@media print {
+    .not-print {
+        display: none;
     }
 }

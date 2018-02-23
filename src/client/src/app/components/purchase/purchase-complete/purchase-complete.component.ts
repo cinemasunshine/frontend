@@ -181,7 +181,7 @@ ${this.getScreenName()}
 
 [座席]
 ${this.data.order.acceptedOffers.map((offer) => {
-                return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.price}`;
+                return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.itemOffered.reservedTicket.coaTicketInfo.salePrice}`;
             }).join('\n')}
 [合計]
 ￥${this.data.order.price}
@@ -233,7 +233,7 @@ ${this.getScreenName()}
 
 [座席]
 ${this.data.order.acceptedOffers.map((offer) => {
-                return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.price}`;
+                return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.itemOffered.reservedTicket.coaTicketInfo.salePrice}`;
             }).join('\n')}
 [合計]
 ￥${this.data.order.price}
