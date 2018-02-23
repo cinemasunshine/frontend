@@ -117,6 +117,11 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
                     }
                 };
             });
+            if (this.purchase.isExpired()) {
+                this.router.navigate(['expired']);
+
+                return;
+            }
             await this.purchase.seatRegistrationProcess(offers);
             this.router.navigate(['/purchase/ticket']);
         } catch (err) {

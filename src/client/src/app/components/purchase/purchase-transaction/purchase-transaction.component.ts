@@ -64,6 +64,10 @@ export class PurchaseTransactionComponent implements OnInit {
             if ( moment().add(END_TIME, 'minutes').unix() > moment(individualScreeningEvent.startDate).unix()) {
                 throw new Error('unable to end sales');
             }
+            if (this.purchase.data.transaction !== undefined && this.purchase.isExpired()) {
+                // 取引期限切れなら購入情報削除
+                this.purchase.reset();
+            }
             if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
                 // 重複確認へ
                 this.storage.save('individualScreeningEvent', individualScreeningEvent, SaveType.Session);

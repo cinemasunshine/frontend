@@ -173,6 +173,11 @@ export class PurchaseTicketComponent implements OnInit {
                     ticketInfo: offer.ticketInfo
                 };
             });
+            if (this.purchase.isExpired()) {
+                this.router.navigate(['expired']);
+
+                return;
+            }
             await this.purchase.ticketRegistrationProcess(offers);
             this.router.navigate(['/purchase/input']);
         } catch (err) {

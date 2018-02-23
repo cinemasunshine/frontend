@@ -68,6 +68,24 @@ export class PurchaseService {
     }
 
     /**
+     * 期限切れ
+     * @method isExpired
+     */
+    public isExpired() {
+        if (this.data.transaction === undefined) {
+            throw new Error('status is different');
+        }
+        const expires = moment(this.data.transaction.expires).unix();
+        const now = moment().unix();
+        let result = false;
+        if (expires < now) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    /**
      * 販売可能時間判定
      * @method isSalseTime
      * @param {IIndividualScreeningEvent} screeningEvent
@@ -353,10 +371,10 @@ export class PurchaseService {
         });
         // 取引期限
         const VALID_TIME = 15;
-        const expires = moment().add(VALID_TIME, 'minutes').toISOString();
+        const expires = moment().add(VALID_TIME, 'minutes').toDate();
         // 取引開始
         this.data.transaction = await this.sasakiService.transaction.placeOrder.start({
-            expires: <any>expires,
+            expires: expires,
             sellerId: this.data.movieTheaterOrganization.id,
             passportToken: args.passportToken
         });

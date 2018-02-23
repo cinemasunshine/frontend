@@ -96,6 +96,11 @@ export class PurchaseMvtkInputComponent implements OnInit {
                     pinCd: mvtkForm.controls.password.value
                 };
             });
+            if (this.purchase.isExpired()) {
+                this.router.navigate(['expired']);
+
+                return;
+            }
             await this.purchase.mvtkAuthenticationProcess(mvtkData);
             this.router.navigate(['purchase/mvtk/confirm']);
         } catch (err) {

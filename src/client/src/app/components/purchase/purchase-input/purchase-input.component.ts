@@ -129,6 +129,11 @@ export class PurchaseInputComponent implements OnInit {
                     telephone: this.inputForm.controls.telephone.value
                 }
             };
+            if (this.purchase.isExpired()) {
+                this.router.navigate(['expired']);
+
+                return;
+            }
             await this.purchase.customerContactRegistrationProcess(setCustomerContactArgs);
             this.router.navigate(['/purchase/confirm']);
         } catch (err) {

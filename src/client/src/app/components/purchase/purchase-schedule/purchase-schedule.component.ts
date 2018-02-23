@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
+import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
@@ -29,7 +30,8 @@ export class PurchaseScheduleComponent implements OnInit {
     public filmOrder: IFilmOrder[];
     public schedules: IIndividualScreeningEvent[];
     public conditions: { theater: string; date: string };
-
+    public environment = environment;
+    
     constructor(
         private error: ErrorService,
         private purchase: PurchaseService,
