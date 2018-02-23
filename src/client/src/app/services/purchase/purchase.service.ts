@@ -332,7 +332,7 @@ export class PurchaseService {
         const time = `${new TimeFormatPipe().transform(coaInfo.dateJouei, this.data.individualScreeningEvent.startDate)}:00`;
         const tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
         const systemReservationNumber = `${coaInfo.dateJouei}${tmpReserveNum}`;
-        const siteCode = `00${coaInfo.theaterCode}`.slice(DIGITS);
+        const siteCode = String(Number(`00${coaInfo.theaterCode}`.slice(DIGITS)));
         const deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '0' : options.deleteFlag;
         const reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
         const skhnCd = `${coaInfo.titleCode}${`00${coaInfo.titleBranchNum}`.slice(DIGITS)}`;

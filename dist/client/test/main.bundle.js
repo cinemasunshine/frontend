@@ -6510,7 +6510,7 @@ var PurchaseService = /** @class */ (function () {
         var time = new __WEBPACK_IMPORTED_MODULE_2__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]().transform(coaInfo.dateJouei, this.data.individualScreeningEvent.startDate) + ":00";
         var tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
         var systemReservationNumber = "" + coaInfo.dateJouei + tmpReserveNum;
-        var siteCode = ("00" + coaInfo.theaterCode).slice(DIGITS);
+        var siteCode = String(Number(("00" + coaInfo.theaterCode).slice(DIGITS)));
         var deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '0' : options.deleteFlag;
         var reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
         var skhnCd = "" + coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS);
