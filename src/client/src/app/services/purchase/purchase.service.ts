@@ -14,6 +14,8 @@ export type IIndividualScreeningEvent = sasaki.factory.event.individualScreening
 export type ICustomerContact = sasaki.factory.transaction.placeOrder.ICustomerContact;
 export type ISalesTicketResult = COA.services.reserve.ISalesTicketResult;
 
+declare const ga: Function;
+
 @Injectable()
 export class PurchaseService {
 
@@ -607,6 +609,19 @@ export class PurchaseService {
             movieTheaterOrganization: this.data.movieTheaterOrganization
         };
         this.storage.save('complete', complete, SaveType.Session);
+
+        try {
+            // Google Analytics
+            const sendData = {
+                hitType: 'event',
+                eventCategory: 'purchase',
+                eventAction: 'complete',
+                eventLabel: `conversion-${this.data.individualScreeningEvent.coaInfo.theaterCode}`
+            };
+            ga('send', sendData);
+        } catch (err) {
+            console.error(err);
+        }
 
         if (this.awsCognito.isAuthenticate()) {
             // Cognitoへ登録

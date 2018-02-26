@@ -32,7 +32,6 @@ export default (app: express.Application) => {
         res.redirect(`/?${params}`);
     });
     app.get('/', (_req, res, _next) => {
-        res.locals.env = process.env.NODE_ENV;
         res.locals.GMO_ENDPOINT = process.env.GMO_ENDPOINT;
         res.render('purchase/index', { layout: false });
     });

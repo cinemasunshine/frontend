@@ -6853,7 +6853,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.purchaseRegistrationProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var mvtksSatInfoSyncArgs, order, complete, reservationRecord_1, updateRecordsArgs, err_2, reservationFor, localNotificationArgs;
+            var mvtksSatInfoSyncArgs, order, complete, sendData, reservationRecord_1, updateRecordsArgs, err_2, reservationFor, localNotificationArgs;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -6881,6 +6881,18 @@ var PurchaseService = /** @class */ (function () {
                             movieTheaterOrganization: this.data.movieTheaterOrganization
                         };
                         this.storage.save('complete', complete, __WEBPACK_IMPORTED_MODULE_6__storage_storage_service__["a" /* SaveType */].Session);
+                        try {
+                            sendData = {
+                                hitType: 'event',
+                                eventCategory: 'purchase',
+                                eventAction: 'complete',
+                                eventLabel: "conversion-" + this.data.individualScreeningEvent.coaInfo.theaterCode
+                            };
+                            ga('send', sendData);
+                        }
+                        catch (err) {
+                            console.error(err);
+                        }
                         if (!this.awsCognito.isAuthenticate()) return [3 /*break*/, 10];
                         _a.label = 5;
                     case 5:
