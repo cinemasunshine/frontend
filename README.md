@@ -57,12 +57,6 @@ set SSKTS_BASIC_AUTH_PASS=**********認証パスワード**********
 set SSKTS_MAINTENANCE_TEXT=**********適当な文字列**********
 ```
 
-券売機モード
-
-```shell
-set VIEW_TYPE=fixed
-```
-
 スマホアプリ内表示
 
 ```shell
@@ -90,9 +84,22 @@ set COGNITO_CLIENT_ID=**********COGNITO CLIENT ID**********
 npm run build
 ```
 
+クライアント側ビルドは以下で実行できます。
+- typescript
+```shell
+npm run build-client
+```
+
+サーバー側ビルドは以下で実行できます。
+- typescript
+```shell
+npm run build-server
+```
+
+サーバー側scssビルドは以下で実行できます。
 - scss
 ```shell
-npm run css
+npm run css-server
 ```
 
 # Tests
@@ -109,10 +116,10 @@ npm test
 npm ui-test
 ``` -->
 
-# JsDoc
+<!-- # JsDoc
 
 ```shell
 npm run jsdoc
 ```
 
-`jsdocを作成できます。./docsに出力されます。
+`jsdocを作成できます。./docsに出力されます。 -->
