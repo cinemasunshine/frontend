@@ -7318,7 +7318,7 @@ var environment = {
     production: true,
     PORTAL_SITE_URL: 'http://www.cinemasunshine.co.jp',
     APP_SITE_URL: 'https://smpapp.ticket-cinemasunshine.com',
-    API_ENDPOINT: 'https://ticket-cinemasunshine.com',
+    API_ENDPOINT: '',
     ENTRANCE_SERVER_URL: '	https://entrance.ticket-cinemasunshine.com',
     MVTK_COMPANY_CODE: 'SSK000',
     COGNITO_REGION: 'ap-northeast-1',
