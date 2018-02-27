@@ -12,6 +12,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+### Removed
+
+## 3.0.0 - 2017-02-27
+### Changed
+ - SPAへ構成を変更
+### Removed
+ - 券売機を削除
+
 ## 2.4.1 - 2017-02-02
 ### Fixed
  - OAスケジュールと整合性を合わせる修正

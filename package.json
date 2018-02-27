@@ -1,6 +1,6 @@
 {
   "name": "sskts-frontend",
-  "version": "2.4.1",
+  "version": "3.0.0",
   "scripts": {
     "ng": "ng",
     "start-client": "ng serve --environment=local",
@@ -19,7 +19,8 @@
     "build-server": "tsc --project src/server --outDir dist/server --locale ja-jp",
     "lint-server": "tslint --config tslint.json src/server/**/**.ts --exclude **/**.spec.ts --project src/server/tsconfig.json",
     "build": "npm run css-server && npm run build-server && npm run build-client",
-    "version": "git add -A"
+    "version": "git add -A",
+    "preversion": "npm run build"
   },
   "private": true,
   "dependencies": {
