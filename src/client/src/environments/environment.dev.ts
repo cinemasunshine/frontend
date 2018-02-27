@@ -3,6 +3,7 @@ export const environment = {
     PORTAL_SITE_URL: 'http://devssktsportal.azurewebsites.net',
     APP_SITE_URL: 'https://sskts-ticket-development.azurewebsites.net',
     API_ENDPOINT: '',
+    FRONTEND_ENDPOINT: 'https://sskts-frontend-development.azurewebsites.net',
     ENTRANCE_SERVER_URL: 'https://d2n1h4enbzumbc.cloudfront.net',
     MVTK_COMPANY_CODE: 'SSK000',
 

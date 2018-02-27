@@ -3,7 +3,8 @@ export const environment = {
     PORTAL_SITE_URL: 'http://www.cinemasunshine.co.jp',
     APP_SITE_URL: 'https://smpapp.ticket-cinemasunshine.com',
     API_ENDPOINT: '',
-    ENTRANCE_SERVER_URL: '	https://entrance.ticket-cinemasunshine.com',
+    FRONTEND_ENDPOINT: 'https://ticket-cinemasunshine.com',
+    ENTRANCE_SERVER_URL: 'https://entrance.ticket-cinemasunshine.com',
     MVTK_COMPANY_CODE: 'SSK000',
 
     COGNITO_REGION: 'ap-northeast-1', // identity poolのリージョンを指定する
