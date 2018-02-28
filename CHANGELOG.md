@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 3.0.1 - 2017-02-28
+### Fixed
+API_ENDPOINTを修正
+
 ## 3.0.0 - 2017-02-27
 ### Changed
  - SPAへ構成を変更

@@ -121,7 +121,7 @@ export class PurchaseCompleteComponent implements OnInit {
      */
     public getInquiryUrl() {
         const params = `theater=${this.data.movieTheaterOrganization.location.branchCode}&reserve=${this.data.order.confirmationNumber}`;
-        return `${this.environment.API_ENDPOINT}/inquiry/login?${params}`;
+        return `${this.environment.FRONTEND_ENDPOINT}/inquiry/login?${params}`;
     }
 
     /**
