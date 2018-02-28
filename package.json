@@ -1,6 +1,6 @@
 {
   "name": "sskts-frontend",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "scripts": {
     "ng": "ng",
     "start-client": "ng serve --environment=local",
