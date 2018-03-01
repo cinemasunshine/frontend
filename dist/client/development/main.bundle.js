@@ -7263,34 +7263,64 @@ var SasakiService = /** @class */ (function () {
      * @param {mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn} args
      */
     SasakiService.prototype.mvtkPurchaseNumberAuth = function (args) {
-        var url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
-        return this.http.post(url, args).toPromise();
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
+                return [2 /*return*/, this.http.post(url, args).toPromise()];
+            });
+        });
     };
     /**
      * ムビチケ座席指定情報連携
      * @param {mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn} args
      */
     SasakiService.prototype.mvtksSatInfoSync = function (args) {
-        var url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
-        return this.http.post(url, args).toPromise();
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
+                return [2 /*return*/, this.http.post(url, args).toPromise()];
+            });
+        });
     };
     /**
      * 座席ステータス取得
      * @param {COA.services.reserve.IStateReserveSeatArgs} args
      */
     SasakiService.prototype.getSeatState = function (args) {
-        var url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/getSeatState";
-        return this.http.get(url, {
-            params: args
-        }).toPromise();
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/getSeatState";
+                return [2 /*return*/, this.http.get(url, {
+                        params: args
+                    }).toPromise()];
+            });
+        });
     };
     /**
      * ムビチケチケットコード取得
      * @param {COA.services.master.IMvtkTicketcodeArgs} args
      */
     SasakiService.prototype.mvtkTicketcode = function (args) {
-        var url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
-        return this.http.post(url, args).toPromise();
+        return __awaiter(this, void 0, void 0, function () {
+            var url, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
+                        return [4 /*yield*/, this.http.post(url, args).toPromise()];
+                    case 1:
+                        result = _a.sent();
+                        // 暫定的に対応
+                        if (result.name === 'COAServiceError') {
+                            throw new Error('COAServiceError');
+                        }
+                        return [2 /*return*/, result];
+                }
+            });
+        });
     };
     /**
      * 券種取得
@@ -7298,10 +7328,15 @@ var SasakiService = /** @class */ (function () {
      * @param {COA.services.reserve.ISalesTicketArgs} args
      */
     SasakiService.prototype.getSalesTickets = function (args) {
-        var url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/master/getSalesTickets";
-        return this.http.get(url, {
-            params: args
-        }).toPromise();
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/master/getSalesTickets";
+                return [2 /*return*/, this.http.get(url, {
+                        params: args
+                    }).toPromise()];
+            });
+        });
     };
     return SasakiService;
 }());
