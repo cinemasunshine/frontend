@@ -319,6 +319,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                             return (offer.seatNumber === code);
                         });
                         if (targetOffer !== undefined) {
+                            section = targetOffer.seatSection;
                             status = 'active';
                         }
                     }

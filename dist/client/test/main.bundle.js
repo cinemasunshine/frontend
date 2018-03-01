@@ -2214,6 +2214,7 @@ var ScreenComponent = /** @class */ (function () {
                             return (offer.seatNumber === code_1);
                         });
                         if (targetOffer !== undefined) {
+                            section = targetOffer.seatSection;
                             status_1 = 'active';
                         }
                     }
