@@ -6854,7 +6854,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.purchaseRegistrationProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var mvtksSatInfoSyncArgs, order, complete, sendData, reservationRecord_1, updateRecordsArgs, err_2, reservationFor, localNotificationArgs;
+            var mvtksSatInfoSyncArgs, order, err_2, complete, sendData, reservationRecord_1, updateRecordsArgs, err_3, reservationFor, localNotificationArgs;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -6871,11 +6871,24 @@ var PurchaseService = /** @class */ (function () {
                     case 2:
                         _a.sent();
                         _a.label = 3;
-                    case 3: return [4 /*yield*/, this.sasakiService.transaction.placeOrder.confirm({
-                            transactionId: this.data.transaction.id
-                        })];
+                    case 3:
+                        _a.trys.push([3, 5, , 8]);
+                        return [4 /*yield*/, this.sasakiService.transaction.placeOrder.confirm({
+                                transactionId: this.data.transaction.id
+                            })];
                     case 4:
+                        // 取引確定
                         order = _a.sent();
+                        return [3 /*break*/, 8];
+                    case 5:
+                        err_2 = _a.sent();
+                        if (!this.isReserveMvtk()) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.cancelMvtksSatInfoSync(0)];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7: throw err_2;
+                    case 8:
                         complete = {
                             order: order,
                             transaction: this.data.transaction,
@@ -6894,14 +6907,14 @@ var PurchaseService = /** @class */ (function () {
                         catch (err) {
                             console.error(err);
                         }
-                        if (!this.awsCognito.isAuthenticate()) return [3 /*break*/, 10];
-                        _a.label = 5;
-                    case 5:
-                        _a.trys.push([5, 8, , 9]);
+                        if (!this.awsCognito.isAuthenticate()) return [3 /*break*/, 14];
+                        _a.label = 9;
+                    case 9:
+                        _a.trys.push([9, 12, , 13]);
                         return [4 /*yield*/, this.awsCognito.getRecords({
                                 datasetName: 'reservation'
                             })];
-                    case 6:
+                    case 10:
                         reservationRecord_1 = _a.sent();
                         if (reservationRecord_1.orders === undefined) {
                             reservationRecord_1.orders = [];
@@ -6919,14 +6932,14 @@ var PurchaseService = /** @class */ (function () {
                             value: reservationRecord_1
                         };
                         return [4 /*yield*/, this.awsCognito.updateRecords(updateRecordsArgs)];
-                    case 7:
+                    case 11:
                         _a.sent();
-                        return [3 /*break*/, 9];
-                    case 8:
-                        err_2 = _a.sent();
-                        console.log('awsCognito: updateRecords', err_2);
-                        return [3 /*break*/, 9];
-                    case 9:
+                        return [3 /*break*/, 13];
+                    case 12:
+                        err_3 = _a.sent();
+                        console.log('awsCognito: updateRecords', err_3);
+                        return [3 /*break*/, 13];
+                    case 13:
                         // プッシュ通知登録
                         try {
                             reservationFor = order.acceptedOffers[0].itemOffered.reservationFor;
@@ -6946,11 +6959,47 @@ var PurchaseService = /** @class */ (function () {
                         catch (err) {
                             console.error(err);
                         }
-                        _a.label = 10;
-                    case 10:
+                        _a.label = 14;
+                    case 14:
                         // 購入情報削除
                         this.reset();
                         return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * ムビチケ着券取り消し
+     */
+    PurchaseService.prototype.cancelMvtksSatInfoSync = function (count) {
+        return __awaiter(this, void 0, void 0, function () {
+            var deleteFlag, mvtksSatInfoSyncArgs, err_4, limit;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log('cancelMvtksSatInfoSync', count);
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 5]);
+                        deleteFlag = '1';
+                        mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync({
+                            deleteFlag: deleteFlag
+                        });
+                        return [4 /*yield*/, this.sasakiService.mvtksSatInfoSync(mvtksSatInfoSyncArgs)];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 3:
+                        err_4 = _a.sent();
+                        limit = 3;
+                        if (count > limit) {
+                            throw err_4;
+                        }
+                        return [4 /*yield*/, this.cancelMvtksSatInfoSync(count + 1)];
+                    case 4:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
