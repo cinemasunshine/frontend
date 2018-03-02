@@ -4488,7 +4488,8 @@ var PurchaseScheduleComponent = /** @class */ (function () {
      */
     PurchaseScheduleComponent.prototype.changeConditions = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, err_2;
+            var _this = this;
+            var theater, _a, err_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4500,9 +4501,15 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.sasakiService.getServices()];
                     case 2:
                         _b.sent();
+                        theater = this.theaters.find(function (target) {
+                            return (target.location.branchCode === _this.conditions.theater);
+                        });
+                        if (theater === undefined) {
+                            throw new Error('theater is not found');
+                        }
                         _a = this;
                         return [4 /*yield*/, this.sasakiService.event.searchIndividualScreeningEvent({
-                                theater: this.conditions.theater,
+                                superEventLocationIdentifiers: [theater.identifier],
                                 startFrom: __WEBPACK_IMPORTED_MODULE_1_moment__(this.conditions.date).toDate(),
                                 startThrough: __WEBPACK_IMPORTED_MODULE_1_moment__(this.conditions.date).add(1, 'day').toDate()
                             })];
@@ -6178,14 +6185,16 @@ var PurchaseGuardService = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__("../../../../../src/client/src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pipes_time_format_time_format_pipe__ = __webpack_require__("../../../../../src/client/src/app/pipes/time-format/time-format.pipe.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__aws_cognito_aws_cognito_service__ = __webpack_require__("../../../../../src/client/src/app/services/aws-cognito/aws-cognito.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__call_native_call_native_service__ = __webpack_require__("../../../../../src/client/src/app/services/call-native/call-native.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__sasaki_sasaki_service__ = __webpack_require__("../../../../../src/client/src/app/services/sasaki/sasaki.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__storage_storage_service__ = __webpack_require__("../../../../../src/client/src/app/services/storage/storage.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__motionpicture_sskts_api_javascript_client__ = __webpack_require__("../../../../@motionpicture/sskts-api-javascript-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__motionpicture_sskts_api_javascript_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__motionpicture_sskts_api_javascript_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__("../../../../../src/client/src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__ = __webpack_require__("../../../../../src/client/src/app/pipes/time-format/time-format.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__aws_cognito_aws_cognito_service__ = __webpack_require__("../../../../../src/client/src/app/services/aws-cognito/aws-cognito.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__call_native_call_native_service__ = __webpack_require__("../../../../../src/client/src/app/services/call-native/call-native.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__sasaki_sasaki_service__ = __webpack_require__("../../../../../src/client/src/app/services/sasaki/sasaki.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__storage_storage_service__ = __webpack_require__("../../../../../src/client/src/app/services/storage/storage.service.ts");
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -6228,6 +6237,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+
 var PurchaseService = /** @class */ (function () {
     function PurchaseService(storage, sasakiService, awsCognito, callNative) {
         this.storage = storage;
@@ -6241,7 +6251,7 @@ var PurchaseService = /** @class */ (function () {
      * @method load
      */
     PurchaseService.prototype.load = function () {
-        var data = this.storage.load('purchase', __WEBPACK_IMPORTED_MODULE_6__storage_storage_service__["a" /* SaveType */].Session);
+        var data = this.storage.load('purchase', __WEBPACK_IMPORTED_MODULE_7__storage_storage_service__["a" /* SaveType */].Session);
         if (data === null) {
             this.data = {
                 salesTickets: [],
@@ -6257,7 +6267,7 @@ var PurchaseService = /** @class */ (function () {
      * @method save
      */
     PurchaseService.prototype.save = function () {
-        this.storage.save('purchase', this.data, __WEBPACK_IMPORTED_MODULE_6__storage_storage_service__["a" /* SaveType */].Session);
+        this.storage.save('purchase', this.data, __WEBPACK_IMPORTED_MODULE_7__storage_storage_service__["a" /* SaveType */].Session);
     };
     /**
      * リセット
@@ -6279,8 +6289,8 @@ var PurchaseService = /** @class */ (function () {
         if (this.data.transaction === undefined) {
             throw new Error('status is different');
         }
-        var expires = __WEBPACK_IMPORTED_MODULE_0_moment__(this.data.transaction.expires).unix();
-        var now = __WEBPACK_IMPORTED_MODULE_0_moment__().unix();
+        var expires = __WEBPACK_IMPORTED_MODULE_1_moment__(this.data.transaction.expires).unix();
+        var now = __WEBPACK_IMPORTED_MODULE_1_moment__().unix();
         var result = false;
         if (expires < now) {
             result = true;
@@ -6295,7 +6305,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.isSalseTime = function (screeningEvent) {
         var END_TIME = 30; // 30分前
-        return (__WEBPACK_IMPORTED_MODULE_0_moment__().unix() < __WEBPACK_IMPORTED_MODULE_0_moment__(screeningEvent.startDate).subtract(END_TIME, 'minutes').unix());
+        return (__WEBPACK_IMPORTED_MODULE_1_moment__().unix() < __WEBPACK_IMPORTED_MODULE_1_moment__(screeningEvent.startDate).subtract(END_TIME, 'minutes').unix());
     };
     /**
      * 販売可能判定
@@ -6305,7 +6315,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.isSalse = function (screeningEvent) {
         var PRE_SALE = '1'; // 先行販売
-        return (__WEBPACK_IMPORTED_MODULE_0_moment__(screeningEvent.coaInfo.rsvStartDate).unix() <= __WEBPACK_IMPORTED_MODULE_0_moment__().unix()
+        return (__WEBPACK_IMPORTED_MODULE_1_moment__(screeningEvent.coaInfo.rsvStartDate).unix() <= __WEBPACK_IMPORTED_MODULE_1_moment__().unix()
             || screeningEvent.coaInfo.flgEarlyBooking === PRE_SALE);
     };
     /**
@@ -6354,8 +6364,8 @@ var PurchaseService = /** @class */ (function () {
             return '';
         }
         var individualScreeningEvent = this.data.individualScreeningEvent;
-        __WEBPACK_IMPORTED_MODULE_0_moment__["locale"]('ja');
-        return __WEBPACK_IMPORTED_MODULE_0_moment__(individualScreeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
+        __WEBPACK_IMPORTED_MODULE_1_moment__["locale"]('ja');
+        return __WEBPACK_IMPORTED_MODULE_1_moment__(individualScreeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
     };
     /**
      * 上映開始時間取得
@@ -6367,7 +6377,7 @@ var PurchaseService = /** @class */ (function () {
             return '';
         }
         var individualScreeningEvent = this.data.individualScreeningEvent;
-        var timeFormat = new __WEBPACK_IMPORTED_MODULE_2__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
+        var timeFormat = new __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
         return timeFormat.transform(individualScreeningEvent.startDate, individualScreeningEvent.coaInfo.dateJouei);
     };
     /**
@@ -6380,7 +6390,7 @@ var PurchaseService = /** @class */ (function () {
             return '';
         }
         var individualScreeningEvent = this.data.individualScreeningEvent;
-        var timeFormat = new __WEBPACK_IMPORTED_MODULE_2__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
+        var timeFormat = new __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
         return timeFormat.transform(individualScreeningEvent.endDate, individualScreeningEvent.coaInfo.dateJouei);
     };
     /**
@@ -6422,7 +6432,7 @@ var PurchaseService = /** @class */ (function () {
         if (this.data.individualScreeningEvent === undefined) {
             return false;
         }
-        var today = __WEBPACK_IMPORTED_MODULE_0_moment__().format('YYYYMMDD');
+        var today = __WEBPACK_IMPORTED_MODULE_1_moment__().format('YYYYMMDD');
         var coaInfo = this.data.individualScreeningEvent.superEvent.coaInfo;
         return (coaInfo.flgMvtkUse === '1'
             && coaInfo.dateMvtkBegin !== undefined
@@ -6507,8 +6517,8 @@ var PurchaseService = /** @class */ (function () {
         }
         var DIGITS = -2;
         var coaInfo = this.data.individualScreeningEvent.coaInfo;
-        var day = __WEBPACK_IMPORTED_MODULE_0_moment__(coaInfo.dateJouei).format('YYYY/MM/DD');
-        var time = new __WEBPACK_IMPORTED_MODULE_2__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]().transform(coaInfo.dateJouei, this.data.individualScreeningEvent.startDate) + ":00";
+        var day = __WEBPACK_IMPORTED_MODULE_1_moment__(coaInfo.dateJouei).format('YYYY/MM/DD');
+        var time = new __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]().transform(coaInfo.dateJouei, this.data.individualScreeningEvent.startDate) + ":00";
         var tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
         var systemReservationNumber = "" + coaInfo.dateJouei + tmpReserveNum;
         var siteCode = String(Number(("00" + coaInfo.theaterCode).slice(DIGITS)));
@@ -6516,7 +6526,7 @@ var PurchaseService = /** @class */ (function () {
         var reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
         var skhnCd = "" + coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS);
         return {
-            kgygishCd: __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].MVTK_COMPANY_CODE,
+            kgygishCd: __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].MVTK_COMPANY_CODE,
             yykDvcTyp: reservedDeviceType,
             trkshFlg: deleteFlag,
             kgygishSstmZskyykNo: systemReservationNumber,
@@ -6555,7 +6565,7 @@ var PurchaseService = /** @class */ (function () {
                         // 劇場のショップを検索
                         _a.movieTheaterOrganization = _c.sent();
                         VALID_TIME = 15;
-                        expires = __WEBPACK_IMPORTED_MODULE_0_moment__().add(VALID_TIME, 'minutes').toDate();
+                        expires = __WEBPACK_IMPORTED_MODULE_1_moment__().add(VALID_TIME, 'minutes').toDate();
                         // 取引開始
                         _b = this.data;
                         return [4 /*yield*/, this.sasakiService.transaction.placeOrder.start({
@@ -6713,8 +6723,8 @@ var PurchaseService = /** @class */ (function () {
                         createMvtkAuthorizationArgs = {
                             transactionId: this.data.transaction.id,
                             mvtk: {
+                                typeOf: __WEBPACK_IMPORTED_MODULE_0__motionpicture_sskts_api_javascript_client__["factory"].action.authorize.mvtk.ObjectType.Mvtk,
                                 price: this.getMvtkTotalPrice(),
-                                transactionId: this.data.transaction.id,
                                 seatInfoSyncIn: this.getMvtkSeatInfoSync()
                             }
                         };
@@ -6845,7 +6855,7 @@ var PurchaseService = /** @class */ (function () {
         var orderCount = ("00" + this.data.orderCount).slice(DIGITS['02']);
         var tmpReserveNum = ("00000000" + this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum).slice(DIGITS['08']);
         var theaterCode = this.data.individualScreeningEvent.coaInfo.theaterCode;
-        var reserveDate = __WEBPACK_IMPORTED_MODULE_0_moment__().format('YYYYMMDD');
+        var reserveDate = __WEBPACK_IMPORTED_MODULE_1_moment__().format('YYYYMMDD');
         // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)
         return "" + reserveDate + theaterCode + tmpReserveNum + orderCount;
     };
@@ -6894,7 +6904,7 @@ var PurchaseService = /** @class */ (function () {
                             transaction: this.data.transaction,
                             movieTheaterOrganization: this.data.movieTheaterOrganization
                         };
-                        this.storage.save('complete', complete, __WEBPACK_IMPORTED_MODULE_6__storage_storage_service__["a" /* SaveType */].Session);
+                        this.storage.save('complete', complete, __WEBPACK_IMPORTED_MODULE_7__storage_storage_service__["a" /* SaveType */].Session);
                         try {
                             sendData = {
                                 hitType: 'event',
@@ -6921,8 +6931,8 @@ var PurchaseService = /** @class */ (function () {
                         }
                         reservationRecord_1.orders.push(order);
                         reservationRecord_1.orders.forEach(function (recordOrder, index) {
-                            var endDate = __WEBPACK_IMPORTED_MODULE_0_moment__(recordOrder.acceptedOffers[0].itemOffered.reservationFor.endDate).unix();
-                            var limitDate = __WEBPACK_IMPORTED_MODULE_0_moment__().subtract(1, 'month').unix();
+                            var endDate = __WEBPACK_IMPORTED_MODULE_1_moment__(recordOrder.acceptedOffers[0].itemOffered.reservationFor.endDate).unix();
+                            var limitDate = __WEBPACK_IMPORTED_MODULE_1_moment__().subtract(1, 'month').unix();
                             if (endDate < limitDate) {
                                 reservationRecord_1.orders.splice(index, 1);
                             }
@@ -6948,9 +6958,9 @@ var PurchaseService = /** @class */ (function () {
                                 title: '鑑賞時間が近づいています。',
                                 text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
                                     '作品名: ' + reservationFor.workPerformed.name + '\n' +
-                                    '上映開始: ' + __WEBPACK_IMPORTED_MODULE_0_moment__(reservationFor.startDate).format('YYYY/MM/DD HH:mm'),
+                                    '上映開始: ' + __WEBPACK_IMPORTED_MODULE_1_moment__(reservationFor.startDate).format('YYYY/MM/DD HH:mm'),
                                 trigger: {
-                                    at: __WEBPACK_IMPORTED_MODULE_0_moment__(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                                    at: __WEBPACK_IMPORTED_MODULE_1_moment__(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
                                 },
                                 foreground: true // 前面表示（デフォルトは前面表示しない）
                             };
@@ -7023,12 +7033,12 @@ var PurchaseService = /** @class */ (function () {
                         coaInfo = this.data.individualScreeningEvent.coaInfo;
                         valid = '1';
                         purchaseNumberAuthArgs = {
-                            kgygishCd: __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].MVTK_COMPANY_CODE,
+                            kgygishCd: __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].MVTK_COMPANY_CODE,
                             jhshbtsCd: valid,
                             knyknrNoInfoIn: mvtkInputDataList,
                             skhnCd: coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS),
                             stCd: Number(coaInfo.theaterCode.slice(DIGITS)).toString(),
-                            jeiYmd: __WEBPACK_IMPORTED_MODULE_0_moment__(coaInfo.dateJouei).format('YYYY/MM/DD')
+                            jeiYmd: __WEBPACK_IMPORTED_MODULE_1_moment__(coaInfo.dateJouei).format('YYYY/MM/DD')
                         };
                         return [4 /*yield*/, this.sasakiService.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs)];
                     case 2:

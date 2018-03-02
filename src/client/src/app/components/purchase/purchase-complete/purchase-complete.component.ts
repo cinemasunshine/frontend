@@ -18,7 +18,7 @@ export class PurchaseCompleteComponent implements OnInit {
         order: sasaki.factory.order.IOrder;
         transaction: sasaki.factory.transaction.placeOrder.ITransaction;
         movieTheaterOrganization: sasaki.factory.organization.movieTheater.IPublicFields;
-        sendEmailNotification?: sasaki.factory.task.sendEmailNotification.ITask
+        sendEmailNotification?: sasaki.factory.task.sendEmailMessage.ITask
     };
     public environment = environment;
 

@@ -35,7 +35,7 @@
     "@angular/router": "^5.2.5",
     "@motionpicture/coa-service": "^4.0.9",
     "@motionpicture/mvtk-reserve-service": "^1.2.0",
-    "@motionpicture/sskts-api-javascript-client": "^2.1.2",
+    "@motionpicture/sskts-api-javascript-client": "^3.0.0",
     "@motionpicture/sskts-api-nodejs-client": "^2.1.2",
     "aws-sdk": "^2.195.0",
     "basic-auth": "^2.0.0",

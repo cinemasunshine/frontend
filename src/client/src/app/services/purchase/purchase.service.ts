@@ -484,8 +484,8 @@ export class PurchaseService {
             const createMvtkAuthorizationArgs = {
                 transactionId: this.data.transaction.id,
                 mvtk: {
+                    typeOf: sasaki.factory.action.authorize.mvtk.ObjectType.Mvtk,
                     price: this.getMvtkTotalPrice(),
-                    transactionId: this.data.transaction.id,
                     seatInfoSyncIn: this.getMvtkSeatInfoSync()
                 }
             };
