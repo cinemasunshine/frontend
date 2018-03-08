@@ -162,7 +162,8 @@ function purchase(req, res) {
             };
             const purchaseModel = new PurchaseModel_1.PurchaseModel(req.session.purchase);
             if (purchaseModel.transaction === null
-                || req.body.transactionId !== purchaseModel.transaction.id) {
+                || req.body.transactionId !== purchaseModel.transaction.id
+                || purchaseModel.reserveTickets.length === 0) {
                 throw new ErrorUtilModule_1.AppError(HTTPStatus.BAD_REQUEST, ErrorUtilModule_1.ErrorType.Property);
             }
             //購入期限切れ

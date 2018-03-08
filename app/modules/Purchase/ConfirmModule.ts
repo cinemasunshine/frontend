@@ -154,7 +154,8 @@ export async function purchase(req: Request, res: Response): Promise<void> {
         };
         const purchaseModel = new PurchaseModel(req.session.purchase);
         if (purchaseModel.transaction === null
-            || req.body.transactionId !== purchaseModel.transaction.id) {
+            || req.body.transactionId !== purchaseModel.transaction.id
+            || purchaseModel.reserveTickets.length === 0) {
             throw new AppError(HTTPStatus.BAD_REQUEST, ErrorType.Property);
         }
         //購入期限切れ
