@@ -122,7 +122,10 @@ function purchase() {
             showComplete(data.result);
             loadingEnd();
         } else if (jqXhr.status === HTTP_STATUS.BAD_REQUEST) {
-            showError(data.error);
+            var message = (data !== null)
+                ? data.error
+                : undefined;
+            showError(message);
             loadingEnd();
         } else {
             getComplete(0);
