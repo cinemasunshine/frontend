@@ -14,7 +14,7 @@
                         <dl>
                             <dt>ムビチケ購入番号</dt>
                             <dd>
-                                <input [class.validation]="mvtkForm.controls['code'].invalid && mvtkForm.controls['code'].dirty" type="text" formControlName="code"
+                                <input class="mvtk-code" [class.validation]="mvtkForm.controls['code'].invalid && mvtkForm.controls['code'].dirty" type="text" formControlName="code"
                                     autocomplete="off" placeholder="(例)012345789" maxlength="10">
                                 <div *ngIf="mvtkForm.controls['code'].invalid && mvtkForm.controls['code'].dirty">
                                     <div *ngIf="mvtkForm.controls['code'].errors.required" class="validation-text">ムビチケ購入番号が未入力です</div>

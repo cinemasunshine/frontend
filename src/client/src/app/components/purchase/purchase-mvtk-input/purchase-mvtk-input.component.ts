@@ -76,6 +76,11 @@ export class PurchaseMvtkInputComponent implements OnInit {
      * ムビチケ認証
      */
     public async onSubmit() {
+        this.mvtkForms.forEach((mvtkForm, index) => {
+            const mvtkCodeList = document.querySelectorAll('.mvtk-code');
+            const value = (<HTMLInputElement>mvtkCodeList[index]).value;
+            mvtkForm.controls.code.setValue(value);
+        });
         const mvtkForms = this.mvtkForms.filter((group) => {
             return (!group.invalid);
         });
