@@ -6,6 +6,11 @@
 <%- contentFor('body') %>
 <div class="purchase-seat">
     <h1 class="page-ttl"><%- __('purchase.seat.page_ttl') %></h1>
+    <% if (viewType === 'app' 
+    && purchaseModel.individualScreeningEvent.coaInfo.titleCode == '18046'
+    && purchaseModel.individualScreeningEvent.coaInfo.titleBranchNum == '1') { %>
+    <h1 class="page-ttl">この作品は応援上映です。</h1>
+    <% } %>
     <p class="read"><%- __('purchase.seat.read') %></p>
 
     <div>
