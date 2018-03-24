@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+
+## 2.4.3 - 2018-03-24
+### Fixed
+ - スマホアプリスケジュール表示不具合のため特定作品へ警告表示。臨時対応
+
 ## 2.4.2 - 2018-03-08
 ### Fixed
  - 購入完了メール内容不具合修正
