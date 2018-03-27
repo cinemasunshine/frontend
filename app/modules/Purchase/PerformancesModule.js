@@ -213,7 +213,6 @@ function coaSchedulesUpdate() {
                     theater: theater,
                     schedules: schedules
                 });
-                throw new Error('Error');
             }
             coaSchedules = result;
             // tslint:disable-next-line:no-magic-numbers
