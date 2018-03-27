@@ -66,6 +66,9 @@ function render(req, res, next) {
             if (process.env.VIEW_TYPE === undefined) {
                 res.locals.movieTheaters = yield sasaki.service.organization(options).searchMovieTheaters();
                 log('劇場検索');
+                res.locals.movieTheaters = res.locals.movieTheaters.filter((theater) => {
+                    return (theater.location.branchCode !== undefined);
+                });
             }
             res.locals.step = PurchaseModel_1.PurchaseModel.PERFORMANCE_STATE;
             res.locals.entranceServerUrl = process.env.ENTRANCE_SERVER_URL;
@@ -186,6 +189,7 @@ coaSchedulesUpdate().then().catch();
 function coaSchedulesUpdate() {
     return __awaiter(this, void 0, void 0, function* () {
         log('coaSchedulesUpdate start', coaSchedules.length);
+        let upDateTime;
         try {
             const result = [];
             const authModel = new AuthModel_1.AuthModel();
@@ -196,6 +200,9 @@ function coaSchedulesUpdate() {
             const theaters = yield sasaki.service.organization(options).searchMovieTheaters();
             const end = 5;
             for (const theater of theaters) {
+                if (theater.location.branchCode === undefined) {
+                    continue;
+                }
                 const scheduleArgs = {
                     theaterCode: theater.location.branchCode,
                     begin: moment().format('YYYYMMDD'),
@@ -206,15 +213,18 @@ function coaSchedulesUpdate() {
                     theater: theater,
                     schedules: schedules
                 });
+                throw new Error('Error');
             }
             coaSchedules = result;
-            const upDateTime = 3600000; // 1000 * 60 * 60
-            setTimeout(() => __awaiter(this, void 0, void 0, function* () { yield coaSchedulesUpdate(); }), upDateTime);
+            // tslint:disable-next-line:no-magic-numbers
+            upDateTime = 600000; // 1000 * 60 * 10
         }
         catch (err) {
             log(err);
-            yield coaSchedulesUpdate();
+            // tslint:disable-next-line:no-magic-numbers
+            upDateTime = 30000; // 1000 * 30
         }
+        setTimeout(() => __awaiter(this, void 0, void 0, function* () { yield coaSchedulesUpdate(); }), upDateTime);
         log('coaSchedulesUpdate end', coaSchedules.length);
     });
 }
@@ -225,7 +235,7 @@ function coaSchedulesUpdate() {
 function waitCoaSchedulesUpdate() {
     return __awaiter(this, void 0, void 0, function* () {
         const timer = 1000;
-        const limit = 10000;
+        const limit = 1000;
         let count = 0;
         return new Promise((resolve, reject) => {
             const check = setInterval(() => {

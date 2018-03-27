@@ -8,6 +8,7 @@ import { NextFunction, Request, Response } from 'express';
 import * as HTTPStatus from 'http-status';
 import logger from '../../middlewares/logger';
 import { AppError, ErrorType } from '../Util/ErrorUtilModule';
+import { base64Decode } from '../Util/UtilModule';
 
 const log = debug('SSKTS:Error.ErrorModule');
 
@@ -95,6 +96,9 @@ export function errorRender(
     } else {
         res.locals.message = msg;
         res.locals.error = err;
+        res.locals.ERROR_MESSAGE = (process.env.ERROR_MESSAGE !== undefined)
+            ? base64Decode((<string>process.env.ERROR_MESSAGE))
+            : '';
         res.status(status).render('error/error');
     }
 

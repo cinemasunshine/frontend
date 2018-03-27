@@ -58,6 +58,9 @@ export async function render(req: Request, res: Response, next: NextFunction): P
         if (process.env.VIEW_TYPE === undefined) {
             res.locals.movieTheaters = await sasaki.service.organization(options).searchMovieTheaters();
             log('劇場検索');
+            res.locals.movieTheaters = res.locals.movieTheaters.filter((theater: any) => {
+                return (theater.location.branchCode !== undefined);
+            });
         }
         res.locals.step = PurchaseModel.PERFORMANCE_STATE;
         res.locals.entranceServerUrl = process.env.ENTRANCE_SERVER_URL;
@@ -175,6 +178,7 @@ coaSchedulesUpdate().then().catch();
  */
 async function coaSchedulesUpdate(): Promise<void> {
     log('coaSchedulesUpdate start', coaSchedules.length);
+    let upDateTime: number;
     try {
         const result: ICoaSchedule[] = [];
         const authModel = new AuthModel();
@@ -185,6 +189,9 @@ async function coaSchedulesUpdate(): Promise<void> {
         const theaters = await sasaki.service.organization(options).searchMovieTheaters();
         const end = 5;
         for (const theater of theaters) {
+            if (theater.location.branchCode === undefined) {
+                continue;
+            }
             const scheduleArgs = {
                 theaterCode: theater.location.branchCode,
                 begin: moment().format('YYYYMMDD'),
@@ -195,14 +202,17 @@ async function coaSchedulesUpdate(): Promise<void> {
                 theater: theater,
                 schedules: schedules
             });
+            throw new Error('Error');
         }
         coaSchedules = result;
-        const upDateTime = 3600000; // 1000 * 60 * 60
-        setTimeout(async () => { await coaSchedulesUpdate(); }, upDateTime);
+        // tslint:disable-next-line:no-magic-numbers
+        upDateTime = 600000; // 1000 * 60 * 10
     } catch (err) {
         log(err);
-        await coaSchedulesUpdate();
+        // tslint:disable-next-line:no-magic-numbers
+        upDateTime = 30000; // 1000 * 30
     }
+    setTimeout(async () => { await coaSchedulesUpdate(); }, upDateTime);
     log('coaSchedulesUpdate end', coaSchedules.length);
 }
 
@@ -212,7 +222,7 @@ async function coaSchedulesUpdate(): Promise<void> {
  */
 async function waitCoaSchedulesUpdate() {
     const timer = 1000;
-    const limit = 10000;
+    const limit = 1000;
     let count = 0;
 
     return new Promise<void>((resolve, reject) => {

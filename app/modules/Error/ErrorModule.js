@@ -4,6 +4,7 @@ const debug = require("debug");
 const HTTPStatus = require("http-status");
 const logger_1 = require("../../middlewares/logger");
 const ErrorUtilModule_1 = require("../Util/ErrorUtilModule");
+const UtilModule_1 = require("../Util/UtilModule");
 const log = debug('SSKTS:Error.ErrorModule');
 /**
  * Not Found
@@ -85,6 +86,9 @@ function errorRender(err, req, res, _) {
     else {
         res.locals.message = msg;
         res.locals.error = err;
+        res.locals.ERROR_MESSAGE = (process.env.ERROR_MESSAGE !== undefined)
+            ? UtilModule_1.base64Decode(process.env.ERROR_MESSAGE)
+            : '';
         res.status(status).render('error/error');
     }
     return;

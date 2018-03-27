@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.4.4 - 2018-03-27
+### Fixed
+ - エラー画面へ環境変数（ERROR_MESSAGE）からメーッセージ差し込み
+ - COAスケジュール整合性チェック用のデータ更新時失敗の際のタイマー設定
+
 
 ## 2.4.3 - 2018-03-24
 ### Fixed
