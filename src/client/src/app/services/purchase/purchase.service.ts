@@ -9,6 +9,7 @@ import { AwsCognitoService } from '../aws-cognito/aws-cognito.service';
 import { CallNativeService } from '../call-native/call-native.service';
 import { SasakiService } from '../sasaki/sasaki.service';
 import { SaveType, StorageService } from '../storage/storage.service';
+import { UserService } from '../user/user.service';
 
 export type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
 export type ICustomerContact = sasaki.factory.transaction.placeOrder.ICustomerContact;
@@ -25,7 +26,8 @@ export class PurchaseService {
         private storage: StorageService,
         private sasakiService: SasakiService,
         private awsCognito: AwsCognitoService,
-        private callNative: CallNativeService
+        private callNative: CallNativeService,
+        private user: UserService
     ) {
         this.load();
     }
@@ -631,8 +633,8 @@ export class PurchaseService {
             console.error(err);
         }
 
-        if (this.awsCognito.isAuthenticate()) {
-            // Cognitoへ登録
+        if (this.user.isNative() && this.user.isMember()) {
+            // アプリ非会員ならCognitoへ登録
             try {
                 const reservationRecord = await this.awsCognito.getRecords({
                     datasetName: 'reservation'

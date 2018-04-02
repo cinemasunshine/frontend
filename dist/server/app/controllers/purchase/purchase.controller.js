@@ -156,6 +156,9 @@ function coaSchedulesUpdate() {
             const theaters = yield sasaki.service.organization(options).searchMovieTheaters();
             const end = 5;
             for (const theater of theaters) {
+                if (theater.location.branchCode === undefined) {
+                    continue;
+                }
                 const scheduleArgs = {
                     theaterCode: theater.location.branchCode,
                     begin: moment().format('YYYYMMDD'),

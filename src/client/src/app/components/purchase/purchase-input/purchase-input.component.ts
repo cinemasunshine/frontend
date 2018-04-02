@@ -7,6 +7,7 @@ import { LibphonenumberFormatPipe } from '../../../pipes/libphonenumber-format/l
 import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
 import { IGmoTokenObject, PurchaseService } from '../../../services/purchase/purchase.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'app-purchase-input',
@@ -30,7 +31,8 @@ export class PurchaseInputComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private error: ErrorService,
-        private awsCognito: AwsCognitoService
+        private awsCognito: AwsCognitoService,
+        private user: UserService
     ) { }
 
     public async ngOnInit() {
@@ -42,7 +44,8 @@ export class PurchaseInputComponent implements OnInit {
         };
         this.inputForm = this.createForm();
         this.disable = false;
-        if (this.awsCognito.isAuthenticate()) {
+        if (this.user.isNative() && !this.user.isMember()) {
+            // アプリ非会員ならCognitoから取得
             const records = await this.awsCognito.getRecords({
                 datasetName: 'profile'
             });

@@ -49,6 +49,7 @@ import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.s
 import { PurchaseService } from './services/purchase/purchase.service';
 import { SasakiService } from './services/sasaki/sasaki.service';
 import { StorageService } from './services/storage/storage.service';
+import { UserService } from './services/user/user.service';
 
 @NgModule({
     declarations: [
@@ -104,7 +105,8 @@ import { StorageService } from './services/storage/storage.service';
         PurchaseService,
         AwsCognitoService,
         CallNativeService,
-        SasakiService
+        SasakiService,
+        UserService
     ],
     bootstrap: [AppComponent]
 })

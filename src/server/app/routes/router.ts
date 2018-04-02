@@ -25,9 +25,16 @@ export default (app: express.Application) => {
     app.use('/method', methodRouter);
     app.get('/purchase/performances/getSchedule', getSchedule);
     app.get('/purchase/transaction', (req, res, _next) => {
-        let params = `performanceId=${req.query.performanceId}&passportToken=${req.query.passportToken}`;
+        let params = `performanceId=${req.query.performanceId}`;
+        params += `&passportToken=${req.query.passportToken}`;
         if (req.query.identityId !== undefined) {
             params += `&identityId=${req.query.identityId}`;
+        }
+        if (req.query.native !== undefined) {
+            params += `&native=${req.query.native}`;
+        }
+        if (req.query.member !== undefined) {
+            params += `&member=${req.query.member}`;
         }
         res.redirect(`/?${params}`);
     });

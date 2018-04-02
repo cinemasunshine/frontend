@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { IIndividualScreeningEvent, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
+import { UserService } from '../../../services/user/user.service';
 import { ISeat } from '../../parts/screen/screen.component';
 
 @Component({
@@ -26,7 +28,8 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private sasakiService: SasakiService,
-        private error: ErrorService
+        private error: ErrorService,
+        private user: UserService
     ) { }
 
     public ngOnInit() {
@@ -68,8 +71,10 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             dateJouei: individualScreeningEvent.coaInfo.dateJouei,
             titleCode: individualScreeningEvent.coaInfo.titleCode,
             titleBranchNum: individualScreeningEvent.coaInfo.titleBranchNum,
-            timeBegin: individualScreeningEvent.coaInfo.timeBegin
+            timeBegin: individualScreeningEvent.coaInfo.timeBegin,
+            flgMember: (this.user.isMember()) ? FlgMember.Member : FlgMember.NonMember
         });
+        console.log('salesTickets', salesTickets, this.user.isMember());
 
         return salesTickets;
     }

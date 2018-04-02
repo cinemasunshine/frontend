@@ -22,9 +22,16 @@ exports.default = (app) => {
     app.use('/method', method_1.default);
     app.get('/purchase/performances/getSchedule', purchase_controller_1.getSchedule);
     app.get('/purchase/transaction', (req, res, _next) => {
-        let params = `performanceId=${req.query.performanceId}&passportToken=${req.query.passportToken}`;
+        let params = `performanceId=${req.query.performanceId}`;
+        params += `&passportToken=${req.query.passportToken}`;
         if (req.query.identityId !== undefined) {
             params += `&identityId=${req.query.identityId}`;
+        }
+        if (req.query.native !== undefined) {
+            params += `&native=${req.query.native}`;
+        }
+        if (req.query.member !== undefined) {
+            params += `&member=${req.query.member}`;
         }
         res.redirect(`/?${params}`);
     });

@@ -3,10 +3,10 @@ import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 import { TimeFormatPipe } from '../../../pipes/time-format/time-format.pipe';
-import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { SaveType, StorageService } from '../../../services/storage/storage.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'app-purchase-complete',
@@ -25,8 +25,8 @@ export class PurchaseCompleteComponent implements OnInit {
     constructor(
         private storage: StorageService,
         private error: ErrorService,
-        private awsCognito: AwsCognitoService,
-        private sasakiService: SasakiService
+        private sasakiService: SasakiService,
+        private user: UserService
     ) { }
 
     public ngOnInit() {
@@ -132,7 +132,7 @@ export class PurchaseCompleteComponent implements OnInit {
             const movieTheaterPlace = await this.sasakiService.place.findMovieTheater({
                 branchCode: this.data.movieTheaterOrganization.location.branchCode
             });
-            const text = (this.awsCognito.isAuthenticate())
+            const text = (this.user.isNative())
                 ? this.getAppMailText(movieTheaterPlace.telephone)
                 : this.getMailText(movieTheaterPlace.telephone);
             const sendEmailNotificationArgs = {
