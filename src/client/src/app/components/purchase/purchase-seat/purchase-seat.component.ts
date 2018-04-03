@@ -66,15 +66,16 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     public async fitchSalesTickets() {
         const individualScreeningEvent = <IIndividualScreeningEvent>this.purchase.data.individualScreeningEvent;
         await this.sasaki.getServices();
-        const salesTickets = await this.sasaki.getSalesTickets({
+        const salesTicketArgs = {
             theaterCode: individualScreeningEvent.coaInfo.theaterCode,
             dateJouei: individualScreeningEvent.coaInfo.dateJouei,
             titleCode: individualScreeningEvent.coaInfo.titleCode,
             titleBranchNum: individualScreeningEvent.coaInfo.titleBranchNum,
             timeBegin: individualScreeningEvent.coaInfo.timeBegin,
             flgMember: (this.user.isMember()) ? FlgMember.Member : FlgMember.NonMember
-        });
-        console.log('salesTickets', salesTickets, this.user.isMember());
+        };
+        const salesTickets = await this.sasaki.getSalesTickets(salesTicketArgs);
+        console.log('salesTickets', salesTicketArgs, salesTickets);
 
         return salesTickets;
     }

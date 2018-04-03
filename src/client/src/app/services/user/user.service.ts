@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import { SaveType, StorageService } from '../storage/storage.service';
 
 @Injectable()
@@ -20,8 +21,8 @@ export class UserService {
         const data: IData | null = this.storage.load('user', SaveType.Session);
         if (data === null) {
             this.data = {
-                native: false,
-                member: false
+                native: FlgNative.NotNative,
+                member: FlgMember.NonMember
             };
 
             return;
@@ -43,8 +44,8 @@ export class UserService {
      */
     public reset() {
         this.data = {
-            native: false,
-            member: false
+            native: FlgNative.NotNative,
+            member: FlgMember.NonMember
         };
         this.save();
     }
@@ -53,19 +54,42 @@ export class UserService {
      * ネイティブアプリ判定
      */
     public isNative() {
-        return this.data.native;
+        return (this.data.native === FlgNative.Native);
     }
 
     /**
      * 会員判定
      */
     public isMember() {
-        return this.data.member;
+        return (this.data.member === FlgMember.Member);
+    }
+
+    /**
+     * ネイティブアプリ判定設定
+     */
+    public setNative(value?: string) {
+        this.data.native = (value === FlgNative.Native)
+            ? FlgNative.Native
+            : FlgNative.NotNative;
+    }
+
+    /**
+     * 会員判定設定
+     */
+    public setMember(value?: string) {
+        this.data.member = (value === FlgMember.Member)
+            ? FlgMember.Member
+            : FlgMember.NonMember;
     }
 
 }
 
 export interface IData {
-    native: boolean;
-    member: boolean;
+    native: FlgNative;
+    member: FlgMember;
+}
+
+enum FlgNative {
+    NotNative = '0',
+    Native = '1'
 }
