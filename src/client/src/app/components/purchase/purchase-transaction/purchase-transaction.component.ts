@@ -39,7 +39,7 @@ export class PurchaseTransactionComponent implements OnInit {
     constructor(
         private storage: StorageService,
         private router: Router,
-        private sasakiService: SasakiService,
+        private sasaki: SasakiService,
         private purchase: PurchaseService,
         private error: ErrorService,
         private awsCognito: AwsCognitoService,
@@ -67,9 +67,9 @@ export class PurchaseTransactionComponent implements OnInit {
             if (this.parameters.identityId !== undefined) {
                 await this.awsCognito.authenticateWithDeviceId(this.parameters.identityId);
             }
-            await this.sasakiService.getServices();
+            await this.sasaki.getServices();
             // イベント情報取得
-            const individualScreeningEvent = await this.sasakiService.event.findIndividualScreeningEvent({
+            const individualScreeningEvent = await this.sasaki.event.findIndividualScreeningEvent({
                 identifier: (<string>this.parameters.performanceId)
             });
             // 開始可能日判定

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-javascript-client';
+import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 
-type IMovieTheater = sasaki.factory.organization.movieTheater.IPublicFields;
-type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
+type IMovieTheater = factory.organization.movieTheater.IPublicFields;
+type IIndividualScreeningEvent = factory.event.individualScreeningEvent.IEventWithOffer;
 interface IFilmOrder {
     id: string;
     films: IIndividualScreeningEvent[];
@@ -35,7 +35,7 @@ export class PurchaseScheduleComponent implements OnInit {
     constructor(
         private error: ErrorService,
         private purchase: PurchaseService,
-        private sasakiService: SasakiService
+        private sasaki: SasakiService
     ) {
         this.theaters = [];
         this.dateList = [];
@@ -55,8 +55,8 @@ export class PurchaseScheduleComponent implements OnInit {
         window.scrollTo(0, 0);
         this.isLoading = true;
         try {
-            await this.sasakiService.getServices();
-            this.theaters = await this.sasakiService.organization.searchMovieTheaters();
+            await this.sasaki.getServices();
+            this.theaters = await this.sasaki.organization.searchMovieTheaters();
             this.dateList = this.getDateList(3);
             this.conditions = {
                 theater: this.theaters[0].location.branchCode,
@@ -96,14 +96,14 @@ export class PurchaseScheduleComponent implements OnInit {
         this.isLoading = true;
         this.filmOrder = [];
         try {
-            await this.sasakiService.getServices();
+            await this.sasaki.getServices();
             const theater = this.theaters.find((target) => {
                 return (target.location.branchCode === this.conditions.theater);
             });
             if (theater === undefined) {
                 throw new Error('theater is not found');
             }
-            this.schedules = await this.sasakiService.event.searchIndividualScreeningEvent({
+            this.schedules = await this.sasaki.event.searchIndividualScreeningEvent({
                 superEventLocationIdentifiers: [theater.identifier],
                 startFrom: moment(this.conditions.date).toDate(),
                 startThrough: moment(this.conditions.date).add(1, 'day').toDate()

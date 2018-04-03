@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-javascript-client';
+import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 import { TimeFormatPipe } from '../../../pipes/time-format/time-format.pipe';
@@ -15,17 +15,17 @@ import { UserService } from '../../../services/user/user.service';
 })
 export class PurchaseCompleteComponent implements OnInit {
     public data: {
-        order: sasaki.factory.order.IOrder;
-        transaction: sasaki.factory.transaction.placeOrder.ITransaction;
-        movieTheaterOrganization: sasaki.factory.organization.movieTheater.IPublicFields;
-        sendEmailNotification?: sasaki.factory.task.sendEmailMessage.ITask
+        order: factory.order.IOrder;
+        transaction: factory.transaction.placeOrder.ITransaction;
+        movieTheaterOrganization: factory.organization.movieTheater.IPublicFields;
+        sendEmailNotification?: factory.task.sendEmailMessage.ITask
     };
     public environment = environment;
 
     constructor(
         private storage: StorageService,
         private error: ErrorService,
-        private sasakiService: SasakiService,
+        private sasaki: SasakiService,
         private user: UserService
     ) { }
 
@@ -129,7 +129,7 @@ export class PurchaseCompleteComponent implements OnInit {
      */
     public async mailSendProcess(count: number) {
         try {
-            const movieTheaterPlace = await this.sasakiService.place.findMovieTheater({
+            const movieTheaterPlace = await this.sasaki.place.findMovieTheater({
                 branchCode: this.data.movieTheaterOrganization.location.branchCode
             });
             const text = (this.user.isNative())
@@ -151,7 +151,7 @@ export class PurchaseCompleteComponent implements OnInit {
                 }
             };
             this.data.sendEmailNotification =
-                await this.sasakiService.transaction.placeOrder.sendEmailNotification(sendEmailNotificationArgs);
+                await this.sasaki.transaction.placeOrder.sendEmailNotification(sendEmailNotificationArgs);
             this.storage.save('complete', this.data, SaveType.Session);
         } catch (err) {
             const limit = 10;

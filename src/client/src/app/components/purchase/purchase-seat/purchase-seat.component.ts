@@ -27,7 +27,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         public purchase: PurchaseService,
         private router: Router,
         private formBuilder: FormBuilder,
-        private sasakiService: SasakiService,
+        private sasaki: SasakiService,
         private error: ErrorService,
         private user: UserService
     ) { }
@@ -65,8 +65,8 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
      */
     public async fitchSalesTickets() {
         const individualScreeningEvent = <IIndividualScreeningEvent>this.purchase.data.individualScreeningEvent;
-        await this.sasakiService.getServices();
-        const salesTickets = await this.sasakiService.getSalesTickets({
+        await this.sasaki.getServices();
+        const salesTickets = await this.sasaki.getSalesTickets({
             theaterCode: individualScreeningEvent.coaInfo.theaterCode,
             dateJouei: individualScreeningEvent.coaInfo.dateJouei,
             titleCode: individualScreeningEvent.coaInfo.titleCode,
