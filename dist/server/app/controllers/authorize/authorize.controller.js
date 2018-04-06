@@ -11,18 +11,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * authorize
  */
+const reserve_1 = require("@motionpicture/coa-service/lib/services/reserve");
 const debug = require("debug");
+const auth_model_1 = require("../../models/auth/auth.model");
+const auth2_model_1 = require("../../models/auth2/auth2.model");
 const base_controller_1 = require("../base/base.controller");
 const log = debug('SSKTS:authorize');
 function getCredentials(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         log('getCredentials');
         try {
-            const options = base_controller_1.getOptions(req);
+            let authModel;
+            if (req.query.member === reserve_1.FlgMember.NonMember) {
+                authModel = new auth_model_1.AuthModel(req.session.auth);
+            }
+            else if (req.query.member === reserve_1.FlgMember.Member) {
+                authModel = new auth2_model_1.Auth2Model(req.session.auth);
+            }
+            else {
+                throw new Error('member does not macth MemberType');
+            }
+            const options = {
+                endpoint: process.env.SSKTS_API_ENDPOINT,
+                auth: authModel.create()
+            };
             const accessToken = yield options.auth.getAccessToken();
             const credentials = {
                 accessToken: accessToken
             };
+            log('getCredentials MemberType', req.query.member);
             res.json(credentials);
         }
         catch (err) {

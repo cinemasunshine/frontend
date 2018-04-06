@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
@@ -6,10 +6,12 @@ import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
 import { environment } from '../../../environments/environment';
+import { UserService } from '../user/user.service';
+import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 
 @Injectable()
 export class SasakiService {
-    public oauth2Client: sasaki.IImplicitGrantClient;
+    public auth: sasaki.IImplicitGrantClient;
     public event: sasaki.service.Event;
     public order: sasaki.service.Order;
     public organization: sasaki.service.Organization;
@@ -21,7 +23,8 @@ export class SasakiService {
     private expired: number;
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private user: UserService
     ) { }
 
     /**
@@ -48,14 +51,14 @@ export class SasakiService {
      * @method createOption
      */
     public async createOption() {
-        if (this.oauth2Client === undefined
-            || this.oauth2Client.credentials === undefined
+        if (this.auth === undefined
+            || this.auth.credentials === undefined
             || this.expired < moment().unix()) {
             await this.authorize();
         }
         return {
             endpoint: environment.SASAKI_API_ENDPOINT,
-            auth: this.oauth2Client
+            auth: this.auth
         };
     }
 
@@ -63,8 +66,19 @@ export class SasakiService {
      * @method authorize
      */
     public async authorize() {
-        const url = `${environment.API_ENDPOINT}/api/authorize/getCredentials`;
-        const credentials = await this.http.get<any>(url, {}).toPromise();
+        const member = this.user.data.member;
+        const url = '/api/authorize/getCredentials';
+        const options = {
+            params: new HttpParams().set('member', member)
+        };
+        let credentials;
+        if (member === FlgMember.Member) {
+            credentials = {
+                accessToken: this.user.data.accessToken
+            };
+        } else {
+            credentials = await this.http.get<any>(url, options).toPromise();
+        }
         const option = {
             domain: '',
             clientId: '',
@@ -76,8 +90,8 @@ export class SasakiService {
             nonce: null,
             tokenIssuer: ''
         };
-        this.oauth2Client = sasaki.createAuthInstance(option);
-        this.oauth2Client.setCredentials(credentials);
+        this.auth = sasaki.createAuthInstance(option);
+        this.auth.setCredentials(credentials);
         const expired = 15;
         this.expired = moment().add(expired, 'minutes').unix();
     }

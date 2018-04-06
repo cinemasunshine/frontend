@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
+import { factory } from '@motionpicture/sskts-api-javascript-client';
 import { SaveType, StorageService } from '../storage/storage.service';
 
 @Injectable()
@@ -82,11 +83,20 @@ export class UserService {
             : FlgMember.NonMember;
     }
 
+    /**
+     * アクセストークン設定
+     */
+    public setAccessToken(value?: string) {
+        this.data.accessToken = value;
+    }
+
 }
 
 export interface IData {
     native: FlgNative;
     member: FlgMember;
+    contacts?: factory.person.IContact;
+    accessToken?: string;
 }
 
 enum FlgNative {

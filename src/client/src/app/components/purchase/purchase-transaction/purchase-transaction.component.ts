@@ -35,6 +35,10 @@ export class PurchaseTransactionComponent implements OnInit {
          * 会員
          */
         member?: string;
+        /**
+         * アクセストークン
+         */
+        accessToken?: string;
     };
     constructor(
         private storage: StorageService,
@@ -57,6 +61,7 @@ export class PurchaseTransactionComponent implements OnInit {
             }
             this.user.setNative(this.parameters.native);
             this.user.setMember(this.parameters.member);
+            this.user.setAccessToken(this.parameters.accessToken);
             this.user.save();
             // ticketアプリテスト
             // this.parameters.identityId = 'ap-northeast-1:c93ad6a4-47e6-4023-a078-2a9ea80c15c9';
