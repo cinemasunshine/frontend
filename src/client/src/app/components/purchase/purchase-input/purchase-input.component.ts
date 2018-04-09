@@ -69,17 +69,17 @@ export class PurchaseInputComponent implements OnInit {
             return;
         }
         if (this.inputForm.invalid) {
-            this.inputForm.controls.familyName.markAsDirty();
-            this.inputForm.controls.givenName.markAsDirty();
-            this.inputForm.controls.email.markAsDirty();
-            this.inputForm.controls.emailConfirm.markAsDirty();
-            this.inputForm.controls.telephone.markAsDirty();
+            this.inputForm.controls.familyName.markAsTouched();
+            this.inputForm.controls.givenName.markAsTouched();
+            this.inputForm.controls.email.markAsTouched();
+            this.inputForm.controls.emailConfirm.markAsTouched();
+            this.inputForm.controls.telephone.markAsTouched();
             if (this.purchase.getTotalPrice() > 0) {
-                this.inputForm.controls.cardNumber.markAsDirty();
-                this.inputForm.controls.cardExpirationMonth.markAsDirty();
-                this.inputForm.controls.cardExpirationYear.markAsDirty();
-                this.inputForm.controls.securityCode.markAsDirty();
-                this.inputForm.controls.holderName.markAsDirty();
+                this.inputForm.controls.cardNumber.markAsTouched();
+                this.inputForm.controls.cardExpirationMonth.markAsTouched();
+                this.inputForm.controls.cardExpirationYear.markAsTouched();
+                this.inputForm.controls.securityCode.markAsTouched();
+                this.inputForm.controls.holderName.markAsTouched();
             }
             setTimeout(() => {
                 const element: HTMLElement = this.elementRef.nativeElement;

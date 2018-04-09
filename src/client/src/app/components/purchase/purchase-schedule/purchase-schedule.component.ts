@@ -97,8 +97,14 @@ export class PurchaseScheduleComponent implements OnInit {
         this.filmOrder = [];
         try {
             await this.sasakiService.getServices();
+            const theater = this.theaters.find((target) => {
+                return (target.location.branchCode === this.conditions.theater);
+            });
+            if (theater === undefined) {
+                throw new Error('theater is not found');
+            }
             this.schedules = await this.sasakiService.event.searchIndividualScreeningEvent({
-                theater: this.conditions.theater,
+                superEventLocationIdentifiers: [theater.identifier],
                 startFrom: moment(this.conditions.date).toDate(),
                 startThrough: moment(this.conditions.date).add(1, 'day').toDate()
             });

@@ -86,10 +86,11 @@ export class SasakiService {
      * ムビチケ照会
      * @param {mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn} args
      */
-    public mvtkPurchaseNumberAuth(
+    public async mvtkPurchaseNumberAuth(
         args: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn
     ) {
         const url = `${environment.API_ENDPOINT}/api/purchase/mvtkPurchaseNumberAuth`;
+
         return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, args).toPromise();
     }
 
@@ -97,10 +98,12 @@ export class SasakiService {
      * ムビチケ座席指定情報連携
      * @param {mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn} args
      */
-    public mvtksSatInfoSync(
+    public async mvtksSatInfoSync(
         args: mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn
     ) {
         const url = `${environment.API_ENDPOINT}/api/purchase/mvtksSatInfoSync`;
+
+
         return this.http.post<mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncResult>(url, args).toPromise();
     }
 
@@ -108,10 +111,11 @@ export class SasakiService {
      * 座席ステータス取得
      * @param {COA.services.reserve.IStateReserveSeatArgs} args
      */
-    public getSeatState(
+    public async getSeatState(
         args: COA.services.reserve.IStateReserveSeatArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/purchase/getSeatState`;
+
         return this.http.get<COA.services.reserve.IStateReserveSeatResult>(url, {
             params: <any>args
         }).toPromise();
@@ -121,11 +125,17 @@ export class SasakiService {
      * ムビチケチケットコード取得
      * @param {COA.services.master.IMvtkTicketcodeArgs} args
      */
-    public mvtkTicketcode(
+    public async mvtkTicketcode(
         args: COA.services.master.IMvtkTicketcodeArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/purchase/mvtkTicketcode`;
-        return this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
+        const result = await this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
+        // 暫定的に対応
+        if ((<any>result).name === 'COAServiceError') {
+            throw new Error('COAServiceError');
+        }
+
+        return result;
     }
 
     /**
@@ -133,10 +143,11 @@ export class SasakiService {
      * @method getSalesTickets
      * @param {COA.services.reserve.ISalesTicketArgs} args
      */
-    public getSalesTickets(
+    public async getSalesTickets(
         args: COA.services.reserve.ISalesTicketArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/master/getSalesTickets`;
+
         return this.http.get<COA.services.reserve.ISalesTicketResult[]>(url, {
             params: <any>args
         }).toPromise();

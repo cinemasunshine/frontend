@@ -484,8 +484,8 @@ export class PurchaseService {
             const createMvtkAuthorizationArgs = {
                 transactionId: this.data.transaction.id,
                 mvtk: {
+                    typeOf: sasaki.factory.action.authorize.mvtk.ObjectType.Mvtk,
                     price: this.getMvtkTotalPrice(),
-                    transactionId: this.data.transaction.id,
                     seatInfoSyncIn: this.getMvtkSeatInfoSync()
                 }
             };
@@ -598,11 +598,19 @@ export class PurchaseService {
             const mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync();
             await this.sasakiService.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
         }
+        let order;
+        try {
+            // 取引確定
+            order = await this.sasakiService.transaction.placeOrder.confirm({
+                transactionId: this.data.transaction.id
+            });
+        } catch (err) {
+            if (this.isReserveMvtk()) {
+                await this.cancelMvtksSatInfoSync(0);
+            }
+            throw err;
+        }
 
-        // 取引確定
-        const order = await this.sasakiService.transaction.placeOrder.confirm({
-            transactionId: this.data.transaction.id
-        });
         const complete = {
             order: order,
             transaction: this.data.transaction,
@@ -671,6 +679,28 @@ export class PurchaseService {
 
         // 購入情報削除
         this.reset();
+    }
+
+    /**
+     * ムビチケ着券取り消し
+     */
+    public async cancelMvtksSatInfoSync(count: number) {
+        console.log('cancelMvtksSatInfoSync', count);
+        try {
+            // ムビチケ使用なら削除
+            const deleteFlag = '1';
+            const mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync({
+                deleteFlag: deleteFlag
+            });
+            await this.sasakiService.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
+        } catch (err) {
+            const limit = 3;
+            if (count > limit) {
+                throw err;
+            }
+            await this.cancelMvtksSatInfoSync(count + 1);
+        }
+
     }
 
     /**

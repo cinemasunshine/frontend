@@ -51,3 +51,4 @@ iisnode/*
 docs/
 .vscode/
 npm-debug*
+.nyc_output/
