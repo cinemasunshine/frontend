@@ -98,81 +98,127 @@
             </h2>
 
             <p class="mb-small">クレジットカード決済の必要事項を入力ください。</p>
-            <ul class="box radius bg-light-gray mb-large credit form-layout">
-                <li class="price">
-                    <dl>
-                        <dt>ご利用金額</dt>
-                        <dd class="large-text red-text">
-                            <strong>￥{{ purchase.getTotalPrice() }}</strong>
-                        </dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>カード番号</dt>
-                        <dd>
-                            <input [class.validation]="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].touched" type="text"
-                                pattern="\d*" formControlName="cardNumber" id="cardNumber" autocomplete="off" placeholder="(例)1234567890"
-                                maxlength="16">
-                            <div *ngIf="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].touched">
-                                <div *ngIf="inputForm.controls['cardNumber'].errors.required" class="validation-text">カード番号が未入力です</div>
-                            </div>
-                            <p class="small-x-text">※半角数字、ハイフン「-」なしで入力してください</p>
-                        </dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>有効期限</dt>
-                        <dd>
+            <div *ngIf="creditCardType === 'input'" class="credit-input">
+                <ul class="box radius bg-light-gray mb-large credit form-layout">
+                    <li class="price">
+                        <dl>
+                            <dt>ご利用金額</dt>
+                            <dd class="large-text red-text">
+                                <strong>￥{{ purchase.getTotalPrice() }}</strong>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>カード番号</dt>
+                            <dd>
+                                <input [class.validation]="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].touched" type="text"
+                                    pattern="\d*" formControlName="cardNumber" id="cardNumber" autocomplete="off" placeholder="(例)1234567890"
+                                    maxlength="16">
+                                <div *ngIf="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].touched">
+                                    <div *ngIf="inputForm.controls['cardNumber'].errors.required" class="validation-text">カード番号が未入力です</div>
+                                </div>
+                                <p class="small-x-text">※半角数字、ハイフン「-」なしで入力してください</p>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>有効期限</dt>
+                            <dd>
 
-                            <select formControlName="cardExpirationMonth" id="cardExpirationMonth">
+                                <select formControlName="cardExpirationMonth" id="cardExpirationMonth">
 
-                                <option *ngFor="let month of cardExpiration.month" [value]="month">{{ month }}</option>
+                                    <option *ngFor="let month of cardExpiration.month" [value]="month">{{ month }}</option>
 
-                            </select> 月
-                            <select formControlName="cardExpirationYear" id="cardExpirationYear">
+                                </select> 月
+                                <select formControlName="cardExpirationYear" id="cardExpirationYear">
 
-                                <option *ngFor="let year of cardExpiration.year" [value]="year">{{ year }}</option>
+                                    <option *ngFor="let year of cardExpiration.year" [value]="year">{{ year }}</option>
 
-                            </select> 年
+                                </select> 年
 
-                        </dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>セキュリティーコード</dt>
-                        <dd>
-                            <input [class.validation]="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].touched" type="text"
-                                pattern="\d*" formControlName="securityCode" autocomplete="off" placeholder="(例)123" maxlength="4">
-                            <div *ngIf="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].touched">
-                                <div *ngIf="inputForm.controls['securityCode'].errors.required" class="validation-text">セキュリティーコードが未入力です</div>
-                            </div>
-                            <p>
-                                <a (click)="securityCodeModal = true">セキュリティーコードについて</a>
-                            </p>
-                        </dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>カード名義人</dt>
-                        <dd>
-                            <input [class.validation]="inputForm.controls['holderName'].invalid && inputForm.controls['holderName'].touched" type="text"
-                                formControlName="holderName" autocomplete="off" placeholder="(例)TARO CINEMA">
-                            <div *ngIf="inputForm.controls['holderName'].invalid && inputForm.controls['holderName'].touched">
-                                <div *ngIf="inputForm.controls['holderName'].errors.required" class="validation-text">カード名義人が未入力です</div>
-                            </div>
-                        </dd>
-                    </dl>
-                </li>
-            </ul>
-            <div *ngIf="user.isMember()" class="text-center">
-                <input type="checkbox" formControlName="saveCreditCard" id="saveCreditCard">
-                <label for="saveCreditCard">
-                    <strong>クレジットカード情報を保存する</strong>
-                </label>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>セキュリティーコード</dt>
+                            <dd>
+                                <input [class.validation]="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].touched" type="text"
+                                    pattern="\d*" formControlName="securityCode" autocomplete="off" placeholder="(例)123" maxlength="4">
+                                <div *ngIf="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].touched">
+                                    <div *ngIf="inputForm.controls['securityCode'].errors.required" class="validation-text">セキュリティーコードが未入力です</div>
+                                </div>
+                                <p>
+                                    <a (click)="securityCodeModal = true">セキュリティーコードについて</a>
+                                </p>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>カード名義人</dt>
+                            <dd>
+                                <input [class.validation]="inputForm.controls['holderName'].invalid && inputForm.controls['holderName'].touched" type="text"
+                                    formControlName="holderName" autocomplete="off" placeholder="(例)TARO CINEMA">
+                                <div *ngIf="inputForm.controls['holderName'].invalid && inputForm.controls['holderName'].touched">
+                                    <div *ngIf="inputForm.controls['holderName'].errors.required" class="validation-text">カード名義人が未入力です</div>
+                                </div>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+
+                <div *ngIf="user.isMember()" class="text-center mb-middle">
+                    <input type="checkbox" formControlName="saveCreditCard" id="saveCreditCard">
+                    <label for="saveCreditCard">
+                        <strong>クレジットカード情報を保存する</strong>
+                    </label>
+                </div>
+
+                <div *ngIf="user.isRegisteredCreditCards()" class="button gray-button">
+                    <button type="button" (click)="changeRegisteredCreditCard()">登録済みクレジットカードを使用する</button>
+                </div>
+            </div>
+
+            <div *ngIf="creditCardType === 'registered'" class="credit-registered">
+                <ul class="box radius bg-light-gray mb-large credit form-layout">
+                    <li class="price">
+                        <dl>
+                            <dt>ご利用金額</dt>
+                            <dd class="large-text red-text">
+                                <strong>￥{{ purchase.getTotalPrice() }}</strong>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>カード番号</dt>
+                            <dd>{{ user.data.creditCards[0]?.cardNo }}</dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>有効期限</dt>
+                            <dd>{{ user.data.creditCards[0]?.expire }}</dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>カード名義人</dt>
+                            <dd>{{ user.data.creditCards[0]?.holderName }}</dd>
+                        </dl>
+                    </li>
+                </ul>
+                <input type="hidden" formControlName="cardNumber">
+                <input type="hidden" formControlName="cardExpirationMonth">
+                <input type="hidden" formControlName="cardExpirationYear">
+                <input type="hidden" formControlName="securityCode">
+                <input type="hidden" formControlName="holderName">
+                <div class="button gray-button" (click)="changeInputCreditCard()">
+                    <button type="button">クレジットカードを変更する</button>
+                </div>
             </div>
         </div>
 

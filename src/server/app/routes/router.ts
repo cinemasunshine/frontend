@@ -36,6 +36,9 @@ export default (app: express.Application) => {
         if (req.query.member !== undefined) {
             params += `&member=${req.query.member}`;
         }
+        if (req.query.accessToken !== undefined) {
+            params += `&accessToken=${req.query.accessToken}`;
+        }
         res.redirect(`/?${params}`);
     });
     app.get('/', (_req, res, _next) => {

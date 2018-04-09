@@ -25,6 +25,7 @@ export class PurchaseInputComponent implements OnInit {
     public securityCodeModal: boolean;
     public creditCardAlertModal: boolean;
     public disable: boolean;
+    public creditCardType: CreditCardType;
 
     constructor(
         public purchase: PurchaseService,
@@ -46,6 +47,7 @@ export class PurchaseInputComponent implements OnInit {
         };
         this.inputForm = this.createForm();
         this.disable = false;
+        this.creditCardType = CreditCardType.Input;
         try {
             if (this.user.isNative() && !this.user.isMember()) {
                 // アプリ非会員ならCognitoから取得
@@ -65,9 +67,9 @@ export class PurchaseInputComponent implements OnInit {
                 }
             } else if (this.user.isMember()) {
                 // 会員
+                await this.sasaki.getServices();
                 let contacts;
                 if (this.user.data.contacts === undefined) {
-                    await this.sasaki.getServices();
                     const getContactsArgs = {
                         personId: 'me'
                     };
@@ -77,12 +79,27 @@ export class PurchaseInputComponent implements OnInit {
                 } else {
                     contacts = this.user.data.contacts;
                 }
+
+                try {
+                    const findCreditCardsArgs = {
+                        personId: 'me'
+                    };
+                    const creditCards = await this.sasaki.person.findCreditCards(findCreditCardsArgs);
+                    this.user.data.creditCards = creditCards;
+                    this.user.save();
+                    if (creditCards.length > 0) {
+                        this.changeRegisteredCreditCard();
+                    }
+                    console.log(creditCards);
+                } catch (err) {
+                    console.log(err);
+                }
                 // TODO
                 this.inputForm.controls.familyName.setValue('はたぐち');
                 this.inputForm.controls.givenName.setValue('あきと');
                 this.inputForm.controls.email.setValue(contacts.email);
                 this.inputForm.controls.emailConfirm.setValue(contacts.email);
-                this.inputForm.controls.telephone.setValue(contacts.telephone);
+                this.inputForm.controls.telephone.setValue(contacts.telephone.replace(/-/g, ''));
             }
         } catch (err) {
             console.error(err);
@@ -98,9 +115,9 @@ export class PurchaseInputComponent implements OnInit {
         if (this.disable) {
             return;
         }
-        console.log('saveCreditCard', this.inputForm.controls.saveCreditCard);
+
         if (this.inputForm.invalid) {
-            // すべてのフォームの値を確認
+            // フォームのステータス変更
             this.inputForm.controls.familyName.markAsTouched();
             this.inputForm.controls.givenName.markAsTouched();
             this.inputForm.controls.email.markAsTouched();
@@ -151,6 +168,19 @@ export class PurchaseInputComponent implements OnInit {
                     return;
                 }
             }
+            if (this.user.isMember()
+                && this.inputForm.controls.saveCreditCard.value
+                && this.purchase.data.gmoTokenObject !== undefined) {
+                // 会員 クレジットカード情報保存
+                await this.sasaki.getServices();
+                const addCreditCardArgs = {
+                    personId: 'me',
+                    creditCard: {
+                        token: this.purchase.data.gmoTokenObject.token
+                    }
+                };
+                await this.sasaki.person.addCreditCard(addCreditCardArgs);
+            }
             // 入力情報を登録
             const setCustomerContactArgs = {
                 transactionId: this.purchase.data.transaction.id,
@@ -161,12 +191,12 @@ export class PurchaseInputComponent implements OnInit {
                     telephone: this.inputForm.controls.telephone.value
                 }
             };
+            await this.purchase.customerContactRegistrationProcess(setCustomerContactArgs);
             if (this.purchase.isExpired()) {
                 this.router.navigate(['expired']);
 
                 return;
             }
-            await this.purchase.customerContactRegistrationProcess(setCustomerContactArgs);
             this.router.navigate(['/purchase/confirm']);
         } catch (err) {
             this.error.redirect(err);
@@ -345,4 +375,33 @@ export class PurchaseInputComponent implements OnInit {
         }
     }
 
+    /**
+     * クレジットカード情報入力へ変更
+     */
+    public changeInputCreditCard() {
+        this.creditCardType = CreditCardType.Input;
+        this.inputForm.controls.cardNumber.setValue('4111111111111111');
+        this.inputForm.controls.cardExpirationMonth.setValue('01');
+        this.inputForm.controls.cardExpirationYear.setValue(moment().format('YYYY'));
+        this.inputForm.controls.securityCode.setValue('123');
+        this.inputForm.controls.holderName.setValue('TEST');
+    }
+
+    /**
+     * 登録済みクレジットカードへ変更
+     */
+    public changeRegisteredCreditCard() {
+        this.creditCardType = CreditCardType.Registered;
+        this.inputForm.controls.cardNumber.setValue('');
+        this.inputForm.controls.cardExpirationMonth.setValue('01');
+        this.inputForm.controls.cardExpirationYear.setValue(moment().format('YYYY'));
+        this.inputForm.controls.securityCode.setValue('');
+        this.inputForm.controls.holderName.setValue('');
+    }
+
+}
+
+enum CreditCardType {
+    Input = 'input',
+    Registered = 'registered'
 }

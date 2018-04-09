@@ -1,13 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
+import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../user/user.service';
-import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 
 @Injectable()
 export class SasakiService {

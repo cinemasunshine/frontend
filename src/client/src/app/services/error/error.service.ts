@@ -8,7 +8,7 @@ export class ErrorService {
     constructor(private router: Router) { }
 
     public redirect(error: any) {
-        console.log(error);
+        console.error(error);
         this.errorDetail = error;
         this.router.navigate(['/error']);
     }

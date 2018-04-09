@@ -51,6 +51,11 @@ export class UserService {
         this.save();
     }
 
+    public isRegisteredCreditCards() {
+        return (this.data.creditCards !== undefined
+            && this.data.creditCards.length > 0);
+    }
+
     /**
      * ネイティブアプリ判定
      */
@@ -96,6 +101,7 @@ export interface IData {
     native: FlgNative;
     member: FlgMember;
     contacts?: factory.person.IContact;
+    creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
 }
 
