@@ -43,12 +43,12 @@ export class PurchaseConfirmComponent implements OnInit {
         }
         this.disable = true;
         this.isLoading = true;
-        try {
-            if (this.purchase.isExpired()) {
-                this.router.navigate(['expired']);
+        if (this.purchase.isExpired()) {
+            this.router.navigate(['expired']);
 
-                return;
-            }
+            return;
+        }
+        try {
             await this.purchase.purchaseRegistrationProcess();
             this.router.navigate(['/purchase/complete']);
         } catch (err) {

@@ -99,6 +99,11 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         }
         this.disable = true;
         this.isLoading = true;
+        if (this.purchase.isExpired()) {
+            this.router.navigate(['expired']);
+
+            return;
+        }
         try {
             if (this.purchase.data.salesTickets.length === 0) {
                 this.purchase.data.salesTickets = await this.fitchSalesTickets();
@@ -123,11 +128,6 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
                     }
                 };
             });
-            if (this.purchase.isExpired()) {
-                this.router.navigate(['expired']);
-
-                return;
-            }
             await this.purchase.seatRegistrationProcess(offers);
             this.router.navigate(['/purchase/ticket']);
         } catch (err) {

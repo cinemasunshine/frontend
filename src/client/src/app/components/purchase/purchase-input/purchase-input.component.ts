@@ -146,6 +146,11 @@ export class PurchaseInputComponent implements OnInit {
         }
         this.disable = true;
         this.isLoading = true;
+        if (this.purchase.isExpired()) {
+            this.router.navigate(['expired']);
+
+            return;
+        }
         try {
             if (this.purchase.data.transaction === undefined) {
                 throw new Error('status is different');
@@ -192,11 +197,6 @@ export class PurchaseInputComponent implements OnInit {
                 }
             };
             await this.purchase.customerContactRegistrationProcess(setCustomerContactArgs);
-            if (this.purchase.isExpired()) {
-                this.router.navigate(['expired']);
-
-                return;
-            }
             this.router.navigate(['/purchase/confirm']);
         } catch (err) {
             this.error.redirect(err);
@@ -306,7 +306,7 @@ export class PurchaseInputComponent implements OnInit {
                     }
                 ]
             },
-            cardNumber: { value: '', validators: [Validators.required] },
+            cardNumber: { value: '', validators: [Validators.required, Validators.pattern(/^[0-9]+$/)] },
             cardExpirationMonth: { value: '01', validators: [Validators.required] },
             cardExpirationYear: { value: moment().format('YYYY'), validators: [Validators.required] },
             securityCode: { value: '', validators: [Validators.required] },

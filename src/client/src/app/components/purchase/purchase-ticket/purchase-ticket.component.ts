@@ -165,6 +165,11 @@ export class PurchaseTicketComponent implements OnInit {
         }
         this.disable = true;
         this.isLoading = true;
+        if (this.purchase.isExpired()) {
+            this.router.navigate(['expired']);
+
+            return;
+        }
         try {
             const offers = this.offers.map((offer) => {
                 return {
@@ -173,11 +178,6 @@ export class PurchaseTicketComponent implements OnInit {
                     ticketInfo: offer.ticketInfo
                 };
             });
-            if (this.purchase.isExpired()) {
-                this.router.navigate(['expired']);
-
-                return;
-            }
             await this.purchase.ticketRegistrationProcess(offers);
             this.router.navigate(['/purchase/input']);
         } catch (err) {
