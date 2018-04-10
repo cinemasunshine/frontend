@@ -1,6 +1,6 @@
 {
   "name": "sskts-frontend",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "scripts": {
     "ng": "ng",
     "build-client-local": "ng build --environment=local --output-path=./dist/client/development --aot",
