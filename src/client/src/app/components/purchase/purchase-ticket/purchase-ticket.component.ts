@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorService } from '../../../services/error/error.service';
 import { IMvtkTicket, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'app-purchase-ticket',
@@ -24,6 +25,7 @@ export class PurchaseTicketComponent implements OnInit {
 
     constructor(
         public purchase: PurchaseService,
+        public user: UserService,
         private formBuilder: FormBuilder,
         private router: Router,
         private error: ErrorService

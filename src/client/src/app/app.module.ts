@@ -50,6 +50,7 @@ import { PurchaseService } from './services/purchase/purchase.service';
 import { SasakiService } from './services/sasaki/sasaki.service';
 import { StorageService } from './services/storage/storage.service';
 import { UserService } from './services/user/user.service';
+import { PurchasePointComponent } from './components/purchase/purchase-point/purchase-point.component';
 
 @NgModule({
     declarations: [
@@ -89,7 +90,8 @@ import { UserService } from './services/user/user.service';
         NotFoundComponent,
         ExpiredComponent,
         PurchaseTermComponent,
-        PurchaseNoteComponent
+        PurchaseNoteComponent,
+        PurchasePointComponent
     ],
     imports: [
         BrowserModule,
