@@ -633,7 +633,7 @@ export class PurchaseService {
             console.error(err);
         }
 
-        if (this.user.isNative() && this.user.isMember()) {
+        if (this.user.isNative() && !this.user.isMember()) {
             // アプリ非会員ならCognitoへ登録
             try {
                 const reservationRecord = await this.awsCognito.getRecords({
@@ -658,26 +658,26 @@ export class PurchaseService {
             } catch (err) {
                 console.log('awsCognito: updateRecords', err);
             }
-
-            // プッシュ通知登録
-            try {
-                const reservationFor = order.acceptedOffers[0].itemOffered.reservationFor;
-                const localNotificationArgs = {
-                    id: Number(order.orderNumber.replace(/\-/g, '')), // ID
-                    title: '鑑賞時間が近づいています。', // タイトル
-                    text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
-                        '作品名: ' + reservationFor.workPerformed.name + '\n' +
-                        '上映開始: ' + moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm'), // テキスト
-                    trigger: {
-                        at: moment(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
-                    },
-                    foreground: true // 前面表示（デフォルトは前面表示しない）
-                };
-                this.callNative.localNotification(localNotificationArgs);
-            } catch (err) {
-                console.error(err);
-            }
         }
+        // プッシュ通知登録
+        try {
+            const reservationFor = order.acceptedOffers[0].itemOffered.reservationFor;
+            const localNotificationArgs = {
+                id: Number(order.orderNumber.replace(/\-/g, '')), // ID
+                title: '鑑賞時間が近づいています。', // タイトル
+                text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
+                    '作品名: ' + reservationFor.workPerformed.name + '\n' +
+                    '上映開始: ' + moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm'), // テキスト
+                trigger: {
+                    at: moment(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                },
+                foreground: true // 前面表示（デフォルトは前面表示しない）
+            };
+            this.callNative.localNotification(localNotificationArgs);
+        } catch (err) {
+            console.error(err);
+        }
+
 
         // 購入情報削除
         this.reset();

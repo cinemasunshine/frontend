@@ -7270,7 +7270,7 @@ var PurchaseService = /** @class */ (function () {
                         catch (err) {
                             console.error(err);
                         }
-                        if (!(this.user.isNative() && this.user.isMember())) return [3 /*break*/, 14];
+                        if (!(this.user.isNative() && !this.user.isMember())) return [3 /*break*/, 13];
                         _a.label = 9;
                     case 9:
                         _a.trys.push([9, 12, , 13]);
@@ -7322,8 +7322,6 @@ var PurchaseService = /** @class */ (function () {
                         catch (err) {
                             console.error(err);
                         }
-                        _a.label = 14;
-                    case 14:
                         // 購入情報削除
                         this.reset();
                         return [2 /*return*/];
