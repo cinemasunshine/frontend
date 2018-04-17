@@ -1,7 +1,8 @@
 /**
  * ルーティング
  */
-import * as express from 'express';
+import { Application, NextFunction, Request, Response } from 'express';
+import { signInRedirect } from '../controllers/authorize/authorize.controller';
 import { getSchedule } from '../controllers/purchase/purchase.controller';
 import authorizeRouter from './authorize';
 import inquiryRouter from './inquiry';
@@ -9,48 +10,58 @@ import masterRouter from './master';
 import methodRouter from './method';
 import purchaseRouter from './purchase';
 
-export default (app: express.Application) => {
+function defaultSetting(req: Request, res: Response, next: NextFunction) {
+    res.locals.NODE_ENV = process.env.NODE_ENV;
+    res.locals.PORTAL_SITE_URL = process.env.PORTAL_SITE_URL;
+    res.locals.APP_SITE_URL = process.env.APP_SITE_URL;
+    res.locals.isApp = ((<Express.Session>req.session).awsCognitoIdentityId !== undefined);
+    next();
+}
+
+function purchaseTransaction(req: Request, res: Response, _next: NextFunction) {
+    let params = `performanceId=${req.query.performanceId}`;
+    params += `&passportToken=${req.query.passportToken}`;
+    if (req.query.identityId !== undefined) {
+        params += `&identityId=${req.query.identityId}`;
+    }
+    if (req.query.native !== undefined) {
+        params += `&native=${req.query.native}`;
+    }
+    if (req.query.member !== undefined) {
+        params += `&member=${req.query.member}`;
+    }
+    if (req.query.accessToken !== undefined) {
+        params += `&accessToken=${req.query.accessToken}`;
+    }
+    res.redirect(`/?${params}`);
+}
+
+function root(_req: Request, res: Response, _next: NextFunction) {
+    res.locals.GMO_ENDPOINT = process.env.GMO_ENDPOINT;
+    res.render('purchase/index', { layout: false });
+}
+
+function notfound(_req: Request, res: Response, _next: NextFunction) {
+    res.render('notfound/index');
+}
+
+function error(err: Error, _req: Request, res: Response, _next: NextFunction) {
+    res.locals.error = err;
+    res.render('error/index');
+}
+
+export default (app: Application) => {
     app.set('layout', 'layouts/layout');
-    app.use((req, res, next) => {
-        res.locals.NODE_ENV = process.env.NODE_ENV;
-        res.locals.PORTAL_SITE_URL = process.env.PORTAL_SITE_URL;
-        res.locals.APP_SITE_URL = process.env.APP_SITE_URL;
-        res.locals.isApp = ((<Express.Session>req.session).awsCognitoIdentityId !== undefined);
-        next();
-    });
+    app.use(defaultSetting);
     app.use('/api/purchase', purchaseRouter);
     app.use('/api/master', masterRouter);
     app.use('/api/authorize', authorizeRouter);
     app.use('/inquiry', inquiryRouter);
     app.use('/method', methodRouter);
     app.get('/purchase/performances/getSchedule', getSchedule);
-    app.get('/purchase/transaction', (req, res, _next) => {
-        let params = `performanceId=${req.query.performanceId}`;
-        params += `&passportToken=${req.query.passportToken}`;
-        if (req.query.identityId !== undefined) {
-            params += `&identityId=${req.query.identityId}`;
-        }
-        if (req.query.native !== undefined) {
-            params += `&native=${req.query.native}`;
-        }
-        if (req.query.member !== undefined) {
-            params += `&member=${req.query.member}`;
-        }
-        if (req.query.accessToken !== undefined) {
-            params += `&accessToken=${req.query.accessToken}`;
-        }
-        res.redirect(`/?${params}`);
-    });
-    app.get('/', (_req, res, _next) => {
-        res.locals.GMO_ENDPOINT = process.env.GMO_ENDPOINT;
-        res.render('purchase/index', { layout: false });
-    });
-
-    app.use((_req: express.Request, res: express.Response, _next: express.NextFunction) => {
-        res.render('notfound/index');
-    });
-    app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-        res.locals.error = err;
-        res.render('error/index');
-    });
+    app.get('/purchase/transaction', purchaseTransaction);
+    app.get('/signIn', signInRedirect);
+    app.get('/', root);
+    app.use(notfound);
+    app.use(error);
 };

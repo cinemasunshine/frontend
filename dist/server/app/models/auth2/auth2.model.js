@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
-const uuid = require("uuid");
 /**
  * 認証モデル
  * @class Auth2Model
@@ -15,7 +14,6 @@ class Auth2Model {
         if (session === undefined) {
             session = {};
         }
-        this.state = (session.state !== undefined) ? session.state : uuid.v1();
         const resourceServerUrl = process.env.RESOURCE_SERVER_URL;
         this.scopes = (session.scopes !== undefined) ? session.scopes : [
             'phone',
@@ -33,7 +31,8 @@ class Auth2Model {
             `${resourceServerUrl}/people.ownershipInfos.read-only`
         ];
         this.credentials = session.credentials;
-        this.codeVerifier = session.codeVerifier;
+        this.state = Auth2Model.STATE;
+        this.codeVerifier = Auth2Model.CODE_VERIFIER;
     }
     /**
      * 認証クラス作成
@@ -43,7 +42,7 @@ class Auth2Model {
      */
     create() {
         const auth = new sasaki.auth.OAuth2({
-            domain: process.env.AUTHORIZE_SERVER_DOMAIN,
+            domain: process.env.OAUTH2_SERVER_DOMAIN,
             clientId: process.env.CLIENT_ID_OAUTH2,
             clientSecret: process.env.CLIENT_SECRET_OAUTH2,
             redirectUri: process.env.AUTH_REDIRECT_URI,
@@ -72,4 +71,12 @@ class Auth2Model {
         session.auth = authSession;
     }
 }
+/**
+ * 状態（固定値）
+ */
+Auth2Model.STATE = 'STATE';
+/**
+ * 検証コード（固定値）
+ */
+Auth2Model.CODE_VERIFIER = 'CODE_VERIFIER';
 exports.Auth2Model = Auth2Model;

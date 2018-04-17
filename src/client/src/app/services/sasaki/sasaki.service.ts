@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
-import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
@@ -72,7 +71,7 @@ export class SasakiService {
             params: new HttpParams().set('member', member)
         };
         let credentials;
-        if (member === FlgMember.Member) {
+        if (this.user.isMember()) {
             credentials = {
                 accessToken: this.user.data.accessToken
             };

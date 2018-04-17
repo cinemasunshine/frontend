@@ -12,8 +12,6 @@ export const environment = {
     COGNITO_USER_POOL_ID: '',
     COGNITO_CLIENT_ID: '',
 
-    AUTHORIZE_SERVER_DOMAIN: 'sskts-test.auth.ap-northeast-1.amazoncognito.com',
-    RESOURCE_SERVER_URL: 'https://sskts-api-test.azurewebsites.net',
     SASAKI_API_ENDPOINT: 'https://sskts-api-test.azurewebsites.net',
     TOKEN_ISSUER: '',
 

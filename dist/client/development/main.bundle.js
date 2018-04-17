@@ -7481,16 +7481,14 @@ var PurchaseService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SasakiService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__motionpicture_coa_service_lib_services_reserve__ = __webpack_require__("../../../../@motionpicture/coa-service/lib/services/reserve.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__motionpicture_coa_service_lib_services_reserve___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__motionpicture_coa_service_lib_services_reserve__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__ = __webpack_require__("../../../../@motionpicture/sskts-api-javascript-client/lib/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__environments_environment__ = __webpack_require__("../../../../../src/client/src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_user_service__ = __webpack_require__("../../../../../src/client/src/app/services/user/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__ = __webpack_require__("../../../../@motionpicture/sskts-api-javascript-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment__ = __webpack_require__("../../../../../src/client/src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__user_user_service__ = __webpack_require__("../../../../../src/client/src/app/services/user/user.service.ts");
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -7532,7 +7530,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
-
 var SasakiService = /** @class */ (function () {
     function SasakiService(http, user) {
         this.http = http;
@@ -7551,13 +7548,13 @@ var SasakiService = /** @class */ (function () {
                         return [4 /*yield*/, this.createOption()];
                     case 1:
                         option = _a.sent();
-                        this.event = new __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__["service"].Event(option);
-                        this.order = new __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__["service"].Order(option);
-                        this.organization = new __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__["service"].Organization(option);
-                        this.person = new __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__["service"].Person(option);
-                        this.place = new __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__["service"].Place(option);
+                        this.event = new __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["service"].Event(option);
+                        this.order = new __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["service"].Order(option);
+                        this.organization = new __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["service"].Organization(option);
+                        this.person = new __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["service"].Person(option);
+                        this.place = new __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["service"].Place(option);
                         this.transaction = {
-                            placeOrder: new __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__["service"].transaction.PlaceOrder(option)
+                            placeOrder: new __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["service"].transaction.PlaceOrder(option)
                         };
                         return [3 /*break*/, 3];
                     case 2:
@@ -7579,13 +7576,13 @@ var SasakiService = /** @class */ (function () {
                     case 0:
                         if (!(this.auth === undefined
                             || this.auth.credentials === undefined
-                            || this.expired < __WEBPACK_IMPORTED_MODULE_3_moment__().unix())) return [3 /*break*/, 2];
+                            || this.expired < __WEBPACK_IMPORTED_MODULE_2_moment__().unix())) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.authorize()];
                     case 1:
                         _a.sent();
                         _a.label = 2;
                     case 2: return [2 /*return*/, {
-                            endpoint: __WEBPACK_IMPORTED_MODULE_5__environments_environment__["a" /* environment */].SASAKI_API_ENDPOINT,
+                            endpoint: __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].SASAKI_API_ENDPOINT,
                             auth: this.auth
                         }];
                 }
@@ -7606,7 +7603,7 @@ var SasakiService = /** @class */ (function () {
                         options = {
                             params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["g" /* HttpParams */]().set('member', member)
                         };
-                        if (!(member === __WEBPACK_IMPORTED_MODULE_1__motionpicture_coa_service_lib_services_reserve__["FlgMember"].Member)) return [3 /*break*/, 1];
+                        if (!this.user.isMember()) return [3 /*break*/, 1];
                         credentials = {
                             accessToken: this.user.data.accessToken
                         };
@@ -7627,10 +7624,10 @@ var SasakiService = /** @class */ (function () {
                             nonce: null,
                             tokenIssuer: ''
                         };
-                        this.auth = __WEBPACK_IMPORTED_MODULE_2__motionpicture_sskts_api_javascript_client__["createAuthInstance"](option);
+                        this.auth = __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["createAuthInstance"](option);
                         this.auth.setCredentials(credentials);
                         expired = 15;
-                        this.expired = __WEBPACK_IMPORTED_MODULE_3_moment__().add(expired, 'minutes').unix();
+                        this.expired = __WEBPACK_IMPORTED_MODULE_2_moment__().add(expired, 'minutes').unix();
                         return [2 /*return*/];
                 }
             });
@@ -7644,7 +7641,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = __WEBPACK_IMPORTED_MODULE_5__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
+                url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
                 return [2 /*return*/, this.http.post(url, args).toPromise()];
             });
         });
@@ -7657,7 +7654,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = __WEBPACK_IMPORTED_MODULE_5__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
+                url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
                 return [2 /*return*/, this.http.post(url, args).toPromise()];
             });
         });
@@ -7670,7 +7667,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = __WEBPACK_IMPORTED_MODULE_5__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/getSeatState";
+                url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/getSeatState";
                 return [2 /*return*/, this.http.get(url, {
                         params: args
                     }).toPromise()];
@@ -7687,7 +7684,7 @@ var SasakiService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        url = __WEBPACK_IMPORTED_MODULE_5__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
+                        url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
                         return [4 /*yield*/, this.http.post(url, args).toPromise()];
                     case 1:
                         result = _a.sent();
@@ -7709,7 +7706,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = __WEBPACK_IMPORTED_MODULE_5__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/master/getSalesTickets";
+                url = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_ENDPOINT + "/api/master/getSalesTickets";
                 return [2 /*return*/, this.http.get(url, {
                         params: args
                     }).toPromise()];
@@ -7888,8 +7885,6 @@ var environment = {
     COGNITO_IDENTITY_POOL_ID: 'ap-northeast-1:6a67f523-93c3-4766-b96f-6552f21abd8d',
     COGNITO_USER_POOL_ID: '',
     COGNITO_CLIENT_ID: '',
-    AUTHORIZE_SERVER_DOMAIN: 'sskts-development.auth.ap-northeast-1.amazoncognito.com',
-    RESOURCE_SERVER_URL: 'https://sskts-api-development.azurewebsites.net',
     SASAKI_API_ENDPOINT: 'https://sskts-api-development.azurewebsites.net',
     TOKEN_ISSUER: '',
     ANALYTICS_ID: 'UA-99018492-2'
