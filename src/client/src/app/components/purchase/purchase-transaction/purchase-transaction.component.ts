@@ -39,6 +39,10 @@ export class PurchaseTransactionComponent implements OnInit {
          * アクセストークン
          */
         accessToken?: string;
+        /**
+         * signinリダイレクト
+         */
+        signInRedirect: boolean;
     };
     constructor(
         private storage: StorageService,
@@ -60,9 +64,14 @@ export class PurchaseTransactionComponent implements OnInit {
                 throw new Error('parameters is undefined');
             }
             this.user.setNative(this.parameters.native);
-            this.user.setMember(this.parameters.member);
-            this.user.setAccessToken(this.parameters.accessToken);
+            // this.user.setAccessToken(this.parameters.accessToken);
             this.user.save();
+            console.log('this.sasaki.auth', this.sasaki.auth);
+            if (this.parameters.member && !this.parameters.signInRedirect) {
+                await this.sasaki.signIn();
+
+                return;
+            }
 
             // ticketアプリテスト
             // this.parameters.identityId = 'ap-northeast-1:c93ad6a4-47e6-4023-a078-2a9ea80c15c9';

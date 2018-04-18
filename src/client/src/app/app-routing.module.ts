@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthSigninComponent } from './components/auth/auth-signin/auth-signin.component';
 import { BaseComponent } from './components/base/base.component';
 import { ErrorComponent } from './components/error/error.component';
 import { ExpiredComponent } from './components/expired/expired.component';
@@ -23,6 +24,7 @@ import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.s
 const routes: Routes = [
     { path: '', redirectTo: 'purchase/transaction', pathMatch: 'full' },
     { path: 'purchase/transaction', component: PurchaseTransactionComponent },
+    { path: 'auth/signin', component: AuthSigninComponent },
     {
         path: '',
         component: BaseComponent,

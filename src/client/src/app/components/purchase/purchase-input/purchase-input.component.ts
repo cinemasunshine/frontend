@@ -157,17 +157,34 @@ export class PurchaseInputComponent implements OnInit {
             }
             if (this.purchase.getTotalPrice() > 0) {
                 try {
-                    this.purchase.data.gmoTokenObject = await this.getGmoObject();
+                    let creditCard;
+                    if (this.creditCardType === CreditCardType.Input) {
+                        this.purchase.data.gmoTokenObject = await this.getGmoObject();
+                        creditCard = {
+                            token: (<IGmoTokenObject>this.purchase.data.gmoTokenObject).token
+                        };
+                    } else {
+                        if (this.user.data.creditCards === undefined) {
+                            throw new Error('creditCards is undefined');
+                        }
+                        creditCard = {
+                            memberId: 'me',
+                            cardSeq: Number(this.user.data.creditCards[0].cardSeq)
+                        };
+                    }
+
                     // クレジットカード処理
-                    await this.purchase.creditCardPaymentProcess((<IGmoTokenObject>this.purchase.data.gmoTokenObject).token);
+                    await this.purchase.creditCardPaymentProcess(creditCard);
                 } catch (err) {
                     console.error(err);
                     // クレジットカード処理失敗
                     this.isLoading = false;
                     this.creditCardAlertModal = true;
-                    this.inputForm.controls.cardNumber.setValue('');
-                    this.inputForm.controls.securityCode.setValue('');
-                    this.inputForm.controls.holderName.setValue('');
+                    if (this.creditCardType === CreditCardType.Input) {
+                        this.inputForm.controls.cardNumber.setValue('');
+                        this.inputForm.controls.securityCode.setValue('');
+                        this.inputForm.controls.holderName.setValue('');
+                    }
                     this.disable = false;
 
                     return;
@@ -178,10 +195,11 @@ export class PurchaseInputComponent implements OnInit {
                 && this.purchase.data.gmoTokenObject !== undefined) {
                 // 会員 クレジットカード情報保存
                 await this.sasaki.getServices();
+                const gmoTokenObject = await this.getGmoObject();
                 const addCreditCardArgs = {
                     personId: 'me',
                     creditCard: {
-                        token: this.purchase.data.gmoTokenObject.token
+                        token: gmoTokenObject.token
                     }
                 };
                 await this.sasaki.person.addCreditCard(addCreditCardArgs);
@@ -380,11 +398,11 @@ export class PurchaseInputComponent implements OnInit {
      */
     public changeInputCreditCard() {
         this.creditCardType = CreditCardType.Input;
-        this.inputForm.controls.cardNumber.setValue('4111111111111111');
+        this.inputForm.controls.cardNumber.setValue('');
         this.inputForm.controls.cardExpirationMonth.setValue('01');
         this.inputForm.controls.cardExpirationYear.setValue(moment().format('YYYY'));
-        this.inputForm.controls.securityCode.setValue('123');
-        this.inputForm.controls.holderName.setValue('TEST');
+        this.inputForm.controls.securityCode.setValue('');
+        this.inputForm.controls.holderName.setValue('');
     }
 
     /**
@@ -392,11 +410,11 @@ export class PurchaseInputComponent implements OnInit {
      */
     public changeRegisteredCreditCard() {
         this.creditCardType = CreditCardType.Registered;
-        this.inputForm.controls.cardNumber.setValue('');
+        this.inputForm.controls.cardNumber.setValue('4111111111111111');
         this.inputForm.controls.cardExpirationMonth.setValue('01');
         this.inputForm.controls.cardExpirationYear.setValue(moment().format('YYYY'));
-        this.inputForm.controls.securityCode.setValue('');
-        this.inputForm.controls.holderName.setValue('');
+        this.inputForm.controls.securityCode.setValue('123');
+        this.inputForm.controls.holderName.setValue('TEST');
     }
 
 }

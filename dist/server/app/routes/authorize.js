@@ -7,4 +7,5 @@ const express = require("express");
 const authorize = require("../controllers/authorize/authorize.controller");
 const router = express.Router();
 router.get('/getCredentials', authorize.getCredentials);
+router.get('/signIn', authorize.signIn);
 exports.default = router;

@@ -23,7 +23,7 @@ export class AppComponent {
                     ga('set', 'page', event.urlAfterRedirects);
                     ga('send', 'pageview');
                 } catch (err) {
-                    console.error(err);
+                    console.log(err);
                 }
             }
         });

@@ -70,14 +70,7 @@ export class SasakiService {
         const options = {
             params: new HttpParams().set('member', member)
         };
-        let credentials;
-        if (this.user.isMember()) {
-            credentials = {
-                accessToken: this.user.data.accessToken
-            };
-        } else {
-            credentials = await this.http.get<any>(url, options).toPromise();
-        }
+        const credentials = await this.http.get<any>(url, options).toPromise();
         const option = {
             domain: '',
             clientId: '',
@@ -93,6 +86,16 @@ export class SasakiService {
         this.auth.setCredentials(credentials);
         const expired = 15;
         this.expired = moment().add(expired, 'minutes').unix();
+    }
+
+    /**
+     * サインイン
+     */
+    public async signIn() {
+        const url = '/api/authorize/signIn';
+        const result = await this.http.get<any>(url, {}).toPromise();
+        console.log(result.url);
+        location.href = result.url;
     }
 
     /**

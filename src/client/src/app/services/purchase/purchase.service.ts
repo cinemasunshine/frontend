@@ -14,6 +14,8 @@ import { UserService } from '../user/user.service';
 export type IIndividualScreeningEvent = factory.event.individualScreeningEvent.IEventWithOffer;
 export type ICustomerContact = factory.transaction.placeOrder.ICustomerContact;
 export type ISalesTicketResult = COA.services.reserve.ISalesTicketResult;
+type IUnauthorizedCardOfMember = factory.paymentMethod.paymentCard.creditCard.IUnauthorizedCardOfMember;
+type IUncheckedCardTokenized = factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
 
 declare const ga: Function;
 
@@ -509,27 +511,30 @@ export class PurchaseService {
         await this.sasaki.getServices();
         // 入力情報を登録
         this.data.customerContact = await this.sasaki.transaction.placeOrder.setCustomerContact(args);
-        try {
-            const updateRecordsArgs = {
-                datasetName: 'profile',
-                value: {
-                    familyName: args.contact.familyName,
-                    givenName: args.contact.givenName,
-                    email: args.contact.email,
-                    telephone: args.contact.telephone
-                }
-            };
-            await this.awsCognito.updateRecords(updateRecordsArgs);
-        } catch (err) {
-            console.log(err);
+        if (this.user.isNative() && !this.user.isMember()) {
+            try {
+                const updateRecordsArgs = {
+                    datasetName: 'profile',
+                    value: {
+                        familyName: args.contact.familyName,
+                        givenName: args.contact.givenName,
+                        email: args.contact.email,
+                        telephone: args.contact.telephone
+                    }
+                };
+                await this.awsCognito.updateRecords(updateRecordsArgs);
+            } catch (err) {
+                console.log(err);
+            }
         }
+
         this.save();
     }
 
     /**
      * クレジットカード支払い処理
      */
-    public async creditCardPaymentProcess(token: string) {
+    public async creditCardPaymentProcess(creditCard: IUnauthorizedCardOfMember | IUncheckedCardTokenized) {
         if (this.data.transaction === undefined) {
             throw new Error('status is different');
         }
@@ -545,9 +550,6 @@ export class PurchaseService {
             this.save();
         }
         // クレジットカード登録
-        const creditCard = {
-            token: token
-        };
         const METHOD_LUMP = '1';
         const createCreditCardAuthorizationArgs = {
             transactionId: this.data.transaction.id,

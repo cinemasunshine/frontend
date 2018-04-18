@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'app-purchase-confirm',
@@ -18,6 +19,7 @@ export class PurchaseConfirmComponent implements OnInit {
 
     constructor(
         public purchase: PurchaseService,
+        public user: UserService,
         private formBuilder: FormBuilder,
         private router: Router,
         private error: ErrorService

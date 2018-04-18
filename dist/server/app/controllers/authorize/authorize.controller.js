@@ -97,7 +97,7 @@ function signInRedirect(req, res, next) {
             authModel.credentials = credentials;
             authModel.save(req.session);
             auth.setCredentials(credentials);
-            res.redirect('/#/purchase/transaction');
+            res.redirect('/#/auth/signin');
         }
         catch (err) {
             next(err);

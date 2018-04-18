@@ -35,6 +35,7 @@ import { PurchaseInputComponent } from './components/purchase/purchase-input/pur
 import { PurchaseMvtkConfirmComponent } from './components/purchase/purchase-mvtk-confirm/purchase-mvtk-confirm.component';
 import { PurchaseMvtkInputComponent } from './components/purchase/purchase-mvtk-input/purchase-mvtk-input.component';
 import { PurchaseOverlapComponent } from './components/purchase/purchase-overlap/purchase-overlap.component';
+import { PurchasePointComponent } from './components/purchase/purchase-point/purchase-point.component';
 import { PurchaseScheduleComponent } from './components/purchase/purchase-schedule/purchase-schedule.component';
 import { PurchaseSeatComponent } from './components/purchase/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/purchase-ticket.component';
@@ -50,7 +51,7 @@ import { PurchaseService } from './services/purchase/purchase.service';
 import { SasakiService } from './services/sasaki/sasaki.service';
 import { StorageService } from './services/storage/storage.service';
 import { UserService } from './services/user/user.service';
-import { PurchasePointComponent } from './components/purchase/purchase-point/purchase-point.component';
+import { AuthSigninComponent } from './components/auth/auth-signin/auth-signin.component';
 
 @NgModule({
     declarations: [
@@ -91,7 +92,8 @@ import { PurchasePointComponent } from './components/purchase/purchase-point/pur
         ExpiredComponent,
         PurchaseTermComponent,
         PurchaseNoteComponent,
-        PurchasePointComponent
+        PurchasePointComponent,
+        AuthSigninComponent
     ],
     imports: [
         BrowserModule,

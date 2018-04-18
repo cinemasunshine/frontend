@@ -15,7 +15,7 @@ class Auth2Model {
             session = {};
         }
         const resourceServerUrl = process.env.RESOURCE_SERVER_URL;
-        this.scopes = (session.scopes !== undefined) ? session.scopes : [
+        this.scopes = [
             'phone',
             'openid',
             'email',

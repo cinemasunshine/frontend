@@ -88,7 +88,7 @@ export async function signInRedirect(req: Request, res: Response, next: NextFunc
         authModel.save(req.session);
 
         auth.setCredentials(credentials);
-        res.redirect('/#/purchase/transaction');
+        res.redirect('/#/auth/signin');
     } catch (err) {
         next(err);
     }
