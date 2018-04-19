@@ -5983,14 +5983,16 @@ var styles = [""];
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseTransactionComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_aws_cognito_aws_cognito_service__ = __webpack_require__("../../../../../src/client/src/app/services/aws-cognito/aws-cognito.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_error_error_service__ = __webpack_require__("../../../../../src/client/src/app/services/error/error.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_purchase_purchase_service__ = __webpack_require__("../../../../../src/client/src/app/services/purchase/purchase.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_sasaki_sasaki_service__ = __webpack_require__("../../../../../src/client/src/app/services/sasaki/sasaki.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__ = __webpack_require__("../../../../../src/client/src/app/services/storage/storage.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_user_user_service__ = __webpack_require__("../../../../../src/client/src/app/services/user/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__motionpicture_coa_service_lib_services_reserve__ = __webpack_require__("../../../../@motionpicture/coa-service/lib/services/reserve.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__motionpicture_coa_service_lib_services_reserve___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__motionpicture_coa_service_lib_services_reserve__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_aws_cognito_aws_cognito_service__ = __webpack_require__("../../../../../src/client/src/app/services/aws-cognito/aws-cognito.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_error_error_service__ = __webpack_require__("../../../../../src/client/src/app/services/error/error.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_purchase_purchase_service__ = __webpack_require__("../../../../../src/client/src/app/services/purchase/purchase.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_sasaki_sasaki_service__ = __webpack_require__("../../../../../src/client/src/app/services/sasaki/sasaki.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_storage_storage_service__ = __webpack_require__("../../../../../src/client/src/app/services/storage/storage.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_user_user_service__ = __webpack_require__("../../../../../src/client/src/app/services/user/user.service.ts");
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -6035,6 +6037,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+
 var PurchaseTransactionComponent = /** @class */ (function () {
     function PurchaseTransactionComponent(storage, router, sasaki, purchase, error, awsCognito, user) {
         this.storage = storage;
@@ -6055,15 +6058,18 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 8, , 9]);
-                        this.parameters = this.storage.load('parameters', __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__["a" /* SaveType */].Session);
+                        this.parameters = this.storage.load('parameters', __WEBPACK_IMPORTED_MODULE_8__services_storage_storage_service__["a" /* SaveType */].Session);
                         if (!this.parametersChack()) {
                             throw new Error('parameters is undefined');
                         }
                         this.user.setNative(this.parameters.native);
+                        if (this.parameters.member === __WEBPACK_IMPORTED_MODULE_2__motionpicture_coa_service_lib_services_reserve__["FlgMember"].NonMember) {
+                            this.user.setMember(this.parameters.member);
+                        }
                         // this.user.setAccessToken(this.parameters.accessToken);
                         this.user.save();
                         console.log('this.sasaki.auth', this.sasaki.auth);
-                        if (!(this.parameters.member && !this.parameters.signInRedirect)) return [3 /*break*/, 2];
+                        if (!(this.parameters.member === __WEBPACK_IMPORTED_MODULE_2__motionpicture_coa_service_lib_services_reserve__["FlgMember"].Member && !this.parameters.signInRedirect)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.sasaki.signIn()];
                     case 1:
                         _a.sent();
@@ -6088,7 +6094,7 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                         }
                         END_TIME = 30;
                         // 終了可能日判定
-                        if (__WEBPACK_IMPORTED_MODULE_2_moment__().add(END_TIME, 'minutes').unix() > __WEBPACK_IMPORTED_MODULE_2_moment__(individualScreeningEvent.startDate).unix()) {
+                        if (__WEBPACK_IMPORTED_MODULE_3_moment__().add(END_TIME, 'minutes').unix() > __WEBPACK_IMPORTED_MODULE_3_moment__(individualScreeningEvent.startDate).unix()) {
                             throw new Error('unable to end sales');
                         }
                         if (this.purchase.data.transaction !== undefined && this.purchase.isExpired()) {
@@ -6101,7 +6107,7 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                         }
                         if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
                             // 重複確認へ
-                            this.storage.save('individualScreeningEvent', individualScreeningEvent, __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__["a" /* SaveType */].Session);
+                            this.storage.save('individualScreeningEvent', individualScreeningEvent, __WEBPACK_IMPORTED_MODULE_8__services_storage_storage_service__["a" /* SaveType */].Session);
                             this.router.navigate(["/purchase/overlap"]);
                             return [2 /*return*/];
                         }
@@ -6111,7 +6117,7 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                             })];
                     case 7:
                         _a.sent();
-                        this.storage.remove('parameters', __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__["a" /* SaveType */].Session);
+                        this.storage.remove('parameters', __WEBPACK_IMPORTED_MODULE_8__services_storage_storage_service__["a" /* SaveType */].Session);
                         this.router.navigate(['/purchase/seat'], { replaceUrl: true });
                         return [3 /*break*/, 9];
                     case 8:

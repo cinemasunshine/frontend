@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import * as moment from 'moment';
 import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
@@ -64,10 +65,13 @@ export class PurchaseTransactionComponent implements OnInit {
                 throw new Error('parameters is undefined');
             }
             this.user.setNative(this.parameters.native);
+            if (this.parameters.member === FlgMember.NonMember) {
+                this.user.setMember(this.parameters.member);
+            }
             // this.user.setAccessToken(this.parameters.accessToken);
             this.user.save();
             console.log('this.sasaki.auth', this.sasaki.auth);
-            if (this.parameters.member && !this.parameters.signInRedirect) {
+            if (this.parameters.member === FlgMember.Member && !this.parameters.signInRedirect) {
                 await this.sasaki.signIn();
 
                 return;

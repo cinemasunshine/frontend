@@ -31,6 +31,7 @@ function getCredentials(req, res) {
             else {
                 throw new Error('member does not macth MemberType');
             }
+            log('getCredentials MemberType', req.query.member);
             const options = {
                 endpoint: process.env.SSKTS_API_ENDPOINT,
                 auth: authModel.create()
@@ -39,7 +40,6 @@ function getCredentials(req, res) {
             const credentials = {
                 accessToken: accessToken
             };
-            log('getCredentials MemberType', req.query.member);
             res.json(credentials);
         }
         catch (err) {

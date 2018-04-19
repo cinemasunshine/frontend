@@ -20,6 +20,7 @@ export async function getCredentials(req: Request, res: Response) {
         } else {
             throw new Error('member does not macth MemberType');
         }
+        log('getCredentials MemberType', req.query.member);
         const options = {
             endpoint: (<string>process.env.SSKTS_API_ENDPOINT),
             auth: authModel.create()
@@ -29,7 +30,6 @@ export async function getCredentials(req: Request, res: Response) {
             accessToken: accessToken
         };
 
-        log('getCredentials MemberType', req.query.member);
         res.json(credentials);
     } catch (err) {
         errorProsess(res, err);
