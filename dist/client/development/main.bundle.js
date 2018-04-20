@@ -3570,8 +3570,8 @@ var PurchaseInputComponent = /** @class */ (function () {
                         return [3 /*break*/, 10];
                     case 10:
                         // TODO
-                        this.inputForm.controls.familyName.setValue('はたぐち');
-                        this.inputForm.controls.givenName.setValue('あきと');
+                        this.inputForm.controls.familyName.setValue('てすと');
+                        this.inputForm.controls.givenName.setValue('かいいん');
                         this.inputForm.controls.email.setValue(contacts.email);
                         this.inputForm.controls.emailConfirm.setValue(contacts.email);
                         this.inputForm.controls.telephone.setValue(contacts.telephone.replace(/-/g, ''));
