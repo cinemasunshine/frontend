@@ -24,6 +24,7 @@ app.use(basicAuth); // ベーシック認証
 app.use(helmet()); // セキュリティー対策
 app.use(whiteList); // 許可設定
 app.use(benchmarks); // ベンチマーク的な
+app.set('trust proxy', 1);
 app.use(session); // セッション
 app.use(locales.setLocale); // 言語
 app.use(bodyParser.json());
