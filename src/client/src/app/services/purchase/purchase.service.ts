@@ -331,7 +331,7 @@ export class PurchaseService {
         const DIGITS = -2;
         const coaInfo = this.data.individualScreeningEvent.coaInfo;
         const day = moment(coaInfo.dateJouei).format('YYYY/MM/DD');
-        const time = `${new TimeFormatPipe().transform(coaInfo.dateJouei, this.data.individualScreeningEvent.startDate)}:00`;
+        const time = `${new TimeFormatPipe().transform(this.data.individualScreeningEvent.startDate, coaInfo.dateJouei)}:00`;
         const tmpReserveNum = this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum;
         const systemReservationNumber = `${coaInfo.dateJouei}${tmpReserveNum}`;
         const siteCode = String(Number(`00${coaInfo.theaterCode}`.slice(DIGITS)));
