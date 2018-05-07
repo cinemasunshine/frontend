@@ -3376,6 +3376,10 @@ var PurchaseInputComponent = /** @class */ (function () {
                             }, 0);
                             return [2 /*return*/];
                         }
+                        if (this.purchase.isExpired()) {
+                            this.router.navigate(['expired']);
+                            return [2 /*return*/];
+                        }
                         this.disable = true;
                         this.isLoading = true;
                         _b.label = 1;
@@ -3419,10 +3423,6 @@ var PurchaseInputComponent = /** @class */ (function () {
                                 telephone: this.inputForm.controls.telephone.value
                             }
                         };
-                        if (this.purchase.isExpired()) {
-                            this.router.navigate(['expired']);
-                            return [2 /*return*/];
-                        }
                         return [4 /*yield*/, this.purchase.customerContactRegistrationProcess(setCustomerContactArgs)];
                     case 7:
                         _b.sent();
