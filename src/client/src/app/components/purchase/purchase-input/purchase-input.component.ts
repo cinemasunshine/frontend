@@ -95,6 +95,11 @@ export class PurchaseInputComponent implements OnInit {
 
             return;
         }
+        if (this.purchase.isExpired()) {
+            this.router.navigate(['expired']);
+
+            return;
+        }
         this.disable = true;
         this.isLoading = true;
         try {
@@ -129,11 +134,6 @@ export class PurchaseInputComponent implements OnInit {
                     telephone: this.inputForm.controls.telephone.value
                 }
             };
-            if (this.purchase.isExpired()) {
-                this.router.navigate(['expired']);
-
-                return;
-            }
             await this.purchase.customerContactRegistrationProcess(setCustomerContactArgs);
             this.router.navigate(['/purchase/confirm']);
         } catch (err) {
