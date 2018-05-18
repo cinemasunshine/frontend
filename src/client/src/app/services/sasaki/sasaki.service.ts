@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
@@ -68,6 +68,9 @@ export class SasakiService {
         const member = this.user.data.member;
         const url = '/api/authorize/getCredentials';
         const options = {
+            headers: new HttpHeaders({
+                'If-Modified-Since': new Date(0).toUTCString()
+            }),
             params: new HttpParams().set('member', member)
         };
         const credentials = await this.http.get<any>(url, options).toPromise();

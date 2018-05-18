@@ -144,6 +144,11 @@ export class PurchaseInputComponent implements OnInit {
 
             return;
         }
+        if (this.purchase.isExpired()) {
+            this.router.navigate(['expired']);
+
+            return;
+        }
         this.disable = true;
         this.isLoading = true;
         if (this.purchase.isExpired()) {
