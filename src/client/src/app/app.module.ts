@@ -39,6 +39,7 @@ import { PurchaseScheduleComponent } from './components/purchase/purchase-schedu
 import { PurchaseSeatComponent } from './components/purchase/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/purchase-ticket.component';
 import { PurchaseTransactionComponent } from './components/purchase/purchase-transaction/purchase-transaction.component';
+import { TestScreenComponent } from './components/test/test-screen/test-screen.component';
 import { DurationPipe } from './pipes/duration/duration.pipe';
 import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format/libphonenumber-format.pipe';
 import { TimeFormatPipe } from './pipes/time-format/time-format.pipe';
@@ -88,7 +89,8 @@ import { StorageService } from './services/storage/storage.service';
         NotFoundComponent,
         ExpiredComponent,
         PurchaseTermComponent,
-        PurchaseNoteComponent
+        PurchaseNoteComponent,
+        TestScreenComponent
     ],
     imports: [
         BrowserModule,

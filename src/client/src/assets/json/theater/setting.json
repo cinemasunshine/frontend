@@ -6,5 +6,6 @@
         "middle": { "w": 48, "h": 50 }
     },
     "seatLabelPos": 50,
-    "seatNumberPos": 50
+    "seatNumberPos": 50,
+    "seatNumberAlign": "left"
 }

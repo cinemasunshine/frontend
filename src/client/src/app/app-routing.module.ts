@@ -17,6 +17,7 @@ import { PurchaseScheduleComponent } from './components/purchase/purchase-schedu
 import { PurchaseSeatComponent } from './components/purchase/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/purchase-ticket.component';
 import { PurchaseTransactionComponent } from './components/purchase/purchase-transaction/purchase-transaction.component';
+import { TestScreenComponent } from './components/test/test-screen/test-screen.component';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
 
 const routes: Routes = [
@@ -33,23 +34,29 @@ const routes: Routes = [
         ]
     },
     {
-        path: '',
+        path: 'purchase',
         component: PurchaseBaseComponent,
         canActivate: [PurchaseGuardService],
         children: [
-            { path: 'purchase/seat', component: PurchaseSeatComponent },
-            { path: 'purchase/ticket', component: PurchaseTicketComponent },
-            { path: 'purchase/input', component: PurchaseInputComponent },
-            { path: 'purchase/confirm', component: PurchaseConfirmComponent },
-            { path: 'purchase/mvtk/input', component: PurchaseMvtkInputComponent },
-            { path: 'purchase/mvtk/confirm', component: PurchaseMvtkConfirmComponent }
+            { path: 'seat', component: PurchaseSeatComponent },
+            { path: 'ticket', component: PurchaseTicketComponent },
+            { path: 'input', component: PurchaseInputComponent },
+            { path: 'confirm', component: PurchaseConfirmComponent },
+            { path: 'mvtk/input', component: PurchaseMvtkInputComponent },
+            { path: 'mvtk/confirm', component: PurchaseMvtkConfirmComponent }
         ]
     },
     {
-        path: '',
+        path: 'purchase',
         component: PurchaseBaseComponent,
         children: [
-            { path: 'purchase/complete', component: PurchaseCompleteComponent }
+            { path: 'complete', component: PurchaseCompleteComponent }
+        ]
+    },
+    {
+        path: 'test',
+        children: [
+            { path: ':theaterCode/:screenCode/screen', component: TestScreenComponent }
         ]
     },
     {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import 'rxjs/add/operator/toPromise';
 import { ErrorService } from '../../../services/error/error.service';
@@ -13,6 +13,8 @@ import { SasakiService } from '../../../services/sasaki/sasaki.service';
 })
 export class ScreenComponent implements OnInit, AfterViewInit {
     public static ZOOM_SCALE = 1;
+    @Input() public inputData: IInputScreenData;
+    @Input() public test: boolean;
     @Output() public select = new EventEmitter<ISeat[]>();
     @Output() public alert = new EventEmitter();
     @Output() public load = new EventEmitter<ISeat[]>();
@@ -21,8 +23,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     public scale: number;
     public height: number;
     public origin: string;
-    public theaterCode: string;
-    public screenCode: string;
 
     constructor(
         private elementRef: ElementRef,
@@ -56,6 +56,10 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         const timer = setInterval(() => {
             if (this.data !== undefined) {
                 clearInterval(timer);
+                const screenElement = document.querySelector('.screen-style');
+                if (screenElement !== null && this.data.screen.style !== undefined) {
+                    screenElement.innerHTML = this.data.screen.style;
+                }
                 this.scaleDown();
                 this.load.emit(this.getSelectSeats());
             }
@@ -184,26 +188,28 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         screen: IScreen,
         status: COA.services.reserve.IStateReserveSeatResult
     }> {
-        if (this.purchase.data.individualScreeningEvent === undefined) {
-            throw new Error('status is different');
-        }
         const DIGITS = {
             '02': -2,
             '03': -3
         };
-        this.theaterCode = `00${this.purchase.data.individualScreeningEvent.superEvent.location.branchCode}`.slice(DIGITS['02']);
-        this.screenCode = `000${this.purchase.data.individualScreeningEvent.location.branchCode}`.slice(DIGITS['03']);
-        const screen = await this.http.get<IScreen>(`/assets/json/theater/${this.theaterCode}/${this.screenCode}.json`).toPromise();
+        const theaterCode = `00${this.inputData.theaterCode}`.slice(DIGITS['02']);
+        const screenCode = `000${this.inputData.screenCode}`.slice(DIGITS['03']);
+        const screen = await this.http.get<IScreen>(`/assets/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
         const setting = await this.http.get<IScreen>('/assets/json/theater/setting.json').toPromise();
         await this.sasakiService.getServices();
-        const seatStatus = await this.sasakiService.getSeatState({
-            theaterCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode,
-            dateJouei: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei,
-            titleCode: this.purchase.data.individualScreeningEvent.coaInfo.titleCode,
-            titleBranchNum: this.purchase.data.individualScreeningEvent.coaInfo.titleBranchNum,
-            timeBegin: this.purchase.data.individualScreeningEvent.coaInfo.timeBegin,
-            screenCode: this.purchase.data.individualScreeningEvent.coaInfo.screenCode
-        });
+        let seatStatus;
+        if (this.test) {
+            seatStatus = (<any>{ listSeat: [] });
+        } else {
+            seatStatus = await this.sasakiService.getSeatState({
+                theaterCode: this.inputData.theaterCode,
+                dateJouei: this.inputData.dateJouei,
+                titleCode: this.inputData.titleCode,
+                titleBranchNum: this.inputData.titleBranchNum,
+                timeBegin: this.inputData.timeBegin,
+                screenCode: this.inputData.screenCode
+            });
+        }
         // スクリーンデータをマージ
         return {
             screen: Object.assign(setting, screen),
@@ -284,14 +290,19 @@ export class ScreenComponent implements OnInit, AfterViewInit {
 
                 // 座席番号HTML生成
                 if (y === 0) {
+
+                    const label = (data.screen.seatNumberAlign === 'left')
+                        ? String(x + 1)
+                        : String(screenData.map[0].length - x);
                     columnLabels.push({
                         id: x,
                         w: screenData.seatSize.w,
                         h: screenData.seatSize.h,
                         y: pos.y - screenData.seatNumberPos,
                         x: pos.x,
-                        label: String(x + 1)
+                        label: label
                     });
+
                 }
                 if (screenData.map[y][x] === 1
                     || screenData.map[y][x] === 4
@@ -299,8 +310,12 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     || screenData.map[y][x] === 8
                     || screenData.map[y][x] === 10) {
                     // 座席HTML生成
-                    const code = toFullWidth(labels[labelCount]) + '－' + toFullWidth(String(x + 1));
-                    const label = labels[labelCount] + String(x + 1);
+                    const code = (data.screen.seatNumberAlign === 'left')
+                        ? `${toFullWidth(labels[labelCount])}－${toFullWidth(String(x + 1))}`
+                        : `${toFullWidth(labels[labelCount])}－${toFullWidth(String(screenData.map[y].length - x))}`;
+                    const label = (data.screen.seatNumberAlign === 'left')
+                        ? `${labels[labelCount]}${String(x + 1)}`
+                        : `${labels[labelCount]}${String(screenData.map[y].length - x)}`;
                     let section = '';
                     let status = 'disabled';
                     for (const listSeat of seatStatus.listSeat) {
@@ -405,8 +420,9 @@ interface IScreen {
     };
     seatLabelPos: number;
     seatNumberPos: number;
+    seatNumberAlign: 'left' | 'right';
     html: string;
-    style: string;
+    style?: string;
 }
 
 interface ILabel {
@@ -437,4 +453,13 @@ interface IData {
     lineLabels: ILabel[];
     columnLabels: ILabel[];
     seats: ISeat[];
+}
+
+export interface IInputScreenData {
+    theaterCode: string;
+    dateJouei: string;
+    titleCode: string;
+    titleBranchNum: string;
+    timeBegin: string;
+    screenCode: string;
 }
