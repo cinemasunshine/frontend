@@ -19,6 +19,7 @@ import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/p
 import { PurchaseTransactionComponent } from './components/purchase/purchase-transaction/purchase-transaction.component';
 import { TestScreenComponent } from './components/test/test-screen/test-screen.component';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
+import { TestGuardService } from './services/test-guard/test-guard.service';
 
 const routes: Routes = [
     { path: '', redirectTo: 'purchase/transaction', pathMatch: 'full' },
@@ -55,6 +56,7 @@ const routes: Routes = [
     },
     {
         path: 'test',
+        canActivate: [TestGuardService],
         children: [
             { path: ':theaterCode/:screenCode/screen', component: TestScreenComponent }
         ]
