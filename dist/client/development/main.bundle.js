@@ -1589,6 +1589,12 @@ var styles = ["[_nghost-%COMP%] {\n  display: block; }\n\n.notes[_ngcontent-%COM
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseNoteComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 
+var PURCHASE_NOTE = {
+    '01': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
+    '12': { ordinance: '徳島県青少年健全育成条例', limit: '23:00' },
+    '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
+    '19': { ordinance: '東京都青少年健全育成条例', limit: '23:00' }
+};
 var PurchaseNoteComponent = /** @class */ (function () {
     function PurchaseNoteComponent() {
     }
@@ -1606,12 +1612,6 @@ var PurchaseNoteComponent = /** @class */ (function () {
     return PurchaseNoteComponent;
 }());
 
-var PURCHASE_NOTE = {
-    '01': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
-    '12': { ordinance: '徳島県青少年健全育成条例', limit: '23:00' },
-    '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
-    '19': { ordinance: '東京都青少年健全育成条例', limit: '23:00' }
-};
 
 
 /***/ }),
@@ -1757,6 +1757,12 @@ var styles = ["[_nghost-%COMP%] {\n  display: block; }\n\n.term[_ngcontent-%COMP
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseTermComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 
+var PURCHASE_TERM = {
+    '01': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
+    '12': { ordinance: '徳島県青少年健全育成条例', limit: '23:00' },
+    '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
+    '19': { ordinance: '東京都青少年健全育成条例', limit: '23:00' }
+};
 var PurchaseTermComponent = /** @class */ (function () {
     function PurchaseTermComponent() {
     }
@@ -1774,12 +1780,6 @@ var PurchaseTermComponent = /** @class */ (function () {
     return PurchaseTermComponent;
 }());
 
-var PURCHASE_TERM = {
-    '01': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
-    '12': { ordinance: '徳島県青少年健全育成条例', limit: '23:00' },
-    '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
-    '19': { ordinance: '東京都青少年健全育成条例', limit: '23:00' }
-};
 
 
 /***/ }),
