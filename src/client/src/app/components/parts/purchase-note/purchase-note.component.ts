@@ -13,24 +13,22 @@ export class PurchaseNoteComponent implements OnInit {
     constructor() { }
 
     public ngOnInit() {
-        switch (this.theaterCode) {
-            case '01':
-                this.ordinance = '東京都青少年健全育成条例';
-                this.limit = '23:00';
-                break;
-            case '12':
-                this.ordinance = '徳島県青少年健全育成条例';
-                this.limit = '23:00';
-                break;
-            case '18':
-                this.ordinance = '鹿児島県青少年保護育成条例';
-                this.limit = '23:00';
-                break;
-            default:
-                this.ordinance = '';
-                this.limit = '';
-                break;
+        this.ordinance = '';
+        this.limit = '';
+        if (this.theaterCode === '01'
+            || this.theaterCode === '12'
+            || this.theaterCode === '18'
+            || this.theaterCode === '19') {
+            this.ordinance = PURCHASE_NOTE[this.theaterCode].ordinance;
+            this.limit = PURCHASE_NOTE[this.theaterCode].limit;
         }
     }
 
 }
+
+const PURCHASE_NOTE = {
+    '01': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
+    '12': { ordinance: '徳島県青少年健全育成条例', limit: '23:00' },
+    '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
+    '19': { ordinance: '東京都青少年健全育成条例', limit: '23:00' }
+};
