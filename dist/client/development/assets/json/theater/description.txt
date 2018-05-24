@@ -25,5 +25,6 @@
     "hc": "車いす席",
     "pair": "ペア席",
     "html": "独自HTML挿入の場合",
-    "style": "独自style挿入の場合"
+    "style": "独自style挿入の場合",
+    "seatNumber": "left or right"
 }

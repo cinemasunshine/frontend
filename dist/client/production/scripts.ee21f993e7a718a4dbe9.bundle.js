@@ -1,0 +1,1 @@
+function getParameter(){for(var e={},r=location.search.replace("?","").split("&"),t=0;t<r.length;t++){var a=r[t].split("="),s=a[0],i=a[1];s&&i&&(e[s]=i)}return e}sessionStorage.setItem("parameters",JSON.stringify(getParameter()));
