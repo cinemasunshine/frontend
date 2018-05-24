@@ -99,8 +99,11 @@ export async function getSchedule(req: Request, res: Response): Promise<void> {
             startFrom: req.query.startFrom,
             startThrough: req.query.startThrough
         };
-        const theaters = await new sasaki.service.Organization(options).searchMovieTheaters();
-        const screeningEvents = await sasaki.service.event(options).searchIndividualScreeningEvent(args);
+
+        const eventService = new sasaki.service.Event(options);
+        const organizationService = new sasaki.service.Organization(options);
+        const theaters = await organizationService.searchMovieTheaters();
+        const screeningEvents = await eventService.searchIndividualScreeningEvent(args);
         const checkedScreeningEvents = await checkedSchedules({
             theaters: theaters,
             screeningEvents: screeningEvents
@@ -138,7 +141,8 @@ async function coaSchedulesUpdate(): Promise<void> {
             endpoint: (<string>process.env.SSKTS_API_ENDPOINT),
             auth: authModel.create()
         };
-        const theaters = await sasaki.service.organization(options).searchMovieTheaters();
+        const organizationService = new sasaki.service.Organization(options);
+        const theaters = await organizationService.searchMovieTheaters();
         const end = 5;
         for (const theater of theaters) {
             if (theater.location.branchCode === undefined) {

@@ -119,8 +119,10 @@ function getSchedule(req, res) {
                 startFrom: req.query.startFrom,
                 startThrough: req.query.startThrough
             };
-            const theaters = yield new sasaki.service.Organization(options).searchMovieTheaters();
-            const screeningEvents = yield sasaki.service.event(options).searchIndividualScreeningEvent(args);
+            const eventService = new sasaki.service.Event(options);
+            const organizationService = new sasaki.service.Organization(options);
+            const theaters = yield organizationService.searchMovieTheaters();
+            const screeningEvents = yield eventService.searchIndividualScreeningEvent(args);
             const checkedScreeningEvents = yield checkedSchedules({
                 theaters: theaters,
                 screeningEvents: screeningEvents
@@ -153,7 +155,8 @@ function coaSchedulesUpdate() {
                 endpoint: process.env.SSKTS_API_ENDPOINT,
                 auth: authModel.create()
             };
-            const theaters = yield sasaki.service.organization(options).searchMovieTheaters();
+            const organizationService = new sasaki.service.Organization(options);
+            const theaters = yield organizationService.searchMovieTheaters();
             const end = 5;
             for (const theater of theaters) {
                 if (theater.location.branchCode === undefined) {

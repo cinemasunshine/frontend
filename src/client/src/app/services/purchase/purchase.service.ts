@@ -488,7 +488,7 @@ export class PurchaseService {
             const createMvtkAuthorizationArgs = {
                 transactionId: this.data.transaction.id,
                 mvtk: {
-                    typeOf: factory.action.authorize.mvtk.ObjectType.Mvtk,
+                    typeOf: factory.action.authorize.discount.mvtk.ObjectType.Mvtk,
                     price: this.getMvtkTotalPrice(),
                     seatInfoSyncIn: this.getMvtkSeatInfoSync()
                 }
@@ -794,11 +794,11 @@ interface Idata {
     /**
      * 予約座席
      */
-    seatReservationAuthorization?: factory.action.authorize.seatReservation.IAction;
+    seatReservationAuthorization?: factory.action.authorize.offer.seatReservation.IAction;
     /**
      * 予約座席(仮)
      */
-    tmpSeatReservationAuthorization?: factory.action.authorize.seatReservation.IAction;
+    tmpSeatReservationAuthorization?: factory.action.authorize.offer.seatReservation.IAction;
     /**
      * オーダー回数
      */

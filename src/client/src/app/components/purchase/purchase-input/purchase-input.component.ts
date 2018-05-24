@@ -9,6 +9,7 @@ import { ErrorService } from '../../../services/error/error.service';
 import { IGmoTokenObject, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { UserService } from '../../../services/user/user.service';
+import { UtilService } from '../../../services/util/util.service';
 
 @Component({
     selector: 'app-purchase-input',
@@ -29,13 +30,15 @@ export class PurchaseInputComponent implements OnInit {
 
     constructor(
         public purchase: PurchaseService,
+        public user: UserService,
         private elementRef: ElementRef,
         private formBuilder: FormBuilder,
         private router: Router,
         private error: ErrorService,
         private awsCognito: AwsCognitoService,
         private sasaki: SasakiService,
-        public user: UserService
+        private utill: UtilService
+
     ) { }
 
     public async ngOnInit() {
@@ -94,9 +97,9 @@ export class PurchaseInputComponent implements OnInit {
                 } catch (err) {
                     console.log(err);
                 }
-                // TODO
-                this.inputForm.controls.familyName.setValue('てすと');
-                this.inputForm.controls.givenName.setValue('かいいん');
+
+                this.inputForm.controls.familyName.setValue(this.utill.convertToHira(contacts.familyName));
+                this.inputForm.controls.givenName.setValue(this.utill.convertToHira(contacts.givenName));
                 this.inputForm.controls.email.setValue(contacts.email);
                 this.inputForm.controls.emailConfirm.setValue(contacts.email);
                 this.inputForm.controls.telephone.setValue(contacts.telephone.replace(/-/g, ''));
