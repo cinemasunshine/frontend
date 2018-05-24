@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 3.1.1 - 2018-05-24
+### Fixed
+ - production build修正
+
 ## 3.1.0 - 2018-05-24
 ### Added
  - ユーカリが丘座席データ追加
