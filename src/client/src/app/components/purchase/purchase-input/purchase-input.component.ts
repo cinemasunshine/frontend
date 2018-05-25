@@ -11,6 +11,14 @@ import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { UserService } from '../../../services/user/user.service';
 import { UtilService } from '../../../services/util/util.service';
 
+/**
+ * クレジットカードタイプ
+ */
+enum CreditCardType {
+    Input = 'input',
+    Registered = 'registered'
+}
+
 @Component({
     selector: 'app-purchase-input',
     templateUrl: './purchase-input.component.html',
@@ -425,9 +433,4 @@ export class PurchaseInputComponent implements OnInit {
         this.inputForm.controls.holderName.setValue('TEST');
     }
 
-}
-
-enum CreditCardType {
-    Input = 'input',
-    Registered = 'registered'
 }

@@ -7,7 +7,7 @@ import { ErrorService } from '../../../services/error/error.service';
 import { IIndividualScreeningEvent, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { UserService } from '../../../services/user/user.service';
-import { ISeat } from '../../parts/screen/screen.component';
+import { IInputScreenData, ISeat } from '../../parts/screen/screen.component';
 
 @Component({
     selector: 'app-purchase-seat',
@@ -21,6 +21,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     public upperLimitModal: boolean;
     public seats: ISeat[];
     public disable: boolean;
+    public screenData: IInputScreenData;
     public environment = environment;
 
     constructor(
@@ -41,6 +42,21 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             terms: [false, [Validators.requiredTrue]]
         });
         this.disable = false;
+        if (this.purchase.data.individualScreeningEvent === undefined) {
+            this.error.redirect(new Error('individualScreeningEvent is undefined'));
+
+            return;
+        }
+
+        this.screenData = {
+            theaterCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode,
+            dateJouei: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei,
+            titleCode: this.purchase.data.individualScreeningEvent.coaInfo.titleCode,
+            titleBranchNum: this.purchase.data.individualScreeningEvent.coaInfo.titleBranchNum,
+            timeBegin: this.purchase.data.individualScreeningEvent.coaInfo.timeBegin,
+            screenCode: this.purchase.data.individualScreeningEvent.coaInfo.screenCode
+        };
+
     }
 
     public async ngAfterViewInit() {

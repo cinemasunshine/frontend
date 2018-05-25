@@ -3,6 +3,14 @@ import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import { SaveType, StorageService } from '../storage/storage.service';
 
+/**
+ * ネイティブアプリフラグ
+ */
+enum NativeAppFlg {
+    NotNative = '0',
+    Native = '1'
+}
+
 @Injectable()
 export class UserService {
     public data: IData;
@@ -22,7 +30,7 @@ export class UserService {
         const data: IData | null = this.storage.load('user', SaveType.Session);
         if (data === null) {
             this.data = {
-                native: FlgNative.NotNative,
+                native: NativeAppFlg.NotNative,
                 member: FlgMember.NonMember
             };
 
@@ -45,7 +53,7 @@ export class UserService {
      */
     public reset() {
         this.data = {
-            native: FlgNative.NotNative,
+            native: NativeAppFlg.NotNative,
             member: FlgMember.NonMember
         };
         this.save();
@@ -60,7 +68,7 @@ export class UserService {
      * ネイティブアプリ判定
      */
     public isNative() {
-        return (this.data.native === FlgNative.Native);
+        return (this.data.native === NativeAppFlg.Native);
     }
 
     /**
@@ -74,9 +82,9 @@ export class UserService {
      * ネイティブアプリ判定設定
      */
     public setNative(value?: string) {
-        this.data.native = (value === FlgNative.Native)
-            ? FlgNative.Native
-            : FlgNative.NotNative;
+        this.data.native = (value === NativeAppFlg.Native)
+            ? NativeAppFlg.Native
+            : NativeAppFlg.NotNative;
     }
 
     /**
@@ -98,14 +106,9 @@ export class UserService {
 }
 
 export interface IData {
-    native: FlgNative;
+    native: NativeAppFlg;
     member: FlgMember;
     contacts?: factory.person.IContact;
     creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
-}
-
-enum FlgNative {
-    NotNative = '0',
-    Native = '1'
 }

@@ -14,6 +14,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 3.1.1 - 2018-05-24
+### Fixed
+ - production build修正
+
+## 3.1.0 - 2018-05-24
+### Added
+ - ユーカリが丘座席データ追加
+### Changed
+ - スクリーン生成設定へラベルのalign追加
+### Fixed
+ - スクリーン生成へ個別スタイルが効かない不具合修正
 
 ## 3.0.4 - 2018-05-10
 ### Fixed

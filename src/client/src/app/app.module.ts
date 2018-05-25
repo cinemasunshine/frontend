@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
+import { AuthSigninComponent } from './components/auth/auth-signin/auth-signin.component';
 import { BaseComponent } from './components/base/base.component';
 import { ErrorComponent } from './components/error/error.component';
 import { ExpiredComponent } from './components/expired/expired.component';
@@ -40,6 +41,7 @@ import { PurchaseScheduleComponent } from './components/purchase/purchase-schedu
 import { PurchaseSeatComponent } from './components/purchase/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/purchase-ticket.component';
 import { PurchaseTransactionComponent } from './components/purchase/purchase-transaction/purchase-transaction.component';
+import { TestScreenComponent } from './components/test/test-screen/test-screen.component';
 import { DurationPipe } from './pipes/duration/duration.pipe';
 import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format/libphonenumber-format.pipe';
 import { TimeFormatPipe } from './pipes/time-format/time-format.pipe';
@@ -50,8 +52,8 @@ import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.s
 import { PurchaseService } from './services/purchase/purchase.service';
 import { SasakiService } from './services/sasaki/sasaki.service';
 import { StorageService } from './services/storage/storage.service';
+import { TestGuardService } from './services/test-guard/test-guard.service';
 import { UserService } from './services/user/user.service';
-import { AuthSigninComponent } from './components/auth/auth-signin/auth-signin.component';
 
 @NgModule({
     declarations: [
@@ -93,7 +95,8 @@ import { AuthSigninComponent } from './components/auth/auth-signin/auth-signin.c
         PurchaseTermComponent,
         PurchaseNoteComponent,
         PurchasePointComponent,
-        AuthSigninComponent
+        AuthSigninComponent,
+        TestScreenComponent
     ],
     imports: [
         BrowserModule,
@@ -110,7 +113,8 @@ import { AuthSigninComponent } from './components/auth/auth-signin/auth-signin.c
         AwsCognitoService,
         CallNativeService,
         SasakiService,
-        UserService
+        UserService,
+        TestGuardService
     ],
     bootstrap: [AppComponent]
 })
