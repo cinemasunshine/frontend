@@ -54,6 +54,7 @@ import { SasakiService } from './services/sasaki/sasaki.service';
 import { StorageService } from './services/storage/storage.service';
 import { TestGuardService } from './services/test-guard/test-guard.service';
 import { UserService } from './services/user/user.service';
+import { UtilService } from './services/util/util.service';
 
 @NgModule({
     declarations: [
@@ -114,7 +115,8 @@ import { UserService } from './services/user/user.service';
         CallNativeService,
         SasakiService,
         UserService,
-        TestGuardService
+        TestGuardService,
+        UtilService
     ],
     bootstrap: [AppComponent]
 })

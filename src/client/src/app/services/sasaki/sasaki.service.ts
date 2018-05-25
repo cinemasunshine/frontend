@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
-import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../user/user.service';
@@ -19,7 +18,6 @@ export class SasakiService {
     public transaction: {
         placeOrder: sasaki.service.transaction.PlaceOrder
     };
-    private expired: number;
 
     constructor(
         private http: HttpClient,
@@ -50,11 +48,7 @@ export class SasakiService {
      * @method createOption
      */
     public async createOption() {
-        if (this.auth === undefined
-            || this.auth.credentials === undefined
-            || this.expired < moment().unix()) {
-            await this.authorize();
-        }
+        await this.authorize();
         return {
             endpoint: environment.SASAKI_API_ENDPOINT,
             auth: this.auth
@@ -87,8 +81,6 @@ export class SasakiService {
         };
         this.auth = sasaki.createAuthInstance(option);
         this.auth.setCredentials(credentials);
-        const expired = 15;
-        this.expired = moment().add(expired, 'minutes').unix();
     }
 
     /**
