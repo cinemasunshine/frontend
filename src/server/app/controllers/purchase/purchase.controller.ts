@@ -65,7 +65,6 @@ export async function mvtkPurchaseNumberAuth(req: Request, res: Response): Promi
     }
 }
 
-
 /**
  * ムビチケ座席指定情報連携
  * @function mvtksSatInfoSync

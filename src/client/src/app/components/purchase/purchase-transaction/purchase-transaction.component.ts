@@ -65,9 +65,6 @@ export class PurchaseTransactionComponent implements OnInit {
                 throw new Error('parameters is undefined');
             }
             this.user.setNative(this.parameters.native);
-            if (this.parameters.member === FlgMember.NonMember) {
-                this.user.setMember(this.parameters.member);
-            }
             // this.user.setAccessToken(this.parameters.accessToken);
             this.user.save();
             console.log('this.sasaki.auth', this.sasaki.auth);

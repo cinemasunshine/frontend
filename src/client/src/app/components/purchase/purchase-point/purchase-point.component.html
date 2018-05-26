@@ -4,38 +4,26 @@
         貯まったポイントの使用方法を選択してください。
     </p>
     <div class="mb-middle point text-center">
-        <div class="inner bg-gray">現在<strong class="large-text">16</strong>ポイント</div>
+        <div class="inner bg-gray">現在
+            <strong class="large-text">{{ user.data.account?.availableBalance }}</strong> ポイント</div>
     </div>
 
     <ul class="box radius bg-light-gray mb-middle tickets">
-        <li>
+        <li *ngFor="let pointTicket of pointTickets">
             <dl>
                 <dt>
-                    <div class="small-x-text mb-x-small">2ポイントで引き換え</div>
+                    <div class="small-x-text mb-x-small">{{ pointTicket.usePoint }}ポイントで引き換え</div>
                     <div>
-                        <strong>1,100円鑑賞</strong>
+                        <strong>{{ pointTicket.ticketName }}</strong>
                     </div>
                 </dt>
                 <dd>
-                    <select>
-                        <option value="">選択</option>
+                    <select [(ngModel)]="selectTickets[pointTicket.ticketCode]">
+                        <option value="0">0枚</option>
                         <option value="1">1枚</option>
-                    </select>
-                </dd>
-            </dl>
-        </li>
-        <li>
-            <dl>
-                <dt>
-                    <div class="small-x-text mb-x-small">2ポイントで引き換え</div>
-                    <div>
-                        <strong>1,100円鑑賞</strong>
-                    </div>
-                </dt>
-                <dd>
-                    <select>
-                        <option value="">選択</option>
-                        <option value="1">1枚</option>
+                        <option value="2">2枚</option>
+                        <option value="3">3枚</option>
+                        <option value="4">4枚</option>
                     </select>
                 </dd>
             </dl>
@@ -47,5 +35,13 @@
     </form>
     <app-site-seal></app-site-seal>
 </div>
+
+<app-modal [open]="alertModal" [layout]="true" (close)="alertModal = false">
+    <div class="modal-title large-text text-center mb-middle">
+        <strong>ポイントが不足しています</strong>
+    </div>
+    <p class="text-center">選択した券種の合計ポイントが所持ポイントを超えています。
+    </p>
+</app-modal>
 
 <app-loading [show]="isLoading"></app-loading>

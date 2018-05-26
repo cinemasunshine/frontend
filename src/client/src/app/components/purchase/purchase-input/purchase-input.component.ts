@@ -78,32 +78,14 @@ export class PurchaseInputComponent implements OnInit {
                 }
             } else if (this.user.isMember()) {
                 // 会員
-                await this.sasaki.getServices();
-                let contacts;
-                if (this.user.data.contacts === undefined) {
-                    const getContactsArgs = {
-                        personId: 'me'
-                    };
-                    contacts = await this.sasaki.person.getContacts(getContactsArgs);
-                    this.user.data.contacts = contacts;
-                    this.user.save();
-                } else {
-                    contacts = this.user.data.contacts;
+                if (this.user.data.contact === undefined) {
+                    throw new Error('contact is undefined');
                 }
+                const contacts = this.user.data.contact;
 
-                try {
-                    const findCreditCardsArgs = {
-                        personId: 'me'
-                    };
-                    const creditCards = await this.sasaki.person.findCreditCards(findCreditCardsArgs);
-                    this.user.data.creditCards = creditCards;
-                    this.user.save();
-                    if (creditCards.length > 0) {
-                        this.changeRegisteredCreditCard();
-                    }
-                    console.log(creditCards);
-                } catch (err) {
-                    console.log(err);
+                if (this.user.data.creditCards === undefined
+                    || this.user.data.creditCards.length === 0) {
+                    throw new Error('creditCards is notfoud');
                 }
 
                 this.inputForm.controls.familyName.setValue(this.utill.convertToHira(contacts.familyName));
@@ -111,9 +93,15 @@ export class PurchaseInputComponent implements OnInit {
                 this.inputForm.controls.email.setValue(contacts.email);
                 this.inputForm.controls.emailConfirm.setValue(contacts.email);
                 this.inputForm.controls.telephone.setValue(contacts.telephone.replace(/-/g, ''));
+
+                const payment = this.purchase.getTotalPrice();
+                if (payment > 0) {
+                    // クレジット決済ありならクレジットカードタイプを変更
+                    this.changeRegisteredCreditCard();
+                }
             }
         } catch (err) {
-            console.error(err);
+            this.error.redirect(err);
         }
 
     }
@@ -205,21 +193,22 @@ export class PurchaseInputComponent implements OnInit {
 
                     return;
                 }
+                if (this.user.isMember()
+                    && this.inputForm.controls.saveCreditCard.value
+                    && this.purchase.data.gmoTokenObject !== undefined) {
+                    // 会員 クレジットカード情報保存
+                    await this.sasaki.getServices();
+                    const gmoTokenObject = await this.getGmoObject();
+                    const addCreditCardArgs = {
+                        personId: 'me',
+                        creditCard: {
+                            token: gmoTokenObject.token
+                        }
+                    };
+                    await this.sasaki.person.addCreditCard(addCreditCardArgs);
+                }
             }
-            if (this.user.isMember()
-                && this.inputForm.controls.saveCreditCard.value
-                && this.purchase.data.gmoTokenObject !== undefined) {
-                // 会員 クレジットカード情報保存
-                await this.sasaki.getServices();
-                const gmoTokenObject = await this.getGmoObject();
-                const addCreditCardArgs = {
-                    personId: 'me',
-                    creditCard: {
-                        token: gmoTokenObject.token
-                    }
-                };
-                await this.sasaki.person.addCreditCard(addCreditCardArgs);
-            }
+
             // 入力情報を登録
             const setCustomerContactArgs = {
                 transactionId: this.purchase.data.transaction.id,

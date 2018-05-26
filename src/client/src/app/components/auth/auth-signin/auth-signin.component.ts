@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
+import { ErrorService } from '../../../services/error/error.service';
 import { UserService } from '../../../services/user/user.service';
 
 @Component({
@@ -12,12 +12,18 @@ export class AuthSigninComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private user: UserService
+        private user: UserService,
+        private error: ErrorService
     ) { }
 
-    public ngOnInit() {
-        this.user.setMember(FlgMember.Member);
-        this.user.save();
-        this.router.navigate(['/']);
+    public async ngOnInit() {
+        try {
+            await this.user.initMember();
+            this.user.save();
+            this.router.navigate(['/']);
+        } catch (err) {
+            console.error(err);
+            this.error.redirect(err);
+        }
     }
 }

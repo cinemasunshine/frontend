@@ -51,6 +51,10 @@ export class PurchaseConfirmComponent implements OnInit {
             return;
         }
         try {
+            if (this.user.isMember) {
+                await this.purchase.incentiveProcess();
+                await this.purchase.pointPaymentProcess();
+            }
             await this.purchase.purchaseRegistrationProcess();
             this.router.navigate(['/purchase/complete']);
         } catch (err) {

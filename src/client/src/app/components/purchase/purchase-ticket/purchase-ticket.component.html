@@ -94,6 +94,21 @@
                 </dd>
             </dl>
         </li>
+        <li *ngFor="let pointTicket of salesPointTickets" [class.disabled]="pointTicket.selected">
+                <dl class="d-table">
+                    <dt class="d-td">
+                        <div class="mb-xx-small">
+                            <strong>{{ pointTicket.ticketName }} ￥{{ pointTicket.salePrice }}</strong>
+                        </div>
+                        <p class="small-x-text">{{ pointTicket.ticketNote }}</p>
+                    </dt>
+                    <dd class="d-td width-small">
+                        <div class="button blue-button ticket-type-select">
+                            <button type="button" (click)="selectSalseTicket(pointTicket)">選択</button>
+                        </div>
+                    </dd>
+                </dl>
+            </li>
         <li *ngFor="let ticket of salesTickets">
             <dl class="d-table">
                 <dt class="d-td">
@@ -113,14 +128,14 @@
 </app-modal>
 
 <app-modal [open]="notSelectModal" [layout]="true" (close)="notSelectModal = false">
-    <div class="modal-ttl large-text text-center mb-middle">
+    <div class="modal-title large-text text-center mb-middle">
         <strong>券種が未選択です</strong>
     </div>
     <p class="text-center">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
 </app-modal>
 
 <app-modal [open]="discountConditionsModal" [layout]="true" (close)="discountConditionsModal = false">
-    <div class="modal-ttl large-text text-center mb-middle">
+    <div class="modal-title large-text text-center mb-middle">
         <strong>割引条件が満たされていません</strong>
     </div>
     <p class="text-center">選択した券種の中に、割引券が含まれています。

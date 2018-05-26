@@ -5,7 +5,7 @@ import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import 'rxjs/add/operator/toPromise';
 import { environment } from '../../../environments/environment';
-import { UserService } from '../user/user.service';
+import { SaveType, StorageService } from '../storage/storage.service';
 
 @Injectable()
 export class SasakiService {
@@ -21,7 +21,7 @@ export class SasakiService {
 
     constructor(
         private http: HttpClient,
-        private user: UserService
+        private storage: StorageService
     ) { }
 
     /**
@@ -59,7 +59,8 @@ export class SasakiService {
      * @method authorize
      */
     public async authorize() {
-        const member = this.user.data.member;
+        const user = this.storage.load('user', SaveType.Session);
+        const member = user.memberType;
         const url = '/api/authorize/getCredentials';
         const options = {
             headers: new HttpHeaders({
@@ -158,8 +159,21 @@ export class SasakiService {
         args: COA.services.reserve.ISalesTicketArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/master/getSalesTickets`;
-
         return this.http.get<COA.services.reserve.ISalesTicketResult[]>(url, {
+            params: <any>args
+        }).toPromise();
+    }
+
+    /**
+     * 券種マスター一覧取得
+     * @method getTickets
+     * @param {COA.services.reserve.ITicketArgs} args
+     */
+    public async getTickets(
+        args: COA.services.master.ITicketArgs
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/master/getTickets`;
+        return this.http.get<COA.services.master.ITicketResult[]>(url, {
             params: <any>args
         }).toPromise();
     }

@@ -5,6 +5,52 @@ import { ErrorService } from '../../../services/error/error.service';
 import { IMvtkTicket, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
 import { UserService } from '../../../services/user/user.service';
 
+
+interface Ioffer {
+    price: number;
+    priceCurrency: string;
+    seatNumber: string;
+    seatSection: string;
+    selected: boolean;
+    limitCount: number;
+    limitUnit: string;
+    validation: boolean;
+    ticketInfo: {
+        mvtkNum: string;
+        ticketCode: string;
+        ticketName: string;
+        mvtkAppPrice: number;
+        addGlasses: number;
+        kbnEisyahousiki: string;
+        mvtkKbnDenshiken: string;
+        mvtkKbnMaeuriken: string;
+        mvtkKbnKensyu: string;
+        mvtkSalesPrice: number;
+        addPrice: number,
+        disPrice: number,
+        salePrice: number,
+        seatNum: string;
+        stdPrice: number,
+        ticketCount: number,
+        ticketNameEng: string;
+        ticketNameKana: string;
+        usePoint?: number;
+    };
+}
+
+interface ISalesMvtkTicket extends IMvtkTicket {
+    id: string;
+    selected: boolean;
+    addGlasses: number;
+    salePrice: number;
+    ticketName: string;
+}
+
+interface ISalesPointTicket extends ISalesTicketResult {
+    id: string;
+    selected: boolean;
+}
+
 @Component({
     selector: 'app-purchase-ticket',
     templateUrl: './purchase-ticket.component.html',
@@ -20,6 +66,7 @@ export class PurchaseTicketComponent implements OnInit {
     public notSelectModal: boolean;
     public salesTickets: ISalesTicketResult[];
     public salesMvtkTickets: ISalesMvtkTicket[];
+    public salesPointTickets: ISalesPointTicket[];
     public ticketForm: FormGroup;
     public disable: boolean;
 
@@ -43,6 +90,7 @@ export class PurchaseTicketComponent implements OnInit {
         try {
             this.salesTickets = this.createSalseTickets();
             this.salesMvtkTickets = this.createSalseMvtkTickets();
+            this.salesPointTickets = this.createSalsePointTickets();
             this.setOffers();
             this.totalPrice = this.getTotalPrice();
             this.upDateSalseTickets();
@@ -114,30 +162,96 @@ export class PurchaseTicketComponent implements OnInit {
     }
 
     /**
+     * ポイントチケット生成
+     * @method createSalsePointTickets
+     */
+    private createSalsePointTickets() {
+        const results = [];
+        let count = 0;
+        for (const pointTicket of this.purchase.data.pointTickets) {
+            const salesTicket = {
+                ticketCode: pointTicket.ticketCode,
+                ticketName: pointTicket.ticketName,
+                ticketNameKana: pointTicket.ticketNameKana,
+                ticketNameEng: pointTicket.ticketNameEng,
+                stdPrice: 0,
+                addPrice: 0,
+                salePrice: 0,
+                limitCount: 1,
+                limitUnit: '001',
+                ticketNote: '',
+                addGlasses: 0,
+                selected: false,
+                id: `${pointTicket.ticketCode}${count}`
+            };
+            const noGlassesBase = {};
+            const noGlasses = Object.assign(noGlassesBase, salesTicket);
+            noGlasses.addGlasses = 0;
+            results.push(noGlasses);
+            if (salesTicket.addGlasses > 0) {
+                // メガネあり券種作成
+                const glassesBase = {};
+                const glasses = Object.assign(glassesBase, salesTicket);
+                glasses.salePrice = glasses.salePrice + glasses.addGlasses;
+                glasses.ticketName = `${glasses.ticketName}メガネ込み`;
+                results.push(glasses);
+            }
+            count++;
+        }
+
+        return results;
+    }
+
+    /**
      * 券種リスト更新
      * @method upDateSalseTickets
      */
     public upDateSalseTickets() {
-        for (const mvtkTicket of this.salesMvtkTickets) {
-            mvtkTicket.selected = false;
+        // ムビチケ券種
+        for (const ticket of this.salesMvtkTickets) {
+            ticket.selected = false;
         }
         for (const offer of this.offers) {
             if (offer.ticketInfo.mvtkNum === '') {
                 continue;
             }
             // 選択済みへ変更
-            const sameMvtkTicket = this.salesMvtkTickets.find((mvtkTicket) => {
-                return (offer.ticketInfo.mvtkNum === mvtkTicket.knyknrNoInfo.knyknrNo
-                    && offer.ticketInfo.ticketCode === mvtkTicket.mvtkTicketcodeResult.ticketCode
-                    && !mvtkTicket.selected);
+            const sameTicket = this.salesMvtkTickets.find((ticket) => {
+                return (offer.ticketInfo.mvtkNum === ticket.knyknrNoInfo.knyknrNo
+                    && offer.ticketInfo.ticketCode === ticket.mvtkTicketcodeResult.ticketCode
+                    && !ticket.selected);
             });
-            if (sameMvtkTicket !== undefined) {
-                sameMvtkTicket.selected = true;
-                const sameGlassesMvtkTicket = this.salesMvtkTickets.find((mvtkTicket) => {
-                    return (sameMvtkTicket.id === mvtkTicket.id && !mvtkTicket.selected);
+            if (sameTicket !== undefined) {
+                sameTicket.selected = true;
+                const sameGlassesTicket = this.salesMvtkTickets.find((ticket) => {
+                    return (sameTicket.id === ticket.id && !ticket.selected);
                 });
-                if (sameGlassesMvtkTicket !== undefined) {
-                    sameGlassesMvtkTicket.selected = true;
+                if (sameGlassesTicket !== undefined) {
+                    sameGlassesTicket.selected = true;
+                }
+            }
+        }
+        // ポイント券種
+        for (const ticket of this.salesPointTickets) {
+            ticket.selected = false;
+        }
+        for (const offer of this.offers) {
+            if (offer.ticketInfo.mvtkNum !== ''
+                || offer.ticketInfo.salePrice > 0) {
+                continue;
+            }
+            // 選択済みへ変更
+            const sameTicket = this.salesPointTickets.find((ticket) => {
+                return (offer.ticketInfo.ticketCode === ticket.ticketCode
+                    && !ticket.selected);
+            });
+            if (sameTicket !== undefined) {
+                sameTicket.selected = true;
+                const sameGlassesTicket = this.salesMvtkTickets.find((ticket) => {
+                    return (sameTicket.id === ticket.id && !ticket.selected);
+                });
+                if (sameGlassesTicket !== undefined) {
+                    sameGlassesTicket.selected = true;
                 }
             }
         }
@@ -211,10 +325,18 @@ export class PurchaseTicketComponent implements OnInit {
         } else if (this.purchase.data.seatReservationAuthorization !== undefined) {
             this.offers = this.purchase.data.seatReservationAuthorization.object.offers.map((offer) => {
                 if (offer.ticketInfo.mvtkNum === '') {
-                    const ticket = <ISalesTicketResult>this.salesTickets.find((salseTicket) => {
+                    let ticket = this.salesTickets.find((salseTicket) => {
                         return (offer.ticketInfo.ticketCode === salseTicket.ticketCode
                             && offer.ticketInfo.addGlasses === salseTicket.addGlasses);
                     });
+
+                    if (ticket === undefined) {
+                        // ポイント券種
+                        ticket = <ISalesTicketResult>{
+                            limitCount: 1,
+                            limitUnit: '001'
+                        };
+                    }
 
                     return {
                         price: offer.price,
@@ -297,10 +419,10 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 販売可能券種選択
      * @method selectSalseTicket
-     * @param {ISalesTicket} sticket
+     * @param {ISalesTicket} ticket
      * @param {boolean} glass
      */
-    public selectSalseTicket(sticket: ISalesTicketResult) {
+    public selectSalseTicket(ticket: ISalesTicketResult) {
         const target = this.offers.find((offer) => {
             return (offer.seatNumber === this.selectOffer.seatNumber);
         });
@@ -309,32 +431,37 @@ export class PurchaseTicketComponent implements OnInit {
 
             return;
         }
-        target.price = sticket.salePrice;
+        const findTicket = this.purchase.data.pointTickets.find((pointTicket) => {
+            return (pointTicket.ticketCode === ticket.ticketCode);
+        });
+        const usePoint = (findTicket !== undefined) ? findTicket.usePoint : 0;
+        target.price = ticket.salePrice;
         target.priceCurrency = this.selectOffer.priceCurrency;
         target.seatNumber = this.selectOffer.seatNumber;
         target.seatSection = this.selectOffer.seatSection;
         target.selected = true;
-        target.limitCount = sticket.limitCount;
-        target.limitUnit = sticket.limitUnit;
+        target.limitCount = ticket.limitCount;
+        target.limitUnit = ticket.limitUnit;
         target.ticketInfo = {
             mvtkNum: '',
-            ticketCode: sticket.ticketCode,
-            ticketName: sticket.ticketName,
+            ticketCode: ticket.ticketCode,
+            ticketName: ticket.ticketName,
             mvtkAppPrice: 0,
-            addGlasses: sticket.addGlasses,
+            addGlasses: ticket.addGlasses,
             kbnEisyahousiki: '00',
             mvtkKbnDenshiken: '00',
             mvtkKbnMaeuriken: '00',
             mvtkKbnKensyu: '00',
             mvtkSalesPrice: 0,
-            addPrice: sticket.addPrice,
+            addPrice: ticket.addPrice,
             disPrice: 0,
-            salePrice: sticket.salePrice,
+            salePrice: ticket.salePrice,
             seatNum: this.selectOffer.seatNumber,
-            stdPrice: sticket.stdPrice,
+            stdPrice: ticket.stdPrice,
             ticketCount: 1,
-            ticketNameEng: sticket.ticketNameEng,
-            ticketNameKana: sticket.ticketNameKana
+            ticketNameEng: ticket.ticketNameEng,
+            ticketNameKana: ticket.ticketNameKana,
+            usePoint: usePoint
         };
         this.totalPrice = this.getTotalPrice();
         this.upDateSalseTickets();
@@ -344,7 +471,7 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * ムビチケ券種選択
      * @method selectMvtkTicket
-     * @param {ISalesMvtkTicket} sticket
+     * @param {ISalesMvtkTicket} ticket
      * @param {boolean} glass
      */
     public selectMvtkTicket(ticket: ISalesMvtkTicket) {
@@ -389,43 +516,4 @@ export class PurchaseTicketComponent implements OnInit {
         this.ticketsModal = false;
     }
 
-}
-
-interface Ioffer {
-    price: number;
-    priceCurrency: string;
-    seatNumber: string;
-    seatSection: string;
-    selected: boolean;
-    limitCount: number;
-    limitUnit: string;
-    validation: boolean;
-    ticketInfo: {
-        mvtkNum: string;
-        ticketCode: string;
-        ticketName: string;
-        mvtkAppPrice: number;
-        addGlasses: number;
-        kbnEisyahousiki: string;
-        mvtkKbnDenshiken: string;
-        mvtkKbnMaeuriken: string;
-        mvtkKbnKensyu: string;
-        mvtkSalesPrice: number;
-        addPrice: number,
-        disPrice: number,
-        salePrice: number,
-        seatNum: string;
-        stdPrice: number,
-        ticketCount: number,
-        ticketNameEng: string;
-        ticketNameKana: string;
-    };
-}
-
-interface ISalesMvtkTicket extends IMvtkTicket {
-    id: string;
-    selected: boolean;
-    addGlasses: number;
-    salePrice: number;
-    ticketName: string;
 }

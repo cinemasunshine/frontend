@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
+import { SasakiService } from '../sasaki/sasaki.service';
 import { SaveType, StorageService } from '../storage/storage.service';
 
 /**
@@ -11,12 +12,22 @@ enum NativeAppFlg {
     Native = '1'
 }
 
+export interface IData {
+    native: NativeAppFlg;
+    memberType: FlgMember;
+    contact?: factory.person.IContact;
+    creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
+    accessToken?: string;
+    account?: factory.pecorino.account.IAccount;
+}
+
 @Injectable()
 export class UserService {
     public data: IData;
 
     constructor(
-        private storage: StorageService
+        private storage: StorageService,
+        private sasaki: SasakiService
     ) {
         this.load();
         this.save();
@@ -31,7 +42,7 @@ export class UserService {
         if (data === null) {
             this.data = {
                 native: NativeAppFlg.NotNative,
-                member: FlgMember.NonMember
+                memberType: FlgMember.NonMember
             };
 
             return;
@@ -54,11 +65,62 @@ export class UserService {
     public reset() {
         this.data = {
             native: NativeAppFlg.NotNative,
-            member: FlgMember.NonMember
+            memberType: FlgMember.NonMember
         };
         this.save();
     }
 
+    /**
+     * 会員初期化
+     */
+    public async initMember() {
+        this.data.memberType = FlgMember.Member;
+        this.save();
+        await this.sasaki.getServices();
+        // 連絡先取得
+        const contact = await this.sasaki.person.getContacts({
+            personId: 'me'
+        });
+        if (contact === undefined) {
+            throw new Error('contact is undefined');
+        }
+        this.data.contact = contact;
+
+        try {
+            // クレジットカード検索
+            const creditCards = await this.sasaki.person.findCreditCards({
+                personId: 'me'
+            });
+            this.data.creditCards = creditCards;
+        } catch (err) {
+            console.log(err);
+            this.data.creditCards = [];
+        }
+
+        // 口座検索
+        let accounts = await this.sasaki.person.findAccounts({
+            personId: 'me'
+        });
+        accounts = accounts.filter((account) => {
+            return account.status === factory.pecorino.accountStatusType.Opened;
+        });
+        if (accounts.length === 0) {
+            // 口座開設
+            this.data.account = await this.sasaki.person.openAccount({
+                personId: 'me',
+                name: `${this.data.contact.familyName} ${this.data.contact.givenName}`
+            });
+        } else {
+            this.data.account = accounts[0];
+        }
+        console.log('口座番号', this.data.account.accountNumber);
+
+        this.save();
+    }
+
+    /**
+     * クレジットカード登録判定
+     */
     public isRegisteredCreditCards() {
         return (this.data.creditCards !== undefined
             && this.data.creditCards.length > 0);
@@ -75,7 +137,7 @@ export class UserService {
      * 会員判定
      */
     public isMember() {
-        return (this.data.member === FlgMember.Member);
+        return (this.data.memberType === FlgMember.Member);
     }
 
     /**
@@ -87,28 +149,4 @@ export class UserService {
             : NativeAppFlg.NotNative;
     }
 
-    /**
-     * 会員判定設定
-     */
-    public setMember(value?: string) {
-        this.data.member = (value === FlgMember.Member)
-            ? FlgMember.Member
-            : FlgMember.NonMember;
-    }
-
-    /**
-     * アクセストークン設定
-     */
-    public setAccessToken(value?: string) {
-        this.data.accessToken = value;
-    }
-
-}
-
-export interface IData {
-    native: NativeAppFlg;
-    member: FlgMember;
-    contacts?: factory.person.IContact;
-    creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
-    accessToken?: string;
 }
