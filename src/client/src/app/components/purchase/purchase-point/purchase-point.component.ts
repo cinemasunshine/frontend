@@ -19,7 +19,8 @@ export class PurchasePointComponent implements OnInit {
     public selectTickets: {
         [key: string]: number;
     };
-    public alertModal: boolean;
+    public pointAhortageAlertModal: boolean;
+    public notSelectAlertModal: boolean;
 
     constructor(
         public user: UserService,
@@ -30,7 +31,7 @@ export class PurchasePointComponent implements OnInit {
     ) { }
 
     public async ngOnInit() {
-        this.alertModal = false;
+        this.pointAhortageAlertModal = false;
         this.isLoading = false;
         this.pointTickets = [];
         this.selectTickets = {};
@@ -65,11 +66,17 @@ export class PurchasePointComponent implements OnInit {
 
             return;
         }
-        if (this.user.data.account.availableBalance < usePoint) {
-            this.alertModal = true;
+        if (usePoint === 0) {
+            this.notSelectAlertModal = true;
 
             return;
         }
+        if (this.user.data.account.availableBalance < usePoint) {
+            this.pointAhortageAlertModal = true;
+
+            return;
+        }
+        this.purchase.data.pointTickets = [];
         for (const ticket of this.pointTickets) {
             for (let i = 0; i < this.selectTickets[ticket.ticketCode]; i++) {
                 this.purchase.data.pointTickets.push(ticket);
