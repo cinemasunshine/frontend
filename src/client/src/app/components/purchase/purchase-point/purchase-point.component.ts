@@ -16,6 +16,7 @@ export class PurchasePointComponent implements OnInit {
 
     public isLoading: boolean;
     public pointTickets: COA.services.master.ITicketResult[];
+    public ticketValueList: number[];
     public selectTickets: {
         [key: string]: number;
     };
@@ -32,12 +33,21 @@ export class PurchasePointComponent implements OnInit {
 
     public async ngOnInit() {
         this.pointAhortageAlertModal = false;
-        this.isLoading = false;
+        this.isLoading = true;
         this.pointTickets = [];
         this.selectTickets = {};
         try {
             if (this.purchase.data.individualScreeningEvent === undefined) {
                 throw new Error('individualScreeningEvent is undefined');
+            }
+            if (this.purchase.data.tmpSeatReservationAuthorization === undefined
+            || this.purchase.data.tmpSeatReservationAuthorization.result === undefined) {
+                throw new Error('individualScreeningEvent is undefined');
+            }
+            const reserveLength = this.purchase.data.tmpSeatReservationAuthorization.result.updTmpReserveSeatResult.listTmpReserve.length;
+            this.ticketValueList = [];
+            for (let i = 0; i < (reserveLength + 1); i++) {
+                this.ticketValueList.push(i);
             }
             const individualScreeningEvent = this.purchase.data.individualScreeningEvent;
             const masterTickets = await this.sasaki.getTickets({

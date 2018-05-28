@@ -697,6 +697,8 @@ export class PurchaseService {
             throw new Error('status is different');
         }
         await this.sasaki.getServices();
+        const ticketNames = [];
+        let usePoint = 0;
         for (const offer of this.data.seatReservationAuthorization.object.offers) {
             const pointTicket = this.data.pointTickets.find((ticket) => {
                 return (ticket.ticketCode === offer.ticketInfo.ticketCode);
@@ -704,13 +706,18 @@ export class PurchaseService {
             if (pointTicket === undefined) {
                 continue;
             }
-            await this.sasaki.transaction.placeOrder.createPecorinoPaymentAuthorization({
-                transactionId: this.data.transaction.id,
-                amount: pointTicket.usePoint,
-                fromAccountNumber: this.user.data.account.accountNumber,
-                notes: `${offer.ticketInfo.ticketName} 引換`
-            });
+            ticketNames.push(`${offer.ticketInfo.ticketName} 引換`);
+            usePoint += pointTicket.usePoint;
         }
+
+        const notes = ticketNames.join(',');
+
+        await this.sasaki.transaction.placeOrder.createPecorinoPaymentAuthorization({
+            transactionId: this.data.transaction.id,
+            amount: usePoint,
+            fromAccountNumber: this.user.data.account.accountNumber,
+            notes: notes
+        });
     }
 
     /**
