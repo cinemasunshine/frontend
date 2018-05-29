@@ -101,6 +101,13 @@ export interface IMvtkTicket {
     };
 }
 
+/**
+ * インセンティブ
+ */
+enum Incentive {
+    WatchingMovies = 1
+}
+
 @Injectable()
 export class PurchaseService {
 
@@ -681,7 +688,7 @@ export class PurchaseService {
         await this.sasaki.getServices();
         this.data.pecorinoAwardAuthorization = await this.sasaki.transaction.placeOrder.createPecorinoAwardAuthorization({
             transactionId: this.data.transaction.id,
-            amount: 1,
+            amount: Incentive.WatchingMovies,
             toAccountNumber: this.user.data.account.accountNumber,
             notes: '鑑賞'
         });
@@ -750,9 +757,19 @@ export class PurchaseService {
                 this.data.mvtkAuthorization =
                     await this.sasaki.transaction.placeOrder.createMvtkAuthorization(createMvtkAuthorizationArgs);
             }
+            const incentives = [];
+            if (this.user.isMember()
+                && !this.isReservePoint()
+                && this.user.data.account !== undefined) {
+                incentives.push({
+                    amount: Incentive.WatchingMovies,
+                    toAccountNumber: this.user.data.account.accountNumber
+                });
+            }
             // 取引確定
             order = await this.sasaki.transaction.placeOrder.confirm({
-                transactionId: this.data.transaction.id
+                transactionId: this.data.transaction.id,
+                incentives: incentives
             });
         } catch (err) {
             if (this.isReserveMvtk()) {
@@ -792,7 +809,11 @@ export class PurchaseService {
                 }
                 reservationRecord.orders.push(order);
                 (<factory.order.IOrder[]>reservationRecord.orders).forEach((recordOrder, index) => {
-                    const endDate = moment(recordOrder.acceptedOffers[0].itemOffered.reservationFor.endDate).unix();
+                    const itemOffered = recordOrder.acceptedOffers[0].itemOffered;
+                    if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+                        return;
+                    }
+                    const endDate = moment(itemOffered.reservationFor.endDate).unix();
                     const limitDate = moment().subtract(1, 'month').unix();
                     if (endDate < limitDate) {
                         reservationRecord.orders.splice(index, 1);
@@ -809,7 +830,11 @@ export class PurchaseService {
         }
         // プッシュ通知登録
         try {
-            const reservationFor = order.acceptedOffers[0].itemOffered.reservationFor;
+            const itemOffered = order.acceptedOffers[0].itemOffered;
+            if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+                throw new Error('itemOffered.typeOf is not EventReservation');
+            }
+            const reservationFor = itemOffered.reservationFor;
             const localNotificationArgs = {
                 id: Number(order.orderNumber.replace(/\-/g, '')), // ID
                 title: '鑑賞時間が近づいています。', // タイトル
@@ -825,7 +850,6 @@ export class PurchaseService {
         } catch (err) {
             console.error(err);
         }
-
 
         // 購入情報削除
         this.reset();

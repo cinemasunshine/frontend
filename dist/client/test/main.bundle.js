@@ -3033,14 +3033,16 @@ var styles = [".button-area[_ngcontent-%COMP%] {\n  margin: 30px auto 0; }\n  @m
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseCompleteComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__("./node_modules/moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__("./src/client/src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__ = __webpack_require__("./src/client/src/app/pipes/time-format/time-format.pipe.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_error_error_service__ = __webpack_require__("./src/client/src/app/services/error/error.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_sasaki_sasaki_service__ = __webpack_require__("./src/client/src/app/services/sasaki/sasaki.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_storage_storage_service__ = __webpack_require__("./src/client/src/app/services/storage/storage.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_user_user_service__ = __webpack_require__("./src/client/src/app/services/user/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__ = __webpack_require__("./node_modules/@motionpicture/sskts-api-javascript-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__("./node_modules/moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("./src/client/src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pipes_time_format_time_format_pipe__ = __webpack_require__("./src/client/src/app/pipes/time-format/time-format.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_error_error_service__ = __webpack_require__("./src/client/src/app/services/error/error.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_sasaki_sasaki_service__ = __webpack_require__("./src/client/src/app/services/sasaki/sasaki.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__ = __webpack_require__("./src/client/src/app/services/storage/storage.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_user_user_service__ = __webpack_require__("./src/client/src/app/services/user/user.service.ts");
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -3084,17 +3086,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+
 var PurchaseCompleteComponent = /** @class */ (function () {
     function PurchaseCompleteComponent(storage, error, sasaki, user) {
         this.storage = storage;
         this.error = error;
         this.sasaki = sasaki;
         this.user = user;
-        this.environment = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */];
+        this.environment = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */];
     }
     PurchaseCompleteComponent.prototype.ngOnInit = function () {
         window.scrollTo(0, 0);
-        this.data = this.storage.load('complete', __WEBPACK_IMPORTED_MODULE_6__services_storage_storage_service__["a" /* SaveType */].Session);
+        this.data = this.storage.load('complete', __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__["a" /* SaveType */].Session);
         if (this.data === null) {
             this.error.redirect(new Error('complete data is null'));
         }
@@ -3115,7 +3118,11 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseCompleteComponent.prototype.getTheaterName = function () {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.superEvent.location.name.ja;
+        var itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+            return '';
+        }
+        return itemOffered.reservationFor.superEvent.location.name.ja;
     };
     /**
      * スクリーン名取得
@@ -3123,7 +3130,11 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseCompleteComponent.prototype.getScreenName = function () {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.location.name.ja;
+        var itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+            return '';
+        }
+        return itemOffered.reservationFor.location.name.ja;
     };
     /**
      * 作品名取得
@@ -3131,7 +3142,11 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseCompleteComponent.prototype.getTitle = function () {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.name.ja;
+        var itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+            return '';
+        }
+        return itemOffered.reservationFor.name.ja;
     };
     /**
      * 鑑賞日取得
@@ -3139,8 +3154,12 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseCompleteComponent.prototype.getAppreciationDate = function () {
-        __WEBPACK_IMPORTED_MODULE_1_moment__["locale"]('ja');
-        return __WEBPACK_IMPORTED_MODULE_1_moment__(this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate).format('YYYY年MM月DD日(ddd)');
+        var itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+            return '';
+        }
+        __WEBPACK_IMPORTED_MODULE_2_moment__["locale"]('ja');
+        return __WEBPACK_IMPORTED_MODULE_2_moment__(itemOffered.reservationFor.startDate).format('YYYY年MM月DD日(ddd)');
     };
     /**
      * 上映開始時間取得
@@ -3148,8 +3167,12 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseCompleteComponent.prototype.getStartDate = function () {
-        var timeFormat = new __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
-        return timeFormat.transform(this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate, this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei);
+        var itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+            return '';
+        }
+        var timeFormat = new __WEBPACK_IMPORTED_MODULE_4__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
+        return timeFormat.transform(itemOffered.reservationFor.startDate, itemOffered.reservationFor.coaInfo.dateJouei);
     };
     /**
      * 上映終了取得
@@ -3157,8 +3180,12 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseCompleteComponent.prototype.getEndDate = function () {
-        var timeFormat = new __WEBPACK_IMPORTED_MODULE_3__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
-        return timeFormat.transform(this.data.order.acceptedOffers[0].itemOffered.reservationFor.endDate, this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei);
+        var itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+            return '';
+        }
+        var timeFormat = new __WEBPACK_IMPORTED_MODULE_4__pipes_time_format_time_format_pipe__["a" /* TimeFormatPipe */]();
+        return timeFormat.transform(itemOffered.reservationFor.endDate, itemOffered.reservationFor.coaInfo.dateJouei);
     };
     /**
      * 照会URL取得
@@ -3208,7 +3235,7 @@ var PurchaseCompleteComponent = /** @class */ (function () {
                     case 2:
                         _a.sendEmailNotification =
                             _b.sent();
-                        this.storage.save('complete', this.data, __WEBPACK_IMPORTED_MODULE_6__services_storage_storage_service__["a" /* SaveType */].Session);
+                        this.storage.save('complete', this.data, __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__["a" /* SaveType */].Session);
                         return [3 /*break*/, 4];
                     case 3:
                         err_1 = _b.sent();
@@ -3228,12 +3255,18 @@ var PurchaseCompleteComponent = /** @class */ (function () {
     PurchaseCompleteComponent.prototype.getMailText = function (telephone) {
         // tslint:disable:max-line-length
         return this.data.order.customer.familyName + " " + this.data.order.customer.givenName + " \u69D8\n\u3053\u306E\u5EA6\u306F\u3001" + this.data.order.seller.name + "\u306E\u30AA\u30F3\u30E9\u30A4\u30F3\u5148\u58F2\u308A\u30C1\u30B1\u30C3\u30C8\u30B5\u30FC\u30D3\u30B9\u306B\u3066\u3054\u8CFC\u5165\u9802\u304D\u3001\u8AA0\u306B\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3059\u3002\u304A\u5BA2\u69D8\u304C\u3054\u8CFC\u5165\u3055\u308C\u307E\u3057\u305F\u30C1\u30B1\u30C3\u30C8\u306E\u60C5\u5831\u306F\u4E0B\u8A18\u306E\u901A\u308A\u3067\u3059\u3002\n\n[\u4E88\u7D04\u756A\u53F7]\n" + this.data.order.confirmationNumber + "\n\n[\u9451\u8CDE\u65E5\u6642]\n" + this.getAppreciationDate() + " " + this.getStartDate() + " - " + this.getEndDate() + "\n\n[\u4F5C\u54C1\u540D]\n" + this.getTitle() + "\n\n[\u30B9\u30AF\u30EA\u30FC\u30F3\u540D]\n" + this.getScreenName() + "\n\n[\u5EA7\u5E2D]\n" + this.data.order.acceptedOffers.map(function (offer) {
+            if (offer.itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+                return '';
+            }
             return offer.itemOffered.reservedTicket.coaTicketInfo.seatNum + " " + offer.itemOffered.reservedTicket.coaTicketInfo.ticketName + " \uFFE5" + offer.itemOffered.reservedTicket.coaTicketInfo.salePrice;
         }).join('\n') + "\n[\u5408\u8A08]\n\uFFE5" + this.data.order.price + "\n\n\u3010\u30C1\u30B1\u30C3\u30C8\u767A\u5238\u306B\u3064\u3044\u3066\u3011\n\u30C1\u30B1\u30C3\u30C8\u306E\u767A\u5238/\u5165\u5834\u65B9\u6CD5\u306F2\u901A\u308A\u304B\u3089\u304A\u9078\u3073\u9802\u3051\u307E\u3059\u3002\n\n<\u767A\u5238/\u5165\u5834\u65B9\u6CD51 \u5165\u5834\u7528QR\u30B3\u30FC\u30C9\u3067\u5165\u5834>\n\u4EE5\u4E0B\u306EURL\u3088\u308A\u30C1\u30B1\u30C3\u30C8\u60C5\u5831\u78BA\u8A8D\u753B\u9762\u3078\u30A2\u30AF\u30BB\u30B9\u9802\u304D\u3001\u300C\u30C1\u30B1\u30C3\u30C8\u3092\u8CFC\u5165\u3057\u305F\u5287\u5834\u300D\u300C\u4E88\u7D04\u756A\u53F7\u300D\u300C\u304A\u96FB\u8A71\u756A\u53F7\u300D\u3092\u5165\u529B\u3057\u3066\u30ED\u30B0\u30A4\u30F3\u3057\u3066\u304F\u3060\u3055\u3044\u3002 \u3054\u9451\u8CDE\u6642\u9593\u306E24\u6642\u9593\u524D\u304B\u3089\u5165\u5834\u7528QR\u30B3\u30FC\u30C9\u304C\u8868\u793A\u3055\u308C\u307E\u3059\u306E\u3067\u3001\u5165\u5834\u6642\u306B\u305D\u3061\u3089\u306EQR\u30B3\u30FC\u30C9\u3092\u3054\u63D0\u793A\u304F\u3060\u3055\u3044\u3002\n" + this.getInquiryUrl() + "\n\n<\u767A\u5238/\u5165\u5834\u65B9\u6CD52 \u5287\u5834\u767A\u5238\u6A5F\u3067\u767A\u5238>\n\u5287\u5834\u306B\u8A2D\u7F6E\u3055\u308C\u3066\u3044\u308B\u767A\u5238\u6A5F\u306B\u3066\u767A\u5238\u9802\u304D\u307E\u3059\u3002\u4E88\u7D04\u756A\u53F7\u3092\u304A\u63A7\u3048\u306E\u4E0A\u3054\u6765\u5834\u304F\u3060\u3055\u3044\u3002\n\u30C1\u30B1\u30C3\u30C8\u304C\u767A\u5238\u3067\u304D\u306A\u304B\u3063\u305F\u5834\u5408\u306B\u306F\u30C1\u30B1\u30C3\u30C8\u58F2\u5834\u306B\u304A\u8D8A\u3057\u304F\u3060\u3055\u3044\u3002\n\n\u3010\u3054\u6CE8\u610F\u4E8B\u9805\u3011\n\u30FB\u3054\u8CFC\u5165\u3055\u308C\u305F\u30C1\u30B1\u30C3\u30C8\u306E\u5909\u66F4\u3001\u30AD\u30E3\u30F3\u30BB\u30EB\u3001\u6255\u3044\u623B\u3057\u306F\u3044\u304B\u306A\u308B\u5834\u5408\u3067\u3082\u81F4\u3057\u304B\u306D\u307E\u3059\u3002\n\u30FB\u30C1\u30B1\u30C3\u30C8\u306E\u767A\u5238\u306B\u304A\u6642\u9593\u304C\u304B\u304B\u308B\u5834\u5408\u3082\u3054\u3056\u3044\u307E\u3059\u306E\u3067\u3001\u304A\u6642\u9593\u306E\u4F59\u88D5\u3092\u6301\u3063\u3066\u3054\u6765\u5834\u304F\u3060\u3055\u3044\u3002\n\u30FB\u30E1\u30F3\u30D0\u30FC\u30BA\u30AB\u30FC\u30C9\u4F1A\u54E1\u306E\u304A\u5BA2\u69D8\u306F\u3001\u30DD\u30A4\u30F3\u30C8\u306F\u4ED8\u4E0E\u3044\u305F\u3057\u307E\u3059\u306E\u3067\u3001\u767A\u5238\u3057\u305F\u30C1\u30B1\u30C3\u30C8\u307E\u305F\u306F\u3001\u8868\u793A\u3055\u308C\u305FQR\u30B3\u30FC\u30C9\u3068\u30E1\u30F3\u30D0\u30FC\u30BA\u30AB\u30FC\u30C9\u3092\u30C1\u30B1\u30C3\u30C8\u58F2\u5834\u307E\u3067\u304A\u6301\u3061\u304F\u3060\u3055\u3044\u307E\u305B\u3002\n\u30FB\u5E74\u9F62\u3084\u5B66\u751F\u306A\u3069\u5404\u7A2E\u8A3C\u660E\u304C\u5FC5\u8981\u306A\u30C1\u30B1\u30C3\u30C8\u3092\u8CFC\u5165\u3055\u308C\u305F\u65B9\u306F\u3001\u5165\u5834\u6642\u306B\u3054\u63D0\u793A\u304F\u3060\u3055\u3044\u3002\n\u3054\u63D0\u793A\u9802\u3051\u306A\u3044\u5834\u5408\u306F\u3001\u4E00\u822C\u6599\u91D1\u3068\u306E\u5DEE\u984D\u3092\u9802\u304D\u307E\u3059\u3002\n\n\u306A\u304A\u3001\u3053\u306E\u30E1\u30FC\u30EB\u306F\u3001" + this.data.order.seller.name + "\u306E\u4E88\u7D04\u30B7\u30B9\u30C6\u30E0\u3067\u30C1\u30B1\u30C3\u30C8\u3092\u3054\u8CFC\u5165\u9802\u3044\u305F\u65B9\u306B\u304A\u9001\u308A\u3057\u3066\u304A\u308A\u307E\u3059\u304C\u3001\n\u30C1\u30B1\u30C3\u30C8\u8CFC\u5165\u306B\u899A\u3048\u306E\u306A\u3044\u65B9\u306B\u5C4A\u3044\u3066\u304A\u308A\u307E\u3059\u5834\u5408\u306F\u3001\u4E0B\u8A18\u304A\u554F\u3044\u5408\u308F\u305B\u5148\u307E\u3067\u3054\u9023\u7D61\u304F\u3060\u3055\u3044\u3002\n\u203B\u306A\u304A\u3001\u3053\u306E\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9\u306F\u9001\u4FE1\u5C02\u7528\u3068\u306A\u3063\u3066\u304A\u308A\u307E\u3059\u306E\u3067\u3001\u3054\u8FD4\u4FE1\u9802\u3051\u307E\u305B\u3093\u3002\n\u3054\u4E0D\u660E\u306A\u70B9\u304C\u3054\u3056\u3044\u307E\u3057\u305F\u3089\u3001\u4E0B\u8A18\u756A\u53F7\u307E\u3067\u304A\u554F\u5408\u308F\u305B\u304F\u3060\u3055\u3044\u3002\n\n\u304A\u554F\u3044\u5408\u308F\u305B\u306F\u3053\u3061\u3089\n" + this.data.order.seller.name + "\nTEL\uFF1A" + telephone;
     };
     PurchaseCompleteComponent.prototype.getAppMailText = function (telephone) {
         // tslint:disable:max-line-length
         return this.data.order.customer.familyName + " " + this.data.order.customer.givenName + " \u69D8\n\u3053\u306E\u5EA6\u306F\u3001" + this.data.order.seller.name + "\u306E\u30AA\u30F3\u30E9\u30A4\u30F3\u5148\u58F2\u308A\u30C1\u30B1\u30C3\u30C8\u30B5\u30FC\u30D3\u30B9\u306B\u3066\u3054\u8CFC\u5165\u9802\u304D\u3001\u8AA0\u306B\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3059\u3002\u304A\u5BA2\u69D8\u304C\u3054\u8CFC\u5165\u3055\u308C\u307E\u3057\u305F\u30C1\u30B1\u30C3\u30C8\u306E\u60C5\u5831\u306F\u4E0B\u8A18\u306E\u901A\u308A\u3067\u3059\u3002\n\n[\u4E88\u7D04\u756A\u53F7]\n" + this.data.order.confirmationNumber + "\n\n[\u9451\u8CDE\u65E5\u6642]\n" + this.getAppreciationDate() + " " + this.getStartDate() + " - " + this.getEndDate() + "\n\n[\u4F5C\u54C1\u540D]\n" + this.getTitle() + "\n\n[\u30B9\u30AF\u30EA\u30FC\u30F3\u540D]\n" + this.getScreenName() + "\n\n[\u5EA7\u5E2D]\n" + this.data.order.acceptedOffers.map(function (offer) {
+            if (offer.itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_1__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+                return '';
+            }
             return offer.itemOffered.reservedTicket.coaTicketInfo.seatNum + " " + offer.itemOffered.reservedTicket.coaTicketInfo.ticketName + " \uFFE5" + offer.itemOffered.reservedTicket.coaTicketInfo.salePrice;
         }).join('\n') + "\n[\u5408\u8A08]\n\uFFE5" + this.data.order.price + "\n\n\u3010\u30C1\u30B1\u30C3\u30C8\u767A\u5238\u306B\u3064\u3044\u3066\u3011\n\u30C1\u30B1\u30C3\u30C8\u306F\u30B7\u30CD\u30DE\u30B5\u30F3\u30B7\u30E3\u30A4\u30F3\u516C\u5F0F\u30A2\u30D7\u30EA\u306E\u8CFC\u5165\u6E08\u307F\u30C1\u30B1\u30C3\u30C8\u30DB\u30EB\u30C0\u30FC\u5185\u306B\u683C\u7D0D\u3055\u308C\u307E\u3059\u3002\n\u3054\u9451\u8CDE\u6642\u9593\u306E24\u6642\u9593\u524D\u304B\u3089\u5165\u5834\u7528QR\u30B3\u30FC\u30C9\u304C\u8868\u793A\u3055\u308C\u307E\u3059\u306E\u3067\u3001\u5165\u5834\u6642\u306B\u305D\u3061\u3089\u306EQR\u30B3\u30FC\u30C9\u3092\u3054\u63D0\u793A\u304F\u3060\u3055\u3044\u3002\n\n\u307E\u305F\u8CFC\u5165\u6E08\u307F\u30C1\u30B1\u30C3\u30C8\u30DB\u30EB\u30C0\u30FC\u5185\u306B\u30C1\u30B1\u30C3\u30C8\u304C\u8868\u793A\u3055\u308C\u306A\u304B\u3063\u305F\u5834\u5408\u306F\u3001\u304A\u624B\u6570\u3067\u3059\u304C\u4EE5\u4E0B\u306EURL\u3088\u308A\u30C1\u30B1\u30C3\u30C8\u60C5\u5831\u78BA\u8A8D\u753B\u9762\u3078\u30A2\u30AF\u30BB\u30B9\u9802\u304D\u3001\u300C\u30C1\u30B1\u30C3\u30C8\u3092\u8CFC\u5165\u3057\u305F\u5287\u5834\u300D\u300C\u4E88\u7D04\u756A\u53F7\u300D\u300C\u304A\u96FB\u8A71\u756A\u53F7\u300D\u3092\u5165\u529B\u3057\u3066\u30ED\u30B0\u30A4\u30F3\u3057\u3066\u304F\u3060\u3055\u3044\u3002\u3054\u9451\u8CDE\u6642\u9593\u306E24\u6642\u9593\u524D\u304B\u3089\u5165\u5834\u7528QR\u30B3\u30FC\u30C9\u304C\u8868\u793A\u3055\u308C\u307E\u3059\u3002\n" + this.getInquiryUrl() + "\n\n\u307E\u305F\u306F\u5287\u5834\u306B\u8A2D\u7F6E\u3055\u308C\u3066\u3044\u308B\u767A\u5238\u6A5F\u306B\u3066\u767A\u5238\u9802\u304D\u307E\u3059\u306E\u3067\u4E88\u7D04\u756A\u53F7\u3092\u304A\u63A7\u3048\u306E\u4E0A\u3054\u6765\u5834\u304F\u3060\u3055\u3044\u3002\n\u30C1\u30B1\u30C3\u30C8\u304C\u767A\u5238\u3067\u304D\u306A\u304B\u3063\u305F\u5834\u5408\u306B\u306F\u30C1\u30B1\u30C3\u30C8\u58F2\u5834\u306B\u304A\u8D8A\u3057\u304F\u3060\u3055\u3044\u3002\n\n\u3010\u3054\u6CE8\u610F\u4E8B\u9805\u3011\n\u30FB\u3054\u8CFC\u5165\u3055\u308C\u305F\u30C1\u30B1\u30C3\u30C8\u306E\u5909\u66F4\u3001\u30AD\u30E3\u30F3\u30BB\u30EB\u3001\u6255\u3044\u623B\u3057\u306F\u3044\u304B\u306A\u308B\u5834\u5408\u3067\u3082\u81F4\u3057\u304B\u306D\u307E\u3059\u3002\n\u30FB\u30C1\u30B1\u30C3\u30C8\u306E\u767A\u5238\u306B\u304A\u6642\u9593\u304C\u304B\u304B\u308B\u5834\u5408\u3082\u3054\u3056\u3044\u307E\u3059\u306E\u3067\u3001\u304A\u6642\u9593\u306E\u4F59\u88D5\u3092\u6301\u3063\u3066\u3054\u6765\u5834\u304F\u3060\u3055\u3044\u3002\n\u30FB\u30E1\u30F3\u30D0\u30FC\u30BA\u30AB\u30FC\u30C9\u4F1A\u54E1\u306E\u304A\u5BA2\u69D8\u306F\u3001\u30DD\u30A4\u30F3\u30C8\u306F\u4ED8\u4E0E\u3044\u305F\u3057\u307E\u3059\u306E\u3067\u3001\u767A\u5238\u3057\u305F\u30C1\u30B1\u30C3\u30C8\u307E\u305F\u306F\u3001\u8868\u793A\u3055\u308C\u305FQR\u30B3\u30FC\u30C9\u3068\u30E1\u30F3\u30D0\u30FC\u30BA\u30AB\u30FC\u30C9\u3092\u30C1\u30B1\u30C3\u30C8\u58F2\u5834\u307E\u3067\u304A\u6301\u3061\u304F\u3060\u3055\u3044\u307E\u305B\u3002\n\u30FB\u5E74\u9F62\u3084\u5B66\u751F\u306A\u3069\u5404\u7A2E\u8A3C\u660E\u304C\u5FC5\u8981\u306A\u30C1\u30B1\u30C3\u30C8\u3092\u8CFC\u5165\u3055\u308C\u305F\u65B9\u306F\u3001\u5165\u5834\u6642\u306B\u3054\u63D0\u793A\u304F\u3060\u3055\u3044\u3002\n\u3054\u63D0\u793A\u9802\u3051\u306A\u3044\u5834\u5408\u306F\u3001\u4E00\u822C\u6599\u91D1\u3068\u306E\u5DEE\u984D\u3092\u9802\u304D\u307E\u3059\u3002\n\n\u306A\u304A\u3001\u3053\u306E\u30E1\u30FC\u30EB\u306F\u3001" + this.data.order.seller.name + "\u306E\u4E88\u7D04\u30B7\u30B9\u30C6\u30E0\u3067\u30C1\u30B1\u30C3\u30C8\u3092\u3054\u8CFC\u5165\u9802\u3044\u305F\u65B9\u306B\u304A\u9001\u308A\u3057\u3066\u304A\u308A\u307E\u3059\u304C\u3001\n\u30C1\u30B1\u30C3\u30C8\u8CFC\u5165\u306B\u899A\u3048\u306E\u306A\u3044\u65B9\u306B\u5C4A\u3044\u3066\u304A\u308A\u307E\u3059\u5834\u5408\u306F\u3001\u4E0B\u8A18\u304A\u554F\u3044\u5408\u308F\u305B\u5148\u307E\u3067\u3054\u9023\u7D61\u304F\u3060\u3055\u3044\u3002\n\u203B\u306A\u304A\u3001\u3053\u306E\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9\u306F\u9001\u4FE1\u5C02\u7528\u3068\u306A\u3063\u3066\u304A\u308A\u307E\u3059\u306E\u3067\u3001\u3054\u8FD4\u4FE1\u9802\u3051\u307E\u305B\u3093\u3002\n\u3054\u4E0D\u660E\u306A\u70B9\u304C\u3054\u3056\u3044\u307E\u3057\u305F\u3089\u3001\u4E0B\u8A18\u756A\u53F7\u307E\u3067\u304A\u554F\u5408\u308F\u305B\u304F\u3060\u3055\u3044\u3002\n\n\u304A\u554F\u3044\u5408\u308F\u305B\u306F\u3053\u3061\u3089\n" + this.data.order.seller.name + "\nTEL\uFF1A" + telephone;
     };
@@ -7477,6 +7510,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+/**
+ * インセンティブ
+ */
+var Incentive;
+(function (Incentive) {
+    Incentive[Incentive["WatchingMovies"] = 1] = "WatchingMovies";
+})(Incentive || (Incentive = {}));
 var PurchaseService = /** @class */ (function () {
     function PurchaseService(storage, sasaki, awsCognito, callNative, user) {
         this.storage = storage;
@@ -8115,7 +8155,7 @@ var PurchaseService = /** @class */ (function () {
                         _a = this.data;
                         return [4 /*yield*/, this.sasaki.transaction.placeOrder.createPecorinoAwardAuthorization({
                                 transactionId: this.data.transaction.id,
-                                amount: 1,
+                                amount: Incentive.WatchingMovies,
                                 toAccountNumber: this.user.data.account.accountNumber,
                                 notes: '鑑賞'
                             })];
@@ -8179,7 +8219,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.purchaseRegistrationProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var mvtksSatInfoSyncArgs, order, createMvtkAuthorizationArgs, _a, err_2, complete, sendData, reservationRecord_1, updateRecordsArgs, err_3, reservationFor, localNotificationArgs;
+            var mvtksSatInfoSyncArgs, order, createMvtkAuthorizationArgs, _a, incentives, err_2, complete, sendData, reservationRecord_1, updateRecordsArgs, err_3, itemOffered, reservationFor, localNotificationArgs;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -8214,9 +8254,20 @@ var PurchaseService = /** @class */ (function () {
                         _a.mvtkAuthorization =
                             _b.sent();
                         _b.label = 5;
-                    case 5: return [4 /*yield*/, this.sasaki.transaction.placeOrder.confirm({
-                            transactionId: this.data.transaction.id
-                        })];
+                    case 5:
+                        incentives = [];
+                        if (this.user.isMember()
+                            && !this.isReservePoint()
+                            && this.user.data.account !== undefined) {
+                            incentives.push({
+                                amount: Incentive.WatchingMovies,
+                                toAccountNumber: this.user.data.account.accountNumber
+                            });
+                        }
+                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.confirm({
+                                transactionId: this.data.transaction.id,
+                                incentives: incentives
+                            })];
                     case 6:
                         // 取引確定
                         order = _b.sent();
@@ -8262,7 +8313,11 @@ var PurchaseService = /** @class */ (function () {
                         }
                         reservationRecord_1.orders.push(order);
                         reservationRecord_1.orders.forEach(function (recordOrder, index) {
-                            var endDate = __WEBPACK_IMPORTED_MODULE_1_moment__(recordOrder.acceptedOffers[0].itemOffered.reservationFor.endDate).unix();
+                            var itemOffered = recordOrder.acceptedOffers[0].itemOffered;
+                            if (itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_0__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+                                return;
+                            }
+                            var endDate = __WEBPACK_IMPORTED_MODULE_1_moment__(itemOffered.reservationFor.endDate).unix();
                             var limitDate = __WEBPACK_IMPORTED_MODULE_1_moment__().subtract(1, 'month').unix();
                             if (endDate < limitDate) {
                                 reservationRecord_1.orders.splice(index, 1);
@@ -8283,7 +8338,11 @@ var PurchaseService = /** @class */ (function () {
                     case 15:
                         // プッシュ通知登録
                         try {
-                            reservationFor = order.acceptedOffers[0].itemOffered.reservationFor;
+                            itemOffered = order.acceptedOffers[0].itemOffered;
+                            if (itemOffered.typeOf !== __WEBPACK_IMPORTED_MODULE_0__motionpicture_sskts_api_javascript_client__["factory"].reservationType.EventReservation) {
+                                throw new Error('itemOffered.typeOf is not EventReservation');
+                            }
+                            reservationFor = itemOffered.reservationFor;
                             localNotificationArgs = {
                                 id: Number(order.orderNumber.replace(/\-/g, '')),
                                 title: '鑑賞時間が近づいています。',

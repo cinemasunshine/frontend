@@ -54,7 +54,12 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getTheaterName() {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.superEvent.location.name.ja;
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
+
+        return itemOffered.reservationFor.superEvent.location.name.ja;
     }
 
     /**
@@ -63,7 +68,12 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getScreenName() {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.location.name.ja;
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
+
+        return itemOffered.reservationFor.location.name.ja;
     }
 
     /**
@@ -72,7 +82,12 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getTitle() {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.name.ja;
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
+
+        return itemOffered.reservationFor.name.ja;
     }
 
     /**
@@ -81,9 +96,13 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getAppreciationDate() {
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
         moment.locale('ja');
 
-        return moment(this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment(itemOffered.reservationFor.startDate).format('YYYY年MM月DD日(ddd)');
     }
 
     /**
@@ -92,11 +111,15 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getStartDate() {
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate,
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei
+            itemOffered.reservationFor.startDate,
+            itemOffered.reservationFor.coaInfo.dateJouei
         );
     }
 
@@ -106,11 +129,15 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getEndDate() {
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.endDate,
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei
+            itemOffered.reservationFor.endDate,
+            itemOffered.reservationFor.coaInfo.dateJouei
         );
     }
 
@@ -186,6 +213,9 @@ ${this.getScreenName()}
 
 [座席]
 ${this.data.order.acceptedOffers.map((offer) => {
+                if (offer.itemOffered.typeOf !== factory.reservationType.EventReservation) {
+                    return '';
+                }
                 return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.itemOffered.reservedTicket.coaTicketInfo.salePrice}`;
             }).join('\n')}
 [合計]
@@ -238,6 +268,9 @@ ${this.getScreenName()}
 
 [座席]
 ${this.data.order.acceptedOffers.map((offer) => {
+                if (offer.itemOffered.typeOf !== factory.reservationType.EventReservation) {
+                    return '';
+                }
                 return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.itemOffered.reservedTicket.coaTicketInfo.salePrice}`;
             }).join('\n')}
 [合計]
