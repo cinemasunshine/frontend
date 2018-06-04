@@ -18,7 +18,7 @@ const debug = require("debug");
 const moment = require("moment");
 const auth_model_1 = require("../../models/auth/auth.model");
 const base_controller_1 = require("../base/base.controller");
-const log = debug('SSKTS:purchase');
+const log = debug('sskts-frontend:purchase');
 /**
  * 座席ステータス取得
  * @function getSeatState

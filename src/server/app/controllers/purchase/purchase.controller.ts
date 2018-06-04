@@ -9,7 +9,7 @@ import { Request, Response } from 'express';
 import * as moment from 'moment';
 import { AuthModel } from '../../models/auth/auth.model';
 import { errorProsess, getOptions } from '../base/base.controller';
-const log = debug('SSKTS:purchase');
+const log = debug('sskts-frontend:purchase');
 
 /**
  * 座席ステータス取得

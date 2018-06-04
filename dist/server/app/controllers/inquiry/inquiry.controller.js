@@ -17,7 +17,7 @@ const http_status_1 = require("http-status");
 const moment = require("moment");
 const inquiry_model_1 = require("../../models/inquiry/inquiry.model");
 const base_controller_1 = require("../base/base.controller");
-const log = debug('SSKTS:inquiry');
+const log = debug('sskts-frontend:inquiry');
 /**
  * 照会表示
  * @function render

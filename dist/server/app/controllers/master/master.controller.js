@@ -14,7 +14,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const COA = require("@motionpicture/coa-service");
 const debug = require("debug");
 const base_controller_1 = require("../base/base.controller");
-const log = debug('SSKTS:master');
+const log = debug('sskts-frontend:master');
 /**
  * 券種一覧取得
  * @function getSalesTickets

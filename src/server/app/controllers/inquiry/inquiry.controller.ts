@@ -8,7 +8,7 @@ import { NOT_FOUND } from 'http-status';
 import * as moment from 'moment';
 import { InquiryModel } from '../../models/inquiry/inquiry.model';
 import { getOptions } from '../base/base.controller';
-const log = debug('SSKTS:inquiry');
+const log = debug('sskts-frontend:inquiry');
 
 /**
  * 照会表示

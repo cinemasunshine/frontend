@@ -5,7 +5,7 @@ import * as COA from '@motionpicture/coa-service';
 import * as debug from 'debug';
 import { Request, Response } from 'express';
 import { errorProsess } from '../base/base.controller';
-const log = debug('SSKTS:master');
+const log = debug('sskts-frontend:master');
 
 
 /**
