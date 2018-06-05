@@ -20,6 +20,7 @@ import { PurchaseSeatComponent } from './components/purchase/purchase-seat/purch
 import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/purchase-ticket.component';
 import { PurchaseTransactionComponent } from './components/purchase/purchase-transaction/purchase-transaction.component';
 import { TestScreenComponent } from './components/test/test-screen/test-screen.component';
+import { MemberGuardService } from './services/member-guard/member-guard.service';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
 import { TestGuardService } from './services/test-guard/test-guard.service';
 
@@ -48,7 +49,7 @@ const routes: Routes = [
             { path: 'confirm', component: PurchaseConfirmComponent },
             { path: 'mvtk/input', component: PurchaseMvtkInputComponent },
             { path: 'mvtk/confirm', component: PurchaseMvtkConfirmComponent },
-            { path: 'point', component: PurchasePointComponent }
+            { path: 'point', canActivate: [MemberGuardService], component: PurchasePointComponent }
         ]
     },
     {

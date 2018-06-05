@@ -48,6 +48,7 @@ import { TimeFormatPipe } from './pipes/time-format/time-format.pipe';
 import { AwsCognitoService } from './services/aws-cognito/aws-cognito.service';
 import { CallNativeService } from './services/call-native/call-native.service';
 import { ErrorService } from './services/error/error.service';
+import { MemberGuardService } from './services/member-guard/member-guard.service';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
 import { PurchaseService } from './services/purchase/purchase.service';
 import { SasakiService } from './services/sasaki/sasaki.service';
@@ -116,7 +117,8 @@ import { UtilService } from './services/util/util.service';
         SasakiService,
         UserService,
         TestGuardService,
-        UtilService
+        UtilService,
+        MemberGuardService
     ],
     bootstrap: [AppComponent]
 })
