@@ -1,12 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { IIndividualScreeningEvent, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
-import { UserService } from '../../../services/user/user.service';
+import { FlgMember, UserService } from '../../../services/user/user.service';
 import { IInputScreenData, ISeat } from '../../parts/screen/screen.component';
 
 @Component({

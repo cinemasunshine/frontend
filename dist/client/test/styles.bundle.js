@@ -508,7 +508,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 6:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./src/client/src/styles.scss");
@@ -516,5 +516,5 @@ module.exports = __webpack_require__("./src/client/src/styles.scss");
 
 /***/ })
 
-},[6]);
+},[3]);
 //# sourceMappingURL=styles.bundle.js.map

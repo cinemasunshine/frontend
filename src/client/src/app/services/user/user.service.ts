@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import { SasakiService } from '../sasaki/sasaki.service';
 import { SaveType, StorageService } from '../storage/storage.service';
@@ -8,8 +7,28 @@ import { SaveType, StorageService } from '../storage/storage.service';
  * ネイティブアプリフラグ
  */
 enum NativeAppFlg {
+    /**
+     * 非ネイティブアプリ
+     */
     NotNative = '0',
+    /**
+     * ネイティブアプリ
+     */
     Native = '1'
+}
+
+/**
+ * 会員用フラグ
+ */
+export enum FlgMember {
+    /**
+     * 非会員
+     */
+    NonMember = '0',
+    /**
+     * 会員
+     */
+    Member = '1',
 }
 
 export interface IData {

@@ -8932,7 +8932,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 5:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./src/client/src/polyfills.ts");
@@ -8940,5 +8940,5 @@ module.exports = __webpack_require__("./src/client/src/polyfills.ts");
 
 /***/ })
 
-},[5]);
+},[2]);
 //# sourceMappingURL=polyfills.bundle.js.map
