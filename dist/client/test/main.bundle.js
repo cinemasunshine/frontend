@@ -2016,7 +2016,7 @@ var PURCHASE_NOTE = {
     '01': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
     '12': { ordinance: '徳島県青少年健全育成条例', limit: '23:00' },
     '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
-    '19': { ordinance: '東京都青少年健全育成条例', limit: '23:00' }
+    '19': { ordinance: '千葉県青少年健全育成条例', limit: '23:00' }
 };
 var PurchaseNoteComponent = /** @class */ (function () {
     function PurchaseNoteComponent() {
@@ -2184,7 +2184,7 @@ var PURCHASE_TERM = {
     '01': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
     '12': { ordinance: '徳島県青少年健全育成条例', limit: '23:00' },
     '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
-    '19': { ordinance: '東京都青少年健全育成条例', limit: '23:00' }
+    '19': { ordinance: '千葉県青少年健全育成条例', limit: '23:00' }
 };
 var PurchaseTermComponent = /** @class */ (function () {
     function PurchaseTermComponent() {
