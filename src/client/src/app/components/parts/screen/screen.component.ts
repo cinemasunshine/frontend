@@ -225,6 +225,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         screen: IScreen,
         status: COA.services.reserve.IStateReserveSeatResult
     }): IData {
+        console.log(data.screen);
         const screenData = data.screen;
         const seatStatus = data.status;
         // y軸ラベル
@@ -383,8 +384,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
             screen: screenData,
             objects: screenData.objects,
             screenType: screenType,
-            lineLabels: lineLabels,
-            columnLabels: columnLabels,
+            lineLabels: (data.screen.lineLabel) ? lineLabels : [],
+            columnLabels: (data.screen.columnLabel) ? columnLabels : [],
             seats: seats
         };
     }
@@ -424,6 +425,8 @@ interface IScreen {
     seatNumberAlign: 'left' | 'right';
     html: string;
     style?: string;
+    columnLabel: boolean;
+    lineLabel: boolean;
 }
 
 interface ILabel {
