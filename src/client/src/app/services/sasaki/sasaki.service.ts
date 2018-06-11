@@ -39,7 +39,7 @@ export class SasakiService {
                 placeOrder: new sasaki.service.transaction.PlaceOrder(option)
             };
         } catch (err) {
-            console.log(err);
+            console.error(err);
             throw new Error('getServices is failed');
         }
     }
@@ -90,7 +90,7 @@ export class SasakiService {
     public async signIn() {
         const url = '/api/authorize/signIn';
         const result = await this.http.get<any>(url, {}).toPromise();
-        console.log(result.url);
+        // console.log(result.url);
         location.href = result.url;
     }
 

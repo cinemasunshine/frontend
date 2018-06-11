@@ -225,7 +225,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         screen: IScreen,
         status: COA.services.reserve.IStateReserveSeatResult
     }): IData {
-        console.log(data.screen);
+        // console.log(data.screen);
         const screenData = data.screen;
         const seatStatus = data.status;
         // y軸ラベル

@@ -66,7 +66,7 @@ export class PurchaseTransactionComponent implements OnInit {
             this.user.setNative(this.parameters.native);
             // this.user.setAccessToken(this.parameters.accessToken);
             this.user.save();
-            console.log('this.sasaki.auth', this.sasaki.auth);
+            // console.log('this.sasaki.auth', this.sasaki.auth);
             if (this.parameters.member === FlgMember.Member && !this.parameters.signInRedirect) {
                 await this.sasaki.signIn();
 

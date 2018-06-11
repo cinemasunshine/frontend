@@ -90,7 +90,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             flgMember: (this.user.isMember()) ? FlgMember.Member : FlgMember.NonMember
         };
         const salesTickets = await this.sasaki.getSalesTickets(salesTicketArgs);
-        console.log('salesTickets', salesTicketArgs, salesTickets);
+        // console.log('salesTickets', salesTicketArgs, salesTickets);
 
         return salesTickets;
     }
