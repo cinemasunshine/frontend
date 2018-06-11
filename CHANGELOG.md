@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 4.0.0 - 2018-06-08
+### Added
+ - 有料会員での購入に対応
+
 ## 3.1.1 - 2018-05-24
 ### Fixed
  - production build修正
