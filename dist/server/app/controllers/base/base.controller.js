@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const debug = require("debug");
 const httpStatus = require("http-status");
 const auth_model_1 = require("../../models/auth/auth.model");
-const log = debug('SSKTS:base');
+const log = debug('sskts-frontend:base');
 /**
  * オプション取得
  * @function getOptions

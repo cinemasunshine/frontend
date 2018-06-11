@@ -74,8 +74,8 @@
         <div class="box radius bg-light-gray mb-large">
             <dl>
                 <dd>
-                    <input [class.validation]="inputForm.controls['telephone'].invalid && inputForm.controls['telephone'].touched" type="tel" formControlName="telephone"
-                        autocomplete="tel" placeholder="(例)08000000000">
+                    <input [class.validation]="inputForm.controls['telephone'].invalid && inputForm.controls['telephone'].touched" type="tel"
+                        formControlName="telephone" autocomplete="tel" placeholder="(例)08000000000">
                     <div *ngIf="inputForm.controls['telephone'].invalid && inputForm.controls['telephone'].touched">
                         <div *ngIf="inputForm.controls['telephone'].errors.required" class="validation-text">電話番号が未入力です</div>
                         <div *ngIf="inputForm.controls['telephone'].errors.minlength" class="validation-text">電話番号は{{ inputForm.controls['telephone'].errors.minlength.requiredLength }}文字以上で入力してください</div>
@@ -98,75 +98,129 @@
             </h2>
 
             <p class="mb-small">クレジットカード決済の必要事項を入力ください。</p>
-            <ul class="box radius bg-light-gray mb-large credit form-layout">
-                <li class="price">
-                    <dl>
-                        <dt>ご利用金額</dt>
-                        <dd class="large-text red-text">
-                            <strong>￥{{ purchase.getTotalPrice() }}</strong>
-                        </dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>カード番号</dt>
-                        <dd>
-                            <input [class.validation]="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].touched" type="text"
-                                pattern="\d*" formControlName="cardNumber" id="cardNumber" autocomplete="off" placeholder="(例)1234567890" maxlength="16">
-                            <div *ngIf="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].touched">
-                                <div *ngIf="inputForm.controls['cardNumber'].errors.required" class="validation-text">カード番号が未入力です</div>
-                            </div>
-                            <p class="small-x-text">※半角数字、ハイフン「-」なしで入力してください</p>
-                        </dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>有効期限</dt>
-                        <dd>
+            <div *ngIf="creditCardType === 'input'" class="credit-input">
+                <ul class="box radius bg-light-gray mb-large credit form-layout">
+                    <li class="price">
+                        <dl>
+                            <dt>ご利用金額</dt>
+                            <dd class="large-text red-text">
+                                <strong>￥{{ purchase.getTotalPrice() }}</strong>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>カード番号</dt>
+                            <dd>
+                                <input [class.validation]="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].touched" type="text"
+                                    pattern="\d*" formControlName="cardNumber" id="cardNumber" autocomplete="off" placeholder="(例)1234567890"
+                                    maxlength="16">
+                                <div *ngIf="inputForm.controls['cardNumber'].invalid && inputForm.controls['cardNumber'].touched">
+                                    <div *ngIf="inputForm.controls['cardNumber'].errors.required" class="validation-text">カード番号が未入力です</div>
+                                    <div *ngIf="inputForm.controls['cardNumber'].errors.pattern" class="validation-text">カード番号は数字で入力してください</div>
+                                </div>
+                                <p class="small-x-text">※半角数字、ハイフン「-」なしで入力してください</p>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>有効期限</dt>
+                            <dd>
 
-                            <select formControlName="cardExpirationMonth" id="cardExpirationMonth">
+                                <select formControlName="cardExpirationMonth" id="cardExpirationMonth">
 
-                                <option *ngFor="let month of cardExpiration.month" [value]="month">{{ month }}</option>
+                                    <option *ngFor="let month of cardExpiration.month" [value]="month">{{ month }}</option>
 
-                            </select> 月
-                            <select formControlName="cardExpirationYear" id="cardExpirationYear">
+                                </select> 月
+                                <select formControlName="cardExpirationYear" id="cardExpirationYear">
 
-                                <option *ngFor="let year of cardExpiration.year" [value]="year">{{ year }}</option>
+                                    <option *ngFor="let year of cardExpiration.year" [value]="year">{{ year }}</option>
 
-                            </select> 年
+                                </select> 年
 
-                        </dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>セキュリティーコード</dt>
-                        <dd>
-                            <input [class.validation]="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].touched" type="text"
-                                pattern="\d*" formControlName="securityCode" autocomplete="off" placeholder="(例)123" maxlength="4">
-                            <div *ngIf="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].touched">
-                                <div *ngIf="inputForm.controls['securityCode'].errors.required" class="validation-text">セキュリティーコードが未入力です</div>
-                            </div>
-                            <p>
-                                <a (click)="securityCodeModal = true">セキュリティーコードについて</a>
-                            </p>
-                        </dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>カード名義人</dt>
-                        <dd>
-                            <input [class.validation]="inputForm.controls['holderName'].invalid && inputForm.controls['holderName'].touched" type="text"
-                                formControlName="holderName" autocomplete="off" placeholder="(例)TARO CINEMA">
-                            <div *ngIf="inputForm.controls['holderName'].invalid && inputForm.controls['holderName'].touched">
-                                <div *ngIf="inputForm.controls['holderName'].errors.required" class="validation-text">カード名義人が未入力です</div>
-                            </div>
-                        </dd>
-                    </dl>
-                </li>
-            </ul>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>セキュリティーコード</dt>
+                            <dd>
+                                <input [class.validation]="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].touched" type="text"
+                                    pattern="\d*" formControlName="securityCode" autocomplete="off" placeholder="(例)123" maxlength="4">
+                                <div *ngIf="inputForm.controls['securityCode'].invalid && inputForm.controls['securityCode'].touched">
+                                    <div *ngIf="inputForm.controls['securityCode'].errors.required" class="validation-text">セキュリティーコードが未入力です</div>
+                                </div>
+                                <p>
+                                    <a (click)="securityCodeModal = true">セキュリティーコードについて</a>
+                                </p>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>カード名義人</dt>
+                            <dd>
+                                <input [class.validation]="inputForm.controls['holderName'].invalid && inputForm.controls['holderName'].touched" type="text"
+                                    formControlName="holderName" autocomplete="off" placeholder="(例)TARO CINEMA">
+                                <div *ngIf="inputForm.controls['holderName'].invalid && inputForm.controls['holderName'].touched">
+                                    <div *ngIf="inputForm.controls['holderName'].errors.required" class="validation-text">カード名義人が未入力です</div>
+                                </div>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+
+                <div *ngIf="user.isMember()" class="text-center mb-middle">
+                    <input type="checkbox" formControlName="saveCreditCard" id="saveCreditCard">
+                    <label for="saveCreditCard">
+                        <strong>クレジットカード情報を保存する</strong>
+                    </label>
+                </div>
+
+                <div *ngIf="user.isRegisteredCreditCards()" class="button gray-button">
+                    <button type="button" (click)="changeRegisteredCreditCard()">登録済みクレジットカードを使用する</button>
+                </div>
+            </div>
+
+            <div *ngIf="creditCardType === 'registered'" class="credit-registered">
+                <ul class="box radius bg-light-gray mb-large credit form-layout">
+                    <li class="price">
+                        <dl>
+                            <dt>ご利用金額</dt>
+                            <dd class="large-text red-text">
+                                <strong>￥{{ purchase.getTotalPrice() }}</strong>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>カード番号</dt>
+                            <dd>{{ user.data.creditCards[0]?.cardNo }}</dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>有効期限</dt>
+                            <dd>{{ user.data.creditCards[0]?.expire }}</dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>カード名義人</dt>
+                            <dd>{{ user.data.creditCards[0]?.holderName }}</dd>
+                        </dl>
+                    </li>
+                </ul>
+                <input type="hidden" formControlName="cardNumber">
+                <input type="hidden" formControlName="cardExpirationMonth">
+                <input type="hidden" formControlName="cardExpirationYear">
+                <input type="hidden" formControlName="securityCode">
+                <input type="hidden" formControlName="holderName">
+                <div class="button gray-button" (click)="changeInputCreditCard()">
+                    <button type="button">クレジットカードを変更する</button>
+                </div>
+            </div>
         </div>
 
         <app-buttons nextLabel="次へ" prevLabel="戻る" prevLink="/purchase/ticket"></app-buttons>
@@ -178,7 +232,7 @@
 
 <app-modal class="security-code-modal" [open]="securityCodeModal" [layout]="false" (close)="securityCodeModal = false">
     <div inner class="box radius bg-white">
-        <div class="modal-ttl mb-xx-small text-center">セキュリティーコードについて</div>
+        <div class="modal-title mb-xx-small text-center">セキュリティーコードについて</div>
         <p class="mb-middle small-x-text text-center">※カード会社により表示箇所および名称が異なります。</p>
         <div class="box radius bg-light-gray">
             <dl class="mb-middle">
@@ -204,7 +258,7 @@
 </app-modal>
 
 <app-modal [open]="creditCardAlertModal" [layout]="true" (close)="creditCardAlertModal = false">
-    <div class="modal-ttl large-text text-center mb-middle">
+    <div class="modal-title large-text text-center mb-middle">
         <strong>エラーが発生しました</strong>
     </div>
 </app-modal>

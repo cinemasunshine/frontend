@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { AwsCognitoService } from '../../services/aws-cognito/aws-cognito.service';
+import { UserService } from '../../services/user/user.service';
 
 declare const ga: Function;
 
@@ -12,7 +12,7 @@ declare const ga: Function;
 })
 export class AppComponent {
     constructor(
-        public awsCognito: AwsCognitoService,
+        public user: UserService,
         private router: Router
     ) {
         this.router.events.subscribe(event => {
@@ -23,7 +23,7 @@ export class AppComponent {
                     ga('set', 'page', event.urlAfterRedirects);
                     ga('send', 'pageview');
                 } catch (err) {
-                    console.error(err);
+                    console.log(err);
                 }
             }
         });

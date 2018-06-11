@@ -43,6 +43,37 @@ $mobile: 767px;
     }
 }
 
+.point {
+    dt {
+        @media screen and (max-width: $mobile){
+            display: block;
+        }
+    }
+    dd {
+        @media screen and (max-width: $mobile){
+            display: block;
+            width: 100%;
+        }
+    }
+    .point-button {
+        label, a {
+            border: 1px solid #d82918;
+            background-color: #FFF;
+            color: #333;
+            &:before {
+                left: 15px;
+            }
+            &:after {
+                left: 15px;
+            }
+            strong {
+                line-height: 22px;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
 .disabled {
     display: none;
 }

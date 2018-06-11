@@ -3,103 +3,51 @@
 
 # Usage
 
-* set environment variables - For example,
+## Environment variables
 
-```shell
-set NODE_ENV=**********環境名**********
-set NPM_TOKEN=**********npm motionpicture トークン**********
-set SSKTS_API_ENDPOINT=**********mp apiのエンドポイント**********
-set REDIS_HOST=**********REDISホスト**********
-set REDIS_PORT=**********REDISポート**********
-set REDIS_KEY=**********REDISキー**********
-set GMO_CLIENT_MODULE=**********GMOCLIENTモージュールURL=**********
-set GMO_ENDPOINT=**********gmo apiのエンドポイント**********
-set COA_ENDPOINT=**********coa apiのエンドポイント**********
-set COA_REFRESH_TOKEN=**********coa apiのリフレッシュトークン**********
-set MVTK_RESERVE_ENDPOINT=**********ムビチケMvtkReserveService apiのエンドポイント**********
-set PORTAL_SITE_URL=**********ポータルサイトURL**********
-set CLIENT_ID=**********クライアントID**********
-set CLIENT_SECRET=**********クライアント鍵**********
-set AUTHORIZE_SERVER_DOMAIN=**********認証サーバードメイン**********
-set RESOURCE_SERVER_URL=**********リソースサーバーURL**********
-set ENTRANCE_SERVER_URL=**********エントランスサーバーURL**********
-```
+| Name                                | Required | Value            | Purpose                                 |
+|-------------------------------------|----------|------------------|-----------------------------------------|
+| `NODE_ENV`                          | true     |                  | 環境名                                  |
+| `NPM_TOKEN`                         | true     |                  | npm トークン                            |
+| `REDIS_HOST`                        | true     |                  | REDISホスト                             |
+| `REDIS_PORT`                        | true     |                  | REDISポート                             |
+| `REDIS_KEY`                         | true     |                  | REDISキー                               |
+| `SSKTS_API_ENDPOINT`                | true     |                  | SSKTS API エンドポイント                 |
+| `GMO_ENDPOINT`                      | true     |                  | GMO API エンドポイント                   |
+| `COA_ENDPOINT`                      | true     |                  | COA API エンドポイント                   |
+| `COA_REFRESH_TOKEN`                 | true     |                  | COA API リフレッシュトークン              |
+| `MVTK_RESERVE_ENDPOINT`             | true     |                  | ムビチケ API エンドポイント               |
+| `CLIENT_ID`                         | true     |                  | クライアントID                           |
+| `CLIENT_SECRET`                     | true     |                  | クライアントSECRET                       |
+| `CLIENT_ID_OAUTH2`                  | true     |                  | OAUTH2クライアントID                     |
+| `CLIENT_SECRET_OAUTH2`              | true     |                  | OAUTH2クライアントSECRET                 |
+| `AUTHORIZE_SERVER_DOMAIN`           | true     |                  | 認可サーバードメイン                      |
+| `OAUTH2_SERVER_DOMAIN`              | true     |                  | OAUTH2認可サーバードメイン                |
+| `RESOURCE_SERVER_URL`               | true     |                  | リソースサーバーURL                      |
+| `AUTH_REDIRECT_URI`                 | true     |                  | サインインリダイレクトURL                 |
+| `AUTH_LOGUOT_URI`                   | true     |                  | サインアウトリダイレクトURL               |
+| `PORTAL_SITE_URL`                   | true     |                  | ポータルサイトURL                        |
+| `APP_SITE_URL`                      | true     |                  | スマホアプリURL                          |
+| `SSKTS_ALLOWED_IPS`                 | false    |                  | IP制限IPリスト(カンマ区切り)              |
+| `SSKTS_BASIC_AUTH_NAME`             | false    |                  | ベーシック認証ID                         |
+| `SSKTS_BASIC_AUTH_PASS`             | false    |                  | ベーシック認証PASS                       |
+| `WHITELIST`                         | false    |                  | XHR、iframeリクエスト許可(カンマ区切り)   |
+| `DEBUG`                             | false    | sskts-frontend:* | デバッグ                                |
 
-only on Aure WebApps
+## Azure Environment variables
 
-```shell
-set WEBSITE_NODE_DEFAULT_VERSION=**********node.jsバージョン**********
-set WEBSITE_TIME_ZONE=Tokyo Standard Time
-```
+| Name                                | Required | Value            | Purpose                                 |
+|-------------------------------------|----------|------------------|-----------------------------------------|
+| `WEBSITE_NODE_DEFAULT_VERSION`      | true     |                  | node.jsバージョン                        |
+| `WEBSITE_TIME_ZONE`                 | true     |                  | タイムゾーン設定(Tokyo Standard Time)     |
 
-クロスドメイン、iframeからのリクエスト許可
-
-```shell
-set WHITELIST=**********カンマつなぎのURLリスト**********
-```
-
-IP制限をかけたい場合
-
-```shell
-set SSKTS_ALLOWED_IPS=**********カンマつなぎのIPリスト**********
-```
-
-ベーシック認証をかけたい場合
-
-```shell
-set SSKTS_BASIC_AUTH_NAME=**********認証ユーザー名**********
-set SSKTS_BASIC_AUTH_PASS=**********認証パスワード**********
-```
-
-メンテナンスページを表示させたい場合
-
-```shell
-set SSKTS_MAINTENANCE_TEXT=**********適当な文字列**********
-```
-
-スマホアプリ内表示
-
-```shell
-set APP_SITE_URL=**********アプリサイトURL**********
-set COGNITO_REGION=**********COGNITO REGION**********
-set COGNITO_IDENTITY_POOL_ID=**********COGNITO IDENTITY POOL ID**********
-```
-
-会員フロー
-```shell
-set AUTH_REDIRECT_URI=**********認証リダイレクトURL**********
-set AUTH_LOGUOT_URI=**********認証ログアウトURL**********
-set SSKTS_OAUTH2_TOKEN_URL=**********認証トークンURL**********
-set CLIENT_ID_OAUTH2=**********会員クライアントID**********
-set CLIENT_SECRET_OAUTH2=**********会員クライアント鍵**********
-set COGNITO_USER_POOL_ID=**********COGNITO USER POOL ID**********
-set COGNITO_CLIENT_ID=**********COGNITO CLIENT ID**********
-```
 
 # Build
 
 ビルドは以下で実行できます。
-- typescript
+
 ```shell
 npm run build
-```
-
-クライアント側ビルドは以下で実行できます。
-- typescript
-```shell
-npm run build-client
-```
-
-サーバー側ビルドは以下で実行できます。
-- typescript
-```shell
-npm run build-server
-```
-
-サーバー側scssビルドは以下で実行できます。
-- scss
-```shell
-npm run css-server
 ```
 
 # Tests

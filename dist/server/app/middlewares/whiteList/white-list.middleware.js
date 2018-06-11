@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * アクセス許可
  */
 const debug = require("debug");
-const log = debug('SSKTS:middlewares:whiteList');
+const log = debug('sskts-frontend:middlewares:whiteList');
 /**
  * アクセス許可ミドルウェア
  *

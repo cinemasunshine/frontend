@@ -7,4 +7,5 @@ const express = require("express");
 const master = require("../controllers/master/master.controller");
 const router = express.Router();
 router.get('/getSalesTickets', master.getSalesTickets);
+router.get('/getTickets', master.getTickets);
 exports.default = router;

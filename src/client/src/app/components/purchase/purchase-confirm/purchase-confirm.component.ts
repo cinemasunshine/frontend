@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'app-purchase-confirm',
@@ -18,6 +19,7 @@ export class PurchaseConfirmComponent implements OnInit {
 
     constructor(
         public purchase: PurchaseService,
+        public user: UserService,
         private formBuilder: FormBuilder,
         private router: Router,
         private error: ErrorService
@@ -43,11 +45,19 @@ export class PurchaseConfirmComponent implements OnInit {
         }
         this.disable = true;
         this.isLoading = true;
-        try {
-            if (this.purchase.isExpired()) {
-                this.router.navigate(['expired']);
+        if (this.purchase.isExpired()) {
+            this.router.navigate(['expired']);
 
-                return;
+            return;
+        }
+        try {
+            if (this.user.isMember() && this.purchase.isReservePoint()) {
+                // 会員かつポイント使用
+                await this.purchase.pointPaymentProcess();
+            }
+            if (this.user.isMember() && !this.purchase.isReservePoint()) {
+                // 会員かつポイント未使用
+                await this.purchase.incentiveProcess();
             }
             await this.purchase.purchaseRegistrationProcess();
             this.router.navigate(['/purchase/complete']);

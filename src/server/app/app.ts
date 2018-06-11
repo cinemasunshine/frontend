@@ -24,13 +24,14 @@ app.use(basicAuth); // ベーシック認証
 app.use(helmet()); // セキュリティー対策
 app.use(whiteList); // 許可設定
 app.use(benchmarks); // ベンチマーク的な
+app.set('trust proxy', 1);
 app.use(session); // セッション
 app.use(locales.setLocale); // 言語
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressValidator()); // バリデーション
-app.set('views', `${__dirname}/views`); // view設定
+app.set('views', `${__dirname}/../../../views`); // view設定
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.use(express.static(`${__dirname}/../public`)); // server

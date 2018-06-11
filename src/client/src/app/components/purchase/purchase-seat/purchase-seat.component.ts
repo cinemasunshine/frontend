@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { IIndividualScreeningEvent, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
+import { FlgMember, UserService } from '../../../services/user/user.service';
 import { IInputScreenData, ISeat } from '../../parts/screen/screen.component';
 
 @Component({
@@ -26,8 +27,9 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         public purchase: PurchaseService,
         private router: Router,
         private formBuilder: FormBuilder,
-        private sasakiService: SasakiService,
-        private error: ErrorService
+        private sasaki: SasakiService,
+        private error: ErrorService,
+        private user: UserService
     ) { }
 
     public ngOnInit() {
@@ -78,14 +80,17 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
      */
     public async fitchSalesTickets() {
         const individualScreeningEvent = <IIndividualScreeningEvent>this.purchase.data.individualScreeningEvent;
-        await this.sasakiService.getServices();
-        const salesTickets = await this.sasakiService.getSalesTickets({
+        await this.sasaki.getServices();
+        const salesTicketArgs = {
             theaterCode: individualScreeningEvent.coaInfo.theaterCode,
             dateJouei: individualScreeningEvent.coaInfo.dateJouei,
             titleCode: individualScreeningEvent.coaInfo.titleCode,
             titleBranchNum: individualScreeningEvent.coaInfo.titleBranchNum,
-            timeBegin: individualScreeningEvent.coaInfo.timeBegin
-        });
+            timeBegin: individualScreeningEvent.coaInfo.timeBegin,
+            flgMember: (this.user.isMember()) ? FlgMember.Member : FlgMember.NonMember
+        };
+        const salesTickets = await this.sasaki.getSalesTickets(salesTicketArgs);
+        console.log('salesTickets', salesTicketArgs, salesTickets);
 
         return salesTickets;
     }
@@ -109,6 +114,11 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         }
         this.disable = true;
         this.isLoading = true;
+        if (this.purchase.isExpired()) {
+            this.router.navigate(['expired']);
+
+            return;
+        }
         try {
             if (this.purchase.data.salesTickets.length === 0) {
                 this.purchase.data.salesTickets = await this.fitchSalesTickets();
@@ -133,11 +143,6 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
                     }
                 };
             });
-            if (this.purchase.isExpired()) {
-                this.router.navigate(['expired']);
-
-                return;
-            }
             await this.purchase.seatRegistrationProcess(offers);
             this.router.navigate(['/purchase/ticket']);
         } catch (err) {

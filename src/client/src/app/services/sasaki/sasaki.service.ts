@@ -1,15 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
-import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
 import { environment } from '../../../environments/environment';
+import { SaveType, StorageService } from '../storage/storage.service';
 
 @Injectable()
 export class SasakiService {
-    public oauth2Client: sasaki.IImplicitGrantClient;
+    public auth: sasaki.IImplicitGrantClient;
     public event: sasaki.service.Event;
     public order: sasaki.service.Order;
     public organization: sasaki.service.Organization;
@@ -18,10 +18,10 @@ export class SasakiService {
     public transaction: {
         placeOrder: sasaki.service.transaction.PlaceOrder
     };
-    private expired: number;
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private storage: StorageService
     ) { }
 
     /**
@@ -48,14 +48,10 @@ export class SasakiService {
      * @method createOption
      */
     public async createOption() {
-        if (this.oauth2Client === undefined
-            || this.oauth2Client.credentials === undefined
-            || this.expired < moment().unix()) {
-            await this.authorize();
-        }
+        await this.authorize();
         return {
             endpoint: environment.SASAKI_API_ENDPOINT,
-            auth: this.oauth2Client
+            auth: this.auth
         };
     }
 
@@ -63,11 +59,14 @@ export class SasakiService {
      * @method authorize
      */
     public async authorize() {
-        const url = `${environment.API_ENDPOINT}/api/authorize/getCredentials`;
+        const user = this.storage.load('user', SaveType.Session);
+        const member = user.memberType;
+        const url = '/api/authorize/getCredentials';
         const options = {
             headers: new HttpHeaders({
                 'If-Modified-Since': new Date(0).toUTCString()
-            })
+            }),
+            params: new HttpParams().set('member', member)
         };
         const credentials = await this.http.get<any>(url, options).toPromise();
         const option = {
@@ -81,10 +80,18 @@ export class SasakiService {
             nonce: null,
             tokenIssuer: ''
         };
-        this.oauth2Client = sasaki.createAuthInstance(option);
-        this.oauth2Client.setCredentials(credentials);
-        const expired = 15;
-        this.expired = moment().add(expired, 'minutes').unix();
+        this.auth = sasaki.createAuthInstance(option);
+        this.auth.setCredentials(credentials);
+    }
+
+    /**
+     * サインイン
+     */
+    public async signIn() {
+        const url = '/api/authorize/signIn';
+        const result = await this.http.get<any>(url, {}).toPromise();
+        console.log(result.url);
+        location.href = result.url;
     }
 
     /**
@@ -152,8 +159,21 @@ export class SasakiService {
         args: COA.services.reserve.ISalesTicketArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/master/getSalesTickets`;
-
         return this.http.get<COA.services.reserve.ISalesTicketResult[]>(url, {
+            params: <any>args
+        }).toPromise();
+    }
+
+    /**
+     * 券種マスター一覧取得
+     * @method getTickets
+     * @param {COA.services.reserve.ITicketArgs} args
+     */
+    public async getTickets(
+        args: COA.services.master.ITicketArgs
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/master/getTickets`;
+        return this.http.get<COA.services.master.ITicketResult[]>(url, {
             params: <any>args
         }).toPromise();
     }

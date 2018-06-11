@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
+import { AuthSigninComponent } from './components/auth/auth-signin/auth-signin.component';
 import { BaseComponent } from './components/base/base.component';
 import { ErrorComponent } from './components/error/error.component';
 import { ExpiredComponent } from './components/expired/expired.component';
@@ -35,6 +36,7 @@ import { PurchaseInputComponent } from './components/purchase/purchase-input/pur
 import { PurchaseMvtkConfirmComponent } from './components/purchase/purchase-mvtk-confirm/purchase-mvtk-confirm.component';
 import { PurchaseMvtkInputComponent } from './components/purchase/purchase-mvtk-input/purchase-mvtk-input.component';
 import { PurchaseOverlapComponent } from './components/purchase/purchase-overlap/purchase-overlap.component';
+import { PurchasePointComponent } from './components/purchase/purchase-point/purchase-point.component';
 import { PurchaseScheduleComponent } from './components/purchase/purchase-schedule/purchase-schedule.component';
 import { PurchaseSeatComponent } from './components/purchase/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/purchase/purchase-ticket/purchase-ticket.component';
@@ -46,11 +48,14 @@ import { TimeFormatPipe } from './pipes/time-format/time-format.pipe';
 import { AwsCognitoService } from './services/aws-cognito/aws-cognito.service';
 import { CallNativeService } from './services/call-native/call-native.service';
 import { ErrorService } from './services/error/error.service';
+import { MemberGuardService } from './services/member-guard/member-guard.service';
 import { PurchaseGuardService } from './services/purchase-guard/purchase-guard.service';
 import { PurchaseService } from './services/purchase/purchase.service';
 import { SasakiService } from './services/sasaki/sasaki.service';
 import { StorageService } from './services/storage/storage.service';
 import { TestGuardService } from './services/test-guard/test-guard.service';
+import { UserService } from './services/user/user.service';
+import { UtilService } from './services/util/util.service';
 
 @NgModule({
     declarations: [
@@ -91,6 +96,8 @@ import { TestGuardService } from './services/test-guard/test-guard.service';
         ExpiredComponent,
         PurchaseTermComponent,
         PurchaseNoteComponent,
+        PurchasePointComponent,
+        AuthSigninComponent,
         TestScreenComponent
     ],
     imports: [
@@ -108,7 +115,10 @@ import { TestGuardService } from './services/test-guard/test-guard.service';
         AwsCognitoService,
         CallNativeService,
         SasakiService,
-        TestGuardService
+        UserService,
+        TestGuardService,
+        UtilService,
+        MemberGuardService
     ],
     bootstrap: [AppComponent]
 })

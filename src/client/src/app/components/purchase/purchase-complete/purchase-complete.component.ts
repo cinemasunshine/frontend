@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-javascript-client';
+import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 import { TimeFormatPipe } from '../../../pipes/time-format/time-format.pipe';
-import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { SaveType, StorageService } from '../../../services/storage/storage.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'app-purchase-complete',
@@ -15,18 +15,18 @@ import { SaveType, StorageService } from '../../../services/storage/storage.serv
 })
 export class PurchaseCompleteComponent implements OnInit {
     public data: {
-        order: sasaki.factory.order.IOrder;
-        transaction: sasaki.factory.transaction.placeOrder.ITransaction;
-        movieTheaterOrganization: sasaki.factory.organization.movieTheater.IPublicFields;
-        sendEmailNotification?: sasaki.factory.task.sendEmailMessage.ITask
+        order: factory.order.IOrder;
+        transaction: factory.transaction.placeOrder.ITransaction;
+        movieTheaterOrganization: factory.organization.movieTheater.IPublicFields;
+        sendEmailNotification?: factory.task.sendEmailMessage.ITask
     };
     public environment = environment;
 
     constructor(
         private storage: StorageService,
         private error: ErrorService,
-        private awsCognito: AwsCognitoService,
-        private sasakiService: SasakiService
+        private sasaki: SasakiService,
+        private user: UserService
     ) { }
 
     public ngOnInit() {
@@ -54,7 +54,12 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getTheaterName() {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.superEvent.location.name.ja;
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
+
+        return itemOffered.reservationFor.superEvent.location.name.ja;
     }
 
     /**
@@ -63,7 +68,12 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getScreenName() {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.location.name.ja;
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
+
+        return itemOffered.reservationFor.location.name.ja;
     }
 
     /**
@@ -72,7 +82,12 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getTitle() {
-        return this.data.order.acceptedOffers[0].itemOffered.reservationFor.name.ja;
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
+
+        return itemOffered.reservationFor.name.ja;
     }
 
     /**
@@ -81,9 +96,13 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getAppreciationDate() {
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
         moment.locale('ja');
 
-        return moment(this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment(itemOffered.reservationFor.startDate).format('YYYY年MM月DD日(ddd)');
     }
 
     /**
@@ -92,11 +111,15 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getStartDate() {
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.startDate,
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei
+            itemOffered.reservationFor.startDate,
+            itemOffered.reservationFor.coaInfo.dateJouei
         );
     }
 
@@ -106,11 +129,15 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getEndDate() {
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+            return '';
+        }
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.endDate,
-            this.data.order.acceptedOffers[0].itemOffered.reservationFor.coaInfo.dateJouei
+            itemOffered.reservationFor.endDate,
+            itemOffered.reservationFor.coaInfo.dateJouei
         );
     }
 
@@ -129,10 +156,10 @@ export class PurchaseCompleteComponent implements OnInit {
      */
     public async mailSendProcess(count: number) {
         try {
-            const movieTheaterPlace = await this.sasakiService.place.findMovieTheater({
+            const movieTheaterPlace = await this.sasaki.place.findMovieTheater({
                 branchCode: this.data.movieTheaterOrganization.location.branchCode
             });
-            const text = (this.awsCognito.isAuthenticate())
+            const text = (this.user.isNative())
                 ? this.getAppMailText(movieTheaterPlace.telephone)
                 : this.getMailText(movieTheaterPlace.telephone);
             const sendEmailNotificationArgs = {
@@ -151,7 +178,7 @@ export class PurchaseCompleteComponent implements OnInit {
                 }
             };
             this.data.sendEmailNotification =
-                await this.sasakiService.transaction.placeOrder.sendEmailNotification(sendEmailNotificationArgs);
+                await this.sasaki.transaction.placeOrder.sendEmailNotification(sendEmailNotificationArgs);
             this.storage.save('complete', this.data, SaveType.Session);
         } catch (err) {
             const limit = 10;
@@ -186,6 +213,9 @@ ${this.getScreenName()}
 
 [座席]
 ${this.data.order.acceptedOffers.map((offer) => {
+                if (offer.itemOffered.typeOf !== factory.reservationType.EventReservation) {
+                    return '';
+                }
                 return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.itemOffered.reservedTicket.coaTicketInfo.salePrice}`;
             }).join('\n')}
 [合計]
@@ -238,6 +268,9 @@ ${this.getScreenName()}
 
 [座席]
 ${this.data.order.acceptedOffers.map((offer) => {
+                if (offer.itemOffered.typeOf !== factory.reservationType.EventReservation) {
+                    return '';
+                }
                 return `${offer.itemOffered.reservedTicket.coaTicketInfo.seatNum} ${offer.itemOffered.reservedTicket.coaTicketInfo.ticketName} ￥${offer.itemOffered.reservedTicket.coaTicketInfo.salePrice}`;
             }).join('\n')}
 [合計]

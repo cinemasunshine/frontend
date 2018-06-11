@@ -87,7 +87,8 @@
             <li *ngIf="purchase.getTotalPrice() > 0">
                 <dl>
                     <dt>カード番号</dt>
-                    <dd>{{ purchase.data.gmoTokenObject?.maskedCardNo }}</dd>
+                    <dd *ngIf="purchase.data.gmoTokenObject !== undefined">{{ purchase.data.gmoTokenObject?.maskedCardNo }}</dd>
+                    <dd *ngIf="purchase.data.gmoTokenObject === undefined && user.data.creditCards !== undefined">{{ user.data.creditCards[0].cardNo }}</dd>
                 </dl>
             </li>
 

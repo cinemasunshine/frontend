@@ -9,7 +9,7 @@ import { Request, Response } from 'express';
 import * as moment from 'moment';
 import { AuthModel } from '../../models/auth/auth.model';
 import { errorProsess, getOptions } from '../base/base.controller';
-const log = debug('SSKTS:purchase');
+const log = debug('sskts-frontend:purchase');
 
 /**
  * 座席ステータス取得
@@ -65,7 +65,6 @@ export async function mvtkPurchaseNumberAuth(req: Request, res: Response): Promi
     }
 }
 
-
 /**
  * ムビチケ座席指定情報連携
  * @function mvtksSatInfoSync
@@ -99,8 +98,11 @@ export async function getSchedule(req: Request, res: Response): Promise<void> {
             startFrom: req.query.startFrom,
             startThrough: req.query.startThrough
         };
-        const theaters = await new sasaki.service.Organization(options).searchMovieTheaters();
-        const screeningEvents = await sasaki.service.event(options).searchIndividualScreeningEvent(args);
+
+        const eventService = new sasaki.service.Event(options);
+        const organizationService = new sasaki.service.Organization(options);
+        const theaters = await organizationService.searchMovieTheaters();
+        const screeningEvents = await eventService.searchIndividualScreeningEvent(args);
         const checkedScreeningEvents = await checkedSchedules({
             theaters: theaters,
             screeningEvents: screeningEvents
@@ -138,9 +140,13 @@ async function coaSchedulesUpdate(): Promise<void> {
             endpoint: (<string>process.env.SSKTS_API_ENDPOINT),
             auth: authModel.create()
         };
-        const theaters = await sasaki.service.organization(options).searchMovieTheaters();
+        const organizationService = new sasaki.service.Organization(options);
+        const theaters = await organizationService.searchMovieTheaters();
         const end = 5;
         for (const theater of theaters) {
+            if (theater.location.branchCode === undefined) {
+                continue;
+            }
             const scheduleArgs = {
                 theaterCode: theater.location.branchCode,
                 begin: moment().format('YYYYMMDD'),

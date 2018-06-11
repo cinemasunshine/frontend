@@ -6,6 +6,7 @@ import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { SaveType, StorageService } from '../../../services/storage/storage.service';
+import { FlgMember, UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'app-purchase-transaction',
@@ -26,14 +27,31 @@ export class PurchaseTransactionComponent implements OnInit {
          * awsCognitoIdentityId
          */
         identityId?: string;
+        /**
+         * ネイティブアプリ
+         */
+        native?: string;
+        /**
+         * 会員
+         */
+        member?: string;
+        /**
+         * アクセストークン
+         */
+        accessToken?: string;
+        /**
+         * signinリダイレクト
+         */
+        signInRedirect: boolean;
     };
     constructor(
         private storage: StorageService,
         private router: Router,
-        private sasakiService: SasakiService,
+        private sasaki: SasakiService,
         private purchase: PurchaseService,
         private error: ErrorService,
-        private awsCognito: AwsCognitoService
+        private awsCognito: AwsCognitoService,
+        private user: UserService
     ) { }
 
     /**
@@ -45,14 +63,24 @@ export class PurchaseTransactionComponent implements OnInit {
             if (!this.parametersChack()) {
                 throw new Error('parameters is undefined');
             }
+            this.user.setNative(this.parameters.native);
+            // this.user.setAccessToken(this.parameters.accessToken);
+            this.user.save();
+            console.log('this.sasaki.auth', this.sasaki.auth);
+            if (this.parameters.member === FlgMember.Member && !this.parameters.signInRedirect) {
+                await this.sasaki.signIn();
+
+                return;
+            }
+
             // ticketアプリテスト
             // this.parameters.identityId = 'ap-northeast-1:c93ad6a4-47e6-4023-a078-2a9ea80c15c9';
             if (this.parameters.identityId !== undefined) {
                 await this.awsCognito.authenticateWithDeviceId(this.parameters.identityId);
             }
-            await this.sasakiService.getServices();
+            await this.sasaki.getServices();
             // イベント情報取得
-            const individualScreeningEvent = await this.sasakiService.event.findIndividualScreeningEvent({
+            const individualScreeningEvent = await this.sasaki.event.findIndividualScreeningEvent({
                 identifier: (<string>this.parameters.performanceId)
             });
             // 開始可能日判定
@@ -61,11 +89,15 @@ export class PurchaseTransactionComponent implements OnInit {
             }
             const END_TIME = 30;
             // 終了可能日判定
-            if ( moment().add(END_TIME, 'minutes').unix() > moment(individualScreeningEvent.startDate).unix()) {
+            if (moment().add(END_TIME, 'minutes').unix() > moment(individualScreeningEvent.startDate).unix()) {
                 throw new Error('unable to end sales');
             }
             if (this.purchase.data.transaction !== undefined && this.purchase.isExpired()) {
                 // 取引期限切れなら購入情報削除
+                this.purchase.reset();
+            }
+            if (this.user.isNative()) {
+                // アプリなら購入情報削除
                 this.purchase.reset();
             }
             if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {

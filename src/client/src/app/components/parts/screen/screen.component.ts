@@ -28,7 +28,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         private elementRef: ElementRef,
         private http: HttpClient,
         private purchase: PurchaseService,
-        private sasakiService: SasakiService,
+        private sasaki: SasakiService,
         private error: ErrorService
     ) { }
 
@@ -196,12 +196,13 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         const screenCode = `000${this.inputData.screenCode}`.slice(DIGITS['03']);
         const screen = await this.http.get<IScreen>(`/assets/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
         const setting = await this.http.get<IScreen>('/assets/json/theater/setting.json').toPromise();
-        await this.sasakiService.getServices();
+
+        await this.sasaki.getServices();
         let seatStatus;
         if (this.test) {
             seatStatus = (<any>{ listSeat: [] });
         } else {
-            seatStatus = await this.sasakiService.getSeatState({
+            seatStatus = await this.sasaki.getSeatState({
                 theaterCode: this.inputData.theaterCode,
                 dateJouei: this.inputData.dateJouei,
                 titleCode: this.inputData.titleCode,
