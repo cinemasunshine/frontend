@@ -162,21 +162,22 @@ export class PurchaseCompleteComponent implements OnInit {
             const text = (this.user.isNative())
                 ? this.getAppMailText(movieTheaterPlace.telephone)
                 : this.getMailText(movieTheaterPlace.telephone);
-            const sendEmailNotificationArgs = {
-                transactionId: this.data.transaction.id,
-                emailMessageAttributes: {
-                    sender: {
-                        name: this.data.order.seller.name,
-                        email: 'noreply@ticket-cinemasunshine.com'
-                    },
-                    toRecipient: {
-                        name: `${this.data.order.customer.familyName} ${this.data.order.customer.givenName}`,
-                        email: this.data.order.customer.email
-                    },
-                    about: `${this.data.order.seller.name} 購入完了`,
-                    text: text
-                }
-            };
+                const sendEmailNotificationArgs = {
+                    transactionId: this.data.transaction.id,
+                    emailMessageAttributes: {
+                        typeOf: <any>factory.creativeWorkType.EmailMessage,
+                        sender: {
+                            name: this.data.order.seller.name,
+                            email: 'noreply@ticket-cinemasunshine.com'
+                        },
+                        toRecipient: {
+                            name: `${this.data.order.customer.familyName} ${this.data.order.customer.givenName}`,
+                            email: this.data.order.customer.email
+                        },
+                        about: `${this.data.order.seller.name} 購入完了`,
+                        text: text
+                    }
+                };
             this.data.sendEmailNotification =
                 await this.sasaki.transaction.placeOrder.sendEmailNotification(sendEmailNotificationArgs);
             this.storage.save('complete', this.data, SaveType.Session);
