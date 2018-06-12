@@ -58,7 +58,7 @@ export class PurchasePointComponent implements OnInit {
             for (const pointTicket of this.pointTickets) {
                 this.selectTickets[pointTicket.ticketCode] = 0;
             }
-            console.log('pointTickets', this.pointTickets);
+            // console.log('pointTickets', this.pointTickets);
         } catch (err) {
             this.error.redirect(err);
         }

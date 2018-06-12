@@ -631,7 +631,7 @@ var AppComponent = /** @class */ (function () {
                     ga('send', 'pageview');
                 }
                 catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             }
         });
@@ -2287,7 +2287,7 @@ var ScreenComponentNgFactory = __WEBPACK_IMPORTED_MODULE_1__angular_core__["_11"
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".screen[_ngcontent-%COMP%] {\n  visibility: hidden;\n  position: relative;\n  overflow: hidden; }\n  .screen[_ngcontent-%COMP%]   .screen-scroll[_ngcontent-%COMP%] {\n    height: 500px; }\n  .screen[_ngcontent-%COMP%]   .screen-inner[_ngcontent-%COMP%] {\n    position: relative;\n    width: 1600px;\n    height: 1400px; }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n    position: absolute;\n    text-align: center; }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n      font-weight: bold;\n      display: block;\n      color: #9a9a9b;\n      padding-top: 20px;\n      background-image: url(/assets/images/theater/seat/normal.svg);\n      background-size: 40px 50px;\n      background-repeat: no-repeat; }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a.active[_ngcontent-%COMP%] {\n        color: #FFF;\n        background-image: url(/assets/images/theater/seat/normal_active.svg); }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a.disabled[_ngcontent-%COMP%] {\n        color: #FFF;\n        background-image: url(/assets/images/theater/seat/normal_disabled.svg);\n        cursor: default; }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n        display: none; }\n  .screen[_ngcontent-%COMP%]   .seat-hc[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n    background-image: url(/assets/images/theater/seat/hc_disabled.svg) !important;\n    background-size: 40px 50px; }\n  .screen[_ngcontent-%COMP%]   .seat-hc[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n      display: none !important; }\n  .screen[_ngcontent-%COMP%]   .object[_ngcontent-%COMP%] {\n    position: absolute;\n    background-repeat: no-repeat; }\n  .screen[_ngcontent-%COMP%]   .label-object[_ngcontent-%COMP%] {\n    text-align: center;\n    line-height: 50px;\n    font-size: 24px;\n    color: #9a9a9b;\n    font-weight: bold; }\n  .seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n  margin: 0 10px;\n  position: relative;\n  padding-left: 24px; }\n  @media screen and (max-width: 767px) {\n    .seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n      margin: 0 5px;\n      font-size: 12px; } }\n  .seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]:before {\n    width: 16px;\n    height: 20px;\n    content: '';\n    display: block;\n    background-image: url(/assets/images/theater/seat/normal.svg);\n    background-size: 16px 20px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    margin-top: -10px; }\n  .seat-info[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%]:before {\n  background-image: url(/assets/images/theater/seat/normal_active.svg); }\n  .seat-info[_ngcontent-%COMP%]   .disabled[_ngcontent-%COMP%]:before {\n  background-image: url(/assets/images/theater/seat/normal_disabled.svg); }\n  .screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/theater/seat/4dx.svg);\n  background-size: 50px 50px; }\n  .screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a.active[_ngcontent-%COMP%] {\n    color: #FFF;\n    background-image: url(/assets/images/theater/seat/4dx_active.svg); }\n  .screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a.disabled[_ngcontent-%COMP%] {\n    color: #FFF;\n    background-image: url(/assets/images/theater/seat/4dx_disabled.svg);\n    cursor: default; }\n  .screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n    display: none; }\n  .zoom[_ngcontent-%COMP%]   .screen-scroll[_ngcontent-%COMP%] {\n  overflow: auto;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s;\n  -webkit-overflow-scrolling: touch; }\n  .zoom[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  display: block; }\n  .zoom-btn[_ngcontent-%COMP%] {\n  display: none;\n  cursor: pointer;\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  z-index: 10;\n  width: 50px;\n  height: 50px;\n  color: #FFF;\n  background-color: #3e3a39;\n  border-radius: 3px;\n  padding-top: 5px; }\n  .zoom-btn.active[_ngcontent-%COMP%] {\n    display: block; }\n  .zoom-btn.scroll[_ngcontent-%COMP%] {\n    position: fixed; }"];
+var styles = [".screen[_ngcontent-%COMP%] {\n  visibility: hidden;\n  position: relative;\n  overflow: hidden; }\n  .screen[_ngcontent-%COMP%]   .screen-scroll[_ngcontent-%COMP%] {\n    height: 500px; }\n  .screen[_ngcontent-%COMP%]   .screen-inner[_ngcontent-%COMP%] {\n    position: relative;\n    width: 1600px;\n    height: 1400px; }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n    position: absolute;\n    text-align: center; }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n      font-weight: bold;\n      display: block;\n      color: #9a9a9b;\n      padding-top: 20px;\n      background-image: url(/assets/images/theater/seat/normal.svg);\n      background-size: 40px 50px;\n      background-repeat: no-repeat; }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a.active[_ngcontent-%COMP%] {\n        color: #FFF;\n        background-image: url(/assets/images/theater/seat/normal_active.svg); }\n  .screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a.disabled[_ngcontent-%COMP%] {\n        color: #FFF;\n        background-image: url(/assets/images/theater/seat/normal_disabled.svg);\n        cursor: default; }\n  .screen[_ngcontent-%COMP%]   .seat-hc[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n    background-image: url(/assets/images/theater/seat/hc_disabled.svg) !important;\n    background-size: 40px 50px; }\n  .screen[_ngcontent-%COMP%]   .seat-hc[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n      display: none !important; }\n  .screen[_ngcontent-%COMP%]   .object[_ngcontent-%COMP%] {\n    position: absolute;\n    background-repeat: no-repeat; }\n  .screen[_ngcontent-%COMP%]   .label-object[_ngcontent-%COMP%] {\n    text-align: center;\n    line-height: 50px;\n    font-size: 24px;\n    color: #9a9a9b;\n    font-weight: bold; }\n  .seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n  margin: 0 10px;\n  position: relative;\n  padding-left: 24px; }\n  @media screen and (max-width: 767px) {\n    .seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n      margin: 0 5px;\n      font-size: 12px; } }\n  .seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]:before {\n    width: 16px;\n    height: 20px;\n    content: '';\n    display: block;\n    background-image: url(/assets/images/theater/seat/normal.svg);\n    background-size: 16px 20px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    margin-top: -10px; }\n  .seat-info[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%]:before {\n  background-image: url(/assets/images/theater/seat/normal_active.svg); }\n  .seat-info[_ngcontent-%COMP%]   .disabled[_ngcontent-%COMP%]:before {\n  background-image: url(/assets/images/theater/seat/normal_disabled.svg); }\n  .screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/theater/seat/4dx.svg);\n  background-size: 50px 50px; }\n  .screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a.active[_ngcontent-%COMP%] {\n    color: #FFF;\n    background-image: url(/assets/images/theater/seat/4dx_active.svg); }\n  .screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a.disabled[_ngcontent-%COMP%] {\n    color: #FFF;\n    background-image: url(/assets/images/theater/seat/4dx_disabled.svg);\n    cursor: default; }\n  .zoom[_ngcontent-%COMP%]   .screen-scroll[_ngcontent-%COMP%] {\n  overflow: auto;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s;\n  -webkit-overflow-scrolling: touch; }\n  .zoom[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  display: block; }\n  .zoom-btn[_ngcontent-%COMP%] {\n  display: none;\n  cursor: pointer;\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  z-index: 10;\n  width: 50px;\n  height: 50px;\n  color: #FFF;\n  background-color: #3e3a39;\n  border-radius: 3px;\n  padding-top: 5px; }\n  .zoom-btn.active[_ngcontent-%COMP%] {\n    display: block; }\n  .zoom-btn.scroll[_ngcontent-%COMP%] {\n    position: fixed; }"];
 
 
 
@@ -2564,6 +2564,7 @@ var ScreenComponent = /** @class */ (function () {
      * スクリーン作成
      */
     ScreenComponent.prototype.createScreen = function (data) {
+        // console.log(data.screen);
         var screenData = data.screen;
         var seatStatus = data.status;
         // y軸ラベル
@@ -2729,8 +2730,8 @@ var ScreenComponent = /** @class */ (function () {
             screen: screenData,
             objects: screenData.objects,
             screenType: screenType,
-            lineLabels: lineLabels,
-            columnLabels: columnLabels,
+            lineLabels: (data.screen.lineLabel) ? lineLabels : [],
+            columnLabels: (data.screen.columnLabel) ? columnLabels : [],
             seats: seats
         };
     };
@@ -4143,7 +4144,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                     securitycode: this.inputForm.controls.securityCode.value,
                     holdername: this.inputForm.controls.holderName.value
                 };
-                console.log(sendParam);
+                // console.log(sendParam);
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         if (_this.purchase.data.movieTheaterOrganization === undefined) {
                             return reject(new Error('status is different'));
@@ -4431,7 +4432,7 @@ var PurchaseMvtkConfirmComponent = /** @class */ (function () {
         if (this.purchase.data.mvtkTickets === undefined) {
             this.error.redirect(new Error('status is different'));
         }
-        console.log(this.purchase.data.mvtkTickets);
+        // console.log(this.purchase.data.mvtkTickets);
     };
     PurchaseMvtkConfirmComponent.prototype.onSubmit = function () {
         this.router.navigate(['/purchase/ticket']);
@@ -4725,7 +4726,7 @@ var PurchaseMvtkInputComponent = /** @class */ (function () {
                         return [3 /*break*/, 4];
                     case 3:
                         err_1 = _a.sent();
-                        console.log(err_1);
+                        console.error(err_1);
                         this.isLoading = false;
                         this.authErrorModal = true;
                         this.disable = false;
@@ -4930,7 +4931,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         err_1 = _a.sent();
-                        console.log(err_1);
+                        console.error(err_1);
                         return [3 /*break*/, 3];
                     case 3:
                         this.storage.remove('individualScreeningEvent', __WEBPACK_IMPORTED_MODULE_7__services_storage_storage_service__["a" /* SaveType */].Session);
@@ -5201,7 +5202,6 @@ var PurchasePointComponent = /** @class */ (function () {
                             pointTicket = _a[_i];
                             this.selectTickets[pointTicket.ticketCode] = 0;
                         }
-                        console.log('pointTickets', this.pointTickets);
                         return [3 /*break*/, 4];
                     case 3:
                         err_1 = _b.sent();
@@ -5504,7 +5504,6 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                     case 3:
                         _a.schedules = _b.sent();
                         this.filmOrder = this.getEventFilmOrder();
-                        console.log(this.filmOrder);
                         return [3 /*break*/, 5];
                     case 4:
                         err_2 = _b.sent();
@@ -5816,7 +5815,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.sasaki.getSalesTickets(salesTicketArgs)];
                     case 2:
                         salesTickets = _a.sent();
-                        console.log('salesTickets', salesTicketArgs, salesTickets);
+                        // console.log('salesTickets', salesTicketArgs, salesTickets);
                         return [2 /*return*/, salesTickets];
                 }
             });
@@ -6708,7 +6707,6 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                         this.user.setNative(this.parameters.native);
                         // this.user.setAccessToken(this.parameters.accessToken);
                         this.user.save();
-                        console.log('this.sasaki.auth', this.sasaki.auth);
                         if (!(this.parameters.member === __WEBPACK_IMPORTED_MODULE_8__services_user_user_service__["a" /* FlgMember */].Member && !this.parameters.signInRedirect)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.sasaki.signIn()];
                     case 1:
@@ -7251,7 +7249,7 @@ var AwsCognitoService = /** @class */ (function () {
                         if (listRecords.Records === undefined) {
                             listRecords.Records = [];
                         }
-                        console.log('getRecords', this.convertToObjects(listRecords.Records));
+                        // console.log('getRecords', this.convertToObjects(listRecords.Records));
                         return [2 /*return*/, this.convertToObjects(listRecords.Records)];
                 }
             });
@@ -7493,13 +7491,13 @@ var PurchaseGuardService = /** @class */ (function () {
     PurchaseGuardService.prototype.canActivate = function () {
         if (this.purchase.data === undefined
             || this.purchase.data.transaction === undefined) {
-            console.log('transaction is undefined');
+            // console.log('transaction is undefined');
             this.router.navigate(['/error']);
             return false;
         }
         var expires = __WEBPACK_IMPORTED_MODULE_1_moment__(this.purchase.data.transaction.expires).unix();
         if (expires < __WEBPACK_IMPORTED_MODULE_1_moment__().unix()) {
-            console.log('transaction is expired');
+            // console.log('transaction is expired');
             this.router.navigate(['/expired']);
             return false;
         }
@@ -8120,7 +8118,7 @@ var PurchaseService = /** @class */ (function () {
                         return [3 /*break*/, 6];
                     case 5:
                         err_1 = _b.sent();
-                        console.log(err_1);
+                        console.error(err_1);
                         return [3 /*break*/, 6];
                     case 6:
                         this.save();
@@ -8309,10 +8307,11 @@ var PurchaseService = /** @class */ (function () {
                                 seatInfoSyncIn: this.getMvtkSeatInfoSync()
                             }
                         };
-                        console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
+                        // console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
                         _a = this.data;
                         return [4 /*yield*/, this.sasaki.transaction.placeOrder.createMvtkAuthorization(createMvtkAuthorizationArgs)];
                     case 4:
+                        // console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
                         _a.mvtkAuthorization =
                             _b.sent();
                         _b.label = 5;
@@ -8395,7 +8394,7 @@ var PurchaseService = /** @class */ (function () {
                         return [3 /*break*/, 15];
                     case 14:
                         err_3 = _b.sent();
-                        console.log('awsCognito: updateRecords', err_3);
+                        console.error('awsCognito: updateRecords', err_3);
                         return [3 /*break*/, 15];
                     case 15:
                         // プッシュ通知登録
@@ -8437,29 +8436,26 @@ var PurchaseService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log('cancelMvtksSatInfoSync', count);
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 5]);
+                        _a.trys.push([0, 2, , 4]);
                         deleteFlag = '1';
                         mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync({
                             deleteFlag: deleteFlag
                         });
                         return [4 /*yield*/, this.sasaki.mvtksSatInfoSync(mvtksSatInfoSyncArgs)];
-                    case 2:
+                    case 1:
                         _a.sent();
-                        return [3 /*break*/, 5];
-                    case 3:
+                        return [3 /*break*/, 4];
+                    case 2:
                         err_4 = _a.sent();
                         limit = 3;
                         if (count > limit) {
                             throw err_4;
                         }
                         return [4 /*yield*/, this.cancelMvtksSatInfoSync(count + 1)];
-                    case 4:
+                    case 3:
                         _a.sent();
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -8528,7 +8524,6 @@ var PurchaseService = /** @class */ (function () {
                                         return [4 /*yield*/, this_4.sasaki.mvtkTicketcode(mvtkTicketcodeArgs)];
                                     case 2:
                                         mvtkTicketcodeResult = _b.sent();
-                                        console.log('mvtkTicketcodeResult', mvtkTicketcodeResult);
                                         data = {
                                             mvtkTicketcodeResult: mvtkTicketcodeResult,
                                             knyknrNoInfo: knyknrNoInfo,
@@ -8655,7 +8650,7 @@ var SasakiService = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         err_1 = _a.sent();
-                        console.log(err_1);
+                        console.error(err_1);
                         throw new Error('getServices is failed');
                     case 3: return [2 /*return*/];
                 }
@@ -8732,7 +8727,7 @@ var SasakiService = /** @class */ (function () {
                         return [4 /*yield*/, this.http.get(url, {}).toPromise()];
                     case 1:
                         result = _a.sent();
-                        console.log(result.url);
+                        // console.log(result.url);
                         location.href = result.url;
                         return [2 /*return*/];
                 }
@@ -9069,7 +9064,7 @@ var UserService = /** @class */ (function () {
                         return [3 /*break*/, 6];
                     case 5:
                         err_1 = _b.sent();
-                        console.log(err_1);
+                        console.error(err_1);
                         this.data.creditCards = [];
                         return [3 /*break*/, 6];
                     case 6: return [4 /*yield*/, this.sasaki.person.findAccounts({
@@ -9095,7 +9090,7 @@ var UserService = /** @class */ (function () {
                         this.data.account = accounts[0];
                         _b.label = 10;
                     case 10:
-                        console.log('口座番号', this.data.account.accountNumber);
+                        // console.log('口座番号', this.data.account.accountNumber);
                         this.save();
                         return [2 /*return*/];
                 }

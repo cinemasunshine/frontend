@@ -21,7 +21,7 @@ export class PurchaseMvtkConfirmComponent implements OnInit {
         if (this.purchase.data.mvtkTickets === undefined) {
             this.error.redirect(new Error('status is different'));
         }
-        console.log(this.purchase.data.mvtkTickets);
+        // console.log(this.purchase.data.mvtkTickets);
     }
 
     public onSubmit() {

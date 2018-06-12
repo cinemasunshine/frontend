@@ -14,14 +14,14 @@ export class PurchaseGuardService implements CanActivate {
     public canActivate(): boolean {
         if (this.purchase.data === undefined
             || this.purchase.data.transaction === undefined) {
-            console.log('transaction is undefined');
+            // console.log('transaction is undefined');
             this.router.navigate(['/error']);
 
             return false;
         }
         const expires = moment(this.purchase.data.transaction.expires).unix();
         if (expires < moment().unix()) {
-            console.log('transaction is expired');
+            // console.log('transaction is expired');
             this.router.navigate(['/expired']);
 
             return false;

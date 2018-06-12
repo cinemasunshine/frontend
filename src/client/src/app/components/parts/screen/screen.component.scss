@@ -32,9 +32,6 @@ $mobile: 767px;
                 background-image: url(/assets/images/theater/seat/normal_disabled.svg);
                 cursor: default;
             }
-            span {
-                display: none;
-            }
         }
     }
     .seat-hc {
@@ -104,9 +101,6 @@ $mobile: 767px;
                 color: #FFF;
                 background-image: url(/assets/images/theater/seat/4dx_disabled.svg);
                 cursor: default;
-            }
-            span {
-                display: none;
             }
         }
     }

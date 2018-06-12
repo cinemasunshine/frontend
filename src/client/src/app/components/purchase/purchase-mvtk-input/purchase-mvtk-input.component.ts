@@ -109,7 +109,7 @@ export class PurchaseMvtkInputComponent implements OnInit {
             await this.purchase.mvtkAuthenticationProcess(mvtkData);
             this.router.navigate(['purchase/mvtk/confirm']);
         } catch (err) {
-            console.log(err);
+            console.error(err);
             this.isLoading = false;
             this.authErrorModal = true;
             this.disable = false;

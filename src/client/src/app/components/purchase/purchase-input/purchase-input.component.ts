@@ -237,7 +237,7 @@ export class PurchaseInputComponent implements OnInit {
             securitycode: this.inputForm.controls.securityCode.value,
             holdername: this.inputForm.controls.holderName.value
         };
-        console.log(sendParam);
+        // console.log(sendParam);
         return new Promise<IGmoTokenObject>((resolve, reject) => {
             if (this.purchase.data.movieTheaterOrganization === undefined) {
                 return reject(new Error('status is different'));
