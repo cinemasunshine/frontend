@@ -101,7 +101,22 @@ export async function getSchedule(req: Request, res: Response): Promise<void> {
 
         const eventService = new sasaki.service.Event(options);
         const organizationService = new sasaki.service.Organization(options);
-        const theaters = await organizationService.searchMovieTheaters();
+        const movietheaters = await organizationService.searchMovieTheaters();
+        const theaters = movietheaters.filter((movietheater)=>{
+            // 非表示劇場
+            let filterResult = true;
+            const hidetTeaters = (process.env.HIDE_THEATERS === undefined)
+                ? []
+                : process.env.HIDE_THEATERS.replace(/\s/g, '').split(',');
+            for (const teaterCode of hidetTeaters) {
+                if (teaterCode === movietheater.location.branchCode) {
+                    filterResult = false;
+                    break;
+                }
+            }
+
+            return filterResult;
+        });
         const screeningEvents = await eventService.searchIndividualScreeningEvent(args);
         const checkedScreeningEvents = await checkedSchedules({
             theaters: theaters,
