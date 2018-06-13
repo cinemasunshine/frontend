@@ -102,7 +102,7 @@ export async function getSchedule(req: Request, res: Response): Promise<void> {
         const eventService = new sasaki.service.Event(options);
         const organizationService = new sasaki.service.Organization(options);
         const movietheaters = await organizationService.searchMovieTheaters();
-        const theaters = movietheaters.filter((movietheater)=>{
+        const theaters = movietheaters.filter((movietheater) => {
             // 非表示劇場
             let filterResult = true;
             const hidetTeaters = (process.env.HIDE_THEATERS === undefined)
