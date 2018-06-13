@@ -1,6 +1,6 @@
 {
   "name": "sskts-frontend",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "scripts": {
     "ng": "ng",
     "build-client-local": "ng build --environment=local --output-path=./dist/client/development",
@@ -38,8 +38,8 @@
     "@angular/router": "^5.2.11",
     "@motionpicture/coa-service": "^4.1.0-alpha.0",
     "@motionpicture/mvtk-reserve-service": "^1.2.0",
-    "@motionpicture/sskts-api-javascript-client": "^3.1.0-alpha.6",
-    "@motionpicture/sskts-api-nodejs-client": "^3.1.0-alpha.4",
+    "@motionpicture/sskts-api-javascript-client": "^3.1.0",
+    "@motionpicture/sskts-api-nodejs-client": "^3.1.0",
     "aws-sdk": "^2.245.1",
     "basic-auth": "^2.0.0",
     "body-parser": "^1.18.3",

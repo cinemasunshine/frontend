@@ -49,7 +49,7 @@ export class PurchaseOverlapComponent implements OnInit {
         try {
             await this.purchase.cancelSeatRegistrationProcess();
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
         this.storage.remove('individualScreeningEvent', SaveType.Session);
         location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.individualScreeningEvent.identifier}`;

@@ -7,5 +7,7 @@
     },
     "seatLabelPos": 50,
     "seatNumberPos": 50,
-    "seatNumberAlign": "left"
+    "seatNumberAlign": "left",
+    "columnLabel": false,
+    "lineLabel": true
 }

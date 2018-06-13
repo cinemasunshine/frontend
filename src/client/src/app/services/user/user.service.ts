@@ -112,7 +112,7 @@ export class UserService {
             });
             this.data.creditCards = creditCards;
         } catch (err) {
-            console.log(err);
+            console.error(err);
             this.data.creditCards = [];
         }
 
@@ -132,7 +132,7 @@ export class UserService {
         } else {
             this.data.account = accounts[0];
         }
-        console.log('口座番号', this.data.account.accountNumber);
+        // console.log('口座番号', this.data.account.accountNumber);
 
         this.save();
     }

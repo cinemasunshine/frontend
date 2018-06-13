@@ -136,7 +136,7 @@ export class AwsCognitoService {
         if (listRecords.Records === undefined) {
             listRecords.Records = [];
         }
-        console.log('getRecords', this.convertToObjects(listRecords.Records));
+        // console.log('getRecords', this.convertToObjects(listRecords.Records));
 
         return (<any>this.convertToObjects(listRecords.Records));
     }

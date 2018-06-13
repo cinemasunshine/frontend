@@ -613,7 +613,7 @@ export class PurchaseService {
                 };
                 await this.awsCognito.updateRecords(updateRecordsArgs);
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         }
 
@@ -753,7 +753,7 @@ export class PurchaseService {
                         seatInfoSyncIn: this.getMvtkSeatInfoSync()
                     }
                 };
-                console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
+                // console.log('createMvtkAuthorizationArgs', createMvtkAuthorizationArgs);
                 this.data.mvtkAuthorization =
                     await this.sasaki.transaction.placeOrder.createMvtkAuthorization(createMvtkAuthorizationArgs);
             }
@@ -825,7 +825,7 @@ export class PurchaseService {
                 };
                 await this.awsCognito.updateRecords(updateRecordsArgs);
             } catch (err) {
-                console.log('awsCognito: updateRecords', err);
+                console.error('awsCognito: updateRecords', err);
             }
         }
         // プッシュ通知登録
@@ -859,7 +859,7 @@ export class PurchaseService {
      * ムビチケ着券取り消し
      */
     public async cancelMvtksSatInfoSync(count: number) {
-        console.log('cancelMvtksSatInfoSync', count);
+        // console.log('cancelMvtksSatInfoSync', count);
         try {
             // ムビチケ使用なら削除
             const deleteFlag = '1';
@@ -925,7 +925,7 @@ export class PurchaseService {
                     titleBranchNum: coaInfo.titleBranchNum
                 };
                 const mvtkTicketcodeResult = await this.sasaki.mvtkTicketcode(mvtkTicketcodeArgs);
-                console.log('mvtkTicketcodeResult', mvtkTicketcodeResult);
+                // console.log('mvtkTicketcodeResult', mvtkTicketcodeResult);
                 const data = {
                     mvtkTicketcodeResult: mvtkTicketcodeResult,
                     knyknrNoInfo: knyknrNoInfo,

@@ -121,7 +121,21 @@ function getSchedule(req, res) {
             };
             const eventService = new sasaki.service.Event(options);
             const organizationService = new sasaki.service.Organization(options);
-            const theaters = yield organizationService.searchMovieTheaters();
+            const movietheaters = yield organizationService.searchMovieTheaters();
+            const theaters = movietheaters.filter((movietheater) => {
+                // 非表示劇場
+                let filterResult = true;
+                const hidetTeaters = (process.env.HIDE_THEATERS === undefined)
+                    ? []
+                    : process.env.HIDE_THEATERS.replace(/\s/g, '').split(',');
+                for (const teaterCode of hidetTeaters) {
+                    if (teaterCode === movietheater.location.branchCode) {
+                        filterResult = false;
+                        break;
+                    }
+                }
+                return filterResult;
+            });
             const screeningEvents = yield eventService.searchIndividualScreeningEvent(args);
             const checkedScreeningEvents = yield checkedSchedules({
                 theaters: theaters,

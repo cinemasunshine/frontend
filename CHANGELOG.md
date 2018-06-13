@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 4.1.0 - 2018-06-13
+### Added
+ - スケジュール取得APIに劇場制御追加
+
 ## 4.0.0 - 2018-06-08
 ### Added
  - 有料会員での購入に対応

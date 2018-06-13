@@ -32,6 +32,7 @@
 | `SSKTS_BASIC_AUTH_NAME`             | false    |                  | ベーシック認証ID                         |
 | `SSKTS_BASIC_AUTH_PASS`             | false    |                  | ベーシック認証PASS                       |
 | `WHITELIST`                         | false    |                  | XHR、iframeリクエスト許可(カンマ区切り)   |
+| `HIDE_THEATERS`                     | false    |                  | スケジュール取得API非表示劇場(カンマ区切り)   |
 | `DEBUG`                             | false    | sskts-frontend:* | デバッグ                                |
 
 ## Azure Environment variables
