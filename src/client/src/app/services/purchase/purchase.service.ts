@@ -79,6 +79,10 @@ interface IData {
         id: string;
     };
     /**
+     * インセンティブ
+     */
+    incentive: number;
+    /**
      * ポイント券種情報
      */
     pointTickets: COA.services.master.ITicketResult[];
@@ -134,7 +138,8 @@ export class PurchaseService {
                 salesTickets: [],
                 mvtkTickets: [],
                 pointTickets: [],
-                orderCount: 0
+                orderCount: 0,
+                incentive: 0
             };
 
             return;
@@ -159,7 +164,8 @@ export class PurchaseService {
             salesTickets: [],
             mvtkTickets: [],
             pointTickets: [],
-            orderCount: 0
+            orderCount: 0,
+            incentive: 0
         };
         this.save();
     }
@@ -692,6 +698,7 @@ export class PurchaseService {
             toAccountNumber: this.user.data.account.accountNumber,
             notes: '鑑賞'
         });
+        this.data.incentive = Incentive.WatchingMovies;
     }
 
     /**
@@ -781,7 +788,8 @@ export class PurchaseService {
         const complete = {
             order: order,
             transaction: this.data.transaction,
-            movieTheaterOrganization: this.data.movieTheaterOrganization
+            movieTheaterOrganization: this.data.movieTheaterOrganization,
+            incentive: this.data.incentive
         };
         this.storage.save('complete', complete, SaveType.Session);
 
