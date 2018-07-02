@@ -7266,6 +7266,11 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 8, , 9]);
                         this.parameters = this.storage.load('parameters', _services_storage_storage_service__WEBPACK_IMPORTED_MODULE_7__["SaveType"].Session);
+                        if (!this.parameters.signInRedirect) {
+                            this.user.reset();
+                            this.user.load();
+                            this.user.save();
+                        }
                         if (!this.parametersChack()) {
                             throw new Error('parameters is undefined');
                         }

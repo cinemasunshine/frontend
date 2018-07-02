@@ -60,6 +60,11 @@ export class PurchaseTransactionComponent implements OnInit {
     public async ngOnInit() {
         try {
             this.parameters = this.storage.load('parameters', SaveType.Session);
+            if (!this.parameters.signInRedirect) {
+                this.user.reset();
+                this.user.load();
+                this.user.save();
+            }
             if (!this.parametersChack()) {
                 throw new Error('parameters is undefined');
             }
