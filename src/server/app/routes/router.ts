@@ -37,8 +37,8 @@ function purchaseTransaction(req: Request, res: Response, _next: NextFunction) {
 }
 
 function root(_req: Request, res: Response, _next: NextFunction) {
-    res.locals.GMO_ENDPOINT = process.env.GMO_ENDPOINT;
-    res.render('purchase/index', { layout: false });
+    const fileName = (process.env.NODE_ENV === 'production') ? 'production.html' : 'index.html';
+    res.sendFile(`${__dirname}/dist/client/${process.env.NODE_ENV}/${fileName}`);
 }
 
 function notfound(_req: Request, res: Response, _next: NextFunction) {

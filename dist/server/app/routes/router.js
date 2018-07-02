@@ -32,8 +32,8 @@ function purchaseTransaction(req, res, _next) {
     res.redirect(`/?${params}`);
 }
 function root(_req, res, _next) {
-    res.locals.GMO_ENDPOINT = process.env.GMO_ENDPOINT;
-    res.render('purchase/index', { layout: false });
+    const fileName = (process.env.NODE_ENV === 'production') ? 'production.html' : 'index.html';
+    res.sendFile(`${__dirname}/dist/client/${process.env.NODE_ENV}/${fileName}`);
 }
 function notfound(_req, res, _next) {
     res.render('notfound/index');
