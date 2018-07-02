@@ -375,6 +375,28 @@ export class PurchaseService {
     }
 
     /**
+     * インセンティブ判定
+     * @method isIncentive
+     * @returns {boolean}
+     */
+    public isIncentive(): boolean {
+        if (this.data.seatReservationAuthorization === undefined) {
+            return false;
+        }
+        const pointTickets: COA.services.master.ITicketResult[] = [];
+        for (const offer of this.data.seatReservationAuthorization.object.offers) {
+            const pointTicket = this.data.pointTickets.find((ticket) => {
+                return (ticket.ticketCode === offer.ticketInfo.ticketCode);
+            });
+            if (pointTicket !== undefined) {
+                pointTickets.push(pointTicket);
+            }
+        }
+
+        return (pointTickets.length !== this.data.seatReservationAuthorization.object.offers.length);
+    }
+
+    /**
      * ポイントでの予約判定
      * @method isReservePoint
      * @returns {boolean}

@@ -3755,7 +3755,7 @@ var PurchaseConfirmComponent = /** @class */ (function () {
                         _a.sent();
                         _a.label = 3;
                     case 3:
-                        if (!(this.user.isMember() && !this.purchase.isReservePoint())) return [3 /*break*/, 5];
+                        if (!(this.user.isMember() && this.purchase.isIncentive())) return [3 /*break*/, 5];
                         // 会員かつポイント未使用
                         return [4 /*yield*/, this.purchase.incentiveProcess()];
                     case 4:
@@ -8077,6 +8077,31 @@ var PurchaseService = /** @class */ (function () {
         return result;
     };
     /**
+     * インセンティブ判定
+     * @method isIncentive
+     * @returns {boolean}
+     */
+    PurchaseService.prototype.isIncentive = function () {
+        if (this.data.seatReservationAuthorization === undefined) {
+            return false;
+        }
+        var pointTickets = [];
+        var _loop_1 = function (offer) {
+            var pointTicket = this_1.data.pointTickets.find(function (ticket) {
+                return (ticket.ticketCode === offer.ticketInfo.ticketCode);
+            });
+            if (pointTicket !== undefined) {
+                pointTickets.push(pointTicket);
+            }
+        };
+        var this_1 = this;
+        for (var _i = 0, _a = this.data.seatReservationAuthorization.object.offers; _i < _a.length; _i++) {
+            var offer = _a[_i];
+            _loop_1(offer);
+        }
+        return (pointTickets.length !== this.data.seatReservationAuthorization.object.offers.length);
+    };
+    /**
      * ポイントでの予約判定
      * @method isReservePoint
      * @returns {boolean}
@@ -8087,8 +8112,8 @@ var PurchaseService = /** @class */ (function () {
             || this.data.pointTickets.length === 0) {
             return result;
         }
-        var _loop_1 = function (offer) {
-            var pointTickets = this_1.data.pointTickets.filter(function (ticket) {
+        var _loop_2 = function (offer) {
+            var pointTickets = this_2.data.pointTickets.filter(function (ticket) {
                 return (ticket.ticketCode === offer.ticketInfo.ticketCode);
             });
             if (pointTickets.length > 0) {
@@ -8096,10 +8121,10 @@ var PurchaseService = /** @class */ (function () {
                 return "break";
             }
         };
-        var this_1 = this;
+        var this_2 = this;
         for (var _i = 0, _a = this.data.seatReservationAuthorization.object.offers; _i < _a.length; _i++) {
             var offer = _a[_i];
-            var state_1 = _loop_1(offer);
+            var state_1 = _loop_2(offer);
             if (state_1 === "break")
                 break;
         }
@@ -8118,8 +8143,8 @@ var PurchaseService = /** @class */ (function () {
         }
         var mvtkPurchaseNoInfoList = [];
         var mvtkseat = [];
-        var _loop_2 = function (offer) {
-            var mvtkTicket = this_2.data.mvtkTickets.find(function (ticket) {
+        var _loop_3 = function (offer) {
+            var mvtkTicket = this_3.data.mvtkTickets.find(function (ticket) {
                 return (ticket.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
                     && ticket.mvtkTicketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
             });
@@ -8155,10 +8180,10 @@ var PurchaseService = /** @class */ (function () {
             }
             mvtkseat.push({ zskCd: offer.seatNumber });
         };
-        var this_2 = this;
+        var this_3 = this;
         for (var _i = 0, _a = this.data.seatReservationAuthorization.object.offers; _i < _a.length; _i++) {
             var offer = _a[_i];
-            _loop_2(offer);
+            _loop_3(offer);
         }
         if (mvtkPurchaseNoInfoList.length === 0 || mvtkseat.length === 0) {
             throw new Error('status is different');
@@ -8509,7 +8534,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.pointPaymentProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var ticketNames, usePoint, _loop_3, this_3, _i, _a, offer, notes;
+            var ticketNames, usePoint, _loop_4, this_4, _i, _a, offer, notes;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -8523,8 +8548,8 @@ var PurchaseService = /** @class */ (function () {
                         _b.sent();
                         ticketNames = [];
                         usePoint = 0;
-                        _loop_3 = function (offer) {
-                            var pointTicket = this_3.data.pointTickets.find(function (ticket) {
+                        _loop_4 = function (offer) {
+                            var pointTicket = this_4.data.pointTickets.find(function (ticket) {
                                 return (ticket.ticketCode === offer.ticketInfo.ticketCode);
                             });
                             if (pointTicket === undefined) {
@@ -8533,10 +8558,10 @@ var PurchaseService = /** @class */ (function () {
                             ticketNames.push(offer.ticketInfo.ticketName + " \u5F15\u63DB");
                             usePoint += pointTicket.usePoint;
                         };
-                        this_3 = this;
+                        this_4 = this;
                         for (_i = 0, _a = this.data.seatReservationAuthorization.object.offers; _i < _a.length; _i++) {
                             offer = _a[_i];
-                            _loop_3(offer);
+                            _loop_4(offer);
                         }
                         notes = ticketNames.join(',');
                         return [4 /*yield*/, this.sasaki.transaction.placeOrder.createPecorinoPaymentAuthorization({
@@ -8744,7 +8769,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.mvtkAuthenticationProcess = function (mvtkInputDataList) {
         return __awaiter(this, void 0, void 0, function () {
-            var DIGITS, coaInfo, valid, purchaseNumberAuthArgs, mvtkPurchaseNumberAuthResult, success, results, _loop_4, this_4, _i, _a, knyknrNoInfo;
+            var DIGITS, coaInfo, valid, purchaseNumberAuthArgs, mvtkPurchaseNumberAuthResult, success, results, _loop_5, this_5, _i, _a, knyknrNoInfo;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -8776,7 +8801,7 @@ var PurchaseService = /** @class */ (function () {
                             throw new Error('mvtkPurchaseNumberAuth error');
                         }
                         results = [];
-                        _loop_4 = function (knyknrNoInfo) {
+                        _loop_5 = function (knyknrNoInfo) {
                             var _i, _a, ykknInfo, mvtkTicketcodeArgs, mvtkTicketcodeResult, data;
                             return __generator(this, function (_b) {
                                 switch (_b.label) {
@@ -8800,7 +8825,7 @@ var PurchaseService = /** @class */ (function () {
                                             titleCode: coaInfo.titleCode,
                                             titleBranchNum: coaInfo.titleBranchNum
                                         };
-                                        return [4 /*yield*/, this_4.sasaki.mvtkTicketcode(mvtkTicketcodeArgs)];
+                                        return [4 /*yield*/, this_5.sasaki.mvtkTicketcode(mvtkTicketcodeArgs)];
                                     case 2:
                                         mvtkTicketcodeResult = _b.sent();
                                         data = {
@@ -8820,13 +8845,13 @@ var PurchaseService = /** @class */ (function () {
                                 }
                             });
                         };
-                        this_4 = this;
+                        this_5 = this;
                         _i = 0, _a = mvtkPurchaseNumberAuthResult.knyknrNoInfoOut;
                         _b.label = 3;
                     case 3:
                         if (!(_i < _a.length)) return [3 /*break*/, 6];
                         knyknrNoInfo = _a[_i];
-                        return [5 /*yield**/, _loop_4(knyknrNoInfo)];
+                        return [5 /*yield**/, _loop_5(knyknrNoInfo)];
                     case 4:
                         _b.sent();
                         _b.label = 5;

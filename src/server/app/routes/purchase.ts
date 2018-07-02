@@ -10,6 +10,6 @@ router.get('/getSeatState', purchase.getSeatState);
 router.post('/mvtkTicketcode', purchase.mvtkTicketcode);
 router.post('/mvtkPurchaseNumberAuth', purchase.mvtkPurchaseNumberAuth);
 router.post('/mvtksSatInfoSync', purchase.mvtksSatInfoSync);
-router.post('/getSchedule', purchase.getSchedule);
+// router.post('/getSchedule', purchase.getSchedule);
 
 export default router;

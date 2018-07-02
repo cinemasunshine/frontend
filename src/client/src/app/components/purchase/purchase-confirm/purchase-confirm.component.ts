@@ -55,7 +55,7 @@ export class PurchaseConfirmComponent implements OnInit {
                 // 会員かつポイント使用
                 await this.purchase.pointPaymentProcess();
             }
-            if (this.user.isMember() && !this.purchase.isReservePoint()) {
+            if (this.user.isMember() && this.purchase.isIncentive()) {
                 // 会員かつポイント未使用
                 await this.purchase.incentiveProcess();
             }
