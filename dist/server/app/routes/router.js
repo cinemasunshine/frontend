@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const path = require("path");
 const authorize_controller_1 = require("../controllers/authorize/authorize.controller");
 // import { getSchedule } from '../controllers/purchase/purchase.controller';
 const authorize_1 = require("./authorize");
@@ -33,7 +34,7 @@ function purchaseTransaction(req, res, _next) {
 }
 function root(_req, res, _next) {
     const fileName = (process.env.NODE_ENV === 'production') ? 'production.html' : 'index.html';
-    res.sendFile(`${__dirname}/dist/client/${process.env.NODE_ENV}/${fileName}`);
+    res.sendFile(path.resolve(`dist/client/${process.env.NODE_ENV}/${fileName}`));
 }
 function notfound(_req, res, _next) {
     res.render('notfound/index');

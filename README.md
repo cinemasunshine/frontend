@@ -13,7 +13,6 @@
 | `REDIS_PORT`                        | true     |                  | REDISポート                             |
 | `REDIS_KEY`                         | true     |                  | REDISキー                               |
 | `SSKTS_API_ENDPOINT`                | true     |                  | SSKTS API エンドポイント                 |
-| `GMO_ENDPOINT`                      | true     |                  | GMO API エンドポイント                   |
 | `COA_ENDPOINT`                      | true     |                  | COA API エンドポイント                   |
 | `COA_REFRESH_TOKEN`                 | true     |                  | COA API リフレッシュトークン              |
 | `MVTK_RESERVE_ENDPOINT`             | true     |                  | ムビチケ API エンドポイント               |
