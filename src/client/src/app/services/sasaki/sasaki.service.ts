@@ -64,6 +64,8 @@ export class SasakiService {
         const url = '/api/authorize/getCredentials';
         const options = {
             headers: new HttpHeaders({
+                'Pragma': 'no-cache',
+                'Cache-Control': 'no-cache',
                 'If-Modified-Since': new Date(0).toUTCString()
             }),
             params: new HttpParams().set('member', member)

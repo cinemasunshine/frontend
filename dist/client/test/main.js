@@ -9353,6 +9353,8 @@ var SasakiService = /** @class */ (function () {
                         url = '/api/authorize/getCredentials';
                         options = {
                             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
+                                'Pragma': 'no-cache',
+                                'Cache-Control': 'no-cache',
                                 'If-Modified-Since': new Date(0).toUTCString()
                             }),
                             params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('member', member)
