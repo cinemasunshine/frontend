@@ -7715,10 +7715,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 var AwsCognitoService = /** @class */ (function () {
     function AwsCognitoService(storage) {
         this.storage = storage;
-        var device = this.storage.load('device', _storage_storage_service__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
-        if (device !== null) {
-            this.authenticateWithDeviceId(device.id);
-        }
     }
     /**
      * 端末IDで認証
@@ -7727,7 +7723,6 @@ var AwsCognitoService = /** @class */ (function () {
      */
     AwsCognitoService.prototype.authenticateWithDeviceId = function (deviceId) {
         return __awaiter(this, void 0, void 0, function () {
-            var args;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -7737,17 +7732,16 @@ var AwsCognitoService = /** @class */ (function () {
                         aws_sdk__WEBPACK_IMPORTED_MODULE_0__["config"].region = AwsCognitoService.REGION;
                         if (deviceId !== undefined) {
                             this.storage.save('device', { id: deviceId }, _storage_storage_service__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
-                            args = {
+                            aws_sdk__WEBPACK_IMPORTED_MODULE_0__["config"].credentials = new aws_sdk__WEBPACK_IMPORTED_MODULE_0__["CognitoIdentityCredentials"]({
                                 IdentityPoolId: AwsCognitoService.IDENTITY_POOL_ID,
                                 IdentityId: deviceId
-                            };
+                            });
                         }
                         else {
-                            args = {
+                            aws_sdk__WEBPACK_IMPORTED_MODULE_0__["config"].credentials = new aws_sdk__WEBPACK_IMPORTED_MODULE_0__["CognitoIdentityCredentials"]({
                                 IdentityPoolId: AwsCognitoService.IDENTITY_POOL_ID
-                            };
+                            });
                         }
-                        aws_sdk__WEBPACK_IMPORTED_MODULE_0__["config"].credentials = new aws_sdk__WEBPACK_IMPORTED_MODULE_0__["CognitoIdentityCredentials"](args);
                         this.credentials = aws_sdk__WEBPACK_IMPORTED_MODULE_0__["config"].credentials;
                         return [4 /*yield*/, this.credentials.getPromise()];
                     case 1:
