@@ -23,7 +23,7 @@ function getCredentials(req, res) {
         try {
             let authModel;
             if (req.query.member === reserve_1.FlgMember.NonMember) {
-                authModel = new auth_model_1.AuthModel(req.session.auth);
+                authModel = new auth_model_1.AuthModel();
             }
             else if (req.query.member === reserve_1.FlgMember.Member) {
                 authModel = new auth2_model_1.Auth2Model(req.session.auth);
