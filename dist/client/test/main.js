@@ -1718,7 +1718,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".icon[_ngcontent-%COMP%] {\n  display: inline-block; }\n\n.new-tab-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_new_tab_white.svg);\n  background-size: 15px 15px;\n  width: 15px;\n  height: 15px; }\n\n.new-tab-blue[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_new_tab_blue.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.next-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_next_white.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.print-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_print_white.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.prev-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_next_white.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.prev-black[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_prev_black.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.close-black[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_close_black.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.add-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_add_white.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.ticket-black[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_ticket_black.svg);\n  background-size: 25px 15px;\n  width: 25px;\n  height: 15px; }\n\n.zoom-in[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_zoom_in.svg);\n  background-size: 15px 15px;\n  width: 15px;\n  height: 15px; }\n\n.zoom-out[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_zoom_out.svg);\n  background-size: 15px 15px;\n  width: 15px;\n  height: 15px; }"];
+var styles = [".icon[_ngcontent-%COMP%] {\n  display: inline-block;\n  vertical-align: middle; }\n\n.new-tab-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_new_tab_white.svg);\n  background-size: 15px 15px;\n  width: 15px;\n  height: 15px; }\n\n.new-tab-blue[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_new_tab_blue.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.next-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_next_white.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.print-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_print_white.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.prev-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_next_white.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.prev-black[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_prev_black.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.close-black[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_close_black.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.add-white[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_add_white.svg);\n  background-size: 15px;\n  width: 15px;\n  height: 15px; }\n\n.ticket-black[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_ticket_black.svg);\n  background-size: 25px 15px;\n  width: 25px;\n  height: 15px; }\n\n.zoom-in[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_zoom_in.svg);\n  background-size: 15px 15px;\n  width: 15px;\n  height: 15px; }\n\n.zoom-out[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/icon/icon_zoom_out.svg);\n  background-size: 15px 15px;\n  width: 15px;\n  height: 15px; }"];
 
 
 
@@ -3882,7 +3882,7 @@ var PurchaseConfirmComponent = /** @class */ (function () {
     };
     PurchaseConfirmComponent.prototype.onSubmit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var err_1;
+            var err_1, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3899,34 +3899,48 @@ var PurchaseConfirmComponent = /** @class */ (function () {
                             this.router.navigate(['expired']);
                             return [2 /*return*/];
                         }
+                        if (!(this.purchase.getTotalPrice() > 0)) return [3 /*break*/, 4];
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 7, , 8]);
-                        if (!(this.user.isMember() && this.purchase.isReservePoint())) return [3 /*break*/, 3];
+                        _a.trys.push([1, 3, , 4]);
+                        // クレジットカード処理
+                        return [4 /*yield*/, this.purchase.creditCardPaymentProcess()];
+                    case 2:
+                        // クレジットカード処理
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_1 = _a.sent();
+                        this.purchase.data.isCreditCardError = true;
+                        this.router.navigate(['/purchase/input']);
+                        return [2 /*return*/];
+                    case 4:
+                        _a.trys.push([4, 10, , 11]);
+                        if (!(this.user.isMember() && this.purchase.isReservePoint())) return [3 /*break*/, 6];
                         // 会員かつポイント使用
                         return [4 /*yield*/, this.purchase.pointPaymentProcess()];
-                    case 2:
+                    case 5:
                         // 会員かつポイント使用
                         _a.sent();
-                        _a.label = 3;
-                    case 3:
-                        if (!(this.user.isMember() && this.purchase.isIncentive())) return [3 /*break*/, 5];
+                        _a.label = 6;
+                    case 6:
+                        if (!(this.user.isMember() && this.purchase.isIncentive())) return [3 /*break*/, 8];
                         // 会員かつポイント未使用
                         return [4 /*yield*/, this.purchase.incentiveProcess()];
-                    case 4:
+                    case 7:
                         // 会員かつポイント未使用
                         _a.sent();
-                        _a.label = 5;
-                    case 5: return [4 /*yield*/, this.purchase.purchaseRegistrationProcess()];
-                    case 6:
+                        _a.label = 8;
+                    case 8: return [4 /*yield*/, this.purchase.purchaseRegistrationProcess()];
+                    case 9:
                         _a.sent();
                         this.router.navigate(['/purchase/complete']);
-                        return [3 /*break*/, 8];
-                    case 7:
-                        err_1 = _a.sent();
-                        this.error.redirect(err_1);
-                        return [3 /*break*/, 8];
-                    case 8: return [2 /*return*/];
+                        return [3 /*break*/, 11];
+                    case 10:
+                        err_2 = _a.sent();
+                        this.error.redirect(err_2);
+                        return [3 /*break*/, 11];
+                    case 11: return [2 /*return*/];
                 }
             });
         });
@@ -4370,6 +4384,18 @@ var PurchaseInputComponent = /** @class */ (function () {
                         this.inputForm = this.createForm();
                         this.disable = false;
                         this.creditCardType = CreditCardType.Input;
+                        this.creditCardAlertModal = this.purchase.data.isCreditCardError;
+                        if (this.purchase.data.isCreditCardError) {
+                            // クレジットカードエラー
+                            this.purchase.data.isCreditCardError = false;
+                            this.inputForm.controls.cardNumber.markAsTouched();
+                            this.inputForm.controls.cardExpirationMonth.markAsTouched();
+                            this.inputForm.controls.cardExpirationYear.markAsTouched();
+                            this.inputForm.controls.securityCode.markAsTouched();
+                            this.inputForm.controls.holderName.markAsTouched();
+                            this.validationScroll();
+                        }
+                        this.securityCodeModal = false;
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 5, , 6]);
@@ -4425,13 +4451,30 @@ var PurchaseInputComponent = /** @class */ (function () {
         });
     };
     /**
+     * バリデーションスクロール
+     * @method validationScroll
+     */
+    PurchaseInputComponent.prototype.validationScroll = function () {
+        var _this = this;
+        setTimeout(function () {
+            var element = _this.elementRef.nativeElement;
+            var validation = element.querySelector('.validation');
+            if (validation === null) {
+                return;
+            }
+            var rect = validation.getBoundingClientRect();
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var top = rect.top + scrollTop - 50;
+            window.scrollTo(undefined, top);
+        }, 0);
+    };
+    /**
      * 次へ
      * @method onSubmit
      */
     PurchaseInputComponent.prototype.onSubmit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var creditCard, _a, err_2, gmoTokenObject, addCreditCardArgs, setCustomerContactArgs, err_3;
-            var _this = this;
+            var _a, err_2, gmoTokenObject, addCreditCardArgs, contact, err_3;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4452,17 +4495,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                                 this.inputForm.controls.securityCode.markAsTouched();
                                 this.inputForm.controls.holderName.markAsTouched();
                             }
-                            setTimeout(function () {
-                                var element = _this.elementRef.nativeElement;
-                                var validation = element.querySelector('.validation');
-                                if (validation === null) {
-                                    return;
-                                }
-                                var rect = validation.getBoundingClientRect();
-                                var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                                var top = rect.top + scrollTop - 50;
-                                window.scrollTo(undefined, top);
-                            }, 0);
+                            this.validationScroll();
                             return [2 /*return*/];
                         }
                         if (this.purchase.isExpired()) {
@@ -4477,21 +4510,20 @@ var PurchaseInputComponent = /** @class */ (function () {
                         }
                         _b.label = 1;
                     case 1:
-                        _b.trys.push([1, 14, , 15]);
+                        _b.trys.push([1, 13, , 14]);
                         if (this.purchase.data.transaction === undefined) {
                             throw new Error('status is different');
                         }
-                        if (!(this.purchase.getTotalPrice() > 0)) return [3 /*break*/, 12];
+                        if (!(this.purchase.getTotalPrice() > 0)) return [3 /*break*/, 11];
                         _b.label = 2;
                     case 2:
-                        _b.trys.push([2, 7, , 8]);
-                        creditCard = void 0;
+                        _b.trys.push([2, 6, , 7]);
                         if (!(this.creditCardType === CreditCardType.Input)) return [3 /*break*/, 4];
                         _a = this.purchase.data;
                         return [4 /*yield*/, this.getGmoObject()];
                     case 3:
                         _a.gmoTokenObject = _b.sent();
-                        creditCard = {
+                        this.purchase.data.paymentCreditCard = {
                             token: this.purchase.data.gmoTokenObject.token
                         };
                         return [3 /*break*/, 5];
@@ -4499,19 +4531,13 @@ var PurchaseInputComponent = /** @class */ (function () {
                         if (this.user.data.creditCards === undefined) {
                             throw new Error('creditCards is undefined');
                         }
-                        creditCard = {
+                        this.purchase.data.paymentCreditCard = {
                             memberId: 'me',
                             cardSeq: Number(this.user.data.creditCards[0].cardSeq)
                         };
                         _b.label = 5;
-                    case 5: 
-                    // クレジットカード処理
-                    return [4 /*yield*/, this.purchase.creditCardPaymentProcess(creditCard)];
+                    case 5: return [3 /*break*/, 7];
                     case 6:
-                        // クレジットカード処理
-                        _b.sent();
-                        return [3 /*break*/, 8];
-                    case 7:
                         err_2 = _b.sent();
                         console.error(err_2);
                         // クレジットカード処理失敗
@@ -4524,17 +4550,17 @@ var PurchaseInputComponent = /** @class */ (function () {
                         }
                         this.disable = false;
                         return [2 /*return*/];
-                    case 8:
+                    case 7:
                         if (!(this.user.isMember()
                             && this.inputForm.controls.saveCreditCard.value
-                            && this.purchase.data.gmoTokenObject !== undefined)) return [3 /*break*/, 12];
+                            && this.purchase.data.gmoTokenObject !== undefined)) return [3 /*break*/, 11];
                         // 会員 クレジットカード情報保存
                         return [4 /*yield*/, this.sasaki.getServices()];
-                    case 9:
+                    case 8:
                         // 会員 クレジットカード情報保存
                         _b.sent();
                         return [4 /*yield*/, this.getGmoObject()];
-                    case 10:
+                    case 9:
                         gmoTokenObject = _b.sent();
                         addCreditCardArgs = {
                             personId: 'me',
@@ -4543,29 +4569,26 @@ var PurchaseInputComponent = /** @class */ (function () {
                             }
                         };
                         return [4 /*yield*/, this.sasaki.person.addCreditCard(addCreditCardArgs)];
-                    case 11:
+                    case 10:
                         _b.sent();
-                        _b.label = 12;
-                    case 12:
-                        setCustomerContactArgs = {
-                            transactionId: this.purchase.data.transaction.id,
-                            contact: {
-                                familyName: this.inputForm.controls.familyName.value,
-                                givenName: this.inputForm.controls.givenName.value,
-                                email: this.inputForm.controls.email.value,
-                                telephone: this.inputForm.controls.telephone.value
-                            }
+                        _b.label = 11;
+                    case 11:
+                        contact = {
+                            familyName: this.inputForm.controls.familyName.value,
+                            givenName: this.inputForm.controls.givenName.value,
+                            email: this.inputForm.controls.email.value,
+                            telephone: this.inputForm.controls.telephone.value
                         };
-                        return [4 /*yield*/, this.purchase.customerContactRegistrationProcess(setCustomerContactArgs)];
-                    case 13:
+                        return [4 /*yield*/, this.purchase.customerContactRegistrationProcess(contact)];
+                    case 12:
                         _b.sent();
                         this.router.navigate(['/purchase/confirm']);
-                        return [3 /*break*/, 15];
-                    case 14:
+                        return [3 /*break*/, 14];
+                    case 13:
                         err_3 = _b.sent();
                         this.error.redirect(err_3);
-                        return [3 /*break*/, 15];
-                    case 15: return [2 /*return*/];
+                        return [3 /*break*/, 14];
+                    case 14: return [2 /*return*/];
                 }
             });
         });
@@ -8222,7 +8245,8 @@ var PurchaseService = /** @class */ (function () {
                 mvtkTickets: [],
                 pointTickets: [],
                 orderCount: 0,
-                incentive: 0
+                incentive: 0,
+                isCreditCardError: false
             };
             return;
         }
@@ -8245,7 +8269,8 @@ var PurchaseService = /** @class */ (function () {
             mvtkTickets: [],
             pointTickets: [],
             orderCount: 0,
-            incentive: 0
+            incentive: 0,
+            isCreditCardError: false
         };
         this.save();
     };
@@ -8741,12 +8766,19 @@ var PurchaseService = /** @class */ (function () {
             var _a, updateRecordsArgs, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.sasaki.getServices()];
+                    case 0:
+                        if (this.data.transaction === undefined) {
+                            throw new Error('transaction is undefined');
+                        }
+                        return [4 /*yield*/, this.sasaki.getServices()];
                     case 1:
                         _b.sent();
                         // 入力情報を登録
                         _a = this.data;
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.setCustomerContact(args)];
+                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.setCustomerContact({
+                                transactionId: this.data.transaction.id,
+                                contact: args
+                            })];
                     case 2:
                         // 入力情報を登録
                         _a.customerContact = _b.sent();
@@ -8757,10 +8789,10 @@ var PurchaseService = /** @class */ (function () {
                         updateRecordsArgs = {
                             datasetName: 'profile',
                             value: {
-                                familyName: args.contact.familyName,
-                                givenName: args.contact.givenName,
-                                email: args.contact.email,
-                                telephone: args.contact.telephone
+                                familyName: args.familyName,
+                                givenName: args.givenName,
+                                email: args.email,
+                                telephone: args.telephone
                             }
                         };
                         return [4 /*yield*/, this.awsCognito.updateRecords(updateRecordsArgs)];
@@ -8781,13 +8813,14 @@ var PurchaseService = /** @class */ (function () {
     /**
      * クレジットカード支払い処理
      */
-    PurchaseService.prototype.creditCardPaymentProcess = function (creditCard) {
+    PurchaseService.prototype.creditCardPaymentProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
             var cancelCreditCardAuthorizationArgs, METHOD_LUMP, createCreditCardAuthorizationArgs, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        if (this.data.transaction === undefined) {
+                        if (this.data.transaction === undefined
+                            || this.data.paymentCreditCard === undefined) {
                             throw new Error('status is different');
                         }
                         return [4 /*yield*/, this.sasaki.getServices()];
@@ -8811,10 +8844,8 @@ var PurchaseService = /** @class */ (function () {
                             orderId: this.createOrderId(),
                             amount: this.getTotalPrice(),
                             method: METHOD_LUMP,
-                            creditCard: creditCard
+                            creditCard: this.data.paymentCreditCard
                         };
-                        this.data.orderCount += 1;
-                        this.save();
                         _a = this.data;
                         return [4 /*yield*/, this.sasaki.transaction.placeOrder.createCreditCardAuthorization(createCreditCardAuthorizationArgs)];
                     case 4:
@@ -8844,6 +8875,7 @@ var PurchaseService = /** @class */ (function () {
         var tmpReserveNum = ("00000000" + this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum).slice(DIGITS['08']);
         var theaterCode = this.data.individualScreeningEvent.coaInfo.theaterCode;
         var reserveDate = moment__WEBPACK_IMPORTED_MODULE_1__().format('YYYYMMDD');
+        this.data.orderCount += 1;
         // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)
         return "" + reserveDate + theaterCode + tmpReserveNum + orderCount;
     };

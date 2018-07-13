@@ -5,12 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+ - 会員ポイント決済追加
 
 ### Changed
+ - クレジット仮売上処理タイミング変更
 
 ### Fixed
 
 ### Security
+ - angular6へアップデート
 
 ### Removed
 

@@ -59,6 +59,18 @@ export class PurchaseInputComponent implements OnInit {
         this.inputForm = this.createForm();
         this.disable = false;
         this.creditCardType = CreditCardType.Input;
+        this.creditCardAlertModal = this.purchase.data.isCreditCardError;
+        if (this.purchase.data.isCreditCardError) {
+            // クレジットカードエラー
+            this.purchase.data.isCreditCardError = false;
+            this.inputForm.controls.cardNumber.markAsTouched();
+            this.inputForm.controls.cardExpirationMonth.markAsTouched();
+            this.inputForm.controls.cardExpirationYear.markAsTouched();
+            this.inputForm.controls.securityCode.markAsTouched();
+            this.inputForm.controls.holderName.markAsTouched();
+            this.validationScroll();
+        }
+        this.securityCodeModal = false;
         try {
             if (this.user.isNative() && !this.user.isMember()) {
                 // アプリ非会員ならCognitoから取得
@@ -107,6 +119,24 @@ export class PurchaseInputComponent implements OnInit {
     }
 
     /**
+     * バリデーションスクロール
+     * @method validationScroll
+     */
+    private validationScroll() {
+        setTimeout(() => {
+            const element: HTMLElement = this.elementRef.nativeElement;
+            const validation = <HTMLElement>element.querySelector('.validation');
+            if (validation === null) {
+                return;
+            }
+            const rect = validation.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const top = rect.top + scrollTop - 50;
+            window.scrollTo(undefined, top);
+        }, 0);
+    }
+
+    /**
      * 次へ
      * @method onSubmit
      */
@@ -129,17 +159,7 @@ export class PurchaseInputComponent implements OnInit {
                 this.inputForm.controls.securityCode.markAsTouched();
                 this.inputForm.controls.holderName.markAsTouched();
             }
-            setTimeout(() => {
-                const element: HTMLElement = this.elementRef.nativeElement;
-                const validation = <HTMLElement>element.querySelector('.validation');
-                if (validation === null) {
-                    return;
-                }
-                const rect = validation.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const top = rect.top + scrollTop - 50;
-                window.scrollTo(undefined, top);
-            }, 0);
+            this.validationScroll();
 
             return;
         }
@@ -161,24 +181,20 @@ export class PurchaseInputComponent implements OnInit {
             }
             if (this.purchase.getTotalPrice() > 0) {
                 try {
-                    let creditCard;
                     if (this.creditCardType === CreditCardType.Input) {
                         this.purchase.data.gmoTokenObject = await this.getGmoObject();
-                        creditCard = {
+                        this.purchase.data.paymentCreditCard = {
                             token: (<IGmoTokenObject>this.purchase.data.gmoTokenObject).token
                         };
                     } else {
                         if (this.user.data.creditCards === undefined) {
                             throw new Error('creditCards is undefined');
                         }
-                        creditCard = {
+                        this.purchase.data.paymentCreditCard = {
                             memberId: 'me',
                             cardSeq: Number(this.user.data.creditCards[0].cardSeq)
                         };
                     }
-
-                    // クレジットカード処理
-                    await this.purchase.creditCardPaymentProcess(creditCard);
                 } catch (err) {
                     console.error(err);
                     // クレジットカード処理失敗
@@ -210,16 +226,13 @@ export class PurchaseInputComponent implements OnInit {
             }
 
             // 入力情報を登録
-            const setCustomerContactArgs = {
-                transactionId: this.purchase.data.transaction.id,
-                contact: {
-                    familyName: this.inputForm.controls.familyName.value,
-                    givenName: this.inputForm.controls.givenName.value,
-                    email: this.inputForm.controls.email.value,
-                    telephone: this.inputForm.controls.telephone.value
-                }
+            const contact = {
+                familyName: this.inputForm.controls.familyName.value,
+                givenName: this.inputForm.controls.givenName.value,
+                email: this.inputForm.controls.email.value,
+                telephone: this.inputForm.controls.telephone.value
             };
-            await this.purchase.customerContactRegistrationProcess(setCustomerContactArgs);
+            await this.purchase.customerContactRegistrationProcess(contact);
             this.router.navigate(['/purchase/confirm']);
         } catch (err) {
             this.error.redirect(err);

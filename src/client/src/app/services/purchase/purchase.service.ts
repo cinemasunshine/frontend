@@ -53,6 +53,14 @@ interface IData {
      */
     gmoTokenObject?: IGmoTokenObject;
     /**
+     * 支払いクレジットカード
+     */
+    paymentCreditCard?: IUnauthorizedCardOfMember | IUncheckedCardTokenized;
+    /**
+     * クレジットカードエラー
+     */
+    isCreditCardError: boolean;
+    /**
      * 決済情報（クレジット）
      */
     creditCardAuthorization?: {
@@ -139,7 +147,8 @@ export class PurchaseService {
                 mvtkTickets: [],
                 pointTickets: [],
                 orderCount: 0,
-                incentive: 0
+                incentive: 0,
+                isCreditCardError: false
             };
 
             return;
@@ -165,7 +174,8 @@ export class PurchaseService {
             mvtkTickets: [],
             pointTickets: [],
             orderCount: 0,
-            incentive: 0
+            incentive: 0,
+            isCreditCardError: false
         };
         this.save();
     }
@@ -621,22 +631,25 @@ export class PurchaseService {
      * 購入者情報登録処理
      * @method customerContactRegistrationProcess
      */
-    public async customerContactRegistrationProcess(args: {
-        transactionId: string;
-        contact: factory.transaction.placeOrder.ICustomerContact;
-    }) {
+    public async customerContactRegistrationProcess(args: factory.transaction.placeOrder.ICustomerContact) {
+        if (this.data.transaction === undefined) {
+            throw new Error('transaction is undefined');
+        }
         await this.sasaki.getServices();
         // 入力情報を登録
-        this.data.customerContact = await this.sasaki.transaction.placeOrder.setCustomerContact(args);
+        this.data.customerContact = await this.sasaki.transaction.placeOrder.setCustomerContact({
+            transactionId: this.data.transaction.id,
+            contact: args
+        });
         if (this.user.isNative() && !this.user.isMember()) {
             try {
                 const updateRecordsArgs = {
                     datasetName: 'profile',
                     value: {
-                        familyName: args.contact.familyName,
-                        givenName: args.contact.givenName,
-                        email: args.contact.email,
-                        telephone: args.contact.telephone
+                        familyName: args.familyName,
+                        givenName: args.givenName,
+                        email: args.email,
+                        telephone: args.telephone
                     }
                 };
                 await this.awsCognito.updateRecords(updateRecordsArgs);
@@ -651,8 +664,9 @@ export class PurchaseService {
     /**
      * クレジットカード支払い処理
      */
-    public async creditCardPaymentProcess(creditCard: IUnauthorizedCardOfMember | IUncheckedCardTokenized) {
-        if (this.data.transaction === undefined) {
+    public async creditCardPaymentProcess() {
+        if (this.data.transaction === undefined
+        || this.data.paymentCreditCard === undefined) {
             throw new Error('status is different');
         }
         await this.sasaki.getServices();
@@ -673,10 +687,8 @@ export class PurchaseService {
             orderId: this.createOrderId(),
             amount: this.getTotalPrice(),
             method: METHOD_LUMP,
-            creditCard: creditCard
+            creditCard: this.data.paymentCreditCard
         };
-        this.data.orderCount += 1;
-        this.save();
         this.data.creditCardAuthorization =
             await this.sasaki.transaction.placeOrder.createCreditCardAuthorization(createCreditCardAuthorizationArgs);
         this.save();
@@ -701,6 +713,7 @@ export class PurchaseService {
             `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['08']);
         const theaterCode = this.data.individualScreeningEvent.coaInfo.theaterCode;
         const reserveDate = moment().format('YYYYMMDD');
+        this.data.orderCount += 1;
         // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)
         return `${reserveDate}${theaterCode}${tmpReserveNum}${orderCount}`;
     }
