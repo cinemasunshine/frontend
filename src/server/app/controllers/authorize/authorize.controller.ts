@@ -14,7 +14,7 @@ export async function getCredentials(req: Request, res: Response) {
     try {
         let authModel;
         if (req.query.member === FlgMember.NonMember) {
-            authModel = new AuthModel((<Express.Session>req.session).auth);
+            authModel = new AuthModel();
         } else if (req.query.member === FlgMember.Member) {
             authModel = new Auth2Model((<Express.Session>req.session).auth);
         } else {

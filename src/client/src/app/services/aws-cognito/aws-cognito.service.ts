@@ -14,15 +14,11 @@ export class AwsCognitoService {
     public static USER_POOL_ID: string = environment.COGNITO_USER_POOL_ID;
     public static CLIENT_ID: string = environment.COGNITO_CLIENT_ID;
 
-    public credentials?: AWS.CognitoIdentityCredentials;
+    public credentials: AWS.CognitoIdentityCredentials;
 
     constructor(
         private storage: StorageService
     ) {
-        const device = this.storage.load('device', SaveType.Session);
-        if (device !== null) {
-            this.authenticateWithDeviceId(device.id);
-        }
     }
 
     /**
@@ -35,22 +31,17 @@ export class AwsCognitoService {
             return;
         }
         AWS.config.region = AwsCognitoService.REGION;
-        let args: {
-            IdentityPoolId: string;
-            IdentityId?: string
-        };
         if (deviceId !== undefined) {
             this.storage.save('device', { id: deviceId }, SaveType.Session);
-            args = {
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                 IdentityPoolId: AwsCognitoService.IDENTITY_POOL_ID,
                 IdentityId: deviceId
-            };
+            });
         } else {
-            args = {
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                 IdentityPoolId: AwsCognitoService.IDENTITY_POOL_ID
-            };
+            });
         }
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials(args);
         this.credentials = (<AWS.CognitoIdentityCredentials>AWS.config.credentials);
         await this.credentials.getPromise();
     }
