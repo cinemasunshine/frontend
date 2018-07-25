@@ -2,7 +2,6 @@ export const environment = {
     production: false,
     PORTAL_SITE_URL: 'http://testssktsportal.azurewebsites.net',
     APP_SITE_URL: 'https://sskts-ticket-test.azurewebsites.net',
-    API_ENDPOINT: '',
     FRONTEND_ENDPOINT: 'https://sskts-frontend-test.azurewebsites.net',
     ENTRANCE_SERVER_URL: 'https://d24x7394fq3aqi.cloudfront.net',
     MVTK_COMPANY_CODE: 'SSK000',
@@ -13,6 +12,7 @@ export const environment = {
     COGNITO_CLIENT_ID: '',
 
     SASAKI_API_ENDPOINT: 'https://sskts-api-test.azurewebsites.net',
+    MOCOIN_API_ENDPOINT: '',
     TOKEN_ISSUER: '',
 
     ANALYTICS_ID: 'UA-99018492-2'

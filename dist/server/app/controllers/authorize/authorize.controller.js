@@ -15,6 +15,7 @@ const reserve_1 = require("@motionpicture/coa-service/lib/services/reserve");
 const debug = require("debug");
 const auth_model_1 = require("../../models/auth/auth.model");
 const auth2_model_1 = require("../../models/auth2/auth2.model");
+const mocoin_auth2_model_1 = require("../../models/mocoin-auth2/mocoin-auth2.model");
 const base_controller_1 = require("../base/base.controller");
 const log = debug('sskts-frontend:authorize');
 function getCredentials(req, res) {
@@ -105,3 +106,60 @@ function signInRedirect(req, res, next) {
     });
 }
 exports.signInRedirect = signInRedirect;
+/**
+ * エンタメコイン サインイン処理
+ * @param {Request} req
+ * @param {Response} res
+ */
+function mocoinSignIn(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mocoinSignIn');
+        if (req.session === undefined) {
+            throw new Error('session is undefined');
+        }
+        delete req.session.mocoin;
+        const authModel = new mocoin_auth2_model_1.MocoinAuth2Model(req.session.mocoin);
+        const auth = authModel.create();
+        const authUrl = auth.generateAuthUrl({
+            scopes: authModel.scopes,
+            state: authModel.state,
+            codeVerifier: authModel.codeVerifier
+        });
+        delete req.session.mocoin;
+        res.json({
+            url: authUrl
+        });
+    });
+}
+exports.mocoinSignIn = mocoinSignIn;
+/**
+ * エンタメコイン サインインリダイレクト処理
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
+function mocoinSignInRedirect(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mocoinSignInRedirect');
+        try {
+            if (req.session === undefined) {
+                throw new Error('session is undefined');
+            }
+            const authModel = new mocoin_auth2_model_1.MocoinAuth2Model(req.session.mocoin);
+            if (req.query.state !== authModel.state) {
+                throw (new Error(`state not matched ${req.query.state} !== ${authModel.state}`));
+            }
+            const auth = authModel.create();
+            const credentials = yield auth.getToken(req.query.code, authModel.codeVerifier);
+            // log('credentials published', credentials);
+            authModel.credentials = credentials;
+            authModel.save(req.session);
+            auth.setCredentials(credentials);
+            res.redirect('/#/mocoin/signin');
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+}
+exports.mocoinSignInRedirect = mocoinSignInRedirect;

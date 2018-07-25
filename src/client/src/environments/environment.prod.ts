@@ -2,7 +2,6 @@ export const environment = {
     production: true,
     PORTAL_SITE_URL: 'http://www.cinemasunshine.co.jp',
     APP_SITE_URL: 'https://smpapp.ticket-cinemasunshine.com',
-    API_ENDPOINT: '',
     FRONTEND_ENDPOINT: 'https://ticket-cinemasunshine.com',
     ENTRANCE_SERVER_URL: 'https://entrance.ticket-cinemasunshine.com',
     MVTK_COMPANY_CODE: 'SSK000',
@@ -13,6 +12,7 @@ export const environment = {
     COGNITO_CLIENT_ID: '',
 
     SASAKI_API_ENDPOINT: 'https://sskts-api-production.azurewebsites.net',
+    MOCOIN_API_ENDPOINT: '',
     TOKEN_ISSUER: '',
 
     ANALYTICS_ID: 'UA-8383230-1'

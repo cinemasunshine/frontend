@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
+import { UserService } from '../../../services/user/user.service';
 
 type IMovieTheater = factory.organization.movieTheater.IPublicFields;
 type IIndividualScreeningEvent = factory.event.individualScreeningEvent.IEventWithOffer;
@@ -35,7 +36,8 @@ export class PurchaseScheduleComponent implements OnInit {
     constructor(
         private error: ErrorService,
         private purchase: PurchaseService,
-        private sasaki: SasakiService
+        private sasaki: SasakiService,
+        private user: UserService
     ) {
         this.theaters = [];
         this.dateList = [];
@@ -53,6 +55,7 @@ export class PurchaseScheduleComponent implements OnInit {
      */
     public async ngOnInit(): Promise<void> {
         window.scrollTo(0, 0);
+        this.user.reset();
         this.isLoading = true;
         try {
             await this.sasaki.getServices();

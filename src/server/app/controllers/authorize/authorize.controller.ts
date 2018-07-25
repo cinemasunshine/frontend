@@ -6,6 +6,7 @@ import * as debug from 'debug';
 import { NextFunction, Request, Response } from 'express';
 import { AuthModel } from '../../models/auth/auth.model';
 import { Auth2Model } from '../../models/auth2/auth2.model';
+import { MocoinAuth2Model } from '../../models/mocoin-auth2/mocoin-auth2.model';
 import { errorProsess } from '../base/base.controller';
 const log = debug('sskts-frontend:authorize');
 
@@ -89,6 +90,63 @@ export async function signInRedirect(req: Request, res: Response, next: NextFunc
 
         auth.setCredentials(credentials);
         res.redirect('/#/auth/signin');
+    } catch (err) {
+        next(err);
+    }
+}
+
+/**
+ * エンタメコイン サインイン処理
+ * @param {Request} req
+ * @param {Response} res
+ */
+export async function mocoinSignIn(req: Request, res: Response) {
+    log('mocoinSignIn');
+    if (req.session === undefined) {
+        throw new Error('session is undefined');
+    }
+    delete req.session.mocoin;
+    const authModel = new MocoinAuth2Model(req.session.mocoin);
+    const auth = authModel.create();
+    const authUrl = auth.generateAuthUrl({
+        scopes: authModel.scopes,
+        state: authModel.state,
+        codeVerifier: authModel.codeVerifier
+    });
+    delete req.session.mocoin;
+    res.json({
+        url: authUrl
+    });
+}
+
+/**
+ * エンタメコイン サインインリダイレクト処理
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
+export async function mocoinSignInRedirect(req: Request, res: Response, next: NextFunction) {
+    log('mocoinSignInRedirect');
+    try {
+        if (req.session === undefined) {
+            throw new Error('session is undefined');
+        }
+        const authModel = new MocoinAuth2Model(req.session.mocoin);
+        if (req.query.state !== authModel.state) {
+            throw (new Error(`state not matched ${req.query.state} !== ${authModel.state}`));
+        }
+        const auth = authModel.create();
+        const credentials = await auth.getToken(
+            req.query.code,
+            <string>authModel.codeVerifier
+        );
+        // log('credentials published', credentials);
+
+        authModel.credentials = credentials;
+        authModel.save(req.session);
+
+        auth.setCredentials(credentials);
+        res.redirect('/#/mocoin/signin');
     } catch (err) {
         next(err);
     }

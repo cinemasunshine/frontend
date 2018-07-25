@@ -6,6 +6,8 @@ import { ErrorComponent } from './components/error/error.component';
 import { ExpiredComponent } from './components/expired/expired.component';
 import { InquiryConfirmComponent } from './components/inquiry/inquiry-confirm/inquiry-confirm.component';
 import { InquiryLoginComponent } from './components/inquiry/inquiry-login/inquiry-login.component';
+import { MocoinInputComponent } from './components/mocoin/mocoin-input/mocoin-input.component';
+import { MocoinSigninComponent } from './components/mocoin/mocoin-signin/mocoin-signin.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PurchaseBaseComponent } from './components/purchase/purchase-base/purchase-base.component';
 import { PurchaseCompleteComponent } from './components/purchase/purchase-complete/purchase-complete.component';
@@ -28,6 +30,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'purchase/transaction', pathMatch: 'full' },
     { path: 'purchase/transaction', component: PurchaseTransactionComponent },
     { path: 'auth/signin', component: AuthSigninComponent },
+    { path: 'mocoin/signin', component: MocoinSigninComponent },
     {
         path: '',
         component: BaseComponent,
@@ -49,7 +52,8 @@ const routes: Routes = [
             { path: 'confirm', component: PurchaseConfirmComponent },
             { path: 'mvtk/input', component: PurchaseMvtkInputComponent },
             { path: 'mvtk/confirm', component: PurchaseMvtkConfirmComponent },
-            { path: 'point', canActivate: [MemberGuardService], component: PurchasePointComponent }
+            { path: 'point', canActivate: [MemberGuardService], component: PurchasePointComponent },
+            { path: 'mocoin/input', component: MocoinInputComponent },
         ]
     },
     {

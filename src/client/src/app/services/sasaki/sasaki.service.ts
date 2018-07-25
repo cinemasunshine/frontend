@@ -103,7 +103,7 @@ export class SasakiService {
     public async mvtkPurchaseNumberAuth(
         args: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn
     ) {
-        const url = `${environment.API_ENDPOINT}/api/purchase/mvtkPurchaseNumberAuth`;
+        const url = '/api/purchase/mvtkPurchaseNumberAuth';
 
         return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, args).toPromise();
     }
@@ -115,7 +115,7 @@ export class SasakiService {
     public async mvtksSatInfoSync(
         args: mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn
     ) {
-        const url = `${environment.API_ENDPOINT}/api/purchase/mvtksSatInfoSync`;
+        const url = '/api/purchase/mvtksSatInfoSync';
 
 
         return this.http.post<mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncResult>(url, args).toPromise();
@@ -128,7 +128,7 @@ export class SasakiService {
     public async getSeatState(
         args: COA.services.reserve.IStateReserveSeatArgs
     ) {
-        const url = `${environment.API_ENDPOINT}/api/purchase/getSeatState`;
+        const url = '/api/purchase/getSeatState';
 
         return this.http.get<COA.services.reserve.IStateReserveSeatResult>(url, {
             params: <any>args
@@ -142,7 +142,7 @@ export class SasakiService {
     public async mvtkTicketcode(
         args: COA.services.master.IMvtkTicketcodeArgs
     ) {
-        const url = `${environment.API_ENDPOINT}/api/purchase/mvtkTicketcode`;
+        const url = '/api/purchase/mvtkTicketcode';
         const result = await this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
         // 暫定的に対応
         if ((<any>result).name === 'COAServiceError') {
@@ -160,7 +160,7 @@ export class SasakiService {
     public async getSalesTickets(
         args: COA.services.reserve.ISalesTicketArgs
     ) {
-        const url = `${environment.API_ENDPOINT}/api/master/getSalesTickets`;
+        const url = '/api/master/getSalesTickets';
         return this.http.get<COA.services.reserve.ISalesTicketResult[]>(url, {
             params: <any>args
         }).toPromise();
@@ -174,7 +174,7 @@ export class SasakiService {
     public async getTickets(
         args: COA.services.master.ITicketArgs
     ) {
-        const url = `${environment.API_ENDPOINT}/api/master/getTickets`;
+        const url = '/api/master/getTickets';
         return this.http.get<COA.services.master.ITicketResult[]>(url, {
             params: <any>args
         }).toPromise();

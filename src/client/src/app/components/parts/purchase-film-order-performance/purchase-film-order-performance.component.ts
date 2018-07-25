@@ -50,15 +50,33 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
     }
 
     /**
-     * @method start
+     * @method select
      * @returns {void}
      */
-    public start(): void {
+    public select(): void {
         const availability = this.data.offer.availability;
         if (availability === 0 || availability === null) {
             return;
         }
-        location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.data.identifier}`;
+        // location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.data.identifier}`;
+        const memberType = '1';
+        const nativeType = '0';
+        const params = {
+            id: this.data.identifier,
+            native: nativeType,
+            member: memberType
+        };
+        let query = '';
+        for (let i = 0; i < Object.keys(params).length; i++) {
+            const key = Object.keys(params)[i];
+            const value = (<any>params)[key];
+            if (i > 0) {
+                query += '&';
+            }
+            query += `${key}=${value}`;
+        }
+        const url = `${environment.ENTRANCE_SERVER_URL}/ticket/index.html?${query}`;
+        location.href = url;
     }
 
 }

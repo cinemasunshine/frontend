@@ -95,11 +95,6 @@ export class PurchaseInputComponent implements OnInit {
                 }
                 const contacts = this.user.data.contact;
 
-                if (this.user.data.creditCards === undefined
-                    || this.user.data.creditCards.length === 0) {
-                    throw new Error('creditCards is notfoud');
-                }
-
                 this.inputForm.controls.familyName.setValue(this.utill.convertToHira(contacts.familyName));
                 this.inputForm.controls.givenName.setValue(this.utill.convertToHira(contacts.givenName));
                 this.inputForm.controls.email.setValue(contacts.email);
@@ -107,7 +102,7 @@ export class PurchaseInputComponent implements OnInit {
                 this.inputForm.controls.telephone.setValue(contacts.telephone.replace(/-/g, ''));
 
                 const payment = this.purchase.getTotalPrice();
-                if (payment > 0) {
+                if (payment > 0 && this.user.isRegisteredCreditCards()) {
                     // クレジット決済ありならクレジットカードタイプを変更
                     this.changeRegisteredCreditCard();
                 }

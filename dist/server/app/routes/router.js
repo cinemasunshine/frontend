@@ -54,6 +54,7 @@ exports.default = (app) => {
     app.get('/purchase/performances/getSchedule', purchase_controller_1.getSchedule);
     app.get('/purchase/transaction', purchaseTransaction);
     app.get('/signIn', authorize_controller_1.signInRedirect);
+    app.get('/mocoin/signIn', authorize_controller_1.mocoinSignInRedirect);
     app.get('/', root);
     app.use(notfound);
     app.use(error);

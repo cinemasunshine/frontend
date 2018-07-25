@@ -11,6 +11,8 @@ import { ExpiredComponent } from './components/expired/expired.component';
 import { InquiryBaseComponent } from './components/inquiry/inquiry-base/inquiry-base.component';
 import { InquiryConfirmComponent } from './components/inquiry/inquiry-confirm/inquiry-confirm.component';
 import { InquiryLoginComponent } from './components/inquiry/inquiry-login/inquiry-login.component';
+import { MocoinInputComponent } from './components/mocoin/mocoin-input/mocoin-input.component';
+import { MocoinSigninComponent } from './components/mocoin/mocoin-signin/mocoin-signin.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ButtonsComponent } from './components/parts/buttons/buttons.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
@@ -98,7 +100,9 @@ import { UtilService } from './services/util/util.service';
         PurchaseNoteComponent,
         PurchasePointComponent,
         AuthSigninComponent,
-        TestScreenComponent
+        TestScreenComponent,
+        MocoinSigninComponent,
+        MocoinInputComponent
     ],
     imports: [
         BrowserModule,
