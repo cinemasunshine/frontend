@@ -4,7 +4,7 @@
 import { Application, NextFunction, Request, Response } from 'express';
 import * as path from 'path';
 import { signInRedirect } from '../controllers/authorize/authorize.controller';
-// import { getSchedule } from '../controllers/purchase/purchase.controller';
+import { getSchedule } from '../controllers/purchase/purchase.controller';
 import authorizeRouter from './authorize';
 import inquiryRouter from './inquiry';
 import masterRouter from './master';
@@ -59,7 +59,7 @@ export default (app: Application) => {
     app.use('/api/authorize', authorizeRouter);
     app.use('/inquiry', inquiryRouter);
     app.use('/method', methodRouter);
-    // app.get('/purchase/performances/getSchedule', getSchedule);
+    app.get('/purchase/performances/getSchedule', getSchedule);
     app.get('/purchase/transaction', purchaseTransaction);
     app.get('/signIn', signInRedirect);
     app.get('/', root);
