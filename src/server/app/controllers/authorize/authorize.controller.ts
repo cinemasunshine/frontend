@@ -95,6 +95,30 @@ export async function signInRedirect(req: Request, res: Response, next: NextFunc
     }
 }
 
+export async function getMocoinCredentials(req: Request, res: Response) {
+    log('getMocoinCredentials');
+    try {
+        let authModel;
+        authModel = new MocoinAuth2Model((<Express.Session>req.session).mocoin);
+        const options = {
+            endpoint: (<string>process.env.MOCOIN_API_ENDPOINT),
+            auth: authModel.create()
+        };
+        const accessToken = await options.auth.getAccessToken();
+        const credentials = {
+            accessToken: accessToken
+        };
+
+        const userName = options.auth.verifyIdToken(<any>{}).getUsername();
+        res.json({
+            credentials: credentials,
+            userName: userName
+        });
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}
+
 /**
  * エンタメコイン サインイン処理
  * @param {Request} req
@@ -150,4 +174,32 @@ export async function mocoinSignInRedirect(req: Request, res: Response, next: Ne
     } catch (err) {
         next(err);
     }
+}
+
+
+/**
+ * エンタメコイン サインアウト処理
+ * @param {Request} req
+ * @param {Response} res
+ */
+export async function mocoinSignOut(req: Request, res: Response) {
+    log('mocoinSignOut');
+    const authModel = new MocoinAuth2Model((<Express.Session>req.session).mocoin);
+    const auth = authModel.create();
+    const logoutUrl = auth.generateLogoutUrl();
+    log('logoutUrl:', logoutUrl);
+    res.json({
+        url: logoutUrl
+    });
+}
+
+/**
+ * エンタメコイン サインアウトリダイレクト処理
+ * @param {Request} req
+ * @param {Response} res
+ */
+export async function mocoinSignOutRedirect(req: Request, res: Response) {
+    log('mocoinSignOutRedirect');
+    delete (<Express.Session>req.session).mocoin;
+    res.redirect('/#/mocoin/signout');
 }

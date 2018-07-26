@@ -8,5 +8,7 @@ const authorize = require("../controllers/authorize/authorize.controller");
 const router = express.Router();
 router.get('/getCredentials', authorize.getCredentials);
 router.get('/signIn', authorize.signIn);
+router.get('/mocoin/getCredentials', authorize.getMocoinCredentials);
 router.get('/mocoin/signIn', authorize.mocoinSignIn);
+router.get('/mocoin/signOut', authorize.mocoinSignOut);
 exports.default = router;

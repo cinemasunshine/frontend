@@ -56,6 +56,7 @@ export class PurchaseScheduleComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         window.scrollTo(0, 0);
         this.user.reset();
+        this.purchase.reset();
         this.isLoading = true;
         try {
             await this.sasaki.getServices();

@@ -94,6 +94,16 @@ interface IData {
      * ポイント券種情報
      */
     pointTickets: COA.services.master.ITicketResult[];
+    /**
+     * エンタメコイン使用ポイント
+     */
+    useMocoin: number;
+    /**
+     * エンタメコイン情報
+     */
+    mocoinPaymentAuthorization?: {
+        id: string;
+    };
 }
 
 export interface IGmoTokenObject {
@@ -148,6 +158,7 @@ export class PurchaseService {
                 pointTickets: [],
                 orderCount: 0,
                 incentive: 0,
+                useMocoin: 0,
                 isCreditCardError: false
             };
 
@@ -175,6 +186,7 @@ export class PurchaseService {
             pointTickets: [],
             orderCount: 0,
             incentive: 0,
+            useMocoin: 0,
             isCreditCardError: false
         };
         this.save();
@@ -321,6 +333,24 @@ export class PurchaseService {
      * @method getTotalPrice
      */
     public getTotalPrice(): number {
+        let result = 0;
+        if (this.data.seatReservationAuthorization === undefined) {
+            return result;
+        }
+        for (const offer of this.data.seatReservationAuthorization.object.offers) {
+            result += offer.ticketInfo.salePrice;
+        }
+
+        result = result - this.data.useMocoin;
+
+        return result;
+    }
+
+    /**
+     * 合計金額計算(販売)
+     * @method getTotalSalsePrice
+     */
+    public getTotalSalsePrice(): number {
         let result = 0;
         if (this.data.seatReservationAuthorization === undefined) {
             return result;
@@ -982,5 +1012,26 @@ export class PurchaseService {
         }
         this.data.mvtkTickets = results;
         this.save();
+    }
+
+    /**
+     * エンタメコイン決済
+     */
+    public async mocoinPaymentProcess() {
+        if (this.data.transaction === undefined
+            || this.user.data.mocoinAccessToken === undefined
+            || this.user.data.coinAccount === undefined
+            || this.data.seatReservationAuthorization === undefined
+            || this.data.seatReservationAuthorization.result === undefined) {
+            throw new Error('status is different');
+        }
+        this.data.mocoinPaymentAuthorization =
+        await this.sasaki.transaction.placeOrder.createMocoinPaymentAuthorization({
+            transactionId: this.data.transaction.id,
+            amount: this.data.seatReservationAuthorization.result.price,
+            fromAccountNumber: this.user.data.coinAccount.accountNumber,
+            notes: 'シネマサンシャイン注文取引',
+            token: this.user.data.mocoinAccessToken
+        });
     }
 }

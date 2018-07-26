@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { factory } from '@motionpicture/sskts-api-javascript-client';
+import * as mocoin from '@mocoin/api-javascript-client';
+import * as sskts from '@motionpicture/sskts-api-javascript-client';
 import { SasakiService } from '../sasaki/sasaki.service';
 import { SaveType, StorageService } from '../storage/storage.service';
 
@@ -34,10 +35,12 @@ export enum FlgMember {
 export interface IData {
     native: NativeAppFlg;
     memberType: FlgMember;
-    contact?: factory.person.IContact;
-    creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
+    contact?: sskts.factory.person.IContact;
+    creditCards?: sskts.factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
-    account?: factory.pecorino.account.IAccount;
+    account?: sskts.factory.pecorino.account.IAccount;
+    coinAccount?: mocoin.factory.pecorino.account.IAccount;
+    mocoinAccessToken?: string;
 }
 
 @Injectable()
@@ -121,7 +124,7 @@ export class UserService {
             personId: 'me'
         });
         accounts = accounts.filter((account) => {
-            return account.status === factory.pecorino.accountStatusType.Opened;
+            return account.status === sskts.factory.pecorino.accountStatusType.Opened;
         });
         if (accounts.length === 0) {
             // 口座開設

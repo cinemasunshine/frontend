@@ -1,3 +1,28 @@
-<p>
-  mocoin-input works!
-</p>
+<div class="contents">
+    <h1 class="page-ttl">エンタメコイン</h1>
+    <p class="read">使用するエンタメコインを入力し「次へ」ボタンを押してください。</p>
+
+    <form (ngSubmit)="onSubmit()">
+        <div class="box radius bg-light-gray mb-large">
+            <dl>
+                <dd>
+                    <p class="mb-x-small">使用可能ポイント: <strong>{{ availableBalance }}</strong></p>
+                    <input class="text-right" [(ngModel)]="usePoint" type="number" name="usePoint" autocomplete="off" placeholder="">
+                    <p class="small-x-text">※半角数字で入力してください</p>
+                </dd>
+            </dl>
+        </div>
+
+        <app-buttons nextLabel="次へ" prevLabel="戻る" prevLink="/purchase/input"></app-buttons>
+    </form>
+    <app-site-seal></app-site-seal>
+</div>
+
+<app-loading [show]="isLoading"></app-loading>
+
+<app-modal [open]="alertModal" [layout]="true" (close)="alertModal = false">
+    <div class="modal-title large-text text-center mb-middle">
+        <strong>エラーが発生しました</strong>
+    </div>
+    <p class="text-center">{{ errorMessage }}</p>
+</app-modal>

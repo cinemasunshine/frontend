@@ -43,7 +43,7 @@ export class MocoinService {
      * サインイン
      */
     public async signIn() {
-        const url = '/api/authorize/signIn';
+        const url = '/api/authorize/mocoin/signIn';
         const result = await this.http.get<any>(url, {}).toPromise();
         console.log(result.url);
         location.href = result.url;
@@ -64,7 +64,7 @@ export class MocoinService {
      * サインアウト
      */
     public async signOut() {
-        const url = '/api/authorize/signOut';
+        const url = '/api/authorize/mocoin/signOut';
         const result = await this.http.get<any>(url, {}).toPromise();
         console.log(result.url);
         location.href = result.url;
@@ -86,7 +86,7 @@ export class MocoinService {
      * @method authorize
      */
     public async authorize() {
-        const url = '/api/authorize/getCredentials';
+        const url = '/api/authorize/mocoin/getCredentials';
         const options = {
             headers: new HttpHeaders({
                 'Pragma': 'no-cache',
@@ -112,6 +112,7 @@ export class MocoinService {
             tokenIssuer: ''
         };
         this.auth = mocoin.createAuthInstance(option);
+        console.log(result);
         this.auth.setCredentials(result.credentials);
         this.userName = result.userName;
     }

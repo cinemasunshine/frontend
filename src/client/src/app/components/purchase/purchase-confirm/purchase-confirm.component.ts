@@ -50,6 +50,9 @@ export class PurchaseConfirmComponent implements OnInit {
 
             return;
         }
+        if (this.purchase.data.useMocoin > 0) {
+            await this.purchase.mocoinPaymentProcess();
+        }
         if (this.purchase.getTotalPrice() > 0) {
             try {
                 // クレジットカード処理

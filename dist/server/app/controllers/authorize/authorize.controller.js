@@ -106,6 +106,32 @@ function signInRedirect(req, res, next) {
     });
 }
 exports.signInRedirect = signInRedirect;
+function getMocoinCredentials(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('getMocoinCredentials');
+        try {
+            let authModel;
+            authModel = new mocoin_auth2_model_1.MocoinAuth2Model(req.session.mocoin);
+            const options = {
+                endpoint: process.env.MOCOIN_API_ENDPOINT,
+                auth: authModel.create()
+            };
+            const accessToken = yield options.auth.getAccessToken();
+            const credentials = {
+                accessToken: accessToken
+            };
+            const userName = options.auth.verifyIdToken({}).getUsername();
+            res.json({
+                credentials: credentials,
+                userName: userName
+            });
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.getMocoinCredentials = getMocoinCredentials;
 /**
  * エンタメコイン サインイン処理
  * @param {Request} req
@@ -163,3 +189,34 @@ function mocoinSignInRedirect(req, res, next) {
     });
 }
 exports.mocoinSignInRedirect = mocoinSignInRedirect;
+/**
+ * エンタメコイン サインアウト処理
+ * @param {Request} req
+ * @param {Response} res
+ */
+function mocoinSignOut(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mocoinSignOut');
+        const authModel = new mocoin_auth2_model_1.MocoinAuth2Model(req.session.mocoin);
+        const auth = authModel.create();
+        const logoutUrl = auth.generateLogoutUrl();
+        log('logoutUrl:', logoutUrl);
+        res.json({
+            url: logoutUrl
+        });
+    });
+}
+exports.mocoinSignOut = mocoinSignOut;
+/**
+ * エンタメコイン サインアウトリダイレクト処理
+ * @param {Request} req
+ * @param {Response} res
+ */
+function mocoinSignOutRedirect(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mocoinSignOutRedirect');
+        delete req.session.mocoin;
+        res.redirect('/#/mocoin/signout');
+    });
+}
+exports.mocoinSignOutRedirect = mocoinSignOutRedirect;

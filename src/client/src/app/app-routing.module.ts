@@ -8,6 +8,7 @@ import { InquiryConfirmComponent } from './components/inquiry/inquiry-confirm/in
 import { InquiryLoginComponent } from './components/inquiry/inquiry-login/inquiry-login.component';
 import { MocoinInputComponent } from './components/mocoin/mocoin-input/mocoin-input.component';
 import { MocoinSigninComponent } from './components/mocoin/mocoin-signin/mocoin-signin.component';
+import { MocoinSignoutComponent } from './components/mocoin/mocoin-signout/mocoin-signout.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PurchaseBaseComponent } from './components/purchase/purchase-base/purchase-base.component';
 import { PurchaseCompleteComponent } from './components/purchase/purchase-complete/purchase-complete.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
     { path: 'purchase/transaction', component: PurchaseTransactionComponent },
     { path: 'auth/signin', component: AuthSigninComponent },
     { path: 'mocoin/signin', component: MocoinSigninComponent },
+    { path: 'mocoin/signout', component: MocoinSignoutComponent },
     {
         path: '',
         component: BaseComponent,

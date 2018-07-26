@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { LibphonenumberFormatPipe } from '../../../pipes/libphonenumber-format/libphonenumber-format.pipe';
 import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
+import { MocoinService } from '../../../services/mocoin/mocoin.service';
 import { IGmoTokenObject, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { UserService } from '../../../services/user/user.service';
@@ -45,7 +46,8 @@ export class PurchaseInputComponent implements OnInit {
         private error: ErrorService,
         private awsCognito: AwsCognitoService,
         private sasaki: SasakiService,
-        private utill: UtilService
+        private utill: UtilService,
+        private mocoin: MocoinService
 
     ) { }
 
@@ -94,6 +96,10 @@ export class PurchaseInputComponent implements OnInit {
                     throw new Error('contact is undefined');
                 }
                 const contacts = this.user.data.contact;
+
+                contacts.familyName = 'テスト';
+                contacts.givenName = 'テスト';
+                contacts.telephone = '03-6277-8824';
 
                 this.inputForm.controls.familyName.setValue(this.utill.convertToHira(contacts.familyName));
                 this.inputForm.controls.givenName.setValue(this.utill.convertToHira(contacts.givenName));
@@ -428,6 +434,13 @@ export class PurchaseInputComponent implements OnInit {
         this.inputForm.controls.cardExpirationYear.setValue(moment().format('YYYY'));
         this.inputForm.controls.securityCode.setValue('123');
         this.inputForm.controls.holderName.setValue('TEST');
+    }
+
+    /**
+     * エンタメコインログイン
+     */
+    public async mocoinSignin() {
+        await this.mocoin.signIn();
     }
 
 }

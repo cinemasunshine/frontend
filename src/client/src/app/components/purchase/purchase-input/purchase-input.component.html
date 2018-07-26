@@ -89,9 +89,15 @@
         </div>
 
         <h2 class="section-ttl">エンタメコイン</h2>
-        <div class="box radius bg-light-gray mb-large">
+        <div *ngIf="purchase.data.useMocoin === 0" class="box radius bg-light-gray mb-large">
             <div class="button blue-button">
-                <button type="button" routerLink="/purchase/mocoin/input">エンタメコインを使う</button>
+                <button type="button" (click)="mocoinSignin()">エンタメコインを使う</button>
+            </div>
+        </div>
+        <div *ngIf="purchase.data.useMocoin > 0" class="box radius bg-light-gray mb-large">
+            <p class="mb-x-small">使用ポイント <strong>{{ purchase.data.useMocoin }}</strong></p>
+            <div class="button blue-button">
+                <button type="button" (click)="mocoinSignin()">エンタメコイン変更</button>
             </div>
         </div>
 
