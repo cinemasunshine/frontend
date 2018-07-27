@@ -13,6 +13,7 @@
 | `REDIS_PORT`                        | true     |                  | REDISポート                             |
 | `REDIS_KEY`                         | true     |                  | REDISキー                               |
 | `SSKTS_API_ENDPOINT`                | true     |                  | SSKTS API エンドポイント                 |
+| `MOCOIN_API_ENDPOINT`               | true     |                  | MOCOIN API エンドポイント                 |
 | `COA_ENDPOINT`                      | true     |                  | COA API エンドポイント                   |
 | `COA_REFRESH_TOKEN`                 | true     |                  | COA API リフレッシュトークン              |
 | `MVTK_RESERVE_ENDPOINT`             | true     |                  | ムビチケ API エンドポイント               |
@@ -22,6 +23,11 @@
 | `CLIENT_SECRET_OAUTH2`              | true     |                  | OAUTH2クライアントSECRET                 |
 | `AUTHORIZE_SERVER_DOMAIN`           | true     |                  | 認可サーバードメイン                      |
 | `OAUTH2_SERVER_DOMAIN`              | true     |                  | OAUTH2認可サーバードメイン                |
+| `MOCOIN_CLIENT_ID_OAUTH2`           | true     |                  | OAUTH2クライアントID                     |
+| `MOCOIN_CLIENT_SECRET_OAUTH2`       | true     |                  | OAUTH2クライアントSECRET                 |
+| `MOCOIN_OAUTH2_SERVER_DOMAIN`       | true     |                  | OAUTH2認可サーバードメイン                |
+| `MOCOIN_AUTH_REDIRECT_URI`          | true     |                  | サインインリダイレクトURL                 |
+| `MOCOIN_AUTH_LOGUOT_URI`            | true     |                  | サインアウトリダイレクトURL               |
 | `RESOURCE_SERVER_URL`               | true     |                  | リソースサーバーURL                      |
 | `AUTH_REDIRECT_URI`                 | true     |                  | サインインリダイレクトURL                 |
 | `AUTH_LOGUOT_URI`                   | true     |                  | サインアウトリダイレクトURL               |
