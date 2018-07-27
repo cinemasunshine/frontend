@@ -5,8 +5,16 @@
     <form (ngSubmit)="onSubmit()">
         <div class="box radius bg-light-gray mb-large">
             <dl>
+                <dt>ご利用金額</dt>
+                <dd class="large-text red-text">
+                    <strong>￥{{ salsePrice }}</strong>
+                </dd>
+            </dl>
+            <dl>
                 <dd>
-                    <p class="mb-x-small">使用可能ポイント: <strong>{{ availableBalance }}</strong></p>
+                    <p class="mb-x-small">使用可能ポイント:
+                        <strong>{{ availableBalance }}</strong>
+                    </p>
                     <input class="text-right" [(ngModel)]="usePoint" type="number" name="usePoint" autocomplete="off" placeholder="">
                     <p class="small-x-text">※半角数字で入力してください</p>
                 </dd>

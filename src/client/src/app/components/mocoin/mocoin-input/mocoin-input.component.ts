@@ -10,6 +10,7 @@ import { UserService } from '../../../services/user/user.service';
 })
 export class MocoinInputComponent implements OnInit {
 
+    public salsePrice: number;
     public usePoint: number;
     public disable: boolean;
     public availableBalance: number;
@@ -24,6 +25,7 @@ export class MocoinInputComponent implements OnInit {
     ) { }
 
     public async ngOnInit() {
+        this.salsePrice = this.purchase.getTotalSalsePrice();
         this.usePoint = this.purchase.data.useMocoin;
         this.disable = false;
         this.alertModal = false;
@@ -57,6 +59,9 @@ export class MocoinInputComponent implements OnInit {
         }
         if (this.usePoint > this.purchase.getTotalSalsePrice()) {
             this.errorMessage = '決済金額の上限を超えています。';
+        }
+        if (this.usePoint < this.purchase.getTotalSalsePrice()) {
+            this.errorMessage = '決済金額が不足しています。';
         }
         if (this.errorMessage !== '') {
             this.alertModal = true;
