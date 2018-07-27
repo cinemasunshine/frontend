@@ -11,6 +11,8 @@ export const environment = {
     COGNITO_USER_POOL_ID: '',
     COGNITO_CLIENT_ID: '',
 
+    WAITER_ENDPOINT: 'https://sskts-waiter-development.appspot.com',
+
     SASAKI_API_ENDPOINT: 'https://sskts-api-development-mocoin.azurewebsites.net',
     MOCOIN_API_ENDPOINT: 'https://20izvsdr54.execute-api.ap-northeast-1.amazonaws.com/dev',
     TOKEN_ISSUER: '',

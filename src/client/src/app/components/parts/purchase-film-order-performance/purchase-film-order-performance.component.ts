@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
+import { HttpClient } from '../../../../../../../node_modules/@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
 type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
@@ -17,7 +18,9 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
     @Input() public data: IIndividualScreeningEvent;
     public availability: Iavailability;
 
-    constructor() { }
+    constructor(
+        private http: HttpClient
+    ) { }
 
     public ngOnInit() {
         this.availability = this.getAvailability(this.data.offer.availability);
@@ -51,32 +54,29 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
 
     /**
      * @method select
-     * @returns {void}
      */
-    public select(): void {
+    public async select() {
         const availability = this.data.offer.availability;
         if (availability === 0 || availability === null) {
             return;
         }
         // location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.data.identifier}`;
         const memberType = '1';
-        const nativeType = '0';
-        const params = {
-            id: this.data.identifier,
-            native: nativeType,
-            member: memberType
-        };
-        let query = '';
-        for (let i = 0; i < Object.keys(params).length; i++) {
-            const key = Object.keys(params)[i];
-            const value = (<any>params)[key];
-            if (i > 0) {
-                query += '&';
-            }
-            query += `${key}=${value}`;
+        const theaterCode = this.data.coaInfo.theaterCode;
+        const performanceId = this.data.identifier;
+        try {
+            const passport = await this.http.post<{ token: string }>(`${environment.WAITER_ENDPOINT}/passports`, {
+                scope: `placeOrderTransaction.MovieTheater-${theaterCode}`
+            }).toPromise();
+            const params = `performanceId=${performanceId}&passportToken=${passport.token}&member=${memberType}`;
+
+            const url = `/purchase/transaction?${params}`;
+            location.href = url;
+            // console.log(url);
+        } catch (err) {
+            console.error(err);
         }
-        const url = `${environment.ENTRANCE_SERVER_URL}/ticket/index.html?${query}`;
-        location.href = url;
+
     }
 
 }
