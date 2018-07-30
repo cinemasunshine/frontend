@@ -58,6 +58,14 @@
                 <dd>{{ data.order.customer.email }}</dd>
             </dl>
         </li>
+        <li *ngIf="user.isMember()">
+            <dl>
+                <dt>獲得ポイント</dt>
+                <dd>
+                    <strong class="red-text">{{ data.incentive }}ポイント</strong>
+                </dd>
+            </dl>
+        </li>
     </ul>
 
     <div class="ticket-app-hide">

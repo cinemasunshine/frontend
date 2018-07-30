@@ -26,7 +26,7 @@ export class PurchaseCompleteComponent implements OnInit {
         private storage: StorageService,
         private error: ErrorService,
         private sasaki: SasakiService,
-        private user: UserService
+        public user: UserService
     ) { }
 
     public ngOnInit() {

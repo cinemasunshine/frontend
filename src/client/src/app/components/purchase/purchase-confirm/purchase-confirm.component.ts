@@ -50,12 +50,22 @@ export class PurchaseConfirmComponent implements OnInit {
 
             return;
         }
+        if (this.purchase.getTotalPrice() > 0) {
+            try {
+                // クレジットカード処理
+                await this.purchase.creditCardPaymentProcess();
+            } catch (err) {
+                this.purchase.data.isCreditCardError = true;
+                this.router.navigate(['/purchase/input']);
+                return;
+            }
+        }
         try {
             if (this.user.isMember() && this.purchase.isReservePoint()) {
                 // 会員かつポイント使用
                 await this.purchase.pointPaymentProcess();
             }
-            if (this.user.isMember() && !this.purchase.isReservePoint()) {
+            if (this.user.isMember() && this.purchase.isIncentive()) {
                 // 会員かつポイント未使用
                 await this.purchase.incentiveProcess();
             }

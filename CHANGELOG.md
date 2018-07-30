@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+ - 会員ポイント決済追加
 
 ### Changed
 
@@ -13,6 +14,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Security
 
 ### Removed
+
+
+## 4.2.0 - 2018-07-27
+### Changed
+ - クレジット仮売上処理タイミング変更
+### Security
+ - angular6へアップデート
 
 ## 4.1.0 - 2018-06-13
 ### Added

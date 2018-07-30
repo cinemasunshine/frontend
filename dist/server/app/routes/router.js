@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const path = require("path");
 const authorize_controller_1 = require("../controllers/authorize/authorize.controller");
 const purchase_controller_1 = require("../controllers/purchase/purchase.controller");
 const authorize_1 = require("./authorize");
@@ -32,8 +33,8 @@ function purchaseTransaction(req, res, _next) {
     res.redirect(`/?${params}`);
 }
 function root(_req, res, _next) {
-    res.locals.GMO_ENDPOINT = process.env.GMO_ENDPOINT;
-    res.render('purchase/index', { layout: false });
+    const fileName = (process.env.NODE_ENV === 'production') ? 'production.html' : 'index.html';
+    res.sendFile(path.resolve(`${__dirname}/../../../client/${process.env.NODE_ENV}/${fileName}`));
 }
 function notfound(_req, res, _next) {
     res.render('notfound/index');

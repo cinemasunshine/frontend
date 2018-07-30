@@ -53,6 +53,14 @@ interface IData {
      */
     gmoTokenObject?: IGmoTokenObject;
     /**
+     * 支払いクレジットカード
+     */
+    paymentCreditCard?: IUnauthorizedCardOfMember | IUncheckedCardTokenized;
+    /**
+     * クレジットカードエラー
+     */
+    isCreditCardError: boolean;
+    /**
      * 決済情報（クレジット）
      */
     creditCardAuthorization?: {
@@ -78,6 +86,10 @@ interface IData {
     pecorinoAwardAuthorization?: {
         id: string;
     };
+    /**
+     * インセンティブ
+     */
+    incentive: number;
     /**
      * ポイント券種情報
      */
@@ -134,7 +146,9 @@ export class PurchaseService {
                 salesTickets: [],
                 mvtkTickets: [],
                 pointTickets: [],
-                orderCount: 0
+                orderCount: 0,
+                incentive: 0,
+                isCreditCardError: false
             };
 
             return;
@@ -159,7 +173,9 @@ export class PurchaseService {
             salesTickets: [],
             mvtkTickets: [],
             pointTickets: [],
-            orderCount: 0
+            orderCount: 0,
+            incentive: 0,
+            isCreditCardError: false
         };
         this.save();
     }
@@ -366,6 +382,28 @@ export class PurchaseService {
             }
         }
         return result;
+    }
+
+    /**
+     * インセンティブ判定
+     * @method isIncentive
+     * @returns {boolean}
+     */
+    public isIncentive(): boolean {
+        if (this.data.seatReservationAuthorization === undefined) {
+            return false;
+        }
+        const pointTickets: COA.services.master.ITicketResult[] = [];
+        for (const offer of this.data.seatReservationAuthorization.object.offers) {
+            const pointTicket = this.data.pointTickets.find((ticket) => {
+                return (ticket.ticketCode === offer.ticketInfo.ticketCode);
+            });
+            if (pointTicket !== undefined) {
+                pointTickets.push(pointTicket);
+            }
+        }
+
+        return (pointTickets.length !== this.data.seatReservationAuthorization.object.offers.length);
     }
 
     /**
@@ -593,22 +631,25 @@ export class PurchaseService {
      * 購入者情報登録処理
      * @method customerContactRegistrationProcess
      */
-    public async customerContactRegistrationProcess(args: {
-        transactionId: string;
-        contact: factory.transaction.placeOrder.ICustomerContact;
-    }) {
+    public async customerContactRegistrationProcess(args: factory.transaction.placeOrder.ICustomerContact) {
+        if (this.data.transaction === undefined) {
+            throw new Error('transaction is undefined');
+        }
         await this.sasaki.getServices();
         // 入力情報を登録
-        this.data.customerContact = await this.sasaki.transaction.placeOrder.setCustomerContact(args);
+        this.data.customerContact = await this.sasaki.transaction.placeOrder.setCustomerContact({
+            transactionId: this.data.transaction.id,
+            contact: args
+        });
         if (this.user.isNative() && !this.user.isMember()) {
             try {
                 const updateRecordsArgs = {
                     datasetName: 'profile',
                     value: {
-                        familyName: args.contact.familyName,
-                        givenName: args.contact.givenName,
-                        email: args.contact.email,
-                        telephone: args.contact.telephone
+                        familyName: args.familyName,
+                        givenName: args.givenName,
+                        email: args.email,
+                        telephone: args.telephone
                     }
                 };
                 await this.awsCognito.updateRecords(updateRecordsArgs);
@@ -623,8 +664,9 @@ export class PurchaseService {
     /**
      * クレジットカード支払い処理
      */
-    public async creditCardPaymentProcess(creditCard: IUnauthorizedCardOfMember | IUncheckedCardTokenized) {
-        if (this.data.transaction === undefined) {
+    public async creditCardPaymentProcess() {
+        if (this.data.transaction === undefined
+        || this.data.paymentCreditCard === undefined) {
             throw new Error('status is different');
         }
         await this.sasaki.getServices();
@@ -645,10 +687,8 @@ export class PurchaseService {
             orderId: this.createOrderId(),
             amount: this.getTotalPrice(),
             method: METHOD_LUMP,
-            creditCard: creditCard
+            creditCard: this.data.paymentCreditCard
         };
-        this.data.orderCount += 1;
-        this.save();
         this.data.creditCardAuthorization =
             await this.sasaki.transaction.placeOrder.createCreditCardAuthorization(createCreditCardAuthorizationArgs);
         this.save();
@@ -673,6 +713,7 @@ export class PurchaseService {
             `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['08']);
         const theaterCode = this.data.individualScreeningEvent.coaInfo.theaterCode;
         const reserveDate = moment().format('YYYYMMDD');
+        this.data.orderCount += 1;
         // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)
         return `${reserveDate}${theaterCode}${tmpReserveNum}${orderCount}`;
     }
@@ -692,6 +733,7 @@ export class PurchaseService {
             toAccountNumber: this.user.data.account.accountNumber,
             notes: '鑑賞'
         });
+        this.data.incentive = Incentive.WatchingMovies;
     }
 
     /**
@@ -781,7 +823,8 @@ export class PurchaseService {
         const complete = {
             order: order,
             transaction: this.data.transaction,
-            movieTheaterOrganization: this.data.movieTheaterOrganization
+            movieTheaterOrganization: this.data.movieTheaterOrganization,
+            incentive: this.data.incentive
         };
         this.storage.save('complete', complete, SaveType.Session);
 
