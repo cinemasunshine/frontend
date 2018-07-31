@@ -348,8 +348,23 @@ export class PurchaseTicketComponent implements OnInit {
             });
         } else if (this.purchase.data.seatReservationAuthorization !== undefined) {
             this.offers = this.purchase.data.seatReservationAuthorization.object.offers.map((offer) => {
-                if (offer.ticketInfo.mvtkNum === '') {
-                    const ticket = this.salesTickets.find((salseTicket) => {
+                if (offer.ticketInfo.mvtkNum !== '') {
+                    // ムビチケ
+                    return {
+                        price: offer.price,
+                        priceCurrency: offer.priceCurrency,
+                        seatNumber: offer.seatNumber,
+                        seatSection: offer.seatSection,
+                        mvtkNum: offer.ticketInfo.mvtkNum,
+                        selected: true,
+                        limitCount: 1,
+                        limitUnit: '001',
+                        validation: false,
+                        ticketInfo: offer.ticketInfo
+                    };
+                } else if (offer.ticketInfo.usePoint > 0) {
+                    // ポイント
+                    const ticket = this.salesPointTickets.find((salseTicket) => {
                         return (offer.ticketInfo.ticketCode === salseTicket.ticketCode
                             && offer.ticketInfo.addGlasses === salseTicket.addGlasses);
                     });
@@ -371,6 +386,16 @@ export class PurchaseTicketComponent implements OnInit {
                         ticketInfo: offer.ticketInfo
                     };
                 } else {
+                    // 通常
+                    const ticket = this.salesTickets.find((salseTicket) => {
+                        return (offer.ticketInfo.ticketCode === salseTicket.ticketCode
+                            && offer.ticketInfo.addGlasses === salseTicket.addGlasses);
+                    });
+
+                    if (ticket === undefined) {
+                        throw new Error('ticket is not found');
+                    }
+
                     return {
                         price: offer.price,
                         priceCurrency: offer.priceCurrency,
@@ -378,8 +403,8 @@ export class PurchaseTicketComponent implements OnInit {
                         seatSection: offer.seatSection,
                         mvtkNum: offer.ticketInfo.mvtkNum,
                         selected: true,
-                        limitCount: 1,
-                        limitUnit: '001',
+                        limitCount: ticket.limitCount,
+                        limitUnit: ticket.limitUnit,
                         validation: false,
                         ticketInfo: offer.ticketInfo
                     };
