@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { IMvtkTicket, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
 import { UserService } from '../../../services/user/user.service';
@@ -104,8 +105,26 @@ export class PurchaseTicketComponent implements OnInit {
      * @method createSalseTickets
      */
     private createSalseTickets() {
+        if (this.purchase.data.individualScreeningEvent === undefined) {
+            throw new Error('individualScreeningEvent is undefined');
+        }
+        const individualScreeningEvent = this.purchase.data.individualScreeningEvent;
+        const pointInfo = environment.POINT_TICKET.find((ticket) => {
+            return ticket.THEATER === individualScreeningEvent.coaInfo.theaterCode;
+        });
         const results = [];
         for (const salesTicket of this.purchase.data.salesTickets) {
+            if (pointInfo !== undefined) {
+                // ポイント券種除外
+                const pointTicketCodeList = pointInfo.TICKET_CODE;
+                const ticketCode = pointTicketCodeList.find((pointTicketcode) => {
+                    return pointTicketcode === salesTicket.ticketCode;
+                });
+                if (ticketCode !== undefined) {
+                    continue;
+                }
+            }
+
             const noGlassesBase = {};
             const noGlasses = Object.assign(noGlassesBase, salesTicket);
             noGlasses.addGlasses = 0;
@@ -169,29 +188,35 @@ export class PurchaseTicketComponent implements OnInit {
         const results = [];
         let count = 0;
         for (const pointTicket of this.purchase.data.pointTickets) {
-            const salesTicket = {
-                ticketCode: pointTicket.ticketCode,
-                ticketName: pointTicket.ticketName,
-                ticketNameKana: pointTicket.ticketNameKana,
-                ticketNameEng: pointTicket.ticketNameEng,
-                stdPrice: 0,
-                addPrice: 0,
-                salePrice: 0,
-                limitCount: 1,
-                limitUnit: '001',
-                ticketNote: '',
-                addGlasses: 0,
+            const salesTicket = this.purchase.data.salesTickets.find((ticket) => {
+                return ticket.ticketCode === pointTicket.ticketCode;
+            });
+            if (salesTicket === undefined) {
+                throw new Error('salesTicket is not found');
+            }
+            const data = {
+                ticketCode: salesTicket.ticketCode,
+                ticketName: salesTicket.ticketName,
+                ticketNameKana: salesTicket.ticketNameKana,
+                ticketNameEng: salesTicket.ticketNameEng,
+                stdPrice: salesTicket.salePrice,
+                addPrice: salesTicket.addPrice,
+                salePrice: salesTicket.salePrice,
+                limitCount: salesTicket.limitCount,
+                limitUnit: salesTicket.limitUnit,
+                ticketNote: salesTicket.ticketNote,
+                addGlasses: salesTicket.addGlasses,
                 selected: false,
-                id: `${pointTicket.ticketCode}${count}`
+                id: `${salesTicket.ticketCode}${count}`
             };
             const noGlassesBase = {};
-            const noGlasses = Object.assign(noGlassesBase, salesTicket);
+            const noGlasses = Object.assign(noGlassesBase, data);
             noGlasses.addGlasses = 0;
             results.push(noGlasses);
-            if (salesTicket.addGlasses > 0) {
+            if (data.addGlasses > 0) {
                 // メガネあり券種作成
                 const glassesBase = {};
-                const glasses = Object.assign(glassesBase, salesTicket);
+                const glasses = Object.assign(glassesBase, data);
                 glasses.salePrice = glasses.salePrice + glasses.addGlasses;
                 glasses.ticketName = `${glasses.ticketName}メガネ込み`;
                 results.push(glasses);
@@ -236,8 +261,7 @@ export class PurchaseTicketComponent implements OnInit {
             ticket.selected = false;
         }
         for (const offer of this.offers) {
-            if (offer.ticketInfo.mvtkNum !== ''
-                || offer.ticketInfo.salePrice > 0) {
+            if (offer.ticketInfo.usePoint === 0) {
                 continue;
             }
             // 選択済みへ変更
@@ -247,7 +271,7 @@ export class PurchaseTicketComponent implements OnInit {
             });
             if (sameTicket !== undefined) {
                 sameTicket.selected = true;
-                const sameGlassesTicket = this.salesMvtkTickets.find((ticket) => {
+                const sameGlassesTicket = this.salesPointTickets.find((ticket) => {
                     return (sameTicket.id === ticket.id && !ticket.selected);
                 });
                 if (sameGlassesTicket !== undefined) {
@@ -325,17 +349,13 @@ export class PurchaseTicketComponent implements OnInit {
         } else if (this.purchase.data.seatReservationAuthorization !== undefined) {
             this.offers = this.purchase.data.seatReservationAuthorization.object.offers.map((offer) => {
                 if (offer.ticketInfo.mvtkNum === '') {
-                    let ticket = this.salesTickets.find((salseTicket) => {
+                    const ticket = this.salesTickets.find((salseTicket) => {
                         return (offer.ticketInfo.ticketCode === salseTicket.ticketCode
                             && offer.ticketInfo.addGlasses === salseTicket.addGlasses);
                     });
 
                     if (ticket === undefined) {
-                        // ポイント券種
-                        ticket = <ISalesTicketResult>{
-                            limitCount: 1,
-                            limitUnit: '001'
-                        };
+                        throw new Error('ticket is not found');
                     }
 
                     return {

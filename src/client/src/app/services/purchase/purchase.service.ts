@@ -366,7 +366,41 @@ export class PurchaseService {
     }
 
     /**
-     * ムビチケでの予約判定
+     * ポイント対応作品判定
+     * @method isUsedPoint
+     * @returns {boolean}
+     */
+    public isUsedPoint(): boolean {
+        if (this.data.salesTickets.length === 0
+            || this.data.individualScreeningEvent === undefined) {
+            return false;
+        }
+
+        const individualScreeningEvent = this.data.individualScreeningEvent;
+
+        const pointInfo = environment.POINT_TICKET.find((ticket) => {
+            return ticket.THEATER === individualScreeningEvent.coaInfo.theaterCode;
+        });
+
+        if (pointInfo === undefined) {
+            return false;
+        }
+
+        const pointTicketCodeList = pointInfo.TICKET_CODE;
+
+        const pointTickets = this.data.salesTickets.filter((salesTicket) => {
+            const ticketCode = pointTicketCodeList.find((pointTicketcode) => {
+                return pointTicketcode === salesTicket.ticketCode;
+            });
+
+            return ticketCode !== undefined;
+        });
+
+        return pointTickets.length > 0;
+    }
+
+    /**
+     * ポイントでの予約判定
      * @method isReserveMvtk
      * @returns {boolean}
      */
@@ -609,6 +643,7 @@ export class PurchaseService {
             eventIdentifier: this.data.individualScreeningEvent.identifier,
             offers: offers
         };
+        // console.log('changeSeatReservationArgs', changeSeatReservationArgs);
         this.data.seatReservationAuthorization =
             await this.sasaki.transaction.placeOrder.changeSeatReservationOffers(changeSeatReservationArgs);
         if (this.data.seatReservationAuthorization === undefined) {
@@ -666,7 +701,7 @@ export class PurchaseService {
      */
     public async creditCardPaymentProcess() {
         if (this.data.transaction === undefined
-        || this.data.paymentCreditCard === undefined) {
+            || this.data.paymentCreditCard === undefined) {
             throw new Error('status is different');
         }
         await this.sasaki.getServices();
