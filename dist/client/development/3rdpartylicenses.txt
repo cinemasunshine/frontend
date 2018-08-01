@@ -87,19 +87,11 @@ MIT
 MIT
 MIT
 
-@motionpicture/pecorino-factory@0.0.0
+@motionpicture/sskts-api-javascript-client@3.2.0-alpha.0
 ISC
 ISC
 
-@motionpicture/sskts-api-abstract-client@3.4.0-mocoin.0
-ISC
-ISC
-
-@motionpicture/sskts-api-javascript-client@3.4.0-mocoin.0
-ISC
-ISC
-
-@motionpicture/sskts-factory@4.3.0-mocoin.0
+@pecorino/factory@1.0.0
 ISC
 ISC
 
