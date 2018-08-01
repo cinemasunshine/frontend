@@ -14,7 +14,7 @@ export const environment = {
     WAITER_ENDPOINT: 'https://sskts-waiter-development.appspot.com',
 
     SASAKI_API_ENDPOINT: 'https://sskts-api-development-mocoin.azurewebsites.net',
-    MOCOIN_API_ENDPOINT: 'https://20izvsdr54.execute-api.ap-northeast-1.amazonaws.com/dev',
+    MOCOIN_API_ENDPOINT: 'https://asrw80qlrc.execute-api.ap-northeast-1.amazonaws.com/entamecoin',
     TOKEN_ISSUER: '',
 
     ANALYTICS_ID: 'UA-99018492-2'

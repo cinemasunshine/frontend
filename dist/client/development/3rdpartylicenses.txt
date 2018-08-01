@@ -71,11 +71,19 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 MIT
 MIT
 
+@angular/compiler@6.0.7
+MIT
+MIT
+
 @angular/core@6.0.7
 MIT
 MIT
 
 @angular/forms@6.0.7
+MIT
+MIT
+
+@angular/platform-browser-dynamic@6.0.7
 MIT
 MIT
 
@@ -87,19 +95,11 @@ MIT
 MIT
 MIT
 
-@mocoin/api-abstract-client@0.0.0-alpha.5
+@mocoin/api-abstract-client@0.0.0-alpha.7
 ISC
 ISC
 
-@mocoin/api-javascript-client@0.0.0-alpha.4
-ISC
-ISC
-
-@mocoin/factory@0.0.0-alpha.7
-ISC
-ISC
-
-@motionpicture/pecorino-factory@0.0.0
+@mocoin/api-javascript-client@0.0.0-alpha.5
 ISC
 ISC
 
@@ -111,7 +111,11 @@ ISC
 ISC
 ISC
 
-@motionpicture/sskts-factory@4.3.0-mocoin.0
+@motionpicture/sskts-factory@4.4.0
+ISC
+ISC
+
+@pecorino/factory@1.0.0
 ISC
 ISC
 

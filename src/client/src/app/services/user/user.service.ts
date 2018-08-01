@@ -39,7 +39,7 @@ export interface IData {
     creditCards?: sskts.factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
     account?: sskts.factory.pecorino.account.IAccount;
-    coinAccount?: mocoin.factory.pecorino.account.IAccount;
+    coinAccount?: mocoin.factory.pecorino.account.IAccount<mocoin.factory.accountType.Coin>;
     mocoinAccessToken?: string;
 }
 
