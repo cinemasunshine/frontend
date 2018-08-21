@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
 /***/ "../../node_modules/moment/locale sync recursive ^\\.\\/.*$":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/hataguchi/Desktop/workspace/motionpicture/SSKTS/frontend/node_modules/moment/locale sync ^\.\/.*$ ***!
-  \******************************************************************************************************************/
+/*!********************************************************************************!*\
+  !*** /Users/toshi/src/sskts-frontend/node_modules/moment/locale sync ^\.\/.*$ ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10023,19 +10023,59 @@ var DEVELOPMENT_POINT_TICKET = [
 var PRODUCTION_POINT_TICKET = [
     {
         THEATER: '001',
-        TICKET_CODE: []
+        TICKET_CODE: [
+            '4000011',
+            '4000012',
+            '4000013',
+            '4000021',
+            '4000022',
+            '4000023',
+            '4000031',
+            '4000032',
+            '4000033'
+        ]
     },
     {
         THEATER: '012',
-        TICKET_CODE: []
+        TICKET_CODE: [
+            '4000011',
+            '4000012',
+            '4000013',
+            '4000021',
+            '4000022',
+            '4000023',
+            '4000031',
+            '4000032',
+            '4000033'
+        ]
     },
     {
         THEATER: '018',
-        TICKET_CODE: []
+        TICKET_CODE: [
+            '4000011',
+            '4000012',
+            '4000013',
+            '4000021',
+            '4000022',
+            '4000023',
+            '4000031',
+            '4000032',
+            '4000033'
+        ]
     },
     {
         THEATER: '019',
-        TICKET_CODE: []
+        TICKET_CODE: [
+            '4000011',
+            '4000012',
+            '4000013',
+            '4000021',
+            '4000022',
+            '4000023',
+            '4000031',
+            '4000032',
+            '4000033'
+        ]
     }
 ];
 
@@ -10079,7 +10119,7 @@ _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["platformBrowser"]().boot
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\hataguchi\Desktop\workspace\motionpicture\SSKTS\frontend\src\client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/toshi/src/sskts-frontend/src/client/src/main.ts */"./src/main.ts");
 
 
 /***/ }),
