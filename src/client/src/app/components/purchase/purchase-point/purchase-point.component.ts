@@ -40,7 +40,7 @@ export class PurchasePointComponent implements OnInit {
                 throw new Error('individualScreeningEvent is undefined');
             }
             if (this.purchase.data.tmpSeatReservationAuthorization === undefined
-            || this.purchase.data.tmpSeatReservationAuthorization.result === undefined) {
+                || this.purchase.data.tmpSeatReservationAuthorization.result === undefined) {
                 throw new Error('individualScreeningEvent is undefined');
             }
             const reserveLength = this.purchase.data.tmpSeatReservationAuthorization.result.updTmpReserveSeatResult.listTmpReserve.length;
@@ -52,8 +52,13 @@ export class PurchasePointComponent implements OnInit {
             const masterTickets = await this.sasaki.getTickets({
                 theaterCode: individualScreeningEvent.coaInfo.theaterCode
             });
-            this.pointTickets = masterTickets.filter((ticket) => {
-                return (ticket.usePoint > 0 && ticket.flgMember === FlgMember.Member);
+            this.pointTickets = masterTickets.filter((masterTicket) => {
+                const salesTicket = this.purchase.data.salesTickets.find((ticket) => {
+                    return ticket.ticketCode === masterTicket.ticketCode;
+                });
+                return (masterTicket.usePoint > 0
+                    && masterTicket.flgMember === FlgMember.Member
+                    && salesTicket !== undefined);
             });
             for (const pointTicket of this.pointTickets) {
                 this.selectTickets[pointTicket.ticketCode] = 0;
