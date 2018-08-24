@@ -15,6 +15,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.0.0 - 2018-08-24
+### Changed
+ - ポイント券種追加
 
 ## 4.2.0 - 2018-07-27
 ### Changed
