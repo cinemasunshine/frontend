@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
 /***/ "../../node_modules/moment/locale sync recursive ^\\.\\/.*$":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/hataguchi/Desktop/workspace/motionpicture/SSKTS/frontend/node_modules/moment/locale sync ^\.\/.*$ ***!
-  \******************************************************************************************************************/
+/*!********************************************************************************!*\
+  !*** /Users/toshi/src/sskts-frontend/node_modules/moment/locale sync ^\.\/.*$ ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5691,6 +5691,7 @@ var PurchasePointComponent = /** @class */ (function () {
     PurchasePointComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var reserveLength, i, individualScreeningEvent, masterTickets, _i, _a, pointTicket, err_1;
+            var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -5719,8 +5720,13 @@ var PurchasePointComponent = /** @class */ (function () {
                             })];
                     case 2:
                         masterTickets = _b.sent();
-                        this.pointTickets = masterTickets.filter(function (ticket) {
-                            return (ticket.usePoint > 0 && ticket.flgMember === _services_user_user_service__WEBPACK_IMPORTED_MODULE_5__["FlgMember"].Member);
+                        this.pointTickets = masterTickets.filter(function (masterTicket) {
+                            var salesTicket = _this.purchase.data.salesTickets.find(function (ticket) {
+                                return ticket.ticketCode === masterTicket.ticketCode;
+                            });
+                            return (masterTicket.usePoint > 0
+                                && masterTicket.flgMember === _services_user_user_service__WEBPACK_IMPORTED_MODULE_5__["FlgMember"].Member
+                                && salesTicket !== undefined);
                         });
                         for (_i = 0, _a = this.pointTickets; _i < _a.length; _i++) {
                             pointTicket = _a[_i];
@@ -6572,7 +6578,7 @@ function View_PurchaseTicketComponent_0(_l) { return _angular_core__WEBPACK_IMPO
     } return ad; }, _parts_modal_modal_component_ngfactory__WEBPACK_IMPORTED_MODULE_9__["View_ModalComponent_0"], _parts_modal_modal_component_ngfactory__WEBPACK_IMPORTED_MODULE_9__["RenderType_ModalComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](52, 114688, null, 0, _parts_modal_modal_component__WEBPACK_IMPORTED_MODULE_10__["ModalComponent"], [], { open: [0, "open"], layout: [1, "layout"] }, { close: "close" }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](53, 0, null, 0, 2, "div", [["class", "modal-title large-text text-center mb-middle"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](54, 0, null, null, 1, "strong", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u5238\u7A2E\u304C\u672A\u9078\u629E\u3067\u3059"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](56, 0, null, 0, 1, "p", [["class", "text-center"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u3054\u5E0C\u671B\u306E\u5238\u7A2E\u3092\u9078\u629E\u3057\u3066\u300C\u6B21\u3078\u300D\u30DC\u30BF\u30F3\u3092\u62BC\u3057\u3066\u304F\u3060\u3055\u3044\u3002"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](58, 0, null, null, 8, "app-modal", [], null, [[null, "close"]], function (_v, en, $event) { var ad = true; var _co = _v.component; if (("close" === en)) {
         var pd_0 = ((_co.discountConditionsModal = false) !== false);
         ad = (pd_0 && ad);
-    } return ad; }, _parts_modal_modal_component_ngfactory__WEBPACK_IMPORTED_MODULE_9__["View_ModalComponent_0"], _parts_modal_modal_component_ngfactory__WEBPACK_IMPORTED_MODULE_9__["RenderType_ModalComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](59, 114688, null, 0, _parts_modal_modal_component__WEBPACK_IMPORTED_MODULE_10__["ModalComponent"], [], { open: [0, "open"], layout: [1, "layout"] }, { close: "close" }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](60, 0, null, 0, 2, "div", [["class", "modal-title large-text text-center mb-middle"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](61, 0, null, null, 1, "strong", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u5272\u5F15\u6761\u4EF6\u304C\u6E80\u305F\u3055\u308C\u3066\u3044\u307E\u305B\u3093"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](63, 0, null, 0, 3, "p", [["class", "text-center"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u9078\u629E\u3057\u305F\u5238\u7A2E\u306E\u4E2D\u306B\u3001\u5272\u5F15\u5238\u304C\u542B\u307E\u308C\u3066\u3044\u307E\u3059\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](65, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, [" \u5272\u5F15\u5238\u306E\u9069\u7528\u6761\u4EF6\u3092\u518D\u5EA6\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](67, 0, null, null, 1, "app-loading", [], null, null, null, _parts_loading_loading_component_ngfactory__WEBPACK_IMPORTED_MODULE_11__["View_LoadingComponent_0"], _parts_loading_loading_component_ngfactory__WEBPACK_IMPORTED_MODULE_11__["RenderType_LoadingComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](68, 114688, null, 0, _parts_loading_loading_component__WEBPACK_IMPORTED_MODULE_12__["LoadingComponent"], [], { show: [0, "show"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = (_co.purchase.isUsedMvtk() && (_co.purchase.data.mvtkTickets.length === 0)); _ck(_v, 6, 0, currVal_0); var currVal_1 = (_co.user.isMember() && (_co.purchase.data.pointTickets.length === 0)); _ck(_v, 8, 0, currVal_1); var currVal_2 = _co.offers; _ck(_v, 11, 0, currVal_2); var currVal_5 = (((_co.purchase.data.individualScreeningEvent == null) ? null : ((_co.purchase.data.individualScreeningEvent.superEvent.coaInfo.kbnJoueihousiki == null) ? null : _co.purchase.data.individualScreeningEvent.superEvent.coaInfo.kbnJoueihousiki.kubunCode)) === "002"); _ck(_v, 26, 0, currVal_5); var currVal_13 = _co.ticketForm; _ck(_v, 35, 0, currVal_13); var currVal_14 = "\u6B21\u3078"; var currVal_15 = "\u623B\u308B"; var currVal_16 = "/purchase/seat"; _ck(_v, 39, 0, currVal_14, currVal_15, currVal_16); _ck(_v, 41, 0); var currVal_17 = _co.ticketsModal; var currVal_18 = false; _ck(_v, 43, 0, currVal_17, currVal_18); var currVal_19 = _co.salesMvtkTickets; _ck(_v, 46, 0, currVal_19); var currVal_20 = _co.salesPointTickets; _ck(_v, 48, 0, currVal_20); var currVal_21 = _co.salesTickets; _ck(_v, 50, 0, currVal_21); var currVal_22 = _co.notSelectModal; var currVal_23 = true; _ck(_v, 52, 0, currVal_22, currVal_23); var currVal_24 = _co.discountConditionsModal; var currVal_25 = true; _ck(_v, 59, 0, currVal_24, currVal_25); var currVal_26 = _co.isLoading; _ck(_v, 68, 0, currVal_26); }, function (_ck, _v) { var _co = _v.component; var currVal_3 = _co.offers.length; _ck(_v, 17, 0, currVal_3); var currVal_4 = _co.totalPrice; _ck(_v, 22, 0, currVal_4); var currVal_6 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassUntouched; var currVal_7 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassTouched; var currVal_8 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassPristine; var currVal_9 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassDirty; var currVal_10 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassValid; var currVal_11 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassInvalid; var currVal_12 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassPending; _ck(_v, 33, 0, currVal_6, currVal_7, currVal_8, currVal_9, currVal_10, currVal_11, currVal_12); }); }
+    } return ad; }, _parts_modal_modal_component_ngfactory__WEBPACK_IMPORTED_MODULE_9__["View_ModalComponent_0"], _parts_modal_modal_component_ngfactory__WEBPACK_IMPORTED_MODULE_9__["RenderType_ModalComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](59, 114688, null, 0, _parts_modal_modal_component__WEBPACK_IMPORTED_MODULE_10__["ModalComponent"], [], { open: [0, "open"], layout: [1, "layout"] }, { close: "close" }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](60, 0, null, 0, 2, "div", [["class", "modal-title large-text text-center mb-middle"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](61, 0, null, null, 1, "strong", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u5272\u5F15\u6761\u4EF6\u304C\u6E80\u305F\u3055\u308C\u3066\u3044\u307E\u305B\u3093"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](63, 0, null, 0, 3, "p", [["class", "text-center"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u9078\u629E\u3057\u305F\u5238\u7A2E\u306E\u4E2D\u306B\u3001\u5272\u5F15\u5238\u304C\u542B\u307E\u308C\u3066\u3044\u307E\u3059\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](65, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, [" \u5272\u5F15\u5238\u306E\u9069\u7528\u6761\u4EF6\u3092\u518D\u5EA6\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](67, 0, null, null, 1, "app-loading", [], null, null, null, _parts_loading_loading_component_ngfactory__WEBPACK_IMPORTED_MODULE_11__["View_LoadingComponent_0"], _parts_loading_loading_component_ngfactory__WEBPACK_IMPORTED_MODULE_11__["RenderType_LoadingComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](68, 114688, null, 0, _parts_loading_loading_component__WEBPACK_IMPORTED_MODULE_12__["LoadingComponent"], [], { show: [0, "show"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = (_co.purchase.isUsedMvtk() && (_co.purchase.data.mvtkTickets.length === 0)); _ck(_v, 6, 0, currVal_0); var currVal_1 = ((_co.user.isMember() && _co.purchase.isUsedPoint()) && (_co.purchase.data.pointTickets.length === 0)); _ck(_v, 8, 0, currVal_1); var currVal_2 = _co.offers; _ck(_v, 11, 0, currVal_2); var currVal_5 = (((_co.purchase.data.individualScreeningEvent == null) ? null : ((_co.purchase.data.individualScreeningEvent.superEvent.coaInfo.kbnJoueihousiki == null) ? null : _co.purchase.data.individualScreeningEvent.superEvent.coaInfo.kbnJoueihousiki.kubunCode)) === "002"); _ck(_v, 26, 0, currVal_5); var currVal_13 = _co.ticketForm; _ck(_v, 35, 0, currVal_13); var currVal_14 = "\u6B21\u3078"; var currVal_15 = "\u623B\u308B"; var currVal_16 = "/purchase/seat"; _ck(_v, 39, 0, currVal_14, currVal_15, currVal_16); _ck(_v, 41, 0); var currVal_17 = _co.ticketsModal; var currVal_18 = false; _ck(_v, 43, 0, currVal_17, currVal_18); var currVal_19 = _co.salesMvtkTickets; _ck(_v, 46, 0, currVal_19); var currVal_20 = _co.salesPointTickets; _ck(_v, 48, 0, currVal_20); var currVal_21 = _co.salesTickets; _ck(_v, 50, 0, currVal_21); var currVal_22 = _co.notSelectModal; var currVal_23 = true; _ck(_v, 52, 0, currVal_22, currVal_23); var currVal_24 = _co.discountConditionsModal; var currVal_25 = true; _ck(_v, 59, 0, currVal_24, currVal_25); var currVal_26 = _co.isLoading; _ck(_v, 68, 0, currVal_26); }, function (_ck, _v) { var _co = _v.component; var currVal_3 = _co.offers.length; _ck(_v, 17, 0, currVal_3); var currVal_4 = _co.totalPrice; _ck(_v, 22, 0, currVal_4); var currVal_6 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassUntouched; var currVal_7 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassTouched; var currVal_8 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassPristine; var currVal_9 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassDirty; var currVal_10 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassValid; var currVal_11 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassInvalid; var currVal_12 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 37).ngClassPending; _ck(_v, 33, 0, currVal_6, currVal_7, currVal_8, currVal_9, currVal_10, currVal_11, currVal_12); }); }
 function View_PurchaseTicketComponent_Host_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "app-purchase-ticket", [], null, null, null, View_PurchaseTicketComponent_0, RenderType_PurchaseTicketComponent)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 114688, null, 0, _purchase_ticket_component__WEBPACK_IMPORTED_MODULE_13__["PurchaseTicketComponent"], [_services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_14__["PurchaseService"], _services_user_user_service__WEBPACK_IMPORTED_MODULE_15__["UserService"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _services_error_error_service__WEBPACK_IMPORTED_MODULE_16__["ErrorService"]], null, null)], function (_ck, _v) { _ck(_v, 1, 0); }, null); }
 var PurchaseTicketComponentNgFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵccf"]("app-purchase-ticket", _purchase_ticket_component__WEBPACK_IMPORTED_MODULE_13__["PurchaseTicketComponent"], View_PurchaseTicketComponent_Host_0, {}, {}, []);
 
@@ -6615,9 +6621,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "../../node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _services_error_error_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/error/error.service */ "./src/app/services/error/error.service.ts");
-/* harmony import */ var _services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/purchase/purchase.service */ "./src/app/services/purchase/purchase.service.ts");
-/* harmony import */ var _services_user_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../services/user/user.service */ "./src/app/services/user/user.service.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _services_error_error_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/error/error.service */ "./src/app/services/error/error.service.ts");
+/* harmony import */ var _services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../services/purchase/purchase.service */ "./src/app/services/purchase/purchase.service.ts");
+/* harmony import */ var _services_user_user_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../services/user/user.service */ "./src/app/services/user/user.service.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -6659,6 +6666,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var PurchaseTicketComponent = /** @class */ (function () {
     function PurchaseTicketComponent(purchase, user, formBuilder, router, error) {
         this.purchase = purchase;
@@ -6693,9 +6701,25 @@ var PurchaseTicketComponent = /** @class */ (function () {
      * @method createSalseTickets
      */
     PurchaseTicketComponent.prototype.createSalseTickets = function () {
+        if (this.purchase.data.individualScreeningEvent === undefined) {
+            throw new Error('individualScreeningEvent is undefined');
+        }
+        var individualScreeningEvent = this.purchase.data.individualScreeningEvent;
+        var pointInfo = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].POINT_TICKET.find(function (ticket) {
+            return ticket.THEATER === individualScreeningEvent.coaInfo.theaterCode;
+        });
         var results = [];
-        for (var _i = 0, _a = this.purchase.data.salesTickets; _i < _a.length; _i++) {
-            var salesTicket = _a[_i];
+        var _loop_1 = function (salesTicket) {
+            if (pointInfo !== undefined) {
+                // ポイント券種除外
+                var pointTicketCodeList = pointInfo.TICKET_CODE;
+                var ticketCode = pointTicketCodeList.find(function (pointTicketcode) {
+                    return pointTicketcode === salesTicket.ticketCode;
+                });
+                if (ticketCode !== undefined) {
+                    return "continue";
+                }
+            }
             var noGlassesBase = {};
             var noGlasses = Object.assign(noGlassesBase, salesTicket);
             noGlasses.addGlasses = 0;
@@ -6708,6 +6732,10 @@ var PurchaseTicketComponent = /** @class */ (function () {
                 glasses.ticketName = glasses.ticketName + "\u30E1\u30AC\u30CD\u8FBC\u307F";
                 results.push(glasses);
             }
+        };
+        for (var _i = 0, _a = this.purchase.data.salesTickets; _i < _a.length; _i++) {
+            var salesTicket = _a[_i];
+            _loop_1(salesTicket);
         }
         return results;
     };
@@ -6754,36 +6782,46 @@ var PurchaseTicketComponent = /** @class */ (function () {
     PurchaseTicketComponent.prototype.createSalsePointTickets = function () {
         var results = [];
         var count = 0;
-        for (var _i = 0, _a = this.purchase.data.pointTickets; _i < _a.length; _i++) {
-            var pointTicket = _a[_i];
-            var salesTicket = {
-                ticketCode: pointTicket.ticketCode,
-                ticketName: pointTicket.ticketName,
-                ticketNameKana: pointTicket.ticketNameKana,
-                ticketNameEng: pointTicket.ticketNameEng,
-                stdPrice: 0,
-                addPrice: 0,
-                salePrice: 0,
-                limitCount: 1,
-                limitUnit: '001',
-                ticketNote: '',
-                addGlasses: 0,
+        var _loop_2 = function (pointTicket) {
+            var salesTicket = this_1.purchase.data.salesTickets.find(function (ticket) {
+                return ticket.ticketCode === pointTicket.ticketCode;
+            });
+            if (salesTicket === undefined) {
+                throw new Error('salesTicket is not found');
+            }
+            var data = {
+                ticketCode: salesTicket.ticketCode,
+                ticketName: salesTicket.ticketName,
+                ticketNameKana: salesTicket.ticketNameKana,
+                ticketNameEng: salesTicket.ticketNameEng,
+                stdPrice: salesTicket.salePrice,
+                addPrice: salesTicket.addPrice,
+                salePrice: salesTicket.salePrice,
+                limitCount: salesTicket.limitCount,
+                limitUnit: salesTicket.limitUnit,
+                ticketNote: salesTicket.ticketNote,
+                addGlasses: salesTicket.addGlasses,
                 selected: false,
-                id: "" + pointTicket.ticketCode + count
+                id: "" + salesTicket.ticketCode + count
             };
             var noGlassesBase = {};
-            var noGlasses = Object.assign(noGlassesBase, salesTicket);
+            var noGlasses = Object.assign(noGlassesBase, data);
             noGlasses.addGlasses = 0;
             results.push(noGlasses);
-            if (salesTicket.addGlasses > 0) {
+            if (data.addGlasses > 0) {
                 // メガネあり券種作成
                 var glassesBase = {};
-                var glasses = Object.assign(glassesBase, salesTicket);
+                var glasses = Object.assign(glassesBase, data);
                 glasses.salePrice = glasses.salePrice + glasses.addGlasses;
                 glasses.ticketName = glasses.ticketName + "\u30E1\u30AC\u30CD\u8FBC\u307F";
                 results.push(glasses);
             }
             count++;
+        };
+        var this_1 = this;
+        for (var _i = 0, _a = this.purchase.data.pointTickets; _i < _a.length; _i++) {
+            var pointTicket = _a[_i];
+            _loop_2(pointTicket);
         }
         return results;
     };
@@ -6797,44 +6835,14 @@ var PurchaseTicketComponent = /** @class */ (function () {
             var ticket = _a[_i];
             ticket.selected = false;
         }
-        var _loop_1 = function (offer) {
+        var _loop_3 = function (offer) {
             if (offer.ticketInfo.mvtkNum === '') {
                 return "continue";
             }
             // 選択済みへ変更
-            var sameTicket = this_1.salesMvtkTickets.find(function (ticket) {
+            var sameTicket = this_2.salesMvtkTickets.find(function (ticket) {
                 return (offer.ticketInfo.mvtkNum === ticket.knyknrNoInfo.knyknrNo
                     && offer.ticketInfo.ticketCode === ticket.mvtkTicketcodeResult.ticketCode
-                    && !ticket.selected);
-            });
-            if (sameTicket !== undefined) {
-                sameTicket.selected = true;
-                var sameGlassesTicket = this_1.salesMvtkTickets.find(function (ticket) {
-                    return (sameTicket.id === ticket.id && !ticket.selected);
-                });
-                if (sameGlassesTicket !== undefined) {
-                    sameGlassesTicket.selected = true;
-                }
-            }
-        };
-        var this_1 = this;
-        for (var _b = 0, _c = this.offers; _b < _c.length; _b++) {
-            var offer = _c[_b];
-            _loop_1(offer);
-        }
-        // ポイント券種
-        for (var _d = 0, _e = this.salesPointTickets; _d < _e.length; _d++) {
-            var ticket = _e[_d];
-            ticket.selected = false;
-        }
-        var _loop_2 = function (offer) {
-            if (offer.ticketInfo.mvtkNum !== ''
-                || offer.ticketInfo.salePrice > 0) {
-                return "continue";
-            }
-            // 選択済みへ変更
-            var sameTicket = this_2.salesPointTickets.find(function (ticket) {
-                return (offer.ticketInfo.ticketCode === ticket.ticketCode
                     && !ticket.selected);
             });
             if (sameTicket !== undefined) {
@@ -6848,9 +6856,38 @@ var PurchaseTicketComponent = /** @class */ (function () {
             }
         };
         var this_2 = this;
+        for (var _b = 0, _c = this.offers; _b < _c.length; _b++) {
+            var offer = _c[_b];
+            _loop_3(offer);
+        }
+        // ポイント券種
+        for (var _d = 0, _e = this.salesPointTickets; _d < _e.length; _d++) {
+            var ticket = _e[_d];
+            ticket.selected = false;
+        }
+        var _loop_4 = function (offer) {
+            if (offer.ticketInfo.usePoint === 0) {
+                return "continue";
+            }
+            // 選択済みへ変更
+            var sameTicket = this_3.salesPointTickets.find(function (ticket) {
+                return (offer.ticketInfo.ticketCode === ticket.ticketCode
+                    && !ticket.selected);
+            });
+            if (sameTicket !== undefined) {
+                sameTicket.selected = true;
+                var sameGlassesTicket = this_3.salesPointTickets.find(function (ticket) {
+                    return (sameTicket.id === ticket.id && !ticket.selected);
+                });
+                if (sameGlassesTicket !== undefined) {
+                    sameGlassesTicket.selected = true;
+                }
+            }
+        };
+        var this_3 = this;
         for (var _f = 0, _g = this.offers; _f < _g.length; _f++) {
             var offer = _g[_f];
-            _loop_2(offer);
+            _loop_4(offer);
         }
     };
     /**
@@ -6933,17 +6970,29 @@ var PurchaseTicketComponent = /** @class */ (function () {
         }
         else if (this.purchase.data.seatReservationAuthorization !== undefined) {
             this.offers = this.purchase.data.seatReservationAuthorization.object.offers.map(function (offer) {
-                if (offer.ticketInfo.mvtkNum === '') {
-                    var ticket = _this.salesTickets.find(function (salseTicket) {
+                if (offer.ticketInfo.mvtkNum !== '') {
+                    // ムビチケ
+                    return {
+                        price: offer.price,
+                        priceCurrency: offer.priceCurrency,
+                        seatNumber: offer.seatNumber,
+                        seatSection: offer.seatSection,
+                        mvtkNum: offer.ticketInfo.mvtkNum,
+                        selected: true,
+                        limitCount: 1,
+                        limitUnit: '001',
+                        validation: false,
+                        ticketInfo: offer.ticketInfo
+                    };
+                }
+                else if (offer.ticketInfo.usePoint > 0) {
+                    // ポイント
+                    var ticket = _this.salesPointTickets.find(function (salseTicket) {
                         return (offer.ticketInfo.ticketCode === salseTicket.ticketCode
                             && offer.ticketInfo.addGlasses === salseTicket.addGlasses);
                     });
                     if (ticket === undefined) {
-                        // ポイント券種
-                        ticket = {
-                            limitCount: 1,
-                            limitUnit: '001'
-                        };
+                        throw new Error('ticket is not found');
                     }
                     return {
                         price: offer.price,
@@ -6959,6 +7008,14 @@ var PurchaseTicketComponent = /** @class */ (function () {
                     };
                 }
                 else {
+                    // 通常
+                    var ticket = _this.salesTickets.find(function (salseTicket) {
+                        return (offer.ticketInfo.ticketCode === salseTicket.ticketCode
+                            && offer.ticketInfo.addGlasses === salseTicket.addGlasses);
+                    });
+                    if (ticket === undefined) {
+                        throw new Error('ticket is not found');
+                    }
                     return {
                         price: offer.price,
                         priceCurrency: offer.priceCurrency,
@@ -6966,8 +7023,8 @@ var PurchaseTicketComponent = /** @class */ (function () {
                         seatSection: offer.seatSection,
                         mvtkNum: offer.ticketInfo.mvtkNum,
                         selected: true,
-                        limitCount: 1,
-                        limitUnit: '001',
+                        limitCount: ticket.limitCount,
+                        limitUnit: ticket.limitUnit,
                         validation: false,
                         ticketInfo: offer.ticketInfo
                     };
@@ -6981,9 +7038,9 @@ var PurchaseTicketComponent = /** @class */ (function () {
      */
     PurchaseTicketComponent.prototype.ticketValidation = function () {
         var result = false;
-        var _loop_3 = function (offer) {
+        var _loop_5 = function (offer) {
             if (offer.limitUnit === '001') {
-                var unitLimitTickets = this_3.offers.filter(function (targetOffer) {
+                var unitLimitTickets = this_4.offers.filter(function (targetOffer) {
                     return (targetOffer.limitUnit === '001' && targetOffer.limitCount === offer.limitCount);
                 });
                 if (unitLimitTickets.length % offer.limitCount !== 0) {
@@ -6992,10 +7049,10 @@ var PurchaseTicketComponent = /** @class */ (function () {
                 }
             }
         };
-        var this_3 = this;
+        var this_4 = this;
         for (var _i = 0, _a = this.offers; _i < _a.length; _i++) {
             var offer = _a[_i];
-            _loop_3(offer);
+            _loop_5(offer);
         }
         return result;
     };
@@ -8432,7 +8489,33 @@ var PurchaseService = /** @class */ (function () {
             && Number(coaInfo.dateMvtkBegin) <= Number(today));
     };
     /**
-     * ムビチケでの予約判定
+     * ポイント対応作品判定
+     * @method isUsedPoint
+     * @returns {boolean}
+     */
+    PurchaseService.prototype.isUsedPoint = function () {
+        if (this.data.salesTickets.length === 0
+            || this.data.individualScreeningEvent === undefined) {
+            return false;
+        }
+        var individualScreeningEvent = this.data.individualScreeningEvent;
+        var pointInfo = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].POINT_TICKET.find(function (ticket) {
+            return ticket.THEATER === individualScreeningEvent.coaInfo.theaterCode;
+        });
+        if (pointInfo === undefined) {
+            return false;
+        }
+        var pointTicketCodeList = pointInfo.TICKET_CODE;
+        var pointTickets = this.data.salesTickets.filter(function (salesTicket) {
+            var ticketCode = pointTicketCodeList.find(function (pointTicketcode) {
+                return pointTicketcode === salesTicket.ticketCode;
+            });
+            return ticketCode !== undefined;
+        });
+        return pointTickets.length > 0;
+    };
+    /**
+     * ポイントでの予約判定
      * @method isReserveMvtk
      * @returns {boolean}
      */
@@ -8731,9 +8814,11 @@ var PurchaseService = /** @class */ (function () {
                             eventIdentifier: this.data.individualScreeningEvent.identifier,
                             offers: offers
                         };
+                        // console.log('changeSeatReservationArgs', changeSeatReservationArgs);
                         _a = this.data;
                         return [4 /*yield*/, this.sasaki.transaction.placeOrder.changeSeatReservationOffers(changeSeatReservationArgs)];
                     case 2:
+                        // console.log('changeSeatReservationArgs', changeSeatReservationArgs);
                         _a.seatReservationAuthorization =
                             _b.sent();
                         if (this.data.seatReservationAuthorization === undefined) {
@@ -9878,6 +9963,8 @@ var UtilService = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
+/* harmony import */ var _ticket__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ticket */ "./src/environments/ticket.ts");
+
 var environment = {
     production: false,
     PORTAL_SITE_URL: 'http://testssktsportal.azurewebsites.net',
@@ -9892,8 +9979,105 @@ var environment = {
     COGNITO_CLIENT_ID: '',
     SASAKI_API_ENDPOINT: 'https://sskts-api-test.azurewebsites.net',
     TOKEN_ISSUER: '',
+    POINT_TICKET: _ticket__WEBPACK_IMPORTED_MODULE_0__["DEVELOPMENT_POINT_TICKET"],
     ANALYTICS_ID: 'UA-99018492-2'
 };
+
+
+/***/ }),
+
+/***/ "./src/environments/ticket.ts":
+/*!************************************!*\
+  !*** ./src/environments/ticket.ts ***!
+  \************************************/
+/*! exports provided: DEVELOPMENT_POINT_TICKET, PRODUCTION_POINT_TICKET */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEVELOPMENT_POINT_TICKET", function() { return DEVELOPMENT_POINT_TICKET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PRODUCTION_POINT_TICKET", function() { return PRODUCTION_POINT_TICKET; });
+var DEVELOPMENT_POINT_TICKET = [
+    {
+        THEATER: '101',
+        TICKET_CODE: []
+    },
+    {
+        THEATER: '112',
+        TICKET_CODE: []
+    },
+    {
+        THEATER: '118',
+        TICKET_CODE: [
+            '3800001',
+            '3800002',
+            '3900001',
+            '3900002'
+        ]
+    },
+    {
+        THEATER: '119',
+        TICKET_CODE: []
+    }
+];
+var PRODUCTION_POINT_TICKET = [
+    {
+        THEATER: '001',
+        TICKET_CODE: [
+            '4000011',
+            '4000012',
+            '4000013',
+            '4000021',
+            '4000022',
+            '4000023',
+            '4000031',
+            '4000032',
+            '4000033'
+        ]
+    },
+    {
+        THEATER: '012',
+        TICKET_CODE: [
+            '4000011',
+            '4000012',
+            '4000013',
+            '4000021',
+            '4000022',
+            '4000023',
+            '4000031',
+            '4000032',
+            '4000033'
+        ]
+    },
+    {
+        THEATER: '018',
+        TICKET_CODE: [
+            '4000011',
+            '4000012',
+            '4000013',
+            '4000021',
+            '4000022',
+            '4000023',
+            '4000031',
+            '4000032',
+            '4000033'
+        ]
+    },
+    {
+        THEATER: '019',
+        TICKET_CODE: [
+            '4000011',
+            '4000012',
+            '4000013',
+            '4000021',
+            '4000022',
+            '4000023',
+            '4000031',
+            '4000032',
+            '4000033'
+        ]
+    }
+];
 
 
 /***/ }),
@@ -9935,7 +10119,7 @@ _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["platformBrowser"]().boot
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\hataguchi\Desktop\workspace\motionpicture\SSKTS\frontend\src\client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/toshi/src/sskts-frontend/src/client/src/main.ts */"./src/main.ts");
 
 
 /***/ }),

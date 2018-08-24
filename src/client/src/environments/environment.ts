@@ -1,3 +1,5 @@
+import { DEVELOPMENT_POINT_TICKET } from './ticket';
+
 export const environment = {
     production: false,
     PORTAL_SITE_URL: '/#/purchase/schedule',
@@ -14,6 +16,8 @@ export const environment = {
 
     SASAKI_API_ENDPOINT: 'https://sskts-api-development.azurewebsites.net',
     TOKEN_ISSUER: '',
+
+    POINT_TICKET: DEVELOPMENT_POINT_TICKET,
 
     ANALYTICS_ID: 'UA-99018492-2'
 };

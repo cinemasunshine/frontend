@@ -1,3 +1,5 @@
+import { PRODUCTION_POINT_TICKET } from './ticket';
+
 export const environment = {
     production: true,
     PORTAL_SITE_URL: 'http://www.cinemasunshine.co.jp',
@@ -14,6 +16,8 @@ export const environment = {
 
     SASAKI_API_ENDPOINT: 'https://sskts-api-production.azurewebsites.net',
     TOKEN_ISSUER: '',
+
+    POINT_TICKET: PRODUCTION_POINT_TICKET,
 
     ANALYTICS_ID: 'UA-8383230-1'
 };

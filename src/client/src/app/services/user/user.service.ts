@@ -37,7 +37,7 @@ export interface IData {
     contact?: factory.person.IContact;
     creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
-    account?: factory.pecorino.account.IAccount;
+    account?: factory.pecorino.account.IAccount<factory.accountType.Point>;
 }
 
 @Injectable()
