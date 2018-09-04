@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { IMvtkTicket, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
@@ -472,10 +471,8 @@ export class PurchaseTicketComponent implements OnInit {
      */
     public selectSalseTicket(ticket: ISalesTicketResult) {
         if (this.purchase.data.individualScreeningEvent !== undefined) {
-            const dateJouei = moment(this.purchase.data.individualScreeningEvent.coaInfo.dateJouei);
             const ltdTicketCode = this.purchase.getMemberTicketCode();
-            // 上映の日は木曜日かどうかチェックする
-            if (dateJouei.day() === 4 && ltdTicketCode.indexOf(ticket.ticketCode) >= 0) {
+            if (ltdTicketCode.indexOf(ticket.ticketCode) >= 0) {
                 this.salesTickets = this.salesTickets.filter(
                     (t) => ltdTicketCode.indexOf(t.ticketCode) < 0
                 );
