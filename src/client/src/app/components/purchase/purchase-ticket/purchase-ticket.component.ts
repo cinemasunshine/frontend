@@ -472,8 +472,7 @@ export class PurchaseTicketComponent implements OnInit {
     public selectSalseTicket(ticket: ISalesTicketResult) {
         if (this.purchase.data.individualScreeningEvent !== undefined) {
             const ltdTicketCode = this.purchase.getMemberTicketCode();
-            // 上映の日は木曜日かどうかチェックする
-            if (this.purchase.isMemberDay() && ltdTicketCode.indexOf(ticket.ticketCode) >= 0) {
+            if (ltdTicketCode.indexOf(ticket.ticketCode) >= 0) {
                 this.salesTickets = this.salesTickets.filter(
                     (t) => ltdTicketCode.indexOf(t.ticketCode) < 0
                 );

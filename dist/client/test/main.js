@@ -6356,7 +6356,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
      */
     PurchaseSeatComponent.prototype.fitchSalesTickets = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var individualScreeningEvent, salesTicketArgs, salesTickets, ltdTicketCode_1, isLtdOrdered, err_1;
+            var individualScreeningEvent, salesTicketArgs, salesTickets, ltdTicketCode, isLtdOrdered, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -6375,22 +6375,22 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.sasaki.getSalesTickets(salesTicketArgs)];
                     case 2:
                         salesTickets = _a.sent();
-                        if (!(this.purchase.isMemberDay()
-                            && this.user.data.account !== undefined
-                            && this.purchase.data.individualScreeningEvent !== undefined)) return [3 /*break*/, 6];
-                        ltdTicketCode_1 = this.purchase.getMemberTicketCode();
+                        ltdTicketCode = this.purchase.getMemberTicketCode();
+                        if (!(this.user.data.account !== undefined
+                            && this.purchase.data.individualScreeningEvent !== undefined
+                            && ltdTicketCode.length > 0)) return [3 /*break*/, 6];
                         _a.label = 3;
                     case 3:
                         _a.trys.push([3, 5, , 6]);
                         return [4 /*yield*/, this.sasaki.order.isLimitedOrdered({
-                                limitedTicketCode: ltdTicketCode_1,
+                                limitedTicketCode: ltdTicketCode,
                                 customerMembershipNumber: this.user.data.account.name,
                                 screenDate: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei
                             })];
                     case 4:
                         isLtdOrdered = _a.sent();
                         if (isLtdOrdered) {
-                            salesTickets = salesTickets.filter(function (ticket) { return (ltdTicketCode_1.indexOf(ticket.ticketCode) < 0); });
+                            salesTickets = salesTickets.filter(function (ticket) { return (ltdTicketCode.indexOf(ticket.ticketCode) < 0); });
                         }
                         return [3 /*break*/, 6];
                     case 5:
@@ -7114,8 +7114,7 @@ var PurchaseTicketComponent = /** @class */ (function () {
         var _this = this;
         if (this.purchase.data.individualScreeningEvent !== undefined) {
             var ltdTicketCode_1 = this.purchase.getMemberTicketCode();
-            // 上映の日は木曜日かどうかチェックする
-            if (this.purchase.isMemberDay() && ltdTicketCode_1.indexOf(ticket.ticketCode) >= 0) {
+            if (ltdTicketCode_1.indexOf(ticket.ticketCode) >= 0) {
                 this.salesTickets = this.salesTickets.filter(function (t) { return ltdTicketCode_1.indexOf(t.ticketCode) < 0; });
             }
             else {
@@ -8582,18 +8581,6 @@ var PurchaseService = /** @class */ (function () {
             }
         }
         return result;
-    };
-    /**
-     * メンバーズデイ判定
-     * @method isMemberDay
-     * @returns {boolean}
-     */
-    PurchaseService.prototype.isMemberDay = function () {
-        if (this.data.individualScreeningEvent === undefined) {
-            return false;
-        }
-        var dateJouei = this.data.individualScreeningEvent.coaInfo.dateJouei;
-        return moment__WEBPACK_IMPORTED_MODULE_1__(dateJouei).day() === 4;
     };
     /**
      * インセンティブ判定
