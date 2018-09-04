@@ -1,4 +1,4 @@
-import { DEVELOPMENT_POINT_TICKET } from './ticket';
+import { DEVELOPMENT_MEMBER_TICKET, DEVELOPMENT_POINT_TICKET } from './ticket';
 
 export const environment = {
     production: false,
@@ -19,5 +19,7 @@ export const environment = {
 
     POINT_TICKET: DEVELOPMENT_POINT_TICKET,
 
-    ANALYTICS_ID: 'UA-99018492-2'
+    ANALYTICS_ID: 'UA-99018492-2',
+
+    MEMBER_TICKET: DEVELOPMENT_MEMBER_TICKET, // 毎週木曜1,100円鑑賞の購入枚数上限は1枚だけ
 };

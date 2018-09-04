@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../../../services/error/error.service';
 import { IMvtkTicket, ISalesTicketResult, PurchaseService } from '../../../services/purchase/purchase.service';
@@ -62,6 +63,7 @@ export class PurchaseTicketComponent implements OnInit {
     public totalPrice: number;
     public selectOffer: Ioffer;
     public ticketsModal: boolean;
+    public originalSaleTickets: ISalesTicketResult[];
     public isLoading: boolean;
     public discountConditionsModal: boolean;
     public notSelectModal: boolean;
@@ -95,6 +97,7 @@ export class PurchaseTicketComponent implements OnInit {
             this.setOffers();
             this.totalPrice = this.getTotalPrice();
             this.upDateSalseTickets();
+            this.originalSaleTickets = [ ...this.salesTickets];
         } catch (err) {
             this.error.redirect(err);
         }
@@ -468,6 +471,19 @@ export class PurchaseTicketComponent implements OnInit {
      * @param {boolean} glass
      */
     public selectSalseTicket(ticket: ISalesTicketResult) {
+        if (this.purchase.data.individualScreeningEvent !== undefined) {
+            const dateJouei = moment(this.purchase.data.individualScreeningEvent.coaInfo.dateJouei);
+            const ltdTicketCode = this.purchase.getMemberTicketCode();
+            // 上映の日は木曜日かどうかチェックする
+            if (dateJouei.day() === 4 && ltdTicketCode.indexOf(ticket.ticketCode) >= 0) {
+                this.salesTickets = this.salesTickets.filter(
+                    (t) => ltdTicketCode.indexOf(t.ticketCode) < 0
+                );
+            } else {
+                this.salesTickets = this.originalSaleTickets;
+            }
+        }
+
         const target = this.offers.find((offer) => {
             return (offer.seatNumber === this.selectOffer.seatNumber);
         });

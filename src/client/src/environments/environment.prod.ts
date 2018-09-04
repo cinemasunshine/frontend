@@ -1,4 +1,4 @@
-import { PRODUCTION_POINT_TICKET } from './ticket';
+import { PRODUCTION_MEMBER_TICKET, PRODUCTION_POINT_TICKET } from './ticket';
 
 export const environment = {
     production: true,
@@ -19,5 +19,7 @@ export const environment = {
 
     POINT_TICKET: PRODUCTION_POINT_TICKET,
 
-    ANALYTICS_ID: 'UA-8383230-1'
+    ANALYTICS_ID: 'UA-8383230-1',
+
+    MEMBER_TICKET: PRODUCTION_MEMBER_TICKET, // 毎週木曜1,100円鑑賞の購入枚数上限は1枚だけ
 };
