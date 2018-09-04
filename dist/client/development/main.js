@@ -6356,7 +6356,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
      */
     PurchaseSeatComponent.prototype.fitchSalesTickets = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var individualScreeningEvent, salesTicketArgs, salesTickets, ltdTicketCode, isLtdOrdered, err_1;
+            var individualScreeningEvent, salesTicketArgs, salesTickets;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -6375,30 +6375,8 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.sasaki.getSalesTickets(salesTicketArgs)];
                     case 2:
                         salesTickets = _a.sent();
-                        ltdTicketCode = this.purchase.getMemberTicketCode();
-                        if (!(this.user.data.account !== undefined
-                            && this.purchase.data.individualScreeningEvent !== undefined
-                            && ltdTicketCode.length > 0)) return [3 /*break*/, 6];
-                        _a.label = 3;
-                    case 3:
-                        _a.trys.push([3, 5, , 6]);
-                        return [4 /*yield*/, this.sasaki.order.isLimitedOrdered({
-                                limitedTicketCode: ltdTicketCode,
-                                customerMembershipNumber: this.user.data.account.name,
-                                screenDate: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei
-                            })];
-                    case 4:
-                        isLtdOrdered = _a.sent();
-                        if (isLtdOrdered) {
-                            salesTickets = salesTickets.filter(function (ticket) { return (ltdTicketCode.indexOf(ticket.ticketCode) < 0); });
-                        }
-                        return [3 /*break*/, 6];
-                    case 5:
-                        err_1 = _a.sent();
-                        console.error(err_1);
-                        this.error.redirect(err_1);
-                        return [3 /*break*/, 6];
-                    case 6: return [2 /*return*/, salesTickets];
+                        // console.log('salesTickets', salesTicketArgs, salesTickets);
+                        return [2 /*return*/, salesTickets];
                 }
             });
         });
@@ -6409,7 +6387,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
      */
     PurchaseSeatComponent.prototype.onSubmit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, offers, err_2;
+            var _a, offers, err_1;
             var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -6466,8 +6444,8 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         this.router.navigate(['/purchase/ticket']);
                         return [3 /*break*/, 6];
                     case 5:
-                        err_2 = _b.sent();
-                        this.error.redirect(err_2);
+                        err_1 = _b.sent();
+                        this.error.redirect(err_1);
                         return [3 /*break*/, 6];
                     case 6: return [2 /*return*/];
                 }
@@ -7112,21 +7090,23 @@ var PurchaseTicketComponent = /** @class */ (function () {
      */
     PurchaseTicketComponent.prototype.selectSalseTicket = function (ticket) {
         var _this = this;
-        if (this.purchase.data.individualScreeningEvent !== undefined) {
-            var ltdTicketCode_1 = this.purchase.getMemberTicketCode();
-            if (ltdTicketCode_1.indexOf(ticket.ticketCode) >= 0) {
-                this.salesTickets = this.salesTickets.filter(function (t) { return ltdTicketCode_1.indexOf(t.ticketCode) < 0; });
-            }
-            else {
-                this.salesTickets = this.originalSaleTickets;
-            }
-        }
         var target = this.offers.find(function (offer) {
             return (offer.seatNumber === _this.selectOffer.seatNumber);
         });
         if (target === undefined) {
             this.ticketsModal = false;
             return;
+        }
+        if (this.purchase.data.individualScreeningEvent !== undefined) {
+            var ltdTicketCode_1 = this.purchase.getMemberTicketCode();
+            if (ltdTicketCode_1.indexOf(ticket.ticketCode) >= 0) {
+                this.salesTickets = this.salesTickets.filter(function (t) { return ltdTicketCode_1.indexOf(t.ticketCode) < 0; });
+                this.ltdSelected = target;
+            }
+            else if (this.ltdSelected === target) {
+                this.ltdSelected = undefined;
+                this.salesTickets = this.originalSaleTickets;
+            }
         }
         var findTicket = this.purchase.data.pointTickets.find(function (pointTicket) {
             return (pointTicket.ticketCode === ticket.ticketCode);

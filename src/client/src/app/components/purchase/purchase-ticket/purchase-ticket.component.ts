@@ -63,6 +63,7 @@ export class PurchaseTicketComponent implements OnInit {
     public selectOffer: Ioffer;
     public ticketsModal: boolean;
     public originalSaleTickets: ISalesTicketResult[];
+    public ltdSelected: Ioffer | undefined;
     public isLoading: boolean;
     public discountConditionsModal: boolean;
     public notSelectModal: boolean;
@@ -470,17 +471,6 @@ export class PurchaseTicketComponent implements OnInit {
      * @param {boolean} glass
      */
     public selectSalseTicket(ticket: ISalesTicketResult) {
-        if (this.purchase.data.individualScreeningEvent !== undefined) {
-            const ltdTicketCode = this.purchase.getMemberTicketCode();
-            if (ltdTicketCode.indexOf(ticket.ticketCode) >= 0) {
-                this.salesTickets = this.salesTickets.filter(
-                    (t) => ltdTicketCode.indexOf(t.ticketCode) < 0
-                );
-            } else {
-                this.salesTickets = this.originalSaleTickets;
-            }
-        }
-
         const target = this.offers.find((offer) => {
             return (offer.seatNumber === this.selectOffer.seatNumber);
         });
@@ -488,6 +478,18 @@ export class PurchaseTicketComponent implements OnInit {
             this.ticketsModal = false;
 
             return;
+        }
+        if (this.purchase.data.individualScreeningEvent !== undefined) {
+            const ltdTicketCode = this.purchase.getMemberTicketCode();
+            if (ltdTicketCode.indexOf(ticket.ticketCode) >= 0) {
+                this.salesTickets = this.salesTickets.filter(
+                    (t) => ltdTicketCode.indexOf(t.ticketCode) < 0
+                );
+                this.ltdSelected = target;
+            } else if (this.ltdSelected === target) {
+                this.ltdSelected = undefined;
+                this.salesTickets = this.originalSaleTickets;
+            }
         }
         const findTicket = this.purchase.data.pointTickets.find((pointTicket) => {
             return (pointTicket.ticketCode === ticket.ticketCode);
