@@ -437,6 +437,19 @@ export class PurchaseService {
     }
 
     /**
+     * メンバーズデイ判定
+     * @method isMemberDay
+     * @returns {boolean}
+     */
+    public isMemberDay(): boolean {
+        if (this.data.individualScreeningEvent === undefined) {
+            return false;
+        }
+        const dateJouei = this.data.individualScreeningEvent.coaInfo.dateJouei;
+        return moment(dateJouei).day() === 4;
+    }
+
+    /**
      * インセンティブ判定
      * @method isIncentive
      * @returns {boolean}

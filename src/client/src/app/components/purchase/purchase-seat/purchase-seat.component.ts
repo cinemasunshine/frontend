@@ -91,10 +91,14 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         };
         let salesTickets = await this.sasaki.getSalesTickets(salesTicketArgs);
         // console.log('salesTickets', salesTicketArgs, salesTickets);
-        if (this.user.data.account !== undefined && this.purchase.data.individualScreeningEvent !== undefined) {
+        if (
+            this.purchase.isMemberDay()
+            && this.user.data.account !== undefined
+            && this.purchase.data.individualScreeningEvent !== undefined
+        ) {
             const ltdTicketCode = this.purchase.getMemberTicketCode();
             try {
-                const isLtdOrdered = this.sasaki.order.isLimitedOrdered({
+                const isLtdOrdered = await this.sasaki.order.isLimitedOrdered({
                     limitedTicketCode: ltdTicketCode,
                     customerMembershipNumber: this.user.data.account.name,
                     screenDate: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei
