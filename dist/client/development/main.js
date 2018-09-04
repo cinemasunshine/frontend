@@ -12682,13 +12682,19 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         // console.log('salesTickets', salesTicketArgs, salesTickets);
                         if (this.user.data.account !== undefined && this.purchase.data.individualScreeningEvent !== undefined) {
                             ltdTicketCode_1 = this.purchase.getMemberTicketCode();
-                            isLtdOrdered = this.sasaki.order.isLimitedOrdered({
-                                limitedTicketCode: ltdTicketCode_1,
-                                customerMembershipNumber: this.user.data.account.name,
-                                screenDate: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei
-                            });
-                            if (isLtdOrdered) {
-                                salesTickets = salesTickets.filter(function (ticket) { return (ltdTicketCode_1.indexOf(ticket.ticketCode) < 0); });
+                            try {
+                                isLtdOrdered = this.sasaki.order.isLimitedOrdered({
+                                    limitedTicketCode: ltdTicketCode_1,
+                                    customerMembershipNumber: this.user.data.account.name,
+                                    screenDate: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei
+                                });
+                                if (isLtdOrdered) {
+                                    salesTickets = salesTickets.filter(function (ticket) { return (ltdTicketCode_1.indexOf(ticket.ticketCode) < 0); });
+                                }
+                            }
+                            catch (err) {
+                                console.error(err);
+                                this.error.redirect(err);
                             }
                         }
                         return [2 /*return*/, salesTickets];

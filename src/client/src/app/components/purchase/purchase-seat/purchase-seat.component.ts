@@ -93,13 +93,18 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         // console.log('salesTickets', salesTicketArgs, salesTickets);
         if (this.user.data.account !== undefined && this.purchase.data.individualScreeningEvent !== undefined) {
             const ltdTicketCode = this.purchase.getMemberTicketCode();
-            const isLtdOrdered = this.sasaki.order.isLimitedOrdered({
-                limitedTicketCode: ltdTicketCode,
-                customerMembershipNumber: this.user.data.account.name,
-                screenDate: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei
-            });
-            if (isLtdOrdered) {
-                salesTickets = salesTickets.filter((ticket) => (ltdTicketCode.indexOf(ticket.ticketCode) < 0));
+            try {
+                const isLtdOrdered = this.sasaki.order.isLimitedOrdered({
+                    limitedTicketCode: ltdTicketCode,
+                    customerMembershipNumber: this.user.data.account.name,
+                    screenDate: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei
+                });
+                if (isLtdOrdered) {
+                    salesTickets = salesTickets.filter((ticket) => (ltdTicketCode.indexOf(ticket.ticketCode) < 0));
+                }
+            } catch (err) {
+                console.error(err);
+                this.error.redirect(err);
             }
         }
 
