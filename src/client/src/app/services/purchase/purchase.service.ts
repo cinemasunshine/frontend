@@ -349,6 +349,24 @@ export class PurchaseService {
     }
 
     /**
+     * メンバーズの券種コード取得
+     * @method getMemberTicketCode
+     * @returns {string[]}
+     */
+    public getMemberTicketCode(): string[] {
+        if (this.data.individualScreeningEvent === undefined) {
+            return [];
+        }
+        const branchCode = this.data.movieTheaterOrganization ?
+        this.data.movieTheaterOrganization.location.branchCode : undefined;
+        const memberTicket = environment.MEMBER_TICKET.find((data) => data.THEATER === branchCode);
+        if (memberTicket === undefined) {
+            return [];
+        }
+        return memberTicket.TICKET_CODE;
+    }
+
+    /**
      * ムビチケ対応作品判定
      * @method isUsedMvtk
      * @returns {boolean}
