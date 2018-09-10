@@ -306,7 +306,7 @@ If the Work includes a "NOTICE" text file as part of its distribution, then any 
 
 END OF TERMS AND CONDITIONS
 
-@motionpicture/sskts-api-javascript-client@3.2.0-alpha.0
+@motionpicture/sskts-api-javascript-client@3.4.0-mocoin.1
 ISC
 ISC
 
