@@ -15,7 +15,7 @@
     ],
     "seatStart": { "x": 389, "y": 223 },
     "map": [
-        [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
         [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
         [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
         [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -29,7 +29,7 @@
         
     ],
     "special": [],
-    "hc": ["A7", "A8"],
+    "hc": ["A7"],
     "pair": [],
-    "style": "<style>.line-object-0, .line-object-1, .line-object-2, .line-object-3, .line-object-4, .line-object-5, .line-object-6, .line-object-7{ left: 291px !important; }</style>"
+    "style": "<style>.line-object-0, .line-object-1, .line-object-2, .line-object-3, .line-object-4, .line-object-5, .line-object-6, .line-object-7{ left: 291px !important; } .seat-A7{ left: 676px !important; }</style>"
 }

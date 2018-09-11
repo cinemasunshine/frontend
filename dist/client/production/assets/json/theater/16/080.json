@@ -30,5 +30,6 @@
     ],
     "special": [],
     "hc": ["A6"],
-    "pair": []
+    "pair": [],
+    "style": "<style>.seat-A6{ left: 630px !important; }</style>"
 }
