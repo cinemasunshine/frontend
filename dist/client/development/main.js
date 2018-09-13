@@ -10029,153 +10029,119 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PRODUCTION_POINT_TICKET", function() { return PRODUCTION_POINT_TICKET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEVELOPMENT_MEMBER_TICKET", function() { return DEVELOPMENT_MEMBER_TICKET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PRODUCTION_MEMBER_TICKET", function() { return PRODUCTION_MEMBER_TICKET; });
+var DEVELOPMENT_BASE_POINT_TICKET_CODE = [
+    '3800001',
+    '3800002',
+    '3900001',
+    '3900002'
+];
 var DEVELOPMENT_POINT_TICKET = [
     {
         THEATER: '101',
-        TICKET_CODE: []
+        TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice()
     },
     {
         THEATER: '112',
-        TICKET_CODE: []
+        TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice()
+    },
+    {
+        THEATER: '116',
+        TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice()
     },
     {
         THEATER: '118',
-        TICKET_CODE: [
-            '3800001',
-            '3800002',
-            '3900001',
-            '3900002'
-        ]
+        TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice()
     },
     {
         THEATER: '119',
-        TICKET_CODE: []
+        TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice()
     }
+];
+var PRODUCTION_BASE_POINT_TICKET_CODE = [
+    '4000011',
+    '4000012',
+    '4000013',
+    '4000021',
+    '4000022',
+    '4000023',
+    '4000031',
+    '4000032',
+    '4000033'
 ];
 var PRODUCTION_POINT_TICKET = [
     {
         THEATER: '001',
-        TICKET_CODE: [
-            '4000011',
-            '4000012',
-            '4000013',
-            '4000021',
-            '4000022',
-            '4000023',
-            '4000031',
-            '4000032',
-            '4000033'
-        ]
+        TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice()
     },
     {
         THEATER: '012',
-        TICKET_CODE: [
-            '4000011',
-            '4000012',
-            '4000013',
-            '4000021',
-            '4000022',
-            '4000023',
-            '4000031',
-            '4000032',
-            '4000033'
-        ]
+        TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice()
+    },
+    {
+        THEATER: '016',
+        TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice()
     },
     {
         THEATER: '018',
-        TICKET_CODE: [
-            '4000011',
-            '4000012',
-            '4000013',
-            '4000021',
-            '4000022',
-            '4000023',
-            '4000031',
-            '4000032',
-            '4000033'
-        ]
+        TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice()
     },
     {
         THEATER: '019',
-        TICKET_CODE: [
-            '4000011',
-            '4000012',
-            '4000013',
-            '4000021',
-            '4000022',
-            '4000023',
-            '4000031',
-            '4000032',
-            '4000033'
-        ]
+        TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice()
     }
+];
+var DEVELOPMENT_BASE_MEMBER_TICKET_CODE = [
+    '3100011',
+    '132',
+    '3100021' // メンバーズ大学生
 ];
 var DEVELOPMENT_MEMBER_TICKET = [
     {
         THEATER: '101',
-        TICKET_CODE: [
-            '3100011',
-            '132',
-            '3100021' // メンバーズ大学生
-        ]
+        TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice()
     },
     {
         THEATER: '112',
-        TICKET_CODE: [
-            '3100011',
-            '132',
-            '3100021' // メンバーズ大学生
-        ]
+        TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice()
+    },
+    {
+        THEATER: '116',
+        TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice()
     },
     {
         THEATER: '118',
-        TICKET_CODE: [
-            '3100011',
-            '132',
-            '3100021' // メンバーズ大学生
-        ]
+        TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice()
     },
     {
         THEATER: '119',
-        TICKET_CODE: [
-            '3100011',
-            '132',
-            '3100021' // メンバーズ大学生
-        ]
+        TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice()
     }
+];
+var PRODUCTION_BASE_MEMBER_TICKET_CODE = [
+    '4000031',
+    '4000032',
+    '4000033' // ｱﾌﾟﾘ会員ﾃﾞｰ★3D
 ];
 var PRODUCTION_MEMBER_TICKET = [
     {
         THEATER: '001',
-        TICKET_CODE: [
-            '4000031',
-            '4000032',
-            '4000033' // ｱﾌﾟﾘ会員ﾃﾞｰ★3D
-        ]
+        TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice()
     },
     {
         THEATER: '012',
-        TICKET_CODE: [
-            '4000031',
-            '4000032',
-            '4000033' // ｱﾌﾟﾘ会員ﾃﾞｰ★3D
-        ]
+        TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice()
+    },
+    {
+        THEATER: '016',
+        TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice()
     },
     {
         THEATER: '018',
-        TICKET_CODE: [
-            '4000031',
-            '4000032',
-            '4000033' // ｱﾌﾟﾘ会員ﾃﾞｰ★3D
-        ]
+        TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice()
     },
     {
         THEATER: '019',
-        TICKET_CODE: [
-            '4000031',
-            '4000032',
-            '4000033' // ｱﾌﾟﾘ会員ﾃﾞｰ★3D
-        ]
+        TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice()
     }
 ];
 
