@@ -15,6 +15,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.0.2 - 2018-10-02
+### Fixed
+ - 会員ポイント券種設定修正
+
 ## 5.0.1 - 2018-09-05
 ### Changed
  - メンバー券種制御追加
