@@ -44,10 +44,7 @@ const PRODUCTION_BASE_POINT_TICKET_CODE = [
     '4000013',
     '4000021',
     '4000022',
-    '4000023',
-    '4000031',
-    '4000032',
-    '4000033'
+    '4000023'
 ];
 
 export const PRODUCTION_POINT_TICKET = [
