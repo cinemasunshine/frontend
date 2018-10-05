@@ -15,6 +15,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.1.0 - 2018-10-05
+### Added
+ - 大和郡山データ追加
+
 ## 5.0.2 - 2018-10-02
 ### Fixed
  - 会員ポイント券種設定修正
