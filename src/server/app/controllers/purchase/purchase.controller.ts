@@ -146,7 +146,7 @@ coaSchedulesUpdate();
  * COAスケジュール更新
  * @function coaSchedulesUpdate
  */
-async function coaSchedulesUpdate(): Promise<void> {
+export async function coaSchedulesUpdate(): Promise<void> {
     log('coaSchedulesUpdate start', coaSchedules.length);
     try {
         const result: ICoaSchedule[] = [];

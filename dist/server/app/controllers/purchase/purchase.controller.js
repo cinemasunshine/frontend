@@ -198,6 +198,7 @@ function coaSchedulesUpdate() {
         log('coaSchedulesUpdate end', coaSchedules.length);
     });
 }
+exports.coaSchedulesUpdate = coaSchedulesUpdate;
 /**
  * COAスケジュール更新待ち
  * @function waitCoaSchedulesUpdate
