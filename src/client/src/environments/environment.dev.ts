@@ -2,7 +2,7 @@ import { DEVELOPMENT_MEMBER_TICKET, DEVELOPMENT_POINT_TICKET } from './ticket';
 
 export const environment = {
     production: false,
-    PORTAL_SITE_URL: 'http://devssktsportal.azurewebsites.net',
+    PORTAL_SITE_URL: 'http://dev-ssk-portal2018-frontend-win.azurewebsites.net',
     APP_SITE_URL: 'https://sskts-ticket-development.azurewebsites.net',
     API_ENDPOINT: '',
     FRONTEND_ENDPOINT: 'https://sskts-frontend-development.azurewebsites.net',
