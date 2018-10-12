@@ -12,7 +12,7 @@
                     <dt>セイ</dt>
                     <dd>
                         <input [class.validation]="inputForm.controls['familyName'].invalid && inputForm.controls['familyName'].touched" type="text"
-                            formControlName="familyName" autocomplete="family-name" placeholder="(例)しねま">
+                            formControlName="familyName" autocomplete="family-name" placeholder="(例)シネマ">
                         <div *ngIf="inputForm.controls['familyName'].invalid && inputForm.controls['familyName'].touched">
                             <div *ngIf="inputForm.controls['familyName'].errors.required" class="validation-text">セイが未入力です</div>
                             <div *ngIf="inputForm.controls['familyName'].errors.maxlength" class="validation-text">セイは{{ inputForm.controls['familyName'].errors.maxlength.requiredLength }}文字以下で入力してください</div>
@@ -24,7 +24,7 @@
                     <dt>メイ</dt>
                     <dd>
                         <input [class.validation]="inputForm.controls['givenName'].invalid && inputForm.controls['givenName'].touched" type="text"
-                            formControlName="givenName" autocomplete="given-name" placeholder="(例)たろう">
+                            formControlName="givenName" autocomplete="given-name" placeholder="(例)タロウ">
                         <div *ngIf="inputForm.controls['givenName'].invalid && inputForm.controls['givenName'].touched">
                             <div *ngIf="inputForm.controls['givenName'].errors.required" class="validation-text">メイが未入力です</div>
                             <div *ngIf="inputForm.controls['givenName'].errors.maxlength" class="validation-text">メイは{{ inputForm.controls['givenName'].errors.maxlength.requiredLength }}文字以下で入力してください</div>
