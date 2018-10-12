@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
+import { convertToKatakana } from '../../../functions';
 import { TimeFormatPipe } from '../../../pipes/time-format/time-format.pipe';
 import { ErrorService } from '../../../services/error/error.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
@@ -197,7 +198,7 @@ export class PurchaseCompleteComponent implements OnInit {
 
     public getMailText(telephone: string) {
         // tslint:disable:max-line-length
-        return `${this.data.order.customer.familyName} ${this.data.order.customer.givenName} 様
+        return `${convertToKatakana(this.data.order.customer.familyName)} ${convertToKatakana(this.data.order.customer.givenName)} 様
 この度は、${this.data.order.seller.name}のオンライン先売りチケットサービスにてご購入頂き、誠にありがとうございます。お客様がご購入されましたチケットの情報は下記の通りです。
 
 [予約番号]
@@ -252,7 +253,7 @@ TEL：${telephone}`;
 
     public getAppMailText(telephone: string) {
         // tslint:disable:max-line-length
-        return `${this.data.order.customer.familyName} ${this.data.order.customer.givenName} 様
+        return `${convertToKatakana(this.data.order.customer.familyName)} ${convertToKatakana(this.data.order.customer.givenName)} 様
 この度は、${this.data.order.seller.name}のオンライン先売りチケットサービスにてご購入頂き、誠にありがとうございます。お客様がご購入されましたチケットの情報は下記の通りです。
 
 [予約番号]
