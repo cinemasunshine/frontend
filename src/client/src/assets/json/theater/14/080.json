@@ -30,5 +30,5 @@
     "special": [],
     "hc": ["A7"],
     "pair": [],
-    "style": "<style>.line-object { left: 329px !important; } .lseat seat-A7 { left: 676px !important; }</style>"
+    "style": "<style>.line-object { left: 329px !important; } .seat-A7 { left: 676px !important; }</style>"
 }
