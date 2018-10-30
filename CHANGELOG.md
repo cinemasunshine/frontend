@@ -5,7 +5,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
- - 会員ポイント決済追加
 
 ### Changed
 
@@ -14,6 +13,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Security
 
 ### Removed
+
+## 5.2.0 - 2018-10-30
+### Added
+ - かほく、下関データ追加
+### Changed
+ - 購入者情報名をカタカナへ変更
 
 ## 5.1.0 - 2018-10-05
 ### Added
