@@ -3,32 +3,32 @@
     <p class="read">必須項目を入力し「次へ」ボタンを押してください。</p>
 
     <form [formGroup]="inputForm" (ngSubmit)="onSubmit()">
-        <h2 class="section-ttl">お名前（ひらがな）
+        <h2 class="section-ttl">お名前（カタカナ）
             <span class="text-icon-red small-x-text">入力必須</span>
         </h2>
         <div class="box radius bg-light-gray mb-large">
             <div class="column-02">
                 <dl>
-                    <dt>せい</dt>
+                    <dt>セイ</dt>
                     <dd>
                         <input [class.validation]="inputForm.controls['familyName'].invalid && inputForm.controls['familyName'].touched" type="text"
-                            formControlName="familyName" autocomplete="family-name" placeholder="(例)しねま">
+                            formControlName="familyName" autocomplete="family-name" placeholder="(例)シネマ">
                         <div *ngIf="inputForm.controls['familyName'].invalid && inputForm.controls['familyName'].touched">
-                            <div *ngIf="inputForm.controls['familyName'].errors.required" class="validation-text">せいが未入力です</div>
-                            <div *ngIf="inputForm.controls['familyName'].errors.maxlength" class="validation-text">せいは{{ inputForm.controls['familyName'].errors.maxlength.requiredLength }}文字以下で入力してください</div>
-                            <div *ngIf="inputForm.controls['familyName'].errors.pattern" class="validation-text">せいは全角ひらがなで入力してください</div>
+                            <div *ngIf="inputForm.controls['familyName'].errors.required" class="validation-text">セイが未入力です</div>
+                            <div *ngIf="inputForm.controls['familyName'].errors.maxlength" class="validation-text">セイは{{ inputForm.controls['familyName'].errors.maxlength.requiredLength }}文字以下で入力してください</div>
+                            <div *ngIf="inputForm.controls['familyName'].errors.pattern" class="validation-text">セイは全角カタカナで入力してください</div>
                         </div>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>めい</dt>
+                    <dt>メイ</dt>
                     <dd>
                         <input [class.validation]="inputForm.controls['givenName'].invalid && inputForm.controls['givenName'].touched" type="text"
-                            formControlName="givenName" autocomplete="given-name" placeholder="(例)たろう">
+                            formControlName="givenName" autocomplete="given-name" placeholder="(例)タロウ">
                         <div *ngIf="inputForm.controls['givenName'].invalid && inputForm.controls['givenName'].touched">
-                            <div *ngIf="inputForm.controls['givenName'].errors.required" class="validation-text">めいが未入力です</div>
-                            <div *ngIf="inputForm.controls['givenName'].errors.maxlength" class="validation-text">めいは{{ inputForm.controls['givenName'].errors.maxlength.requiredLength }}文字以下で入力してください</div>
-                            <div *ngIf="inputForm.controls['givenName'].errors.pattern" class="validation-text">めいは全角ひらがなで入力してください</div>
+                            <div *ngIf="inputForm.controls['givenName'].errors.required" class="validation-text">メイが未入力です</div>
+                            <div *ngIf="inputForm.controls['givenName'].errors.maxlength" class="validation-text">メイは{{ inputForm.controls['givenName'].errors.maxlength.requiredLength }}文字以下で入力してください</div>
+                            <div *ngIf="inputForm.controls['givenName'].errors.pattern" class="validation-text">メイは全角カタカナで入力してください</div>
                         </div>
                     </dd>
                 </dl>

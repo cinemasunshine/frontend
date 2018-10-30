@@ -3,13 +3,13 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { Router } from '@angular/router';
 import * as libphonenumber from 'libphonenumber-js';
 import * as moment from 'moment';
+import { convertToHiragana, convertToKatakana } from '../../../functions';
 import { LibphonenumberFormatPipe } from '../../../pipes/libphonenumber-format/libphonenumber-format.pipe';
 import { AwsCognitoService } from '../../../services/aws-cognito/aws-cognito.service';
 import { ErrorService } from '../../../services/error/error.service';
 import { IGmoTokenObject, PurchaseService } from '../../../services/purchase/purchase.service';
 import { SasakiService } from '../../../services/sasaki/sasaki.service';
 import { UserService } from '../../../services/user/user.service';
-import { UtilService } from '../../../services/util/util.service';
 
 /**
  * クレジットカードタイプ
@@ -44,8 +44,7 @@ export class PurchaseInputComponent implements OnInit {
         private router: Router,
         private error: ErrorService,
         private awsCognito: AwsCognitoService,
-        private sasaki: SasakiService,
-        private utill: UtilService
+        private sasaki: SasakiService
 
     ) { }
 
@@ -82,8 +81,8 @@ export class PurchaseInputComponent implements OnInit {
                     || records.email !== undefined
                     || records.emailConfirm !== undefined
                     || records.telephone !== undefined) {
-                    this.inputForm.controls.familyName.setValue(records.familyName);
-                    this.inputForm.controls.givenName.setValue(records.givenName);
+                    this.inputForm.controls.familyName.setValue(convertToKatakana(records.familyName));
+                    this.inputForm.controls.givenName.setValue(convertToKatakana(records.givenName));
                     this.inputForm.controls.email.setValue(records.email);
                     this.inputForm.controls.emailConfirm.setValue(records.email);
                     this.inputForm.controls.telephone.setValue(records.telephone);
@@ -100,8 +99,8 @@ export class PurchaseInputComponent implements OnInit {
                     throw new Error('creditCards is notfoud');
                 }
 
-                this.inputForm.controls.familyName.setValue(this.utill.convertToHira(contacts.familyName));
-                this.inputForm.controls.givenName.setValue(this.utill.convertToHira(contacts.givenName));
+                this.inputForm.controls.familyName.setValue(convertToKatakana(contacts.familyName));
+                this.inputForm.controls.givenName.setValue(convertToKatakana(contacts.givenName));
                 this.inputForm.controls.email.setValue(contacts.email);
                 this.inputForm.controls.emailConfirm.setValue(contacts.email);
                 this.inputForm.controls.telephone.setValue(contacts.telephone.replace(/-/g, ''));
@@ -227,8 +226,8 @@ export class PurchaseInputComponent implements OnInit {
 
             // 入力情報を登録
             const contact = {
-                familyName: this.inputForm.controls.familyName.value,
-                givenName: this.inputForm.controls.givenName.value,
+                familyName: convertToHiragana(this.inputForm.controls.familyName.value),
+                givenName: convertToHiragana(this.inputForm.controls.givenName.value),
                 email: this.inputForm.controls.email.value,
                 telephone: this.inputForm.controls.telephone.value
             };
@@ -284,7 +283,7 @@ export class PurchaseInputComponent implements OnInit {
                 validators: [
                     Validators.required,
                     Validators.maxLength(NAME_MAX_LENGTH),
-                    Validators.pattern(/^[ぁ-ゞー]+$/)
+                    Validators.pattern(/^[ァ-ヶー]+$/)
                 ]
             },
             givenName: {
@@ -292,7 +291,7 @@ export class PurchaseInputComponent implements OnInit {
                 validators: [
                     Validators.required,
                     Validators.maxLength(NAME_MAX_LENGTH),
-                    Validators.pattern(/^[ぁ-ゞー]+$/)
+                    Validators.pattern(/^[ァ-ヶー]+$/)
                 ]
             },
             email: {
@@ -351,8 +350,8 @@ export class PurchaseInputComponent implements OnInit {
 
         if (this.purchase.data.customerContact !== undefined) {
             // 購入者情報入力済み
-            customerContact.familyName.value = this.purchase.data.customerContact.familyName;
-            customerContact.givenName.value = this.purchase.data.customerContact.givenName;
+            customerContact.familyName.value = convertToKatakana(this.purchase.data.customerContact.familyName);
+            customerContact.givenName.value = convertToKatakana(this.purchase.data.customerContact.givenName);
             customerContact.email.value = this.purchase.data.customerContact.email;
             customerContact.emailConfirm.value = this.purchase.data.customerContact.email;
             customerContact.telephone.value =
