@@ -75,8 +75,8 @@
         <ul class="box radius bg-light-gray mb-large">
             <li>
                 <dl>
-                    <dt>お名前（ひらがな）</dt>
-                    <dd>{{ purchase.data.customerContact?.familyName }} {{ purchase.data.customerContact?.givenName }}</dd>
+                    <dt>お名前（カタカナ）</dt>
+                    <dd>{{ purchase.getCustomerName() }}</dd>
                 </dl>
             </li>
             <li>

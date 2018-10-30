@@ -4,6 +4,7 @@ import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../environments/environment';
+import { convertToKatakana } from '../../functions';
 import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
 import { AwsCognitoService } from '../aws-cognito/aws-cognito.service';
 import { CallNativeService } from '../call-native/call-native.service';
@@ -178,6 +179,16 @@ export class PurchaseService {
             isCreditCardError: false
         };
         this.save();
+    }
+
+    /**
+     * 顧客名取得（カタカナ）
+     */
+    public getCustomerName() {
+        if (this.data.customerContact === undefined) {
+            return '';
+        }
+        return convertToKatakana(`${this.data.customerContact.familyName} ${this.data.customerContact.givenName}`);
     }
 
     /**
@@ -699,8 +710,8 @@ export class PurchaseService {
                 const updateRecordsArgs = {
                     datasetName: 'profile',
                     value: {
-                        familyName: args.familyName,
-                        givenName: args.givenName,
+                        familyName: convertToKatakana(args.familyName),
+                        givenName: convertToKatakana(args.givenName),
                         email: args.email,
                         telephone: args.telephone
                     }
