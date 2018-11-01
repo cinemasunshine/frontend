@@ -10050,7 +10050,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var environment = {
     production: false,
-    PORTAL_SITE_URL: 'http://testssktsportal.azurewebsites.net',
+    PORTAL_SITE_URL: 'http://ssk-portal2018-frontend-win-test.azurewebsites.net',
     APP_SITE_URL: 'https://sskts-ticket-test.azurewebsites.net',
     API_ENDPOINT: '',
     FRONTEND_ENDPOINT: 'https://sskts-frontend-test.azurewebsites.net',
