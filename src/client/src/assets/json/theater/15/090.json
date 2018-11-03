@@ -5,17 +5,17 @@
         {
             "w": 572, "h": 53,
             "x": 387, "y": 90,
-            "image": "/assets/images/theater/15/screen/001.svg"
+            "image": "/assets/images/theater/15/screen/009.svg"
         },
         {
             "w": 128, "h": 610,
-            "x": 229, "y": 223,
-            "image": "/assets/images/theater/15/entrance/001.svg"
+            "x": 989, "y": 223,
+            "image": "/assets/images/theater/15/entrance/009.svg"
         }
     ],
     "seatStart": { "x": 367, "y": 223 },
     "map": [
-        [1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1],
+        [1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1],
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
@@ -27,7 +27,7 @@
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     "special": [],
-    "hc": ["A6","A7"],
+    "hc": ["A7", "A8"],
     "pair": [],
-    "style": "<style>.line-object { left: 190px !important; }.seat-A6 { left: 607px !important; }.seat-A7 { left: 651px !important; }</style>"
+    "style": "<style>.seat-A7 { left: 653px !important; }.seat-A8 { left: 697px !important; }</style>"
 }
