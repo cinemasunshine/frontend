@@ -9,7 +9,7 @@
         },
         {
             "w": 128, "h": 680,
-            "x": 1033, "y": 223,
+            "x": 183, "y": 223,
             "image": "/assets/images/theater/15/entrance/005.svg"
         }
     ],
@@ -24,10 +24,11 @@
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+        [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     "special": [],
     "hc": ["A6", "A7"],
     "pair": [],
-    "style": "<style>.seat-A6 { left: 568px !important; }.seat-A7 { left: 612px !important; }</style>"
+    "style": "<style>.line-object { left: 140px !important; }.seat-A6 { left: 568px !important; }.seat-A7 { left: 612px !important; }</style>"
 }
