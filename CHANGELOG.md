@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.3.0 - 2018-11-06
+### Added
+ - 平和島、沼津、松前エミフルデータ追加
+
 ## 5.2.0 - 2018-10-30
 ### Added
  - かほく、下関データ追加
