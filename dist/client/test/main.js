@@ -9400,7 +9400,8 @@ var PurchaseService = /** @class */ (function () {
                                             appPrice: Number(ykknInfo.kijUnip),
                                             kbnEisyahousiki: ykknInfo.eishhshkTyp,
                                             titleCode: coaInfo.titleCode,
-                                            titleBranchNum: coaInfo.titleBranchNum
+                                            titleBranchNum: coaInfo.titleBranchNum,
+                                            dateJouei: coaInfo.dateJouei
                                         };
                                         return [4 /*yield*/, this_5.sasaki.mvtkTicketcode(mvtkTicketcodeArgs)];
                                     case 2:
