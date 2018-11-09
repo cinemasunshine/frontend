@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sasaki = require("@motionpicture/sskts-api-nodejs-client");
-const uuid = require("uuid");
+const debug = require("debug");
+const log = debug('sskts-frontend:AuthModel');
 /**
  * 認証モデル
  * @class AuthModel
@@ -11,21 +12,21 @@ class AuthModel {
      * @constructor
      * @param {any} session
      */
-    constructor(session) {
-        if (session === undefined) {
-            session = {};
-        }
-        this.state = (session.state !== undefined) ? session.state : uuid.v1();
+    constructor(clientId) {
+        this.state = 'STATE';
         const resourceServerUrl = process.env.RESOURCE_SERVER_URL;
-        this.scopes = (session.scopes !== undefined) ? session.scopes : [
+        this.scopes = [
             `${resourceServerUrl}/transactions`,
             `${resourceServerUrl}/events.read-only`,
             `${resourceServerUrl}/organizations.read-only`,
             `${resourceServerUrl}/orders.read-only`,
             `${resourceServerUrl}/places.read-only`
         ];
-        this.credentials = session.credentials;
-        this.codeVerifier = session.codeVerifier;
+        const clientList = JSON.parse(process.env.CLIENT_LIST);
+        const findResult = clientList.find(client => client.id === clientId);
+        this.clientId = (findResult === undefined) ? clientList[0].id : findResult.id;
+        this.clientSecret = (findResult === undefined) ? clientList[0].secret : findResult.secret;
+        log(this.clientId);
     }
     /**
      * 認証クラス作成
@@ -36,8 +37,8 @@ class AuthModel {
     create() {
         return new sasaki.auth.ClientCredentials({
             domain: process.env.AUTHORIZE_SERVER_DOMAIN,
-            clientId: process.env.CLIENT_ID,
-            clientSecret: process.env.CLIENT_SECRET,
+            clientId: this.clientId,
+            clientSecret: this.clientSecret,
             state: this.state,
             scopes: this.scopes
         });
