@@ -32,6 +32,5 @@
     "aisle": {
         "small": { "w": 8, "h": 0 },
         "middle": { "w": 48, "h": 50 }
-    },
-    "style": "<style>.line-object { left: 70px !important; }</style>"
+    }
 }

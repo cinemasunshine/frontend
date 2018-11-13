@@ -4,7 +4,7 @@
     "objects": [
         {
             "w": 1012, "h": 75,
-            "x": 167, "y": 90,
+            "x": 177, "y": 90,
             "image": "/assets/images/theater/06/screen/004.svg"
         },
         {
@@ -14,7 +14,7 @@
         },
         {
             "w": 128, "h": 540,
-            "x": 1077, "y": 813,
+            "x": 1085, "y": 813,
             "image": "/assets/images/theater/06/entrance/004_02.svg"
         }
     ],

@@ -4,12 +4,12 @@
     "objects": [
         {
             "w": 660, "h": 57,
-            "x": 343, "y": 90,
+            "x": 333, "y": 90,
             "image": "/assets/images/theater/06/screen/003.svg"
         },
         {
             "w": 128, "h": 540,
-            "x": 939, "y": 533,
+            "x": 902, "y": 533,
             "image": "/assets/images/theater/06/entrance/003.svg"
         }
     ],
