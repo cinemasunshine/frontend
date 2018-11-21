@@ -1,5 +1,6 @@
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
-import * as uuid from 'uuid';
+import * as debug from 'debug';
+const log = debug('sskts-frontend:AuthModel');
 
 /**
  * 認証セッション
@@ -45,26 +46,35 @@ export class AuthModel {
      * コード検証
      */
     public codeVerifier?: string;
+    /**
+     * クライアントID
+     */
+    private clientId: string;
+    /**
+     * クライアントシークレット
+     */
+    private clientSecret: string;
 
     /**
      * @constructor
      * @param {any} session
      */
-    constructor(session?: any) {
-        if (session === undefined) {
-            session = {};
-        }
-        this.state = (session.state !== undefined) ? session.state : uuid.v1();
-        const resourceServerUrl  = <string>process.env.RESOURCE_SERVER_URL;
-        this.scopes = (session.scopes !== undefined) ? session.scopes : [
+    constructor(clientId?: string) {
+        this.state = 'STATE';
+        const resourceServerUrl = <string>process.env.RESOURCE_SERVER_URL;
+        this.scopes = [
             `${resourceServerUrl}/transactions`,
             `${resourceServerUrl}/events.read-only`,
             `${resourceServerUrl}/organizations.read-only`,
             `${resourceServerUrl}/orders.read-only`,
             `${resourceServerUrl}/places.read-only`
         ];
-        this.credentials = session.credentials;
-        this.codeVerifier = session.codeVerifier;
+
+        const clientList: { id: string; secret: string; }[] = JSON.parse((<string>process.env.CLIENT_LIST));
+        const findResult = clientList.find(client => client.id === clientId);
+        this.clientId = (findResult === undefined) ? clientList[0].id : findResult.id;
+        this.clientSecret = (findResult === undefined) ? clientList[0].secret : findResult.secret;
+        log(this.clientId);
     }
 
     /**
@@ -76,8 +86,8 @@ export class AuthModel {
     public create(): sasaki.auth.ClientCredentials {
         return new sasaki.auth.ClientCredentials({
             domain: (<string>process.env.AUTHORIZE_SERVER_DOMAIN),
-            clientId: (<string>process.env.CLIENT_ID),
-            clientSecret: (<string>process.env.CLIENT_SECRET),
+            clientId: this.clientId,
+            clientSecret: this.clientSecret,
             state: this.state,
             scopes: this.scopes
         });

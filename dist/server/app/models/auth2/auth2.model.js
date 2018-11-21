@@ -10,10 +10,7 @@ class Auth2Model {
      * @constructor
      * @param {any} session
      */
-    constructor(session) {
-        if (session === undefined) {
-            session = {};
-        }
+    constructor(args) {
         const resourceServerUrl = process.env.RESOURCE_SERVER_URL;
         this.scopes = [
             'phone',
@@ -30,7 +27,12 @@ class Auth2Model {
             `${resourceServerUrl}/people.creditCards`,
             `${resourceServerUrl}/people.ownershipInfos.read-only`
         ];
-        this.credentials = session.credentials;
+        this.clientId = (args.clientId === undefined) ? args.session.clientId : args.clientId;
+        this.credentials = (args.session === undefined) ? undefined : args.session.credentials;
+        const clientList = JSON.parse(process.env.CLIENT_OAUTH2_LIST);
+        const findResult = clientList.find(client => client.id === this.clientId);
+        this.clientId = (findResult === undefined) ? clientList[0].id : findResult.id;
+        this.clientSecret = (findResult === undefined) ? clientList[0].secret : findResult.secret;
         this.state = Auth2Model.STATE;
         this.codeVerifier = Auth2Model.CODE_VERIFIER;
     }
@@ -43,8 +45,8 @@ class Auth2Model {
     create() {
         const auth = new sasaki.auth.OAuth2({
             domain: process.env.OAUTH2_SERVER_DOMAIN,
-            clientId: process.env.CLIENT_ID_OAUTH2,
-            clientSecret: process.env.CLIENT_SECRET_OAUTH2,
+            clientId: this.clientId,
+            clientSecret: this.clientSecret,
             redirectUri: process.env.AUTH_REDIRECT_URI,
             logoutUri: process.env.AUTH_LOGUOT_URI,
             state: this.state,
@@ -66,7 +68,8 @@ class Auth2Model {
             state: this.state,
             scopes: this.scopes,
             credentials: this.credentials,
-            codeVerifier: this.codeVerifier
+            codeVerifier: this.codeVerifier,
+            clientId: this.clientId
         };
         session.auth = authSession;
     }

@@ -16,10 +16,8 @@
 | `COA_ENDPOINT`                      | true     |                  | COA API エンドポイント                   |
 | `COA_REFRESH_TOKEN`                 | true     |                  | COA API リフレッシュトークン              |
 | `MVTK_RESERVE_ENDPOINT`             | true     |                  | ムビチケ API エンドポイント               |
-| `CLIENT_ID`                         | true     |                  | クライアントID                           |
-| `CLIENT_SECRET`                     | true     |                  | クライアントSECRET                       |
-| `CLIENT_ID_OAUTH2`                  | true     |                  | OAUTH2クライアントID                     |
-| `CLIENT_SECRET_OAUTH2`              | true     |                  | OAUTH2クライアントSECRET                 |
+| `CLIENT_LIST`                       | true     |                  | JSON形式 [{id: 'xxx', secret: 'xxx'}]   |
+| `CLIENT_OAUTH2_LIST`                | true     |                  | JSON形式 [{id: 'xxx', secret: 'xxx'}]   |
 | `AUTHORIZE_SERVER_DOMAIN`           | true     |                  | 認可サーバードメイン                      |
 | `OAUTH2_SERVER_DOMAIN`              | true     |                  | OAUTH2認可サーバードメイン                |
 | `RESOURCE_SERVER_URL`               | true     |                  | リソースサーバーURL                      |

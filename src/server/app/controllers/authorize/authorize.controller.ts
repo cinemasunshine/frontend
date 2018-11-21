@@ -13,14 +13,14 @@ export async function getCredentials(req: Request, res: Response) {
     log('getCredentials');
     try {
         let authModel;
-        if (req.query.member === FlgMember.NonMember) {
-            authModel = new AuthModel();
-        } else if (req.query.member === FlgMember.Member) {
-            authModel = new Auth2Model((<Express.Session>req.session).auth);
+        const clientId = req.body.clientId;
+        if (req.body.member === FlgMember.NonMember) {
+            authModel = new AuthModel(clientId);
+        } else if (req.body.member === FlgMember.Member) {
+            authModel = new Auth2Model({ clientId, session: (<Express.Session>req.session).auth });
         } else {
             throw new Error('member does not macth MemberType');
         }
-        log('getCredentials MemberType', req.query.member);
         const options = {
             endpoint: (<string>process.env.SSKTS_API_ENDPOINT),
             auth: authModel.create()
@@ -30,7 +30,10 @@ export async function getCredentials(req: Request, res: Response) {
             accessToken: accessToken
         };
 
-        res.json(credentials);
+        res.json({
+            credentials,
+            clientId: options.auth.options.clientId
+        });
     } catch (err) {
         errorProsess(res, err);
     }
@@ -43,19 +46,22 @@ export async function getCredentials(req: Request, res: Response) {
  * @param {Response} res
  */
 export async function signIn(req: Request, res: Response) {
-    log('signIn');
-    if (req.session === undefined) {
-        throw new Error('session is undefined');
+    log('signIn', req.body.clientId);
+    if (req.session === undefined || req.body.clientId === undefined) {
+        res.status(400);
+        res.json();
+        return;
     }
     delete req.session.auth;
-    const authModel = new Auth2Model(req.session.auth);
+    const clientId = req.body.clientId;
+    const authModel = new Auth2Model({ clientId, session: req.session.auth });
+    authModel.save(req.session);
     const auth = authModel.create();
     const authUrl = auth.generateAuthUrl({
         scopes: authModel.scopes,
         state: authModel.state,
         codeVerifier: authModel.codeVerifier
     });
-    delete req.session.auth;
     res.json({
         url: authUrl
     });
@@ -68,12 +74,13 @@ export async function signIn(req: Request, res: Response) {
  * @param {NextFunction} next
  */
 export async function signInRedirect(req: Request, res: Response, next: NextFunction) {
-    log('signInRedirect');
+    log('signInRedirect', req.query);
     try {
         if (req.session === undefined) {
             throw new Error('session is undefined');
         }
-        const authModel = new Auth2Model(req.session.auth);
+
+        const authModel = new Auth2Model({ session: req.session.auth });
         if (req.query.state !== authModel.state) {
             throw (new Error(`state not matched ${req.query.state} !== ${authModel.state}`));
         }

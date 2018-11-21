@@ -1029,7 +1029,8 @@ export class PurchaseService {
                     appPrice: Number(ykknInfo.kijUnip),
                     kbnEisyahousiki: ykknInfo.eishhshkTyp,
                     titleCode: coaInfo.titleCode,
-                    titleBranchNum: coaInfo.titleBranchNum
+                    titleBranchNum: coaInfo.titleBranchNum,
+                    dateJouei: coaInfo.dateJouei
                 };
                 const mvtkTicketcodeResult = await this.sasaki.mvtkTicketcode(mvtkTicketcodeArgs);
                 // console.log('mvtkTicketcodeResult', mvtkTicketcodeResult);

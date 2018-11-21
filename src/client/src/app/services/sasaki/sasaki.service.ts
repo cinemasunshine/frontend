@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
@@ -60,20 +60,17 @@ export class SasakiService {
      */
     public async authorize() {
         const user = this.storage.load('user', SaveType.Session);
+        const clientId = user.clientId;
         const member = user.memberType;
         const url = '/api/authorize/getCredentials';
-        const options = {
-            headers: new HttpHeaders({
-                'Pragma': 'no-cache',
-                'Cache-Control': 'no-cache',
-                'If-Modified-Since': new Date(0).toUTCString()
-            }),
-            params: new HttpParams().set('member', member)
-        };
-        const credentials = await this.http.get<any>(url, options).toPromise();
+        const body = { clientId, member };
+        const result = await this.http.post<{
+            credentials: { accessToken: string; };
+            clientId: string;
+        }>(url, body).toPromise();
         const option = {
             domain: '',
-            clientId: '',
+            clientId: result.clientId,
             redirectUri: '',
             logoutUri: '',
             responseType: '',
@@ -83,7 +80,7 @@ export class SasakiService {
             tokenIssuer: ''
         };
         this.auth = sasaki.createAuthInstance(option);
-        this.auth.setCredentials(credentials);
+        this.auth.setCredentials(result.credentials);
     }
 
     /**
@@ -91,7 +88,10 @@ export class SasakiService {
      */
     public async signIn() {
         const url = '/api/authorize/signIn';
-        const result = await this.http.get<any>(url, {}).toPromise();
+        const user = this.storage.load('user', SaveType.Session);
+        const clientId = user.clientId;
+        const body = { clientId };
+        const result = await this.http.post<{ url: string; }>(url, body).toPromise();
         // console.log(result.url);
         location.href = result.url;
     }

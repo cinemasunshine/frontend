@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.4.0 - 2018-11-21
+### Added
+ - クライアントID出し分け機能追加
+### Changed
+ - 4DX動的金額対応
+
 ## 5.3.0 - 2018-11-06
 ### Added
  - 平和島、沼津、松前エミフルデータ追加

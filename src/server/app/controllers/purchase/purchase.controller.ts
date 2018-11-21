@@ -178,7 +178,8 @@ export async function coaSchedulesUpdate(): Promise<void> {
         setTimeout(async () => { await coaSchedulesUpdate(); }, upDateTime);
     } catch (err) {
         log(err);
-        await coaSchedulesUpdate();
+        const upDateTime = 3600000; // 1000 * 60 * 60
+        setTimeout(async () => { await coaSchedulesUpdate(); }, upDateTime);
     }
     log('coaSchedulesUpdate end', coaSchedules.length);
 }

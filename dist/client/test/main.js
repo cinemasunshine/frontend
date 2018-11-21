@@ -7382,9 +7382,11 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                             throw new Error('parameters is undefined');
                         }
                         this.user.setNative(this.parameters.native);
+                        this.user.setClientId(this.parameters.clientId);
                         // this.user.setAccessToken(this.parameters.accessToken);
                         this.user.save();
-                        if (!(this.parameters.member === _services_user_user_service__WEBPACK_IMPORTED_MODULE_8__["FlgMember"].Member && !this.parameters.signInRedirect)) return [3 /*break*/, 2];
+                        if (!(this.parameters.member === _services_user_user_service__WEBPACK_IMPORTED_MODULE_8__["FlgMember"].Member
+                            && !this.parameters.signInRedirect)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.sasaki.signIn()];
                     case 1:
                         _a.sent();
@@ -9398,7 +9400,8 @@ var PurchaseService = /** @class */ (function () {
                                             appPrice: Number(ykknInfo.kijUnip),
                                             kbnEisyahousiki: ykknInfo.eishhshkTyp,
                                             titleCode: coaInfo.titleCode,
-                                            titleBranchNum: coaInfo.titleBranchNum
+                                            titleBranchNum: coaInfo.titleBranchNum,
+                                            dateJouei: coaInfo.dateJouei
                                         };
                                         return [4 /*yield*/, this_5.sasaki.mvtkTicketcode(mvtkTicketcodeArgs)];
                                     case 2:
@@ -9564,27 +9567,21 @@ var SasakiService = /** @class */ (function () {
      */
     SasakiService.prototype.authorize = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var user, member, url, options, credentials, option;
+            var user, clientId, member, url, body, result, option;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         user = this.storage.load('user', _storage_storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        clientId = user.clientId;
                         member = user.memberType;
                         url = '/api/authorize/getCredentials';
-                        options = {
-                            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
-                                'Pragma': 'no-cache',
-                                'Cache-Control': 'no-cache',
-                                'If-Modified-Since': new Date(0).toUTCString()
-                            }),
-                            params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('member', member)
-                        };
-                        return [4 /*yield*/, this.http.get(url, options).toPromise()];
+                        body = { clientId: clientId, member: member };
+                        return [4 /*yield*/, this.http.post(url, body).toPromise()];
                     case 1:
-                        credentials = _a.sent();
+                        result = _a.sent();
                         option = {
                             domain: '',
-                            clientId: '',
+                            clientId: result.clientId,
                             redirectUri: '',
                             logoutUri: '',
                             responseType: '',
@@ -9594,7 +9591,7 @@ var SasakiService = /** @class */ (function () {
                             tokenIssuer: ''
                         };
                         this.auth = _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["createAuthInstance"](option);
-                        this.auth.setCredentials(credentials);
+                        this.auth.setCredentials(result.credentials);
                         return [2 /*return*/];
                 }
             });
@@ -9605,12 +9602,15 @@ var SasakiService = /** @class */ (function () {
      */
     SasakiService.prototype.signIn = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var url, result;
+            var url, user, clientId, body, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         url = '/api/authorize/signIn';
-                        return [4 /*yield*/, this.http.get(url, {}).toPromise()];
+                        user = this.storage.load('user', _storage_storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        clientId = user.clientId;
+                        body = { clientId: clientId };
+                        return [4 /*yield*/, this.http.post(url, body).toPromise()];
                     case 1:
                         result = _a.sent();
                         // console.log(result.url);
@@ -10024,6 +10024,12 @@ var UserService = /** @class */ (function () {
         this.data.native = (value === NativeAppFlg.Native)
             ? NativeAppFlg.Native
             : NativeAppFlg.NotNative;
+    };
+    /**
+     * クライアントID設定
+     */
+    UserService.prototype.setClientId = function (value) {
+        this.data.clientId = value;
     };
     return UserService;
 }());
