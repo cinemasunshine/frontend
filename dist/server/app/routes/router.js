@@ -16,20 +16,7 @@ function defaultSetting(req, res, next) {
     next();
 }
 function purchaseTransaction(req, res, _next) {
-    let params = `performanceId=${req.query.performanceId}`;
-    params += `&passportToken=${req.query.passportToken}`;
-    if (req.query.identityId !== undefined) {
-        params += `&identityId=${req.query.identityId}`;
-    }
-    if (req.query.native !== undefined) {
-        params += `&native=${req.query.native}`;
-    }
-    if (req.query.member !== undefined) {
-        params += `&member=${req.query.member}`;
-    }
-    if (req.query.accessToken !== undefined) {
-        params += `&accessToken=${req.query.accessToken}`;
-    }
+    const params = Object.keys(req.query).map((key) => `${key}=${req.query[key]}`).join('&');
     res.redirect(`/?${params}`);
 }
 function root(_req, res, _next) {

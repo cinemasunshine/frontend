@@ -193,7 +193,8 @@ function coaSchedulesUpdate() {
         }
         catch (err) {
             log(err);
-            yield coaSchedulesUpdate();
+            const upDateTime = 3600000; // 1000 * 60 * 60
+            setTimeout(() => __awaiter(this, void 0, void 0, function* () { yield coaSchedulesUpdate(); }), upDateTime);
         }
         log('coaSchedulesUpdate end', coaSchedules.length);
     });

@@ -38,6 +38,7 @@ export interface IData {
     creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
     account?: factory.pecorino.account.IAccount<factory.accountType.Point>;
+    clientId?: string;
 }
 
 @Injectable()
@@ -166,6 +167,13 @@ export class UserService {
         this.data.native = (value === NativeAppFlg.Native)
             ? NativeAppFlg.Native
             : NativeAppFlg.NotNative;
+    }
+
+    /**
+     * クライアントID設定
+     */
+    public setClientId(value?: string) {
+        this.data.clientId = value;
     }
 
 }
