@@ -17,11 +17,11 @@ jobs:
       # - run:
       #     name: Update npm
       #     command: 'sudo npm install -g npm@latest'
-      - run:
-          name: configure npm for private modules
-          command: |
-            npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-            npm whoami
+      # - run:
+      #     name: configure npm for private modules
+      #     command: |
+      #       npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+      #       npm whoami
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
@@ -99,12 +99,12 @@ workflows:
       - test:
           requires:
             - build
-      # - deploy2development:
-      #     requires:
-      #       - test
-      #     filters:
-      #       branches:
-      #         only: develop
+      - deploy2development:
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
       - prerelease:
           requires:
             - test

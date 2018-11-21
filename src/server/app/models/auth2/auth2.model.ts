@@ -1,5 +1,4 @@
 import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
-
 /**
  * 認証セッション
  * @interface IAuth2Session
@@ -21,6 +20,10 @@ export interface IAuth2Session {
      * コード検証
      */
     codeVerifier?: string;
+    /**
+     * クライアントID
+     */
+    clientId: string;
 }
 
 /**
@@ -52,16 +55,21 @@ export class Auth2Model {
      * コード検証
      */
     public codeVerifier?: string;
+    /**
+     * クライアントID
+     */
+    private clientId: string;
+    /**
+     * クライアントシークレット
+     */
+    private clientSecret: string;
 
     /**
      * @constructor
      * @param {any} session
      */
-    constructor(session?: any) {
-        if (session === undefined) {
-            session = {};
-        }
-        const resourceServerUrl  = <string>process.env.RESOURCE_SERVER_URL;
+    constructor(args: { clientId?: string; session: IAuth2Session | any }) {
+        const resourceServerUrl = <string>process.env.RESOURCE_SERVER_URL;
         this.scopes = [
             'phone',
             'openid',
@@ -77,7 +85,14 @@ export class Auth2Model {
             `${resourceServerUrl}/people.creditCards`,
             `${resourceServerUrl}/people.ownershipInfos.read-only`
         ];
-        this.credentials = session.credentials;
+        this.clientId = (args.clientId === undefined) ? args.session.clientId : args.clientId;
+        this.credentials = (args.session === undefined) ? undefined : args.session.credentials;
+
+        const clientList: { id: string; secret: string; }[] = JSON.parse((<string>process.env.CLIENT_OAUTH2_LIST));
+        const findResult = clientList.find(client => client.id === this.clientId);
+        this.clientId = (findResult === undefined) ? clientList[0].id : findResult.id;
+        this.clientSecret = (findResult === undefined) ? clientList[0].secret : findResult.secret;
+
         this.state = Auth2Model.STATE;
         this.codeVerifier = Auth2Model.CODE_VERIFIER;
     }
@@ -91,8 +106,8 @@ export class Auth2Model {
     public create(): sasaki.auth.OAuth2 {
         const auth = new sasaki.auth.OAuth2({
             domain: (<string>process.env.OAUTH2_SERVER_DOMAIN),
-            clientId: (<string>process.env.CLIENT_ID_OAUTH2),
-            clientSecret: (<string>process.env.CLIENT_SECRET_OAUTH2),
+            clientId: this.clientId,
+            clientSecret: this.clientSecret,
             redirectUri: (<string>process.env.AUTH_REDIRECT_URI),
             logoutUri: (<string>process.env.AUTH_LOGUOT_URI),
             state: this.state,
@@ -116,7 +131,8 @@ export class Auth2Model {
             state: this.state,
             scopes: this.scopes,
             credentials: this.credentials,
-            codeVerifier: this.codeVerifier
+            codeVerifier: this.codeVerifier,
+            clientId: this.clientId
         };
         session.auth = authSession;
     }

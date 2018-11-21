@@ -134,8 +134,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         const screen = <HTMLDivElement>element.querySelector('.screen');
         const scroll = <HTMLDivElement>element.querySelector('.screen-scroll');
         const rect = scroll.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop = window.pageYOffset || (<HTMLElement>document.documentElement).scrollTop;
+        const scrollLeft = window.pageXOffset || (<HTMLElement>document.documentElement).scrollLeft;
         const offset = {
             top: rect.top + scrollTop,
             left: rect.left + scrollLeft
