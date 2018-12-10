@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.4.2 - 2018-12-10
+### Fixed
+ - 松前エミフル座席データ修正
+
 ## 5.4.1 - 2018-11-26
 ### Fixed
  - 平和島、沼津、松前エミフル座席データ修正
