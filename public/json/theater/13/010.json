@@ -9,12 +9,12 @@
         },
         {
             "w": 128, "h": 540,
-            "x": 218, "y": 451,
+            "x": 218, "y": 441,
             "image": "/images/theater/13/entrance/001_01.svg"
         },
         {
             "w": 128, "h": 540,
-            "x": 1254, "y": 451,
+            "x": 1250, "y": 441,
             "image": "/images/theater/13/entrance/001_02.svg"
         }
     ],
