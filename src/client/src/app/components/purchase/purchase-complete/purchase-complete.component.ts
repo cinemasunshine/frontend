@@ -202,7 +202,7 @@ export class PurchaseCompleteComponent implements OnInit {
 この度は、${this.data.order.seller.name}のオンライン先売りチケットサービスにてご購入頂き、誠にありがとうございます。お客様がご購入されましたチケットの情報は下記の通りです。
 
 [ユーザーID]
-${this.data.order.customer.name}
+${this.data.order.customer.id}
 
 [予約番号]
 ${this.data.order.confirmationNumber}
@@ -260,7 +260,7 @@ TEL：${telephone}`;
 この度は、${this.data.order.seller.name}のオンライン先売りチケットサービスにてご購入頂き、誠にありがとうございます。お客様がご購入されましたチケットの情報は下記の通りです。
 
 [ユーザーID]
-${this.data.order.customer.name}
+${this.data.order.customer.id}
 
 [予約番号]
 ${this.data.order.confirmationNumber}
