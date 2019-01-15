@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
 /***/ "../../node_modules/moment/locale sync recursive ^\\.\\/.*$":
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/hataguchi/Desktop/workspace/Cinema Sunshine/frontend/node_modules/moment/locale sync ^\.\/.*$ ***!
-  \**************************************************************************************************************/
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/yuiwasaki/Documents/workspace/cinemasunshine/frontend/node_modules/moment/locale sync ^\.\/.*$ ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3674,7 +3674,7 @@ var PurchaseCompleteComponent = /** @class */ (function () {
     };
     PurchaseCompleteComponent.prototype.getMailText = function (telephone) {
         // tslint:disable:max-line-length
-        return Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.order.customer.familyName) + " " + Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.order.customer.givenName) + " \u69D8\n\u3053\u306E\u5EA6\u306F\u3001" + this.data.order.seller.name + "\u306E\u30AA\u30F3\u30E9\u30A4\u30F3\u5148\u58F2\u308A\u30C1\u30B1\u30C3\u30C8\u30B5\u30FC\u30D3\u30B9\u306B\u3066\u3054\u8CFC\u5165\u9802\u304D\u3001\u8AA0\u306B\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3059\u3002\u304A\u5BA2\u69D8\u304C\u3054\u8CFC\u5165\u3055\u308C\u307E\u3057\u305F\u30C1\u30B1\u30C3\u30C8\u306E\u60C5\u5831\u306F\u4E0B\u8A18\u306E\u901A\u308A\u3067\u3059\u3002\n\n[\u4E88\u7D04\u756A\u53F7]\n" + this.data.order.confirmationNumber + "\n\n[\u9451\u8CDE\u65E5\u6642]\n" + this.getAppreciationDate() + " " + this.getStartDate() + " - " + this.getEndDate() + "\n\n[\u4F5C\u54C1\u540D]\n" + this.getTitle() + "\n\n[\u30B9\u30AF\u30EA\u30FC\u30F3\u540D]\n" + this.getScreenName() + "\n\n[\u5EA7\u5E2D]\n" + this.data.order.acceptedOffers.map(function (offer) {
+        return Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.order.customer.familyName) + " " + Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.order.customer.givenName) + " \u69D8\n\u3053\u306E\u5EA6\u306F\u3001" + this.data.order.seller.name + "\u306E\u30AA\u30F3\u30E9\u30A4\u30F3\u5148\u58F2\u308A\u30C1\u30B1\u30C3\u30C8\u30B5\u30FC\u30D3\u30B9\u306B\u3066\u3054\u8CFC\u5165\u9802\u304D\u3001\u8AA0\u306B\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3059\u3002\u304A\u5BA2\u69D8\u304C\u3054\u8CFC\u5165\u3055\u308C\u307E\u3057\u305F\u30C1\u30B1\u30C3\u30C8\u306E\u60C5\u5831\u306F\u4E0B\u8A18\u306E\u901A\u308A\u3067\u3059\u3002\n\n[\u30E6\u30FC\u30B6\u30FCID]\n" + this.data.order.customer.name + "\n\n[\u4E88\u7D04\u756A\u53F7]\n" + this.data.order.confirmationNumber + "\n\n[\u9451\u8CDE\u65E5\u6642]\n" + this.getAppreciationDate() + " " + this.getStartDate() + " - " + this.getEndDate() + "\n\n[\u4F5C\u54C1\u540D]\n" + this.getTitle() + "\n\n[\u30B9\u30AF\u30EA\u30FC\u30F3\u540D]\n" + this.getScreenName() + "\n\n[\u5EA7\u5E2D]\n" + this.data.order.acceptedOffers.map(function (offer) {
             if (offer.itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].reservationType.EventReservation) {
                 return '';
             }
@@ -3683,7 +3683,7 @@ var PurchaseCompleteComponent = /** @class */ (function () {
     };
     PurchaseCompleteComponent.prototype.getAppMailText = function (telephone) {
         // tslint:disable:max-line-length
-        return Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.order.customer.familyName) + " " + Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.order.customer.givenName) + " \u69D8\n\u3053\u306E\u5EA6\u306F\u3001" + this.data.order.seller.name + "\u306E\u30AA\u30F3\u30E9\u30A4\u30F3\u5148\u58F2\u308A\u30C1\u30B1\u30C3\u30C8\u30B5\u30FC\u30D3\u30B9\u306B\u3066\u3054\u8CFC\u5165\u9802\u304D\u3001\u8AA0\u306B\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3059\u3002\u304A\u5BA2\u69D8\u304C\u3054\u8CFC\u5165\u3055\u308C\u307E\u3057\u305F\u30C1\u30B1\u30C3\u30C8\u306E\u60C5\u5831\u306F\u4E0B\u8A18\u306E\u901A\u308A\u3067\u3059\u3002\n\n[\u4E88\u7D04\u756A\u53F7]\n" + this.data.order.confirmationNumber + "\n\n[\u9451\u8CDE\u65E5\u6642]\n" + this.getAppreciationDate() + " " + this.getStartDate() + " - " + this.getEndDate() + "\n\n[\u4F5C\u54C1\u540D]\n" + this.getTitle() + "\n\n[\u30B9\u30AF\u30EA\u30FC\u30F3\u540D]\n" + this.getScreenName() + "\n\n[\u5EA7\u5E2D]\n" + this.data.order.acceptedOffers.map(function (offer) {
+        return Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.order.customer.familyName) + " " + Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.order.customer.givenName) + " \u69D8\n\u3053\u306E\u5EA6\u306F\u3001" + this.data.order.seller.name + "\u306E\u30AA\u30F3\u30E9\u30A4\u30F3\u5148\u58F2\u308A\u30C1\u30B1\u30C3\u30C8\u30B5\u30FC\u30D3\u30B9\u306B\u3066\u3054\u8CFC\u5165\u9802\u304D\u3001\u8AA0\u306B\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3059\u3002\u304A\u5BA2\u69D8\u304C\u3054\u8CFC\u5165\u3055\u308C\u307E\u3057\u305F\u30C1\u30B1\u30C3\u30C8\u306E\u60C5\u5831\u306F\u4E0B\u8A18\u306E\u901A\u308A\u3067\u3059\u3002\n\n[\u30E6\u30FC\u30B6\u30FCID]\n" + this.data.order.customer.name + "\n\n[\u4E88\u7D04\u756A\u53F7]\n" + this.data.order.confirmationNumber + "\n\n[\u9451\u8CDE\u65E5\u6642]\n" + this.getAppreciationDate() + " " + this.getStartDate() + " - " + this.getEndDate() + "\n\n[\u4F5C\u54C1\u540D]\n" + this.getTitle() + "\n\n[\u30B9\u30AF\u30EA\u30FC\u30F3\u540D]\n" + this.getScreenName() + "\n\n[\u5EA7\u5E2D]\n" + this.data.order.acceptedOffers.map(function (offer) {
             if (offer.itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].reservationType.EventReservation) {
                 return '';
             }
@@ -10222,7 +10222,7 @@ _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["platformBrowser"]().boot
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\hataguchi\Desktop\workspace\Cinema Sunshine\frontend\src\client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\yuiwasaki\Documents\workspace\cinemasunshine\frontend\src\client\src\main.ts */"./src/main.ts");
 
 
 /***/ }),
