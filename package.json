@@ -36,7 +36,7 @@
     "@angular/platform-browser": "^6.0.7",
     "@angular/platform-browser-dynamic": "^6.0.7",
     "@angular/router": "^6.0.7",
-    "@motionpicture/coa-service": "^6.0.0",
+    "@motionpicture/coa-service": "^6.0.1",
     "@motionpicture/mvtk-reserve-service": "^1.2.0",
     "@motionpicture/sskts-api-javascript-client": "^4.0.0",
     "@motionpicture/sskts-api-nodejs-client": "^4.0.0",
