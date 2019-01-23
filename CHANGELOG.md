@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.4.3 - 2019-01-23
+### Changed
+ - 購入時のメールにユーザーIDを記載
+
 ## 5.4.2 - 2018-12-10
 ### Fixed
  - 松前エミフル座席データ修正
