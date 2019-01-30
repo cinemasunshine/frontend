@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.4.4 - 2019-01-30
+### Fixed
+ - ユーザーIDが存在しない場合、メールにユーザーIDが記載されないよう修正
+
 ## 5.4.3 - 2019-01-23
 ### Changed
  - 購入時のメールにユーザーIDを記載
