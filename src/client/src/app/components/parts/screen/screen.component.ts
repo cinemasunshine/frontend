@@ -44,7 +44,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
             const data = await this.getData();
             this.data = this.createScreen(data);
         } catch (err) {
-            this.error.redirect(new Error('data is not found'));
+            this.error.redirect(new Error('screen data is not found'));
         }
     }
 
@@ -194,8 +194,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         };
         const theaterCode = `00${this.inputData.theaterCode}`.slice(DIGITS['02']);
         const screenCode = `000${this.inputData.screenCode}`.slice(DIGITS['03']);
-        const screen = await this.http.get<IScreen>(`/assets/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
-        const setting = await this.http.get<IScreen>('/assets/json/theater/setting.json').toPromise();
+        const screen = await this.http.get<IScreen>(`/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
+        const setting = await this.http.get<IScreen>('/json/theater/setting.json').toPromise();
 
         await this.sasaki.getServices();
         let seatStatus;
