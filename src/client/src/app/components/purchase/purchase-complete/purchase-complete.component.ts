@@ -201,8 +201,8 @@ export class PurchaseCompleteComponent implements OnInit {
         return `${convertToKatakana(this.data.order.customer.familyName)} ${convertToKatakana(this.data.order.customer.givenName)} 様
 この度は、${this.data.order.seller.name}のオンライン先売りチケットサービスにてご購入頂き、誠にありがとうございます。お客様がご購入されましたチケットの情報は下記の通りです。
 
-${this.data.order.customer.memberOf && this.data.order.customer.memberOf.membershipNumber ? 
-    "[ユーザーID]\n" + this.data.order.customer.memberOf.membershipNumber + "\n" : ''}
+${this.data.order.customer.memberOf && this.data.order.customer.memberOf.membershipNumber ?
+    '[ユーザーID]\n' + this.data.order.customer.memberOf.membershipNumber + '\n' : ''}
 [予約番号]
 ${this.data.order.confirmationNumber}
 
@@ -258,8 +258,8 @@ TEL：${telephone}`;
         return `${convertToKatakana(this.data.order.customer.familyName)} ${convertToKatakana(this.data.order.customer.givenName)} 様
 この度は、${this.data.order.seller.name}のオンライン先売りチケットサービスにてご購入頂き、誠にありがとうございます。お客様がご購入されましたチケットの情報は下記の通りです。
 
-${this.data.order.customer.memberOf && this.data.order.customer.memberOf.membershipNumber ? 
-    "[ユーザーID]\n" + this.data.order.customer.memberOf.membershipNumber + "\n" : ''}
+${this.data.order.customer.memberOf && this.data.order.customer.memberOf.membershipNumber ?
+    '[ユーザーID]\n' + this.data.order.customer.memberOf.membershipNumber + '\n' : ''}
 [予約番号]
 ${this.data.order.confirmationNumber}
 

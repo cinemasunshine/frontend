@@ -592,7 +592,7 @@ export class PurchaseService {
             branchCode: this.data.individualScreeningEvent.coaInfo.theaterCode
         });
         // 取引期限
-        const VALID_TIME = 15;
+        const VALID_TIME = 10;
         const expires = moment().add(VALID_TIME, 'minutes').toDate();
         // 取引開始
         this.data.transaction = await this.sasaki.transaction.placeOrder.start({
