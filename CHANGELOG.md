@@ -14,6 +14,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.5.1 - 2019-02-08
+### Fixed
+ - publicデータ修正
+
+## 5.5.0 - 2019-02-07
+### Added
+ - 土浦座席データ追加
+
 ## 5.4.4 - 2019-01-30
 ### Fixed
  - ユーザーIDが存在しない場合、メールにユーザーIDが記載されないよう修正
