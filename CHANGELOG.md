@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.5.3 - 2019-02-15
+### Changed
+- 購入者情報入力の注意事項を変更
+
 ## 5.5.2 - 2019-02-15
 ### Changed
 - 10分前まで購入可能に変更
