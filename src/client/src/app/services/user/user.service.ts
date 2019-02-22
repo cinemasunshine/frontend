@@ -31,7 +31,7 @@ export enum FlgMember {
     Member = '1',
 }
 
-export interface IData {
+export interface IUserData {
     native: NativeAppFlg;
     memberType: FlgMember;
     contact?: factory.person.IContact;
@@ -43,7 +43,7 @@ export interface IData {
 
 @Injectable()
 export class UserService {
-    public data: IData;
+    public data: IUserData;
 
     constructor(
         private storage: StorageService,
@@ -58,7 +58,7 @@ export class UserService {
      * @method load
      */
     public load() {
-        const data: IData | null = this.storage.load('user', SaveType.Session);
+        const data: IUserData | null = this.storage.load('user', SaveType.Session);
         if (data === null) {
             this.data = {
                 native: NativeAppFlg.NotNative,

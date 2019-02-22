@@ -6,6 +6,7 @@ import * as debug from 'debug';
 import { Request, Response } from 'express';
 import * as httpStatus from 'http-status';
 import { AuthModel } from '../../models/auth/auth.model';
+import { getEndpoint } from '../authorize/authorize.controller';
 
 const log = debug('sskts-frontend:base');
 
@@ -15,9 +16,11 @@ const log = debug('sskts-frontend:base');
  * @param {Request} req
  */
 export function getOptions(req: Request) {
+    log('getOptions');
+
     const authModel = new AuthModel((<Express.Session>req.session).auth);
     const options = {
-        endpoint: (<string>process.env.SSKTS_API_ENDPOINT),
+        endpoint: getEndpoint(req),
         auth: authModel.create()
     };
     authModel.save(req.session);
