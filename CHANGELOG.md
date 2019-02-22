@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.5.4 - 2019-02-22
+### Fixed
+- 土浦座席データ修正
+
 ## 5.5.3 - 2019-02-15
 ### Changed
 - 購入者情報入力の注意事項を変更
