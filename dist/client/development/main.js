@@ -7553,7 +7553,7 @@ var TestScreenComponent = /** @class */ (function () {
 /*!************************************!*\
   !*** ./src/app/functions/index.ts ***!
   \************************************/
-/*! exports provided: convertToHiragana, convertToKatakana */
+/*! exports provided: convertToHiragana, convertToKatakana, createDataLayerGTM */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7563,7 +7563,67 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "convertToKatakana", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["convertToKatakana"]; });
 
+/* harmony import */ var _purchase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./purchase */ "./src/app/functions/purchase.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createDataLayerGTM", function() { return _purchase__WEBPACK_IMPORTED_MODULE_1__["createDataLayerGTM"]; });
 
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/functions/purchase.ts":
+/*!***************************************!*\
+  !*** ./src/app/functions/purchase.ts ***!
+  \***************************************/
+/*! exports provided: createDataLayerGTM */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createDataLayerGTM", function() { return createDataLayerGTM; });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/@motionpicture/sskts-api-javascript-client */ "../../node_modules/@motionpicture/sskts-api-javascript-client/lib/index.js");
+/* harmony import */ var _node_modules_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function createDataLayerGTM(args) {
+    var order = args.order;
+    var native = args.native;
+    return {
+        ecommerce: {
+            purchase: {
+                actionField: {
+                    id: String(order.confirmationNumber),
+                    affiliation: order.seller.name.replace(/\"/g, '\\"'),
+                    revenue: String(order.price) // 完了ページの[ご利用金額]を動的に挿入
+                },
+                products: order.acceptedOffers.map(function (offer) {
+                    var itemOffered = offer.itemOffered;
+                    if (itemOffered.typeOf !== _node_modules_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].reservationType.EventReservation) {
+                        throw new Error('itemOffered.typeOf is not factory.reservationType.EventReservation');
+                    }
+                    var reservationFor = itemOffered.reservationFor;
+                    var name = reservationFor.name.ja.replace(/\"/g, '\\"');
+                    var purchaseCategory = (native) ? 'アプリ' : 'ウェブ';
+                    var screen = reservationFor.location.name.ja.replace(/\"/g, '\\"');
+                    var date = moment__WEBPACK_IMPORTED_MODULE_0__(reservationFor.startDate).format('YYYY年MM月DD日/(ddd)/HH:mm');
+                    var category = purchaseCategory + "/" + screen + "/" + date;
+                    var variant = itemOffered.reservedTicket.coaTicketInfo.ticketName.replace(/\"/g, '\\"');
+                    var price = String(offer.price);
+                    return {
+                        name: name,
+                        category: category,
+                        variant: variant,
+                        price: price,
+                        quantity: 1 // チケット数量 を動的に挿入
+                    };
+                })
+            }
+        }
+    };
+}
 
 
 /***/ }),
@@ -9271,23 +9331,37 @@ var PurchaseService = /** @class */ (function () {
                     case 15:
                         // プッシュ通知登録
                         try {
-                            itemOffered = order.acceptedOffers[0].itemOffered;
-                            if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].reservationType.EventReservation) {
-                                throw new Error('itemOffered.typeOf is not EventReservation');
+                            if (this.user.isNative()) {
+                                itemOffered = order.acceptedOffers[0].itemOffered;
+                                if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].reservationType.EventReservation) {
+                                    throw new Error('itemOffered.typeOf is not EventReservation');
+                                }
+                                reservationFor = itemOffered.reservationFor;
+                                localNotificationArgs = {
+                                    id: Number(order.orderNumber.replace(/\-/g, '')),
+                                    title: '鑑賞時間が近づいています。',
+                                    text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
+                                        '作品名: ' + reservationFor.workPerformed.name + '\n' +
+                                        '上映開始: ' + moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).format('YYYY/MM/DD HH:mm'),
+                                    trigger: {
+                                        at: moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                                    },
+                                    foreground: true // 前面表示（デフォルトは前面表示しない）
+                                };
+                                this.callNative.localNotification(localNotificationArgs);
                             }
-                            reservationFor = itemOffered.reservationFor;
-                            localNotificationArgs = {
-                                id: Number(order.orderNumber.replace(/\-/g, '')),
-                                title: '鑑賞時間が近づいています。',
-                                text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
-                                    '作品名: ' + reservationFor.workPerformed.name + '\n' +
-                                    '上映開始: ' + moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).format('YYYY/MM/DD HH:mm'),
-                                trigger: {
-                                    at: moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
-                                },
-                                foreground: true // 前面表示（デフォルトは前面表示しない）
-                            };
-                            this.callNative.localNotification(localNotificationArgs);
+                        }
+                        catch (err) {
+                            console.error(err);
+                        }
+                        try {
+                            // eコマース
+                            window.dataLayer = window.dataLayer || [];
+                            window.dataLayer.push(Object(_functions__WEBPACK_IMPORTED_MODULE_3__["createDataLayerGTM"])({
+                                order: order,
+                                native: this.user.isNative(),
+                                member: this.user.isMember()
+                            }));
                         }
                         catch (err) {
                             console.error(err);

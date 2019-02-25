@@ -4,7 +4,7 @@ import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../environments/environment';
-import { convertToKatakana } from '../../functions';
+import { convertToKatakana, createDataLayerGTM } from '../../functions';
 import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
 import { AwsCognitoService } from '../aws-cognito/aws-cognito.service';
 import { CallNativeService } from '../call-native/call-native.service';
@@ -369,7 +369,7 @@ export class PurchaseService {
             return [];
         }
         const branchCode = this.data.movieTheaterOrganization ?
-        this.data.movieTheaterOrganization.location.branchCode : undefined;
+            this.data.movieTheaterOrganization.location.branchCode : undefined;
         const memberTicket = environment.MEMBER_TICKET.find((data) => data.THEATER === branchCode);
         if (memberTicket === undefined) {
             return [];
@@ -937,23 +937,37 @@ export class PurchaseService {
         }
         // プッシュ通知登録
         try {
-            const itemOffered = order.acceptedOffers[0].itemOffered;
-            if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
-                throw new Error('itemOffered.typeOf is not EventReservation');
+            if (this.user.isNative()) {
+                const itemOffered = order.acceptedOffers[0].itemOffered;
+                if (itemOffered.typeOf !== factory.reservationType.EventReservation) {
+                    throw new Error('itemOffered.typeOf is not EventReservation');
+                }
+                const reservationFor = itemOffered.reservationFor;
+                const localNotificationArgs = {
+                    id: Number(order.orderNumber.replace(/\-/g, '')), // ID
+                    title: '鑑賞時間が近づいています。', // タイトル
+                    text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
+                        '作品名: ' + reservationFor.workPerformed.name + '\n' +
+                        '上映開始: ' + moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm'), // テキスト
+                    trigger: {
+                        at: moment(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                    },
+                    foreground: true // 前面表示（デフォルトは前面表示しない）
+                };
+                this.callNative.localNotification(localNotificationArgs);
             }
-            const reservationFor = itemOffered.reservationFor;
-            const localNotificationArgs = {
-                id: Number(order.orderNumber.replace(/\-/g, '')), // ID
-                title: '鑑賞時間が近づいています。', // タイトル
-                text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
-                    '作品名: ' + reservationFor.workPerformed.name + '\n' +
-                    '上映開始: ' + moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm'), // テキスト
-                trigger: {
-                    at: moment(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
-                },
-                foreground: true // 前面表示（デフォルトは前面表示しない）
-            };
-            this.callNative.localNotification(localNotificationArgs);
+        } catch (err) {
+            console.error(err);
+        }
+
+        try {
+            // eコマース
+            (<any>window).dataLayer = (<any>window).dataLayer || [];
+            (<any>window).dataLayer.push(createDataLayerGTM({
+                order,
+                native: this.user.isNative(),
+                member: this.user.isMember()
+            }));
         } catch (err) {
             console.error(err);
         }
