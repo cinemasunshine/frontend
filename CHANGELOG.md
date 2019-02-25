@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.5.5 - 2019-02-22
+### Fixed
+- 土浦座席データ修正(IMAX3Dのとき車椅子席を非表示)
+
 ## 5.5.4 - 2019-02-22
 ### Fixed
 - 土浦座席データ修正
