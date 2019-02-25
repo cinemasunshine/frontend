@@ -1,0 +1,24 @@
+{
+    "type": 0,
+    "size": { "w": 1346, "h": 1093 },
+    "objects": [
+        {
+            "w": 572, "h": 53,
+            "x": 387, "y": 90,
+            "image": "/images/theater/08/screen/IMAX-001.svg"
+        },
+        {
+            "w": 128, "h": 470,
+            "x": 363, "y": 533,
+            "image": "/images/theater/08/entrance/IMAX-001-01.svg"
+        }
+    ],
+    "seatStart": { "x": 367, "y": 223 },
+    "map": [
+        
+    ],
+    "special": [],
+    "hc": [],
+    "pair": [],
+    "style": ""
+}

@@ -1,0 +1,24 @@
+{
+    "type": 0,
+    "size": { "w": 1346, "h": 923 },
+    "objects": [
+        {
+            "w": 484, "h": 50,
+            "x": 431, "y": 90,
+            "image": "/images/theater/08/screen/006.svg"
+        },
+        {
+            "w": 128, "h": 540,
+            "x": 191, "y": 223,
+            "image": "/images/theater/08/entrance/006.svg"
+        }
+    ],
+    "seatStart": { "x": 411, "y": 223 },
+    "map": [
+        
+    ],
+    "special": [],
+    "hc": [],
+    "pair": [],
+    "style": ""
+}
