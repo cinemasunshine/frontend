@@ -342,7 +342,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     }
 
                     const seat = {
-                        className: `seat-${label}`,
+                        className: `seat-${label} seat-${label.slice(0 , 1)}`,
                         w: screenData.seatSize.w,
                         h: screenData.seatSize.h,
                         y: pos.y,
@@ -353,7 +353,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         status: status
                     };
                     if (screenData.hc.indexOf(label) !== -1) {
-                        seat.className = `seat-${label} seat-hc`;
+                        seat.className = `seat-${label} seat-${label.slice(0 , 1)} seat-hc`;
                     }
                     seats.push(seat);
                 }
