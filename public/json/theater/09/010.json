@@ -3,7 +3,7 @@
     "size": { "w": 1346, "h": 1513 },
     "objects": [
         {
-            "w": 1012, "h": 75,
+            "w": 1056, "h": 78,
             "x": 167, "y": 90,
             "image": "/images/theater/09/screen/001.svg"
         },
@@ -42,5 +42,5 @@
     "special": [],
     "hc": ["J18","J19"],
     "pair": [],
-    "style": "<style>.seat a { position: absolute; top: 0; left: 0;}.seat-A a { left: 252px !important; }.seat-B a { left: 162px !important; }.seat-C a, .seat-D a, .seat-E a, .seat-F a, .seat-G a, .seat-H a, .seat-I a, .seat-J a { left: 72px !important; } .seat-K a, .seat-L a, .seat-M a, .seat-N a, .seat-O a { left: 132px !important; }</style>"
+    "style": "<style>.seat a { position: absolute; top: 0; left: 0;}.seat-A a { left: 246px !important; }.seat-B a { left: 157px !important; }.seat-C a, .seat-D a, .seat-E a, .seat-F a, .seat-G a, .seat-H a, .seat-I a, .seat-J a { left: 67px !important; } .seat-K a, .seat-L a, .seat-M a, .seat-N a, .seat-O a { left: 132px !important; }</style>"
 }
