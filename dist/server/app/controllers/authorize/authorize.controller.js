@@ -13,15 +13,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const reserve_1 = require("@motionpicture/coa-service/lib/services/reserve");
 const debug = require("debug");
+const moment = require("moment-timezone");
 const auth_model_1 = require("../../models/auth/auth.model");
 const auth2_model_1 = require("../../models/auth2/auth2.model");
 const base_controller_1 = require("../base/base.controller");
 const log = debug('sskts-frontend:authorize');
+function getEndpoint(req) {
+    if (process.env.CHANGE_API_TIME !== undefined
+        && process.env.CHANGE_API_TIME !== ''
+        && process.env.CHANGE_API_THEATERS !== undefined
+        && process.env.CHANGE_API_THEATERS !== '') {
+        log('CHANGE_API');
+        const changeApiTime = process.env.CHANGE_API_TIME.trim().split(',');
+        const now = moment().tz('Asia/Tokyo').unix();
+        const start = moment(changeApiTime[0]).tz('Asia/Tokyo').unix();
+        const end = moment(changeApiTime[1]).tz('Asia/Tokyo').unix();
+        const theaters = process.env.CHANGE_API_THEATERS.trim().split(',');
+        const findResult = theaters.find(t => t === req.body.branchCode);
+        log('CHANGE_API_TIME', moment().tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm'), moment(changeApiTime[0]).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm'), moment(changeApiTime[1]).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm'));
+        log('CHANGE_API_THEATERS', theaters, findResult);
+        if (findResult !== undefined && start < now && end > now) {
+            log('SSKTS_API_ENDPOINT_2');
+            return process.env.SSKTS_API_ENDPOINT_2;
+        }
+    }
+    return process.env.SSKTS_API_ENDPOINT;
+}
+exports.getEndpoint = getEndpoint;
 function getCredentials(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        log('getCredentials');
+        log('getCredentials', req.body);
         try {
             let authModel;
+            const endpoint = getEndpoint(req);
             const clientId = req.body.clientId;
             if (req.body.member === reserve_1.FlgMember.NonMember) {
                 authModel = new auth_model_1.AuthModel(clientId);
@@ -33,7 +57,7 @@ function getCredentials(req, res) {
                 throw new Error('member does not macth MemberType');
             }
             const options = {
-                endpoint: process.env.SSKTS_API_ENDPOINT,
+                endpoint,
                 auth: authModel.create()
             };
             const accessToken = yield options.auth.getAccessToken();
@@ -42,7 +66,8 @@ function getCredentials(req, res) {
             };
             res.json({
                 credentials,
-                clientId: options.auth.options.clientId
+                clientId: options.auth.options.clientId,
+                endpoint
             });
         }
         catch (err) {

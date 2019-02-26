@@ -20,7 +20,7 @@ export type ISalesTicketResult = COA.services.reserve.ISalesTicketResult;
 type IUnauthorizedCardOfMember = factory.paymentMethod.paymentCard.creditCard.IUnauthorizedCardOfMember;
 type IUncheckedCardTokenized = factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
 
-interface IData {
+export interface IPurchaseData {
     /**
      * 取引
      */
@@ -124,7 +124,7 @@ enum Incentive {
 @Injectable()
 export class PurchaseService {
 
-    public data: IData;
+    public data: IPurchaseData;
 
     constructor(
         private storage: StorageService,
@@ -141,7 +141,7 @@ export class PurchaseService {
      * @method load
      */
     public load() {
-        const data: IData | null = this.storage.load('purchase', SaveType.Session);
+        const data: IPurchaseData | null = this.storage.load('purchase', SaveType.Session);
         if (data === null) {
             this.data = {
                 salesTickets: [],
@@ -591,6 +591,8 @@ export class PurchaseService {
         this.data.movieTheaterOrganization = await this.sasaki.organization.findMovieTheaterByBranchCode({
             branchCode: this.data.individualScreeningEvent.coaInfo.theaterCode
         });
+        this.save();
+        await this.sasaki.getServices();
         // 取引期限
         const VALID_TIME = 10;
         const expires = moment().add(VALID_TIME, 'minutes').toDate();

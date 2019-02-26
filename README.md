@@ -30,6 +30,9 @@
 | `SSKTS_BASIC_AUTH_PASS`             | false    |                  | ベーシック認証PASS                       |
 | `WHITELIST`                         | false    |                  | XHR、iframeリクエスト許可(カンマ区切り)   |
 | `HIDE_THEATERS`                     | false    |                  | スケジュール取得API非表示劇場(カンマ区切り)   |
+| `CHANGE_API_TIME`                   | false    |                  | API切り替え期間(from, through)   |
+| `CHANGE_API_THEATERS`               | false    |                  | API切り替え劇場branchCode(カンマ区切り)   |
+| `SSKTS_API_ENDPOINT_2`              | false    |                  | スケジュール取得API非表示劇場(カンマ区切り)   |
 | `DEBUG`                             | false    | sskts-frontend:* | デバッグ                                |
 
 ## Azure Environment variables
