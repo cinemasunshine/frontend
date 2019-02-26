@@ -5,7 +5,9 @@ import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
 import 'rxjs/add/operator/toPromise';
 import { environment } from '../../../environments/environment';
+import { IPurchaseData } from '../purchase/purchase.service';
 import { SaveType, StorageService } from '../storage/storage.service';
+import { IUserData } from '../user/user.service';
 
 @Injectable()
 export class SasakiService {
@@ -18,6 +20,7 @@ export class SasakiService {
     public transaction: {
         placeOrder: sasaki.service.transaction.PlaceOrder
     };
+    private endpoint: string;
 
     constructor(
         private http: HttpClient,
@@ -50,7 +53,7 @@ export class SasakiService {
     public async createOption() {
         await this.authorize();
         return {
-            endpoint: environment.SASAKI_API_ENDPOINT,
+            endpoint: this.endpoint,
             auth: this.auth
         };
     }
@@ -59,14 +62,18 @@ export class SasakiService {
      * @method authorize
      */
     public async authorize() {
-        const user = this.storage.load('user', SaveType.Session);
-        const clientId = user.clientId;
-        const member = user.memberType;
+        const user: IUserData | null = this.storage.load('user', SaveType.Session);
+        const purchase: IPurchaseData | null = this.storage.load('purchase', SaveType.Session);
+        const clientId = (user === null) ? undefined : user.clientId;
+        const member = (user === null) ? undefined : user.memberType;
         const url = '/api/authorize/getCredentials';
-        const body = { clientId, member };
+        const branchCode = (purchase === null || purchase.movieTheaterOrganization === undefined)
+            ? undefined : purchase.movieTheaterOrganization.location.branchCode;
+        const body = { clientId, member, branchCode };
         const result = await this.http.post<{
             credentials: { accessToken: string; };
             clientId: string;
+            endpoint: string;
         }>(url, body).toPromise();
         const option = {
             domain: '',
@@ -81,6 +88,7 @@ export class SasakiService {
         };
         this.auth = sasaki.createAuthInstance(option);
         this.auth.setCredentials(result.credentials);
+        this.endpoint = result.endpoint;
     }
 
     /**
