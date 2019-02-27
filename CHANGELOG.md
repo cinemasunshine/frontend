@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.6.0 - 2019-02-26
+### Added
+- 期間指定、劇場指定でAPI切り替え機能追加
+
 ## 5.5.5 - 2019-02-22
 ### Fixed
 - 土浦座席データ修正(IMAX3Dのとき車椅子席を非表示)

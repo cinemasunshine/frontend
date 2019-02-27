@@ -13,8 +13,6 @@ export const environment = {
     COGNITO_IDENTITY_POOL_ID: 'ap-northeast-1:b153d3f1-5e67-468e-8c69-ab938cf3d21e', // identity poolのID(AWS consoleで確認)
     COGNITO_USER_POOL_ID: '',
     COGNITO_CLIENT_ID: '',
-
-    SASAKI_API_ENDPOINT: 'https://sskts-api-test.azurewebsites.net',
     TOKEN_ISSUER: '',
 
     POINT_TICKET: DEVELOPMENT_POINT_TICKET,
