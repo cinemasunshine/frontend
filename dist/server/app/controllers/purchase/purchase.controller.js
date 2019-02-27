@@ -137,13 +137,13 @@ function getSchedule(req, res) {
                 return filterResult;
             });
             const screeningEvents = yield eventService.searchIndividualScreeningEvent(args);
-            const checkedScreeningEvents = yield checkedSchedules({
-                theaters: theaters,
-                screeningEvents: screeningEvents
-            });
+            // const checkedScreeningEvents = await checkedSchedules({
+            //     theaters: theaters,
+            //     screeningEvents: screeningEvents
+            // });
             const result = {
-                theaters: theaters,
-                screeningEvents: checkedScreeningEvents
+                theaters,
+                screeningEvents
             };
             res.json({ result: result });
         }
@@ -154,7 +154,7 @@ function getSchedule(req, res) {
 }
 exports.getSchedule = getSchedule;
 let coaSchedules = [];
-coaSchedulesUpdate();
+// coaSchedulesUpdate();
 /**
  * COAスケジュール更新
  * @function coaSchedulesUpdate
@@ -203,6 +203,7 @@ exports.coaSchedulesUpdate = coaSchedulesUpdate;
 /**
  * COAスケジュール更新待ち
  * @function waitCoaSchedulesUpdate
+ * @deprecated
  */
 function waitCoaSchedulesUpdate() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -227,6 +228,7 @@ function waitCoaSchedulesUpdate() {
 /**
  * スケジュール整合性確認
  * @function checkedSchedules
+ * @deprecated
  */
 function checkedSchedules(args) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -262,11 +264,13 @@ function checkedSchedules(args) {
         return screeningEvents;
     });
 }
+exports.checkedSchedules = checkedSchedules;
 /**
  * 差分抽出
  * @function diffScreeningEvents
  * @param　{IEventWithOffer[]} array1
  * @param {IEventWithOffer[]} array2
+ * @deprecated
  */
 function diffScreeningEvents(array1, array2) {
     const diffArray = [];
