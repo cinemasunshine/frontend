@@ -7159,7 +7159,7 @@ var ScreenComponent = /** @class */ (function () {
                         }
                     }
                     var seat = {
-                        className: "seat-" + label,
+                        className: "seat-" + label + " seat-" + label.slice(0, 1),
                         w: screenData.seatSize.w,
                         h: screenData.seatSize.h,
                         y: pos.y,
@@ -7170,7 +7170,7 @@ var ScreenComponent = /** @class */ (function () {
                         status: status_1
                     };
                     if (screenData.hc.indexOf(label) !== -1) {
-                        seat.className = "seat-" + label + " seat-hc";
+                        seat.className = "seat-" + label + " seat-" + label.slice(0, 1) + " seat-hc";
                     }
                     seats.push(seat);
                 }
