@@ -118,13 +118,13 @@ export async function getSchedule(req: Request, res: Response): Promise<void> {
             return filterResult;
         });
         const screeningEvents = await eventService.searchIndividualScreeningEvent(args);
-        const checkedScreeningEvents = await checkedSchedules({
-            theaters: theaters,
-            screeningEvents: screeningEvents
-        });
+        // const checkedScreeningEvents = await checkedSchedules({
+        //     theaters: theaters,
+        //     screeningEvents: screeningEvents
+        // });
         const result = {
-            theaters: theaters,
-            screeningEvents: checkedScreeningEvents
+            theaters,
+            screeningEvents
         };
         res.json({ result: result });
     } catch (err) {
@@ -140,7 +140,7 @@ interface ICoaSchedule {
 }
 
 let coaSchedules: ICoaSchedule[] = [];
-coaSchedulesUpdate();
+// coaSchedulesUpdate();
 
 /**
  * COAスケジュール更新
@@ -187,6 +187,7 @@ export async function coaSchedulesUpdate(): Promise<void> {
 /**
  * COAスケジュール更新待ち
  * @function waitCoaSchedulesUpdate
+ * @deprecated
  */
 async function waitCoaSchedulesUpdate() {
     const timer = 1000;
@@ -214,8 +215,9 @@ async function waitCoaSchedulesUpdate() {
 /**
  * スケジュール整合性確認
  * @function checkedSchedules
+ * @deprecated
  */
-async function checkedSchedules(args: {
+export async function checkedSchedules(args: {
     theaters: sasaki.factory.organization.movieTheater.IPublicFields[];
     screeningEvents: IEventWithOffer[];
 }): Promise<IEventWithOffer[]> {
@@ -257,6 +259,7 @@ async function checkedSchedules(args: {
  * @function diffScreeningEvents
  * @param　{IEventWithOffer[]} array1
  * @param {IEventWithOffer[]} array2
+ * @deprecated
  */
 export function diffScreeningEvents(array1: IEventWithOffer[], array2: IEventWithOffer[]) {
     const diffArray: IEventWithOffer[] = [];
