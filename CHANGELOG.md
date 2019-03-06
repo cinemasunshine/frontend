@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.7.0 - 2019-03-07
+### Added
+- 重信、大街道、衣山座席データ追加
+
 ## 5.6.0 - 2019-02-26
 ### Added
 - 期間指定、劇場指定でAPI切り替え機能追加
