@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.7.1 - 2019-03-18
+### Fixed
+- 大街道座席データ修正
+
 ## 5.7.0 - 2019-03-07
 ### Added
 - 重信、大街道、衣山座席データ追加
