@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.7.2 - 2019-03-19
+### Changed
+- ポイント口座取得時のソート順を設定
+
 ## 5.7.1 - 2019-03-18
 ### Fixed
 - 大街道座席データ修正

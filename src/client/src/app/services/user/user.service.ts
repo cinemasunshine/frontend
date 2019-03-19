@@ -131,6 +131,10 @@ export class UserService {
                 name: `${this.data.contact.familyName} ${this.data.contact.givenName}`
             });
         } else {
+            accounts.sort((a,b) => {
+                return a.openDate > b.openDate ? -1 :
+                    a.openDate < b.openDate ? 1 : 0;
+            });
             this.data.account = accounts[0];
         }
         // console.log('口座番号', this.data.account.accountNumber);
