@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { factory } from '../../../../../../../../node_modules/@motionpicture/sskts-api-javascript-client';
 import { environment } from '../../../../../environments/environment';
 import { TimeFormatPipe } from '../../../../pipes/time-format/time-format.pipe';
-import { ErrorService, IIndividualScreeningEvent, PurchaseService, SaveType, StorageService } from '../../../../services';
+import { ErrorService, PurchaseService, SaveType, StorageService } from '../../../../services';
 
 @Component({
     selector: 'app-purchase-overlap',
@@ -11,7 +12,7 @@ import { ErrorService, IIndividualScreeningEvent, PurchaseService, SaveType, Sto
     styleUrls: ['./purchase-overlap.component.scss']
 })
 export class PurchaseOverlapComponent implements OnInit {
-    public individualScreeningEvent: IIndividualScreeningEvent;
+    public screeningEvent: factory.chevre.event.screeningEvent.IEvent;
 
     constructor(
         private storage: StorageService,
@@ -24,9 +25,9 @@ export class PurchaseOverlapComponent implements OnInit {
         window.scrollTo(0, 0);
         try {
             // イベント情報取得
-            this.individualScreeningEvent = <IIndividualScreeningEvent>this.storage.load('individualScreeningEvent', SaveType.Session);
-            if (this.individualScreeningEvent === null) {
-                throw new Error('individualScreeningEvent is null');
+            this.screeningEvent = <factory.chevre.event.screeningEvent.IEvent>this.storage.load('screeningEvent', SaveType.Session);
+            if (this.screeningEvent === null) {
+                throw new Error('screeningEvent is null');
             }
         } catch (err) {
             this.error.redirect(err);
@@ -49,8 +50,8 @@ export class PurchaseOverlapComponent implements OnInit {
         } catch (err) {
             console.error(err);
         }
-        this.storage.remove('individualScreeningEvent', SaveType.Session);
-        location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.individualScreeningEvent.identifier}`;
+        this.storage.remove('screeningEvent', SaveType.Session);
+        location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.screeningEvent.identifier}`;
     }
 
     /**
@@ -59,7 +60,7 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getTheaterName() {
-        return this.individualScreeningEvent.superEvent.location.name.ja;
+        return this.screeningEvent.superEvent.location.name.ja;
     }
 
     /**
@@ -68,7 +69,7 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getScreenName() {
-        return this.individualScreeningEvent.location.name.ja;
+        return this.screeningEvent.location.name.ja;
     }
 
     /**
@@ -77,7 +78,7 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getTitle() {
-        return this.individualScreeningEvent.name.ja;
+        return this.screeningEvent.name.ja;
     }
 
     /**
@@ -88,7 +89,7 @@ export class PurchaseOverlapComponent implements OnInit {
     public getAppreciationDate() {
         moment.locale('ja');
 
-        return moment(this.individualScreeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment(this.screeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
     }
 
     /**
@@ -97,11 +98,14 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getStartDate() {
+        if (this.screeningEvent.coaInfo === undefined) {
+            return '';
+        }
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.individualScreeningEvent.startDate,
-            this.individualScreeningEvent.coaInfo.dateJouei
+            this.screeningEvent.startDate,
+            this.screeningEvent.coaInfo.dateJouei
         );
     }
 
@@ -111,11 +115,14 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getEndDate() {
+        if (this.screeningEvent.coaInfo === undefined) {
+            return '';
+        }
         const timeFormat = new TimeFormatPipe();
 
         return timeFormat.transform(
-            this.individualScreeningEvent.endDate,
-            this.individualScreeningEvent.coaInfo.dateJouei
+            this.screeningEvent.endDate,
+            this.screeningEvent.coaInfo.dateJouei
         );
     }
 

@@ -61,13 +61,13 @@ export class AuthModel {
      */
     constructor(clientId?: string) {
         this.state = 'STATE';
-        const resourceServerUrl = <string>process.env.RESOURCE_SERVER_URL;
+        // const resourceServerUrl = <string>process.env.RESOURCE_SERVER_URL;
         this.scopes = [
-            `${resourceServerUrl}/transactions`,
-            `${resourceServerUrl}/events.read-only`,
-            `${resourceServerUrl}/organizations.read-only`,
-            `${resourceServerUrl}/orders.read-only`,
-            `${resourceServerUrl}/places.read-only`
+            // `${resourceServerUrl}/transactions`,
+            // `${resourceServerUrl}/events.read-only`,
+            // `${resourceServerUrl}/organizations.read-only`,
+            // `${resourceServerUrl}/orders.read-only`,
+            // `${resourceServerUrl}/places.read-only`
         ];
 
         const clientList: { id: string; secret: string; }[] = JSON.parse((<string>process.env.CLIENT_LIST));

@@ -20,7 +20,7 @@ class InquiryModel {
                 reserveNum: '',
                 telephone: ''
             };
-        this.movieTheaterOrganization = session.movieTheaterOrganization;
+        this.seller = session.seller;
     }
     /**
      * セッションへ保存
@@ -32,7 +32,7 @@ class InquiryModel {
         const inquirySession = {
             order: this.order,
             input: this.input,
-            movieTheaterOrganization: this.movieTheaterOrganization
+            seller: this.seller
         };
         session.inquiry = inquirySession;
     }

@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-javascript-client';
+import { factory } from '../../../../../../../node_modules/@motionpicture/sskts-api-javascript-client';
 
-type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
 interface IFilmOrder {
     id: string;
-    films: IIndividualScreeningEvent[];
+    films: factory.chevre.event.screeningEvent.IEvent[];
 }
 
 @Component({
@@ -20,8 +19,12 @@ export class PurchaseFilmOrderComponent implements OnInit {
     constructor() { }
 
     public ngOnInit() {
-        this.title = this.data.films[0].name.ja;
-        this.duration = this.data.films[0].workPerformed.duration;
+        const film = this.data.films[0];
+        this.title = film.name.ja;
+        this.duration = (film.workPerformed === undefined
+            || film.workPerformed.duration === undefined
+            || film.workPerformed.duration === null)
+            ? '' : film.workPerformed.duration;
     }
 
 }

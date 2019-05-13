@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { Router } from '@angular/router';
 import * as libphonenumber from 'libphonenumber-js';
 import * as moment from 'moment';
+import { factory } from '../../../../../../../../node_modules/@motionpicture/sskts-api-javascript-client';
 import { convertToHiragana, convertToKatakana } from '../../../../functions';
 import { LibphonenumberFormatPipe } from '../../../../pipes/libphonenumber-format/libphonenumber-format.pipe';
 import { AwsCognitoService, ErrorService, IGmoTokenObject, PurchaseService, SasakiService, UserService } from '../../../../services';
@@ -85,21 +86,22 @@ export class PurchaseInputComponent implements OnInit {
                 }
             } else if (this.user.isMember()) {
                 // 会員
-                if (this.user.data.contact === undefined) {
-                    throw new Error('contact is undefined');
+                if (this.user.data.profile === undefined) {
+                    throw new Error('profile is undefined');
                 }
-                const contacts = this.user.data.contact;
-
+                const profile = this.user.data.profile;
                 if (this.user.data.creditCards === undefined
                     || this.user.data.creditCards.length === 0) {
                     throw new Error('creditCards is notfoud');
                 }
-
-                this.inputForm.controls.familyName.setValue(convertToKatakana(contacts.familyName));
-                this.inputForm.controls.givenName.setValue(convertToKatakana(contacts.givenName));
-                this.inputForm.controls.email.setValue(contacts.email);
-                this.inputForm.controls.emailConfirm.setValue(contacts.email);
-                this.inputForm.controls.telephone.setValue(contacts.telephone.replace(/-/g, ''));
+                const familyName = (profile.familyName === undefined) ? '' : convertToKatakana(profile.familyName);
+                const givenName = (profile.givenName === undefined) ? '' : convertToKatakana(profile.givenName);
+                const telephone = (profile.telephone === undefined) ? '' : profile.telephone.replace(/-/g, '');
+                this.inputForm.controls.familyName.setValue(familyName);
+                this.inputForm.controls.givenName.setValue(givenName);
+                this.inputForm.controls.email.setValue(profile.email);
+                this.inputForm.controls.emailConfirm.setValue(profile.email);
+                this.inputForm.controls.telephone.setValue(telephone);
 
                 const payment = this.purchase.getTotalPrice();
                 if (payment > 0) {
@@ -210,13 +212,11 @@ export class PurchaseInputComponent implements OnInit {
                     // 会員 クレジットカード情報保存
                     await this.sasaki.getServices();
                     const gmoTokenObject = await this.getGmoObject();
-                    const addCreditCardArgs = {
-                        personId: 'me',
+                    await this.sasaki.ownershipInfo.addCreditCard({
                         creditCard: {
                             token: gmoTokenObject.token
                         }
-                    };
-                    await this.sasaki.person.addCreditCard(addCreditCardArgs);
+                    });
                 }
             }
 
@@ -247,7 +247,9 @@ export class PurchaseInputComponent implements OnInit {
         };
         // console.log(sendParam);
         return new Promise<IGmoTokenObject>((resolve, reject) => {
-            if (this.purchase.data.movieTheaterOrganization === undefined) {
+            const seller = this.purchase.data.seller;
+            if (seller === undefined
+                || seller.paymentAccepted === undefined) {
                 return reject(new Error('status is different'));
             }
             (<any>window).someCallbackFunction = function someCallbackFunction(response: any) {
@@ -258,7 +260,13 @@ export class PurchaseInputComponent implements OnInit {
                 }
             };
             const Multipayment = (<any>window).Multipayment;
-            Multipayment.init(this.purchase.data.movieTheaterOrganization.gmoInfo.shopId);
+            const findPaymentAcceptedResult = seller.paymentAccepted.find((paymentAccepted) => {
+                return (paymentAccepted.paymentMethodType === factory.paymentMethodType.CreditCard);
+            });
+            if (findPaymentAcceptedResult === undefined) {
+                return reject(new Error('findPaymentAcceptedResult is undefined'));
+            }
+            Multipayment.init((<factory.seller.ICreditCardPaymentAccepted>findPaymentAcceptedResult).gmoInfo.shopId);
             Multipayment.getToken(sendParam, (<any>window).someCallbackFunction);
         });
     }
@@ -346,12 +354,19 @@ export class PurchaseInputComponent implements OnInit {
 
         if (this.purchase.data.customerContact !== undefined) {
             // 購入者情報入力済み
-            customerContact.familyName.value = convertToKatakana(this.purchase.data.customerContact.familyName);
-            customerContact.givenName.value = convertToKatakana(this.purchase.data.customerContact.givenName);
-            customerContact.email.value = this.purchase.data.customerContact.email;
-            customerContact.emailConfirm.value = this.purchase.data.customerContact.email;
-            customerContact.telephone.value =
-                new LibphonenumberFormatPipe().transform(this.purchase.data.customerContact.telephone);
+            const familyName = (this.purchase.data.customerContact.familyName === undefined)
+                ? '' : convertToKatakana(this.purchase.data.customerContact.familyName);
+            const givenName = (this.purchase.data.customerContact.givenName === undefined)
+                ? '' : convertToKatakana(this.purchase.data.customerContact.givenName);
+            const email = (this.purchase.data.customerContact.email === undefined)
+                ? '' : this.purchase.data.customerContact.email;
+            const telephone = (this.purchase.data.customerContact.telephone === undefined)
+                ? '' : new LibphonenumberFormatPipe().transform(this.purchase.data.customerContact.telephone);
+            customerContact.familyName.value = familyName;
+            customerContact.givenName.value = givenName;
+            customerContact.email.value = email;
+            customerContact.emailConfirm.value = email;
+            customerContact.telephone.value = telephone;
         }
         if (payment > 0) {
             // 決済あり
