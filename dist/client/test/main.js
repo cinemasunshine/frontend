@@ -2409,7 +2409,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                             }
                             familyName = (profile.familyName === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_6__["convertToKatakana"])(profile.familyName);
                             givenName = (profile.givenName === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_6__["convertToKatakana"])(profile.givenName);
-                            telephone = (profile.telephone === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_6__["formatTelephone"])(profile.telephone, 'National');
+                            telephone = (profile.telephone === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_6__["formatTelephone"])(profile.telephone, 'National').replace(/-/g, '');
                             this.inputForm.controls.familyName.setValue(familyName);
                             this.inputForm.controls.givenName.setValue(givenName);
                             this.inputForm.controls.email.setValue(profile.email);

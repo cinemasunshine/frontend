@@ -96,7 +96,7 @@ export class PurchaseInputComponent implements OnInit {
                 }
                 const familyName = (profile.familyName === undefined) ? '' : convertToKatakana(profile.familyName);
                 const givenName = (profile.givenName === undefined) ? '' : convertToKatakana(profile.givenName);
-                const telephone = (profile.telephone === undefined) ? '' : formatTelephone(profile.telephone, 'National');
+                const telephone = (profile.telephone === undefined) ? '' : formatTelephone(profile.telephone, 'National').replace(/-/g, '');
                 this.inputForm.controls.familyName.setValue(familyName);
                 this.inputForm.controls.givenName.setValue(givenName);
                 this.inputForm.controls.email.setValue(profile.email);
