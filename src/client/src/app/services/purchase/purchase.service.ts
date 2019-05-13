@@ -834,7 +834,7 @@ export class PurchaseService {
             },
             object: {
                 amount: Incentive.WatchingMovies,
-                toAccountNumber: this.user.data.account.id,
+                toAccountNumber: this.user.data.account.typeOfGood.accountNumber,
                 notes: '鑑賞'
             }
         });

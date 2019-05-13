@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import * as libphonenumber from 'libphonenumber-js';
 import * as moment from 'moment';
 import { factory } from '../../../../../../../../node_modules/@motionpicture/sskts-api-javascript-client';
-import { convertToHiragana, convertToKatakana } from '../../../../functions';
+import { convertToHiragana, convertToKatakana, formatTelephone } from '../../../../functions';
 import { LibphonenumberFormatPipe } from '../../../../pipes/libphonenumber-format/libphonenumber-format.pipe';
 import { AwsCognitoService, ErrorService, IGmoTokenObject, PurchaseService, SasakiService, UserService } from '../../../../services';
 
@@ -96,7 +96,7 @@ export class PurchaseInputComponent implements OnInit {
                 }
                 const familyName = (profile.familyName === undefined) ? '' : convertToKatakana(profile.familyName);
                 const givenName = (profile.givenName === undefined) ? '' : convertToKatakana(profile.givenName);
-                const telephone = (profile.telephone === undefined) ? '' : profile.telephone.replace(/-/g, '');
+                const telephone = (profile.telephone === undefined) ? '' : formatTelephone(profile.telephone, 'National');
                 this.inputForm.controls.familyName.setValue(familyName);
                 this.inputForm.controls.givenName.setValue(givenName);
                 this.inputForm.controls.email.setValue(profile.email);

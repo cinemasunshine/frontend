@@ -2409,7 +2409,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                             }
                             familyName = (profile.familyName === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_6__["convertToKatakana"])(profile.familyName);
                             givenName = (profile.givenName === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_6__["convertToKatakana"])(profile.givenName);
-                            telephone = (profile.telephone === undefined) ? '' : profile.telephone.replace(/-/g, '');
+                            telephone = (profile.telephone === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_6__["formatTelephone"])(profile.telephone, 'National');
                             this.inputForm.controls.familyName.setValue(familyName);
                             this.inputForm.controls.givenName.setValue(givenName);
                             this.inputForm.controls.email.setValue(profile.email);
@@ -9157,7 +9157,7 @@ var PurchaseService = /** @class */ (function () {
                                 },
                                 object: {
                                     amount: Incentive.WatchingMovies,
-                                    toAccountNumber: this.user.data.account.id,
+                                    toAccountNumber: this.user.data.account.typeOfGood.accountNumber,
                                     notes: '鑑賞'
                                 }
                             })];
