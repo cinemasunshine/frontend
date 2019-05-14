@@ -40,7 +40,7 @@ export function getPurchaseCompletionEmail(params: {
 |
 | <発券/入場方法1 入場用QRコードで入場>
 | 以下のURLよりチケット情報確認画面へアクセス頂き、「チケットを購入した劇場」「予約番号」「お電話番号」を入力してログインしてください。 ご鑑賞時間の24時間前から入場用QRコードが表示されますので、入場時にそちらのQRコードをご提示ください。
-| https://sskts-frontend-test.azurewebsites.net/inquiry/login?theater=101&reserve=521121
+| ${environment.FRONTEND_ENDPOINT}/inquiry/login?theater=101&reserve=521121
 |
 | <発券/入場方法2 劇場発券機で発券>
 | 劇場に設置されている発券機にて発券頂きます。予約番号をお控えの上ご来場ください。
@@ -106,7 +106,7 @@ export function getPurchaseCompletionAppEmail(params: {
 | ご鑑賞時間の24時間前から入場用QRコードが表示されますので、入場時にそちらのQRコードをご提示ください。
 |
 | また購入済みチケットホルダー内にチケットが表示されなかった場合は、お手数ですが以下のURLよりチケット情報確認画面へアクセス頂き、「チケットを購入した劇場」「予約番号」「お電話番号」を入力してログインしてください。ご鑑賞時間の24時間前から入場用QRコードが表示されます。
-| https://sskts-frontend-development.azurewebsites.net/inquiry/login?theater=118&reserve=#{order.confirmationNumber}
+| ${environment.FRONTEND_ENDPOINT}/inquiry/login?theater=118&reserve=#{order.confirmationNumber}
 |
 | または劇場に設置されている発券機にて発券頂きますので予約番号をお控えの上ご来場ください。
 | チケットが発券できなかった場合にはチケット売場にお越しください。
