@@ -103,7 +103,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         const screeningEvent = this.purchase.data.screeningEvent;
         if (screeningEvent === undefined
             || screeningEvent.coaInfo === undefined
-            || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
+            || screeningEvent.coaInfo.availableNum <= this.getSelectSeats().length) {
             seat.status = 'default';
             this.alert.emit();
 
