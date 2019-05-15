@@ -53,14 +53,12 @@ export function getPurchaseCompletionEmail(params: {
 | ・年齢や学生など各種証明が必要なチケットを購入された方は、入場時にご提示ください。
 | ご提示頂けない場合は、一般料金との差額を頂きます。
 |
-| なお、このメールは、シネマサンシャイン池袋テストの予約システムでチケットをご購入頂いた方にお送りしておりますが、
+| なお、このメールは、#{order.seller.name}の予約システムでチケットをご購入頂いた方にお送りしておりますが、
 | チケット購入に覚えのない方に届いております場合は、下記お問い合わせ先までご連絡ください。
 | ※なお、このメールアドレスは送信専用となっておりますので、ご返信頂けません。
 | ご不明な点がございましたら、下記番号までお問合わせください。
 |
 | お問い合わせはこちら
-|
-|
 | #{order.seller.name}
 | TEL：${getInfo(params).seller.telephone}
 `;
@@ -124,8 +122,6 @@ export function getPurchaseCompletionAppEmail(params: {
 | ご不明な点がございましたら、下記番号までお問合わせください。
 |
 | お問い合わせはこちら
-|
-|
 | #{order.seller.name}
 | TEL：${getInfo(params).seller.telephone}
 `;
