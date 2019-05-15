@@ -101,18 +101,19 @@ export class ScreenComponent implements OnInit, AfterViewInit {
             return;
         }
         const screeningEvent = this.purchase.data.screeningEvent;
-        if (screeningEvent === undefined
-            || screeningEvent.coaInfo === undefined
-            || screeningEvent.coaInfo.availableNum <= this.getSelectSeats().length) {
-            seat.status = 'default';
-            this.alert.emit();
-
-            return;
-        }
         if (seat.status === 'default') {
             seat.status = 'active';
         } else if (seat.status === 'active') {
             seat.status = 'default';
+        }
+
+        if (screeningEvent === undefined
+            || screeningEvent.coaInfo === undefined
+            || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
+            seat.status = 'default';
+            this.alert.emit();
+
+            return;
         }
         this.select.emit(this.getSelectSeats());
     }
@@ -343,7 +344,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     }
 
                     const seat = {
-                        className: `seat-${label} seat-${label.slice(0 , 1)}`,
+                        className: `seat-${label} seat-${label.slice(0, 1)}`,
                         w: screenData.seatSize.w,
                         h: screenData.seatSize.h,
                         y: pos.y,
@@ -354,7 +355,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         status: status
                     };
                     if (screenData.hc.indexOf(label) !== -1) {
-                        seat.className = `seat-${label} seat-${label.slice(0 , 1)} seat-hc`;
+                        seat.className = `seat-${label} seat-${label.slice(0, 1)} seat-hc`;
                     }
                     seats.push(seat);
                 }
