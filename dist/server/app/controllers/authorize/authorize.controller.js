@@ -45,6 +45,7 @@ function getCredentials(req, res) {
         log('getCredentials', req.body);
         try {
             let authModel;
+            let userName;
             const endpoint = getEndpoint(req);
             const clientId = req.body.clientId;
             if (req.body.member === reserve_1.FlgMember.NonMember) {
@@ -61,13 +62,14 @@ function getCredentials(req, res) {
                 auth: authModel.create()
             };
             const accessToken = yield options.auth.getAccessToken();
-            const credentials = {
-                accessToken: accessToken
-            };
+            if (req.body.member === reserve_1.FlgMember.Member) {
+                userName = options.auth.verifyIdToken({}).getUsername();
+            }
             res.json({
-                credentials,
+                credentials: { accessToken: accessToken },
                 clientId: options.auth.options.clientId,
-                endpoint
+                endpoint,
+                userName
             });
         }
         catch (err) {

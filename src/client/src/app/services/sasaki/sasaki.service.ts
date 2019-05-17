@@ -14,13 +14,15 @@ export class SasakiService {
     public auth: sasaki.IImplicitGrantClient;
     public event: sasaki.service.Event;
     public order: sasaki.service.Order;
-    public organization: sasaki.service.Organization;
+    public seller: sasaki.service.Seller;
     public person: sasaki.service.Person;
-    public place: sasaki.service.Place;
+    public payment: sasaki.service.Payment;
+    public ownershipInfo: sasaki.service.person.OwnershipInfo;
     public transaction: {
         placeOrder: sasaki.service.transaction.PlaceOrder
     };
     private endpoint: string;
+    public userName: string;
 
     constructor(
         private http: HttpClient,
@@ -35,9 +37,10 @@ export class SasakiService {
             const option = await this.createOption();
             this.event = new sasaki.service.Event(option);
             this.order = new sasaki.service.Order(option);
-            this.organization = new sasaki.service.Organization(option);
+            this.seller = new sasaki.service.Seller(option);
             this.person = new sasaki.service.Person(option);
-            this.place = new sasaki.service.Place(option);
+            this.payment = new sasaki.service.Payment(option);
+            this.ownershipInfo = new sasaki.service.person.OwnershipInfo(option);
             this.transaction = {
                 placeOrder: new sasaki.service.transaction.PlaceOrder(option)
             };
@@ -67,13 +70,14 @@ export class SasakiService {
         const clientId = (user === null) ? undefined : user.clientId;
         const member = (user === null) ? undefined : user.memberType;
         const url = '/api/authorize/getCredentials';
-        const branchCode = (purchase === null || purchase.movieTheaterOrganization === undefined)
-            ? undefined : purchase.movieTheaterOrganization.location.branchCode;
+        const branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
+            ? undefined : purchase.seller.location.branchCode;
         const body = { clientId, member, branchCode };
         const result = await this.http.post<{
             credentials: { accessToken: string; };
             clientId: string;
             endpoint: string;
+            userName: string;
         }>(url, body).toPromise();
         const option = {
             domain: '',
@@ -89,6 +93,7 @@ export class SasakiService {
         this.auth = sasaki.createAuthInstance(option);
         this.auth.setCredentials(result.credentials);
         this.endpoint = result.endpoint;
+        this.userName = result.userName;
     }
 
     /**

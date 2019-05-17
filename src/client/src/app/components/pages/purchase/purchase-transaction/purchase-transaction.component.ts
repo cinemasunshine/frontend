@@ -95,16 +95,16 @@ export class PurchaseTransactionComponent implements OnInit {
             }
             await this.sasaki.getServices();
             // イベント情報取得
-            const individualScreeningEvent = await this.sasaki.event.findIndividualScreeningEvent({
-                identifier: (<string>this.parameters.performanceId)
+            const screeningEvent = await this.sasaki.event.findScreeningEventById({
+                id: (<string>this.parameters.performanceId)
             });
             // 開始可能日判定
-            if (!this.purchase.isSalse(individualScreeningEvent)) {
+            if (!this.purchase.isSalse(screeningEvent)) {
                 throw new Error('Unable to start sales');
             }
             const END_TIME = 10;
             // 終了可能日判定
-            if (moment().add(END_TIME, 'minutes').unix() > moment(individualScreeningEvent.startDate).unix()) {
+            if (moment().add(END_TIME, 'minutes').unix() > moment(screeningEvent.startDate).unix()) {
                 throw new Error('unable to end sales');
             }
             if (this.purchase.data.transaction !== undefined && this.purchase.isExpired()) {
@@ -117,7 +117,7 @@ export class PurchaseTransactionComponent implements OnInit {
             }
             if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
                 // 重複確認へ
-                this.storage.save('individualScreeningEvent', individualScreeningEvent, SaveType.Session);
+                this.storage.save('screeningEvent', screeningEvent, SaveType.Session);
                 this.router.navigate([`/purchase/overlap`]);
 
                 return;
@@ -125,7 +125,7 @@ export class PurchaseTransactionComponent implements OnInit {
 
             await this.purchase.transactionStartProcess({
                 passportToken: <string>this.parameters.passportToken,
-                individualScreeningEvent: individualScreeningEvent
+                screeningEvent: screeningEvent
             });
             this.storage.remove('parameters', SaveType.Session);
             this.router.navigate(['/purchase/seat'], { replaceUrl: true });

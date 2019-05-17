@@ -34,21 +34,20 @@ export class PurchasePointComponent implements OnInit {
         this.pointTickets = [];
         this.selectTickets = {};
         try {
-            if (this.purchase.data.individualScreeningEvent === undefined) {
-                throw new Error('individualScreeningEvent is undefined');
+            const screeningEvent = this.purchase.data.screeningEvent;
+            const tmpSeatReservationAuthorization = this.purchase.data.tmpSeatReservationAuthorization;
+            if (screeningEvent === undefined
+                || screeningEvent.coaInfo === undefined
+                || tmpSeatReservationAuthorization === undefined) {
+                throw new Error('status is different');
             }
-            if (this.purchase.data.tmpSeatReservationAuthorization === undefined
-                || this.purchase.data.tmpSeatReservationAuthorization.result === undefined) {
-                throw new Error('individualScreeningEvent is undefined');
-            }
-            const reserveLength = this.purchase.data.tmpSeatReservationAuthorization.result.updTmpReserveSeatResult.listTmpReserve.length;
+            const reserveLength = tmpSeatReservationAuthorization.object.acceptedOffer.length;
             this.ticketValueList = [];
             for (let i = 0; i < (reserveLength + 1); i++) {
                 this.ticketValueList.push(i);
             }
-            const individualScreeningEvent = this.purchase.data.individualScreeningEvent;
             const masterTickets = await this.sasaki.getTickets({
-                theaterCode: individualScreeningEvent.coaInfo.theaterCode
+                theaterCode: screeningEvent.coaInfo.theaterCode
             });
             this.pointTickets = masterTickets.filter((masterTicket) => {
                 const salesTicket = this.purchase.data.salesTickets.find((ticket) => {
@@ -83,7 +82,7 @@ export class PurchasePointComponent implements OnInit {
 
             return;
         }
-        if (this.user.data.account.availableBalance < usePoint) {
+        if (this.user.data.account.typeOfGood.availableBalance < usePoint) {
             this.pointAhortageAlertModal = true;
 
             return;
