@@ -920,23 +920,19 @@ export class PurchaseService {
                         }
                     });
             }
-            // const incentives = [];
-            // if (this.user.isMember()
-            //     && !this.isReservePoint()
-            //     && this.user.data.account !== undefined) {
-            //     incentives.push({
-            //         amount: Incentive.WatchingMovies,
-            //         toAccountNumber: this.user.data.account.accountNumber
-            //     });
-            // }
             // 取引確定
             order = await this.sasaki.transaction.placeOrder.confirm({
                 id: transaction.id,
                 options: {
                     sendEmailMessage: true,
-                    emailTemplate: (this.user.isMember())
+                    email: {
+                        sender: {
+                            email: 'noreply@ticket-cinemasunshine.com'
+                        },
+                        template: (this.user.isMember())
                         ? getPurchaseCompletionAppEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization, userName })
                         : getPurchaseCompletionEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization })
+                    }
                 }
             });
         } catch (err) {
@@ -998,26 +994,28 @@ export class PurchaseService {
             }
         }
         // プッシュ通知登録
-        try {
-            const itemOffered = order.acceptedOffers[0].itemOffered;
-            if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
-                throw new Error('itemOffered.typeOf is not EventReservation');
+        if (this.user.isNative()) {
+            try {
+                const itemOffered = order.acceptedOffers[0].itemOffered;
+                if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+                    throw new Error('itemOffered.typeOf is not EventReservation');
+                }
+                const reservationFor = itemOffered.reservationFor;
+                const localNotificationArgs = {
+                    id: Number(order.orderNumber.replace(/\-/g, '')), // ID
+                    title: '鑑賞時間が近づいています。', // タイトル
+                    text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
+                        '作品名: ' + reservationFor.name.ja + '\n' +
+                        '上映開始: ' + moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm'), // テキスト
+                    trigger: {
+                        at: moment(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                    },
+                    foreground: true // 前面表示（デフォルトは前面表示しない）
+                };
+                this.callNative.localNotification(localNotificationArgs);
+            } catch (err) {
+                console.error(err);
             }
-            const reservationFor = itemOffered.reservationFor;
-            const localNotificationArgs = {
-                id: Number(order.orderNumber.replace(/\-/g, '')), // ID
-                title: '鑑賞時間が近づいています。', // タイトル
-                text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
-                    '作品名: ' + reservationFor.name.ja + '\n' +
-                    '上映開始: ' + moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm'), // テキスト
-                trigger: {
-                    at: moment(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
-                },
-                foreground: true // 前面表示（デフォルトは前面表示しない）
-            };
-            this.callNative.localNotification(localNotificationArgs);
-        } catch (err) {
-            console.error(err);
         }
 
         // 購入情報削除

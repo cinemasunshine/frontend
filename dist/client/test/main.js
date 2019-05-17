@@ -6848,7 +6848,6 @@ var ScreenComponent = /** @class */ (function () {
         else if (seat.status === 'active') {
             seat.status = 'default';
         }
-        console.log(screeningEvent.coaInfo.availableNum, this.getSelectSeats().length);
         if (screeningEvent === undefined
             || screeningEvent.coaInfo === undefined
             || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
@@ -9283,21 +9282,17 @@ var PurchaseService = /** @class */ (function () {
                             id: transaction.id,
                             options: {
                                 sendEmailMessage: true,
-                                emailTemplate: (this.user.isMember())
-                                    ? Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionAppEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization, userName: userName })
-                                    : Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
+                                email: {
+                                    sender: {
+                                        email: 'noreply@ticket-cinemasunshine.com'
+                                    },
+                                    template: (this.user.isMember())
+                                        ? Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionAppEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization, userName: userName })
+                                        : Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
+                                }
                             }
                         })];
                     case 6:
-                        // const incentives = [];
-                        // if (this.user.isMember()
-                        //     && !this.isReservePoint()
-                        //     && this.user.data.account !== undefined) {
-                        //     incentives.push({
-                        //         amount: Incentive.WatchingMovies,
-                        //         toAccountNumber: this.user.data.account.accountNumber
-                        //     });
-                        // }
                         // 取引確定
                         order = _b.sent();
                         return [3 /*break*/, 10];
@@ -9367,27 +9362,29 @@ var PurchaseService = /** @class */ (function () {
                         return [3 /*break*/, 15];
                     case 15:
                         // プッシュ通知登録
-                        try {
-                            itemOffered = order.acceptedOffers[0].itemOffered;
-                            if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
-                                throw new Error('itemOffered.typeOf is not EventReservation');
+                        if (this.user.isNative()) {
+                            try {
+                                itemOffered = order.acceptedOffers[0].itemOffered;
+                                if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
+                                    throw new Error('itemOffered.typeOf is not EventReservation');
+                                }
+                                reservationFor = itemOffered.reservationFor;
+                                localNotificationArgs = {
+                                    id: Number(order.orderNumber.replace(/\-/g, '')),
+                                    title: '鑑賞時間が近づいています。',
+                                    text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
+                                        '作品名: ' + reservationFor.name.ja + '\n' +
+                                        '上映開始: ' + moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).format('YYYY/MM/DD HH:mm'),
+                                    trigger: {
+                                        at: moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                                    },
+                                    foreground: true // 前面表示（デフォルトは前面表示しない）
+                                };
+                                this.callNative.localNotification(localNotificationArgs);
                             }
-                            reservationFor = itemOffered.reservationFor;
-                            localNotificationArgs = {
-                                id: Number(order.orderNumber.replace(/\-/g, '')),
-                                title: '鑑賞時間が近づいています。',
-                                text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
-                                    '作品名: ' + reservationFor.name.ja + '\n' +
-                                    '上映開始: ' + moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).format('YYYY/MM/DD HH:mm'),
-                                trigger: {
-                                    at: moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
-                                },
-                                foreground: true // 前面表示（デフォルトは前面表示しない）
-                            };
-                            this.callNative.localNotification(localNotificationArgs);
-                        }
-                        catch (err) {
-                            console.error(err);
+                            catch (err) {
+                                console.error(err);
+                            }
                         }
                         // 購入情報削除
                         this.reset();
