@@ -11,21 +11,21 @@ class Auth2Model {
      * @param {any} session
      */
     constructor(args) {
-        const resourceServerUrl = process.env.RESOURCE_SERVER_URL;
+        // const resourceServerUrl = <string>process.env.RESOURCE_SERVER_URL;
         this.scopes = [
-            'phone',
-            'openid',
-            'email',
-            'aws.cognito.signin.user.admin',
-            'profile',
-            `${resourceServerUrl}/transactions`,
-            `${resourceServerUrl}/events.read-only`,
-            `${resourceServerUrl}/organizations.read-only`,
-            `${resourceServerUrl}/orders.read-only`,
-            `${resourceServerUrl}/places.read-only`,
-            `${resourceServerUrl}/people.contacts`,
-            `${resourceServerUrl}/people.creditCards`,
-            `${resourceServerUrl}/people.ownershipInfos.read-only`
+        // 'phone',
+        // 'openid',
+        // 'email',
+        // 'aws.cognito.signin.user.admin',
+        // 'profile',
+        // `${resourceServerUrl}/transactions`,
+        // `${resourceServerUrl}/events.read-only`,
+        // `${resourceServerUrl}/organizations.read-only`,
+        // `${resourceServerUrl}/orders.read-only`,
+        // `${resourceServerUrl}/places.read-only`,
+        // `${resourceServerUrl}/people.contacts`,
+        // `${resourceServerUrl}/people.creditCards`,
+        // `${resourceServerUrl}/people.ownershipInfos.read-only`
         ];
         this.clientId = (args.clientId === undefined) ? args.session.clientId : args.clientId;
         this.credentials = (args.session === undefined) ? undefined : args.session.credentials;

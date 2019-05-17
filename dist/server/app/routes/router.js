@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const authorize_controller_1 = require("../controllers/authorize/authorize.controller");
-const purchase_controller_1 = require("../controllers/purchase/purchase.controller");
 const authorize_1 = require("./authorize");
 const inquiry_1 = require("./inquiry");
 const master_1 = require("./master");
@@ -38,7 +37,6 @@ exports.default = (app) => {
     app.use('/api/authorize', authorize_1.default);
     app.use('/inquiry', inquiry_1.default);
     app.use('/method', method_1.default);
-    app.get('/purchase/performances/getSchedule', purchase_controller_1.getSchedule);
     app.get('/purchase/transaction', purchaseTransaction);
     app.get('/signIn', authorize_controller_1.signInRedirect);
     app.get('/', root);

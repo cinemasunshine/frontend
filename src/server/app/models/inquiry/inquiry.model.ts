@@ -1,13 +1,13 @@
-import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
+import { factory } from '@motionpicture/sskts-api-nodejs-client';
 
 /**
  * 照会セッション
  * @interface IInquiryModel
  */
 export interface IInquiryModel {
-    order?: sasaki.factory.order.IOrder;
+    order?: factory.order.IOrder;
     input?: IInput;
-    movieTheaterOrganization?: sasaki.factory.organization.movieTheater.IPublicFields;
+    seller?: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
 }
 
 interface IInput {
@@ -23,7 +23,7 @@ export class InquiryModel {
     /**
      * オーダー
      */
-    public order?: sasaki.factory.order.IOrder;
+    public order?: factory.order.IOrder;
     /**
      * 入力
      */
@@ -31,7 +31,7 @@ export class InquiryModel {
     /**
      * 劇場
      */
-    public movieTheaterOrganization?: sasaki.factory.organization.movieTheater.IPublicFields;
+    public seller?: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
 
     /**
      * @constructor
@@ -48,7 +48,7 @@ export class InquiryModel {
                 reserveNum: '',
                 telephone: ''
             };
-        this.movieTheaterOrganization = session.movieTheaterOrganization;
+        this.seller = session.seller;
     }
 
 
@@ -62,7 +62,7 @@ export class InquiryModel {
         const inquirySession: IInquiryModel = {
             order: this.order,
             input: this.input,
-            movieTheaterOrganization: this.movieTheaterOrganization
+            seller: this.seller
         };
         session.inquiry = inquirySession;
     }

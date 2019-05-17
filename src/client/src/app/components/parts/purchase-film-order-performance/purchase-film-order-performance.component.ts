@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as sasaki from '@motionpicture/sskts-api-javascript-client';
+import { factory } from '../../../../../../../node_modules/@motionpicture/sskts-api-javascript-client';
 import { environment } from '../../../../environments/environment';
 
-type IIndividualScreeningEvent = sasaki.factory.event.individualScreeningEvent.IEventWithOffer;
 interface Iavailability {
     text: string;
     className: string;
@@ -14,13 +13,14 @@ interface Iavailability {
     styleUrls: ['./purchase-film-order-performance.component.scss']
 })
 export class PurchaseFilmOrderPerformanceComponent implements OnInit {
-    @Input() public data: IIndividualScreeningEvent;
+    @Input() public data: factory.chevre.event.screeningEvent.IEvent;
     public availability: Iavailability;
 
     constructor() { }
 
     public ngOnInit() {
-        this.availability = this.getAvailability(this.data.offer.availability);
+        const availability = (this.data.offers === undefined) ? undefined : this.data.offers.availability;
+        this.availability = this.getAvailability(availability);
     }
 
     /**
@@ -28,7 +28,7 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
      * @param {number | null} availability
      * @returns {Iavailability}
      */
-    public getAvailability(availability: number | null): Iavailability {
+    public getAvailability(availability?: number | factory.chevre.itemAvailability): Iavailability {
         const availabilityList = [
             {
                 text: '満席',
@@ -44,7 +44,7 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
             }
         ];
 
-        return (availability === 0 || availability === null)
+        return (availability === 0 || availability === undefined)
             ? availabilityList[0] : (availability <= 10)
                 ? availabilityList[1] : availabilityList[2];
     }
@@ -54,8 +54,8 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
      * @returns {void}
      */
     public start(): void {
-        const availability = this.data.offer.availability;
-        if (availability === 0 || availability === null) {
+        const availability = (this.data.offers === undefined) ? undefined : this.data.offers.availability;
+        if (availability === 0 || availability === undefined) {
             return;
         }
         location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.data.identifier}`;

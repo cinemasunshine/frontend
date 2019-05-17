@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
-import { ErrorService, IMvtkTicket, ISalesTicketResult, PurchaseService, UserService} from '../../../../services';
+import { ErrorService, IMvtkTicket, ISalesTicketResult, PurchaseService, UserService } from '../../../../services';
 
 interface Ioffer {
-    price: number;
+    price?: number;
     priceCurrency: string;
     seatNumber: string;
     seatSection: string;
@@ -94,7 +94,7 @@ export class PurchaseTicketComponent implements OnInit {
             this.setOffers();
             this.totalPrice = this.getTotalPrice();
             this.upDateSalseTickets();
-            this.originalSaleTickets = [ ...this.salesTickets];
+            this.originalSaleTickets = [...this.salesTickets];
         } catch (err) {
             this.error.redirect(err);
         }
@@ -105,12 +105,13 @@ export class PurchaseTicketComponent implements OnInit {
      * @method createSalseTickets
      */
     private createSalseTickets() {
-        if (this.purchase.data.individualScreeningEvent === undefined) {
-            throw new Error('individualScreeningEvent is undefined');
+        const screeningEvent = this.purchase.data.screeningEvent;
+        if (screeningEvent === undefined) {
+            throw new Error('screeningEvent is undefined');
         }
-        const individualScreeningEvent = this.purchase.data.individualScreeningEvent;
         const pointInfo = environment.POINT_TICKET.find((ticket) => {
-            return ticket.THEATER === individualScreeningEvent.coaInfo.theaterCode;
+            return (screeningEvent.coaInfo !== undefined
+                && ticket.THEATER === screeningEvent.coaInfo.theaterCode);
         });
         const results = [];
         for (const salesTicket of this.purchase.data.salesTickets) {
@@ -332,7 +333,7 @@ export class PurchaseTicketComponent implements OnInit {
     private setOffers() {
         if (this.purchase.data.seatReservationAuthorization === undefined
             && this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
-            this.offers = this.purchase.data.tmpSeatReservationAuthorization.object.offers.map((offer) => {
+            this.offers = this.purchase.data.tmpSeatReservationAuthorization.object.acceptedOffer.map((offer) => {
                 return {
                     price: offer.price,
                     priceCurrency: offer.priceCurrency,
@@ -347,7 +348,7 @@ export class PurchaseTicketComponent implements OnInit {
                 };
             });
         } else if (this.purchase.data.seatReservationAuthorization !== undefined) {
-            this.offers = this.purchase.data.seatReservationAuthorization.object.offers.map((offer) => {
+            this.offers = this.purchase.data.seatReservationAuthorization.object.acceptedOffer.map((offer) => {
                 if (offer.ticketInfo.mvtkNum !== '') {
                     // ムビチケ
                     return {
@@ -476,7 +477,7 @@ export class PurchaseTicketComponent implements OnInit {
 
             return;
         }
-        if (this.purchase.data.individualScreeningEvent !== undefined) {
+        if (this.purchase.data.screeningEvent !== undefined) {
             const ltdTicketCode = this.purchase.getMemberTicketCode();
             if (ltdTicketCode.indexOf(ticket.ticketCode) >= 0) {
                 this.salesTickets = this.salesTickets.filter(

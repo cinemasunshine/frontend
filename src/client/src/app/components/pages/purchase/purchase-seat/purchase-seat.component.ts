@@ -5,7 +5,6 @@ import { environment } from '../../../../../environments/environment';
 import {
     ErrorService,
     FlgMember,
-    IIndividualScreeningEvent,
     ISalesTicketResult,
     PurchaseService,
     SasakiService,
@@ -46,26 +45,36 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             terms: [false, [Validators.requiredTrue]]
         });
         this.disable = false;
-        if (this.purchase.data.individualScreeningEvent === undefined) {
-            this.error.redirect(new Error('individualScreeningEvent is undefined'));
+        if (this.purchase.data.screeningEvent === undefined) {
+            this.error.redirect(new Error('screeningEvent is undefined'));
+
+            return;
+        }
+
+        if (this.purchase.data.screeningEvent.coaInfo === undefined) {
+            this.error.redirect(new Error('coaInfo is undefined'));
 
             return;
         }
 
         this.screenData = {
-            theaterCode: this.purchase.data.individualScreeningEvent.coaInfo.theaterCode,
-            dateJouei: this.purchase.data.individualScreeningEvent.coaInfo.dateJouei,
-            titleCode: this.purchase.data.individualScreeningEvent.coaInfo.titleCode,
-            titleBranchNum: this.purchase.data.individualScreeningEvent.coaInfo.titleBranchNum,
-            timeBegin: this.purchase.data.individualScreeningEvent.coaInfo.timeBegin,
-            screenCode: this.purchase.data.individualScreeningEvent.coaInfo.screenCode
+            theaterCode: this.purchase.data.screeningEvent.coaInfo.theaterCode,
+            dateJouei: this.purchase.data.screeningEvent.coaInfo.dateJouei,
+            titleCode: this.purchase.data.screeningEvent.coaInfo.titleCode,
+            titleBranchNum: this.purchase.data.screeningEvent.coaInfo.titleBranchNum,
+            timeBegin: this.purchase.data.screeningEvent.coaInfo.timeBegin,
+            screenCode: this.purchase.data.screeningEvent.coaInfo.screenCode
         };
 
     }
 
     public async ngAfterViewInit() {
-        if (this.purchase.data.salesTickets.length === 0) {
-            this.purchase.data.salesTickets = await this.fitchSalesTickets();
+        try {
+            if (this.purchase.data.salesTickets.length === 0) {
+                this.purchase.data.salesTickets = await this.fitchSalesTickets();
+            }
+        } catch (error) {
+            this.error.redirect(error);
         }
     }
 
@@ -84,14 +93,20 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
      * @method getSalesTickets
      */
     public async fitchSalesTickets() {
-        const individualScreeningEvent = <IIndividualScreeningEvent>this.purchase.data.individualScreeningEvent;
+        const screeningEvent = this.purchase.data.screeningEvent;
+        if (screeningEvent === undefined) {
+            throw new Error('screeningEvent is undefined');
+        }
+        if (screeningEvent.coaInfo === undefined) {
+            throw new Error('coaInfo is undefined');
+        }
         await this.sasaki.getServices();
         const salesTicketArgs = {
-            theaterCode: individualScreeningEvent.coaInfo.theaterCode,
-            dateJouei: individualScreeningEvent.coaInfo.dateJouei,
-            titleCode: individualScreeningEvent.coaInfo.titleCode,
-            titleBranchNum: individualScreeningEvent.coaInfo.titleBranchNum,
-            timeBegin: individualScreeningEvent.coaInfo.timeBegin,
+            theaterCode: screeningEvent.coaInfo.theaterCode,
+            dateJouei: screeningEvent.coaInfo.dateJouei,
+            titleCode: screeningEvent.coaInfo.titleCode,
+            titleBranchNum: screeningEvent.coaInfo.titleBranchNum,
+            timeBegin: screeningEvent.coaInfo.timeBegin,
             flgMember: (this.user.isMember()) ? FlgMember.Member : FlgMember.NonMember
         };
         const salesTickets = await this.sasaki.getSalesTickets(salesTicketArgs);

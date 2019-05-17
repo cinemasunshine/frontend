@@ -3,6 +3,8 @@ import { factory } from '@motionpicture/sskts-api-javascript-client';
 import { SasakiService } from '../sasaki/sasaki.service';
 import { SaveType, StorageService } from '../storage/storage.service';
 
+type IAccount = factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount<factory.accountType>>;
+
 /**
  * ネイティブアプリフラグ
  */
@@ -34,10 +36,10 @@ export enum FlgMember {
 export interface IUserData {
     native: NativeAppFlg;
     memberType: FlgMember;
-    contact?: factory.person.IContact;
+    profile?: factory.person.IProfile;
     creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
-    account?: factory.pecorino.account.IAccount<factory.accountType.Point>;
+    account?: IAccount;
     clientId?: string;
 }
 
@@ -98,18 +100,18 @@ export class UserService {
         this.save();
         await this.sasaki.getServices();
         // 連絡先取得
-        const contact = await this.sasaki.person.getContacts({
+        const profile = await this.sasaki.person.getProfile({
             personId: 'me'
         });
-        if (contact === undefined) {
-            throw new Error('contact is undefined');
+        if (profile === undefined) {
+            throw new Error('profile is undefined');
         }
-        this.data.contact = contact;
+        this.data.profile = profile;
 
         try {
             // クレジットカード検索
-            const creditCards = await this.sasaki.person.findCreditCards({
-                personId: 'me'
+            const creditCards = await this.sasaki.ownershipInfo.searchCreditCards({
+                id: 'me'
             });
             this.data.creditCards = creditCards;
         } catch (err) {
@@ -118,23 +120,28 @@ export class UserService {
         }
 
         // 口座検索
-        let accounts = await this.sasaki.person.findAccounts({
-            personId: 'me'
-        });
-        accounts = accounts.filter((account) => {
-            return account.status === factory.pecorino.accountStatusType.Opened;
-        });
+        const searchResult =
+            await this.sasaki.ownershipInfo.search<factory.ownershipInfo.AccountGoodType.Account>({
+                sort: {
+                    ownedFrom: factory.sortType.Ascending
+                },
+                typeOfGood: {
+                    typeOf: factory.ownershipInfo.AccountGoodType.Account,
+                    accountType: factory.accountType.Point
+                }
+            });
+        const accounts =
+            searchResult.data.filter((a) => {
+                return (a.typeOfGood.status === factory.pecorino.accountStatusType.Opened);
+            });
         if (accounts.length === 0) {
             // 口座開設
-            this.data.account = await this.sasaki.person.openAccount({
-                personId: 'me',
-                name: `${this.data.contact.familyName} ${this.data.contact.givenName}`
+            const openResult = await this.sasaki.ownershipInfo.openAccount({
+                name: `${this.data.profile.familyName} ${this.data.profile.givenName}`,
+                accountType: factory.accountType.Point
             });
+            this.data.account = openResult;
         } else {
-            accounts.sort((a,b) => {
-                return a.openDate > b.openDate ? -1 :
-                    a.openDate < b.openDate ? 1 : 0;
-            });
             this.data.account = accounts[0];
         }
         // console.log('口座番号', this.data.account.accountNumber);

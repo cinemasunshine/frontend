@@ -14,13 +14,13 @@ class AuthModel {
      */
     constructor(clientId) {
         this.state = 'STATE';
-        const resourceServerUrl = process.env.RESOURCE_SERVER_URL;
+        // const resourceServerUrl = <string>process.env.RESOURCE_SERVER_URL;
         this.scopes = [
-            `${resourceServerUrl}/transactions`,
-            `${resourceServerUrl}/events.read-only`,
-            `${resourceServerUrl}/organizations.read-only`,
-            `${resourceServerUrl}/orders.read-only`,
-            `${resourceServerUrl}/places.read-only`
+        // `${resourceServerUrl}/transactions`,
+        // `${resourceServerUrl}/events.read-only`,
+        // `${resourceServerUrl}/organizations.read-only`,
+        // `${resourceServerUrl}/orders.read-only`,
+        // `${resourceServerUrl}/places.read-only`
         ];
         const clientList = JSON.parse(process.env.CLIENT_LIST);
         const findResult = clientList.find(client => client.id === clientId);

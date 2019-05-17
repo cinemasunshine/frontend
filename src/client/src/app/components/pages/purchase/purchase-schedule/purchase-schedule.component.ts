@@ -4,11 +4,10 @@ import * as moment from 'moment';
 import { environment } from '../../../../../environments/environment';
 import { ErrorService, PurchaseService, SasakiService } from '../../../../services';
 
-type IMovieTheater = factory.organization.movieTheater.IPublicFields;
-type IIndividualScreeningEvent = factory.event.individualScreeningEvent.IEventWithOffer;
+type IMovieTheater = factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
 interface IFilmOrder {
     id: string;
-    films: IIndividualScreeningEvent[];
+    films: factory.chevre.event.screeningEvent.IEvent[];
 }
 
 interface IDate {
@@ -26,7 +25,7 @@ export class PurchaseScheduleComponent implements OnInit {
     public isLoading: boolean;
     public dateList: IDate[];
     public filmOrder: IFilmOrder[];
-    public schedules: IIndividualScreeningEvent[];
+    public schedules: factory.chevre.event.screeningEvent.IEvent[];
     public conditions: { theater: string; date: string };
     public environment = environment;
 
@@ -54,10 +53,16 @@ export class PurchaseScheduleComponent implements OnInit {
         this.isLoading = true;
         try {
             await this.sasaki.getServices();
-            this.theaters = await this.sasaki.organization.searchMovieTheaters();
+            const searchResult = await this.sasaki.seller.search({});
+            this.theaters = searchResult.data;
             this.dateList = this.getDateList(3);
+            const theater = this.theaters[0];
+            if (theater.location === undefined
+                || theater.location.branchCode === undefined) {
+                throw new Error('branchCode is undefined');
+            }
             this.conditions = {
-                theater: this.theaters[0].location.branchCode,
+                theater: theater.location.branchCode,
                 date: this.dateList[0].value
             };
             await this.changeConditions();
@@ -95,17 +100,15 @@ export class PurchaseScheduleComponent implements OnInit {
         this.filmOrder = [];
         try {
             await this.sasaki.getServices();
-            const theater = this.theaters.find((target) => {
-                return (target.location.branchCode === this.conditions.theater);
-            });
-            if (theater === undefined) {
-                throw new Error('theater is not found');
-            }
-            this.schedules = await this.sasaki.event.searchIndividualScreeningEvent({
-                superEventLocationIdentifiers: [theater.identifier],
+            const searchScreeningEventsResult = await this.sasaki.event.searchScreeningEvents({
+                typeOf: factory.chevre.eventType.ScreeningEvent,
+                superEvent: {
+                    locationBranchCodes: [this.conditions.theater]
+                },
                 startFrom: moment(this.conditions.date).toDate(),
                 startThrough: moment(this.conditions.date).add(1, 'day').toDate()
             });
+            this.schedules = searchScreeningEventsResult.data;
             this.filmOrder = this.getEventFilmOrder();
             // console.log(this.filmOrder);
         } catch (err) {
@@ -127,11 +130,11 @@ export class PurchaseScheduleComponent implements OnInit {
                 return;
             }
             const film = results.find((event) => {
-                return (event.id === screeningEvent.workPerformed.identifier);
+                return (event.id === screeningEvent.superEvent.id);
             });
             if (film === undefined) {
                 results.push({
-                    id: screeningEvent.workPerformed.identifier,
+                    id: screeningEvent.superEvent.id,
                     films: [screeningEvent]
                 });
             } else {

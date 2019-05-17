@@ -31,9 +31,13 @@ function login(req, res) {
         try {
             const inquiryModel = new inquiry_model_1.InquiryModel(req.session.inquiry);
             const options = base_controller_1.getOptions(req);
-            const args = { branchCode: req.query.theater };
-            log('findMovieTheaterByBranchCode', args);
-            inquiryModel.movieTheaterOrganization = yield new sasaki.service.Organization(options).findMovieTheaterByBranchCode(args);
+            const branchCode = req.query.theater;
+            const searchResult = yield new sasaki.service.Seller(options).search({
+                location: {
+                    branchCodes: [branchCode]
+                }
+            });
+            inquiryModel.seller = searchResult.data[0];
             inquiryModel.input.reserveNum = (req.query.reserve !== undefined) ? req.query.reserve : '';
             inquiryModel.save(req.session);
             res.locals.inquiryModel = inquiryModel;
@@ -63,8 +67,8 @@ function auth(req, res) {
         const inquiryModel = new inquiry_model_1.InquiryModel(req.session.inquiry);
         try {
             loginForm(req);
-            if (inquiryModel.movieTheaterOrganization === undefined) {
-                throw new Error('movieTheaterOrganization is undefined');
+            if (inquiryModel.seller === undefined) {
+                throw new Error('seller is undefined');
             }
             const validationResult = yield req.getValidationResult();
             inquiryModel.input = {
@@ -73,14 +77,13 @@ function auth(req, res) {
             };
             inquiryModel.save(req.session);
             if (validationResult.isEmpty()) {
-                const theaterCode = inquiryModel.movieTheaterOrganization.location.branchCode;
-                const args = {
+                const theaterCode = (inquiryModel.seller.location === undefined || inquiryModel.seller.location.branchCode === undefined)
+                    ? '' : inquiryModel.seller.location.branchCode;
+                inquiryModel.order = yield new sasaki.service.Order(options).findByOrderInquiryKey({
                     telephone: inquiryModel.input.telephone,
                     confirmationNumber: Number(inquiryModel.input.reserveNum),
-                    theaterCode: inquiryModel.movieTheaterOrganization.location.branchCode
-                };
-                log('findByOrderInquiryKey', args);
-                inquiryModel.order = yield new sasaki.service.Order(options).findByOrderInquiryKey(args);
+                    theaterCode
+                });
                 log('findByOrderInquiryKey', inquiryModel.order);
                 if (inquiryModel.order === undefined) {
                     log('NOT FOUND');

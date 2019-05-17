@@ -100,14 +100,16 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         if (this.isMobile() && !this.zoomState) {
             return;
         }
+        const screeningEvent = this.purchase.data.screeningEvent;
         if (seat.status === 'default') {
             seat.status = 'active';
         } else if (seat.status === 'active') {
             seat.status = 'default';
         }
-        const individualScreeningEvent = this.purchase.data.individualScreeningEvent;
-        if (individualScreeningEvent !== undefined
-            && individualScreeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
+
+        if (screeningEvent === undefined
+            || screeningEvent.coaInfo === undefined
+            || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
             seat.status = 'default';
             this.alert.emit();
 
@@ -332,7 +334,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     }
                     // 選択中
                     if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
-                        const targetOffer = this.purchase.data.tmpSeatReservationAuthorization.object.offers.find((offer) => {
+                        const targetOffer = this.purchase.data.tmpSeatReservationAuthorization.object.acceptedOffer.find((offer) => {
                             return (offer.seatNumber === code);
                         });
                         if (targetOffer !== undefined) {
@@ -342,7 +344,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     }
 
                     const seat = {
-                        className: `seat-${label} seat-${label.slice(0 , 1)}`,
+                        className: `seat-${label} seat-${label.slice(0, 1)}`,
                         w: screenData.seatSize.w,
                         h: screenData.seatSize.h,
                         y: pos.y,
@@ -353,7 +355,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         status: status
                     };
                     if (screenData.hc.indexOf(label) !== -1) {
-                        seat.className = `seat-${label} seat-${label.slice(0 , 1)} seat-hc`;
+                        seat.className = `seat-${label} seat-${label.slice(0, 1)} seat-hc`;
                     }
                     seats.push(seat);
                 }

@@ -40,6 +40,7 @@ export async function getCredentials(req: Request, res: Response) {
     log('getCredentials', req.body);
     try {
         let authModel;
+        let userName;
         const endpoint = getEndpoint(req);
         const clientId = req.body.clientId;
         if (req.body.member === FlgMember.NonMember) {
@@ -54,14 +55,15 @@ export async function getCredentials(req: Request, res: Response) {
             auth: authModel.create()
         };
         const accessToken = await options.auth.getAccessToken();
-        const credentials = {
-            accessToken: accessToken
-        };
+        if (req.body.member === FlgMember.Member) {
+            userName = options.auth.verifyIdToken(<any>{}).getUsername();
+        }
 
         res.json({
-            credentials,
+            credentials: { accessToken: accessToken },
             clientId: options.auth.options.clientId,
-            endpoint
+            endpoint,
+            userName
         });
     } catch (err) {
         errorProsess(res, err);

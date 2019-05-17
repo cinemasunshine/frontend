@@ -25,12 +25,12 @@
             </dl>
         </div>
 
-        <input type="hidden" name="theaterCode" value="<%= inquiryModel.movieTheaterOrganization.location.branchCode %>">
-        <input type="hidden" name="branchCode" value="<%= inquiryModel.movieTheaterOrganization.location.branchCode %>">
+        <input type="hidden" name="theaterCode" value="<%= inquiryModel.seller.location.branchCode %>">
+        <input type="hidden" name="branchCode" value="<%= inquiryModel.seller.location.branchCode %>">
         
         <div class="button-area clearfix">
             <div class="button next-button blue-button"><button class="icon-next-white" type="submit"><%- __('inquiry.login.next') %></button></div>
-            <div class="prev-link"><a class="icon-prev-black" href="<%= inquiryModel.movieTheaterOrganization.url %>"><%- __('inquiry.login.prev') %></a></div>
+            <div class="prev-link"><a class="icon-prev-black" href="<%= inquiryModel.seller.url %>"><%- __('inquiry.login.prev') %></a></div>
         </div>
     </form>
 <%- include('../layouts/siteSeal') %>
