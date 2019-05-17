@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.8.0 - 2019-05-17
+### Changed
+- [@motionpicture/sskts-api-javascript-client@8.0.1](https://github.com/motionpicture/sskts-api-javascript-client)に対応。
+- [@motionpicture/sskts-api-nodejs-client@8.0.1](https://github.com/motionpicture/sskts-api-nodejs-client)に対応。
+
 ## 5.7.3 - 2019-03-27
 ### Fixed
 - 衣山座席データ修正
