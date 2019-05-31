@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.8.1 - 2019-05-31
+### Fixed
+- アナリティクス連携修正
+
 ## 5.8.0 - 2019-05-17
 ### Changed
 - [@motionpicture/sskts-api-javascript-client@8.0.1](https://github.com/motionpicture/sskts-api-javascript-client)に対応。
