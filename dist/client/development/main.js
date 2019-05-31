@@ -9317,7 +9317,7 @@ var PurchaseService = /** @class */ (function () {
                                 hitType: 'event',
                                 eventCategory: 'purchase',
                                 eventAction: 'complete',
-                                eventLabel: "conversion-" + screeningEvent.location.branchCode
+                                eventLabel: "conversion-" + screeningEvent.superEvent.location.branchCode
                             };
                             ga('send', sendData);
                         }
