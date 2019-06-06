@@ -54,7 +54,8 @@
                     <a class="{{ seat.status }}" 
                     [ngStyle]="{
                         'width.px': seat.w,
-                        'height.px': seat.h
+                        'height.px': seat.h,
+                        'background-size': seat.w + 'px ' + seat.h + 'px'
                     }" (click)="seatSelect(seat)"><span>{{ seat.label }}</span></a>
                 </div>
             </div>

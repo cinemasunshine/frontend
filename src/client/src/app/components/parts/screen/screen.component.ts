@@ -313,6 +313,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     || screenData.map[y][x] === 5
                     || screenData.map[y][x] === 8
                     || screenData.map[y][x] === 10) {
+                    // 座席あり
                     // 座席HTML生成
                     const code = (data.screen.seatNumberAlign === 'left')
                         ? `${toFullWidth(labels[labelCount])}－${toFullWidth(String(x + 1))}`
@@ -320,8 +321,15 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     const label = (data.screen.seatNumberAlign === 'left')
                         ? `${labels[labelCount]}${String(x + 1)}`
                         : `${labels[labelCount]}${String(screenData.map[y].length - x)}`;
+                    const seatSize = { w: screenData.seatSize.w, h: screenData.seatSize.h };
+                    const seatPosition = { x: pos.x, y: pos.y };
+                    let className = `seat-${label} seat-${label.slice(0, 1)}`;
                     let section = '';
                     let status = 'disabled';
+                    let seatType = 'standard';
+                    let spseatAdd1 = 0;
+                    let spseatAdd2 = 0;
+                    let spseatKbn = '000';
                     for (const listSeat of seatStatus.listSeat) {
                         const targetSeat = listSeat.listFreeSeat.find((freeSeat) => {
                             return (freeSeat.seatNum === code);
@@ -329,6 +337,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         if (targetSeat !== undefined) {
                             section = listSeat.seatSection;
                             status = 'default';
+                            spseatAdd1 = targetSeat.spseatAdd1;
+                            spseatAdd2 = targetSeat.spseatAdd2;
+                            spseatKbn = targetSeat.spseatKbn;
                             break;
                         }
                     }
@@ -343,21 +354,67 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         }
                     }
 
-                    const seat = {
-                        className: `seat-${label} seat-${label.slice(0, 1)}`,
-                        w: screenData.seatSize.w,
-                        h: screenData.seatSize.h,
-                        y: pos.y,
-                        x: pos.x,
-                        label: label,
-                        code: code,
-                        section: section,
-                        status: status
-                    };
                     if (screenData.hc.indexOf(label) !== -1) {
-                        seat.className = `seat-${label} seat-${label.slice(0, 1)} seat-hc`;
+                        // 車椅子
+                        className += ' seat-hc';
+                        seatType = 'hc';
                     }
+                    if (screenData.premiumClass.indexOf(label) !== -1) {
+                        // プレミアムクラス
+                        className += ' seat-premium-class';
+                        seatType = 'premiumClass';
+                        seatSize.w = screenData.premiumClassSeatSize.w;
+                        seatSize.h = screenData.premiumClassSeatSize.h;
+                        seatPosition.y = pos.y - (screenData.premiumClassSeatSize.h - screenData.seatSize.h);
+                    }
+                    if (screenData.grandClass.indexOf(label) !== -1) {
+                        // グランドクラス
+                        className += ' seat-grand-class';
+                        seatType = 'grandClass';
+                        seatSize.w = screenData.grandClassSeatSize.w;
+                        seatSize.h = screenData.grandClassSeatSize.h;
+                        seatPosition.y = pos.y - (screenData.grandClassSeatSize.h - screenData.seatSize.h);
+                    }
+                    if (screenData.comfort.indexOf(label) !== -1) {
+                        // コンフォート
+                        className += ' seat-comfort';
+                        seatType = 'comfort';
+                        seatSize.w = screenData.comfortSeatSize.w;
+                        seatSize.h = screenData.comfortSeatSize.h;
+                        seatPosition.y = pos.y - (screenData.comfortSeatSize.h - screenData.seatSize.h);
+                    }
+
+                    const seat = {
+                        className,
+                        w: seatSize.w,
+                        h: seatSize.h,
+                        y: seatPosition.y,
+                        x: seatPosition.x,
+                        label,
+                        status,
+                        seatType,
+                        coaInfo: {
+                            seatNum: code,
+                            section,
+                            spseatAdd1,
+                            spseatAdd2,
+                            spseatKbn
+                        }
+                    };
                     seats.push(seat);
+                    // x軸の座席の大きさによるズレを調整
+                    if (screenData.premiumClass.indexOf(label) !== -1) {
+                        // プレミアムクラス
+                        pos.x += screenData.premiumClassSeatSize.w - screenData.seatSize.w;
+                    }
+                    if (screenData.grandClass.indexOf(label) !== -1) {
+                        // グランドクラス
+                        pos.x += screenData.grandClassSeatSize.w - screenData.seatSize.w;
+                    }
+                    if (screenData.comfort.indexOf(label) !== -1) {
+                        // コンフォート
+                        pos.x += screenData.comfortSeatSize.w - screenData.seatSize.w;
+                    }
                 }
                 // ポジション設定
                 if (screenData.map[y][x] === 2) {
@@ -416,7 +473,13 @@ interface IScreen {
     special: string[];
     hc: string[];
     pair: string[];
+    comfort: string[];
+    grandClass: string[];
+    premiumClass: string[];
     seatSize: ISize;
+    comfortSeatSize: ISize;
+    grandClassSeatSize: ISize;
+    premiumClassSeatSize: ISize;
     seatMargin: ISize;
     aisle: {
         small: ISize;
@@ -432,24 +495,86 @@ interface IScreen {
 }
 
 interface ILabel {
+    /**
+     * ID
+     */
     id: number;
+    /**
+     * 幅
+     */
     w: number;
+    /**
+     * 高さ
+     */
     h: number;
+    /**
+     * 位置Y
+     */
     y: number;
+    /**
+     * 位置X
+     */
     x: number;
+    /**
+     * 表示名
+     */
     label: string;
 }
 
 export interface ISeat {
+    /**
+     * cssクラス名
+     */
     className: string;
+    /**
+     * 幅
+     */
     w: number;
+    /**
+     * 高さ
+     */
     h: number;
+    /**
+     * 位置Y
+     */
     y: number;
+    /**
+     * 位置X
+     */
     x: number;
+    /**
+     * 表示名
+     */
     label: string;
-    code: string;
-    section: string;
+    /**
+     * 座席ステータス
+     */
     status: string;
+    coaInfo: {
+        /**
+         * 座席セクション
+         */
+        section: string;
+        /**
+         * 座席コード
+         */
+        seatNum: string;
+        /**
+         * 特別席区分
+         * 000：通常席、001：コンフォート、002：グラントクラス、003：プレミアクラス
+         */
+        spseatKbn: string;
+        /**
+         * 特別席加算額１
+         * 特別席加算額の興行収入部分
+         */
+        spseatAdd1: number;
+        /**
+         * 特別席加算額２
+         * 特別席加算額のミールクーポン部分
+         */
+        spseatAdd2: number;
+    };
 }
 
 interface IData {

@@ -24,8 +24,7 @@ function purchaseTransaction(req: Request, res: Response, _next: NextFunction) {
 }
 
 function root(_req: Request, res: Response, _next: NextFunction) {
-    const fileName = (process.env.NODE_ENV === 'production') ? 'production.html' : 'index.html';
-    res.sendFile(path.resolve(`${__dirname}/../../../client/${process.env.NODE_ENV}/${fileName}`));
+    res.sendFile(path.resolve(`${__dirname}/../../../client/${process.env.NODE_ENV}/index.html`));
 }
 
 function notfound(_req: Request, res: Response, _next: NextFunction) {

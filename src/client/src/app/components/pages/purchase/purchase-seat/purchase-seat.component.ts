@@ -147,8 +147,8 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
                 const salesTicket = (<ISalesTicketResult[]>this.purchase.data.salesTickets)[0];
 
                 return {
-                    seatSection: seat.section,
-                    seatNumber: seat.code,
+                    seatSection: seat.coaInfo.section,
+                    seatNumber: seat.coaInfo.seatNum,
                     ticketInfo: {
                         ticketCode: salesTicket.ticketCode,
                         mvtkAppPrice: 0,
@@ -176,6 +176,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
      * @param {Iseat[]} seats
      */
     public seatSelect(seats: ISeat[]) {
+        console.log(seats);
         this.seats = seats;
     }
 

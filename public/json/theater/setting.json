@@ -1,5 +1,8 @@
 {
     "seatSize": { "w": 40, "h": 50 },
+    "comfortSeatSize": { "w": 40, "h": 100 },
+    "grandClassSeatSize": { "w": 80, "h": 80 },
+    "premiumClassSeatSize": { "w": 80, "h": 80 },
     "seatMargin": { "w": 4, "h": 20 },
     "aisle": {
         "small": { "w": 8, "h": 0 },
@@ -9,5 +12,10 @@
     "seatNumberPos": 50,
     "seatNumberAlign": "left",
     "columnLabel": false,
-    "lineLabel": true
+    "lineLabel": true,
+    "hc": [],
+    "pair": [],
+    "comfort": [],
+    "grandClass": [],
+    "premiumClass": []
 }
