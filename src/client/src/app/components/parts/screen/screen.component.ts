@@ -359,30 +359,21 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         className += ' seat-hc';
                         seatType = 'hc';
                     }
-                    if (screenData.premiumClass.indexOf(label) !== -1) {
-                        // プレミアムクラス
-                        className += ' seat-premium-class';
-                        seatType = 'premiumClass';
-                        seatSize.w = screenData.premiumClassSeatSize.w;
-                        seatSize.h = screenData.premiumClassSeatSize.h;
-                        seatPosition.y = pos.y - (screenData.premiumClassSeatSize.h - screenData.seatSize.h);
-                    }
-                    if (screenData.grandClass.indexOf(label) !== -1) {
-                        // グランドクラス
-                        className += ' seat-grand-class';
-                        seatType = 'grandClass';
-                        seatSize.w = screenData.grandClassSeatSize.w;
-                        seatSize.h = screenData.grandClassSeatSize.h;
-                        seatPosition.y = pos.y - (screenData.grandClassSeatSize.h - screenData.seatSize.h);
-                    }
-                    if (screenData.comfort.indexOf(label) !== -1) {
-                        // コンフォート
-                        className += ' seat-comfort';
-                        seatType = 'comfort';
-                        seatSize.w = screenData.comfortSeatSize.w;
-                        seatSize.h = screenData.comfortSeatSize.h;
-                        seatPosition.y = pos.y - (screenData.comfortSeatSize.h - screenData.seatSize.h);
-                    }
+                    screenData.specialSeats.forEach((specialSeat) => {
+                        // 特別席
+                        if (specialSeat.data.indexOf(label) === -1) {
+                            return;
+                        }
+                        const config = screenData.specialSeatConfig.find(c => c.name === specialSeat.name);
+                        if (config === undefined) {
+                            return;
+                        }
+                        className += ` ${config.className}`;
+                        seatType = config.name;
+                        seatSize.w = config.size.w;
+                        seatSize.h = config.size.h;
+                        seatPosition.y = pos.y - (config.size.h - screenData.seatSize.h);
+                    });
 
                     const seat = {
                         className,
@@ -403,18 +394,17 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     };
                     seats.push(seat);
                     // x軸の座席の大きさによるズレを調整
-                    if (screenData.premiumClass.indexOf(label) !== -1) {
-                        // プレミアムクラス
-                        pos.x += screenData.premiumClassSeatSize.w - screenData.seatSize.w;
-                    }
-                    if (screenData.grandClass.indexOf(label) !== -1) {
-                        // グランドクラス
-                        pos.x += screenData.grandClassSeatSize.w - screenData.seatSize.w;
-                    }
-                    if (screenData.comfort.indexOf(label) !== -1) {
-                        // コンフォート
-                        pos.x += screenData.comfortSeatSize.w - screenData.seatSize.w;
-                    }
+                    screenData.specialSeats.forEach((specialSeat) => {
+                        // 特別席
+                        if (specialSeat.data.indexOf(label) === -1) {
+                            return;
+                        }
+                        const config = screenData.specialSeatConfig.find(c => c.name === specialSeat.name);
+                        if (config === undefined) {
+                            return;
+                        }
+                        pos.x += config.size.w - screenData.seatSize.w;
+                    });
                 }
                 // ポジション設定
                 if (screenData.map[y][x] === 2) {
@@ -472,14 +462,9 @@ interface IScreen {
     map: number[][];
     special: string[];
     hc: string[];
-    pair: string[];
-    comfort: string[];
-    grandClass: string[];
-    premiumClass: string[];
+    specialSeats: { name: string; data: string[]; }[];
     seatSize: ISize;
-    comfortSeatSize: ISize;
-    grandClassSeatSize: ISize;
-    premiumClassSeatSize: ISize;
+    specialSeatConfig: { name: string; className: string; size: ISize }[];
     seatMargin: ISize;
     aisle: {
         small: ISize;

@@ -27,9 +27,7 @@
     ],
     "special": [],
     "hc": ["A2", "A3"],
-    "pair": [],
-    "comfort": [],
-    "grandClass": [],
-    "premiumClass": [],
-    "style": ""
+    "specialSeats": [
+        { "name": "ottoman", "data": ["A5", "A6", "A7", "A8", "A9"] }
+    ]
 }

@@ -86,6 +86,21 @@ $mobile: 767px;
             }
         }
     }
+    .seat-ottoman {
+        a {
+            background-image: url(/images/theater/seat/ottoman.svg);
+            padding-top: 36px;
+            &.active {
+                color: #FFF;
+                background-image: url(/images/theater/seat/ottoman_active.svg);
+            }
+            &.disabled {
+                color: #FFF;
+                background-image: url(/images/theater/seat/ottoman_disabled.svg);
+                cursor: default;
+            }
+        }
+    }
     .object {
         position: absolute;
         background-repeat: no-repeat;
