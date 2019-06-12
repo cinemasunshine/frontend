@@ -43,6 +43,55 @@
                     </div>
                 </dd>
             </dl>
+            <ul *ngIf="offer.listOpened" class="not-layout box radius bg-light-gray">
+                <li *ngFor="let mvtkTicket of salesMvtkTickets" [class.disabled]="mvtkTicket.selected">
+                    <dl class="d-table">
+                        <dt class="d-td">
+                            <div class="mb-xx-small">
+                                <strong>
+                                    {{ mvtkTicket.ticketName }} ￥{{ mvtkTicket.salePrice }}
+                                </strong>
+                            </div>
+                            <p class="small-x-text">ムビチケ購入番号 {{ mvtkTicket.knyknrNoInfo.knyknrNo }}</p>
+                        </dt>
+                        <dd class="d-td width-small">
+                            <div class="button blue-button ticket-type-select">
+                                <button type="button" (click)="selectMvtkTicket(mvtkTicket)">選択</button>
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+                <li *ngFor="let pointTicket of salesPointTickets" [class.disabled]="pointTicket.selected">
+                        <dl class="d-table">
+                            <dt class="d-td">
+                                <div class="mb-xx-small">
+                                    <strong>{{ pointTicket.ticketName }} ￥{{ pointTicket.salePrice }}</strong>
+                                </div>
+                                <p class="small-x-text">{{ pointTicket.ticketNote }}</p>
+                            </dt>
+                            <dd class="d-td width-small">
+                                <div class="button blue-button ticket-type-select">
+                                    <button type="button" (click)="selectSalseTicket(pointTicket)">選択</button>
+                                </div>
+                            </dd>
+                        </dl>
+                    </li>
+                <li *ngFor="let ticket of salesTickets">
+                    <dl class="d-table">
+                        <dt class="d-td">
+                            <div class="mb-xx-small">
+                                <strong>{{ ticket.ticketName }} ￥{{ ticket.salePrice }}</strong>
+                            </div>
+                            <p class="small-x-text">{{ ticket.ticketNote }}</p>
+                        </dt>
+                        <dd class="d-td width-small">
+                            <div class="button blue-button ticket-type-select">
+                                <button type="button" (click)="selectSalseTicket(ticket)">選択</button>
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
         </li>
     </ul>
 
@@ -74,58 +123,6 @@
     </form>
     <app-site-seal></app-site-seal>
 </div>
-
-<app-modal [open]="ticketsModal" [layout]="false" (close)="ticketsModal = false">
-    <ul inner class="not-layout box radius bg-light-gray">
-        <li *ngFor="let mvtkTicket of salesMvtkTickets" [class.disabled]="mvtkTicket.selected">
-            <dl class="d-table">
-                <dt class="d-td">
-                    <div class="mb-xx-small">
-                        <strong>
-                            {{ mvtkTicket.ticketName }} ￥{{ mvtkTicket.salePrice }}
-                        </strong>
-                    </div>
-                    <p class="small-x-text">ムビチケ購入番号 {{ mvtkTicket.knyknrNoInfo.knyknrNo }}</p>
-                </dt>
-                <dd class="d-td width-small">
-                    <div class="button blue-button ticket-type-select">
-                        <button type="button" (click)="selectMvtkTicket(mvtkTicket)">選択</button>
-                    </div>
-                </dd>
-            </dl>
-        </li>
-        <li *ngFor="let pointTicket of salesPointTickets" [class.disabled]="pointTicket.selected">
-                <dl class="d-table">
-                    <dt class="d-td">
-                        <div class="mb-xx-small">
-                            <strong>{{ pointTicket.ticketName }} ￥{{ pointTicket.salePrice }}</strong>
-                        </div>
-                        <p class="small-x-text">{{ pointTicket.ticketNote }}</p>
-                    </dt>
-                    <dd class="d-td width-small">
-                        <div class="button blue-button ticket-type-select">
-                            <button type="button" (click)="selectSalseTicket(pointTicket)">選択</button>
-                        </div>
-                    </dd>
-                </dl>
-            </li>
-        <li *ngFor="let ticket of salesTickets">
-            <dl class="d-table">
-                <dt class="d-td">
-                    <div class="mb-xx-small">
-                        <strong>{{ ticket.ticketName }} ￥{{ ticket.salePrice }}</strong>
-                    </div>
-                    <p class="small-x-text">{{ ticket.ticketNote }}</p>
-                </dt>
-                <dd class="d-td width-small">
-                    <div class="button blue-button ticket-type-select">
-                        <button type="button" (click)="selectSalseTicket(ticket)">選択</button>
-                    </div>
-                </dd>
-            </dl>
-        </li>
-    </ul>
-</app-modal>
 
 <app-modal [open]="notSelectModal" [layout]="true" (close)="notSelectModal = false">
     <div class="modal-title large-text text-center mb-middle">

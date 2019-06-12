@@ -10,6 +10,7 @@ interface Ioffer {
     seatNumber: string;
     seatSection: string;
     selected: boolean;
+    listOpened: boolean;
     limitCount: number;
     limitUnit: string;
     validation: boolean;
@@ -58,7 +59,6 @@ export class PurchaseTicketComponent implements OnInit {
     public offers: Ioffer[];
     public totalPrice: number;
     public selectOffer: Ioffer;
-    public ticketsModal: boolean;
     public originalSaleTickets: ISalesTicketResult[];
     public ltdSelected: Ioffer | undefined;
     public isLoading: boolean;
@@ -82,7 +82,6 @@ export class PurchaseTicketComponent implements OnInit {
         window.scrollTo(0, 0);
         this.purchase.load();
         this.isLoading = false;
-        this.ticketsModal = false;
         this.discountConditionsModal = false;
         this.notSelectModal = false;
         this.ticketForm = this.formBuilder.group({});
@@ -290,7 +289,7 @@ export class PurchaseTicketComponent implements OnInit {
         const notSelectOffers = this.offers.filter((offer) => {
             return (!offer.selected);
         });
-        if (notSelectOffers.length > 0) {
+        if (notSelectOffers.length > 0 || this.selectOffer.listOpened) {
             this.notSelectModal = true;
 
             return;
@@ -341,6 +340,7 @@ export class PurchaseTicketComponent implements OnInit {
                     seatSection: offer.seatSection,
                     mvtkNum: '',
                     selected: false,
+                    listOpened: false,
                     limitCount: 0,
                     limitUnit: '',
                     validation: false,
@@ -358,6 +358,7 @@ export class PurchaseTicketComponent implements OnInit {
                         seatSection: offer.seatSection,
                         mvtkNum: offer.ticketInfo.mvtkNum,
                         selected: true,
+                        listOpened: false,
                         limitCount: 1,
                         limitUnit: '001',
                         validation: false,
@@ -381,6 +382,7 @@ export class PurchaseTicketComponent implements OnInit {
                         seatSection: offer.seatSection,
                         mvtkNum: offer.ticketInfo.mvtkNum,
                         selected: true,
+                        listOpened: false,
                         limitCount: ticket.limitCount,
                         limitUnit: ticket.limitUnit,
                         validation: false,
@@ -404,6 +406,7 @@ export class PurchaseTicketComponent implements OnInit {
                         seatSection: offer.seatSection,
                         mvtkNum: offer.ticketInfo.mvtkNum,
                         selected: true,
+                        listOpened: false,
                         limitCount: ticket.limitCount,
                         limitUnit: ticket.limitUnit,
                         validation: false,
@@ -458,8 +461,16 @@ export class PurchaseTicketComponent implements OnInit {
      * @param {Ioffer} offer
      */
     public ticketSelect(offer: Ioffer) {
+        if(this.selectOffer) {
+            // 初回チケット選択後、開きっぱなしのリストを自動で閉じる
+            if(offer.listOpened) {
+                this.selectOffer.listOpened = false;
+                return;
+            }
+            this.selectOffer.listOpened = false;
+        }
         this.selectOffer = offer;
-        this.ticketsModal = true;
+        this.selectOffer.listOpened = true;
     }
 
     /**
@@ -473,8 +484,6 @@ export class PurchaseTicketComponent implements OnInit {
             return (offer.seatNumber === this.selectOffer.seatNumber);
         });
         if (target === undefined) {
-            this.ticketsModal = false;
-
             return;
         }
         if (this.purchase.data.screeningEvent !== undefined) {
@@ -498,6 +507,7 @@ export class PurchaseTicketComponent implements OnInit {
         target.seatNumber = this.selectOffer.seatNumber;
         target.seatSection = this.selectOffer.seatSection;
         target.selected = true;
+        target.listOpened = false;
         target.limitCount = ticket.limitCount;
         target.limitUnit = ticket.limitUnit;
         target.ticketInfo = {
@@ -523,7 +533,6 @@ export class PurchaseTicketComponent implements OnInit {
         };
         this.totalPrice = this.getTotalPrice();
         this.upDateSalseTickets();
-        this.ticketsModal = false;
     }
 
     /**
@@ -537,8 +546,6 @@ export class PurchaseTicketComponent implements OnInit {
             return (offer.seatNumber === this.selectOffer.seatNumber);
         });
         if (target === undefined) {
-            this.ticketsModal = false;
-
             return;
         }
 
@@ -547,6 +554,7 @@ export class PurchaseTicketComponent implements OnInit {
         target.seatNumber = this.selectOffer.seatNumber;
         target.seatSection = this.selectOffer.seatSection;
         target.selected = true;
+        target.listOpened = false;
         target.limitCount = 1;
         target.limitUnit = '001';
         target.ticketInfo = {
@@ -571,7 +579,6 @@ export class PurchaseTicketComponent implements OnInit {
         };
         this.totalPrice = this.getTotalPrice();
         this.upDateSalseTickets();
-        this.ticketsModal = false;
     }
 
 }
