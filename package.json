@@ -5,9 +5,9 @@
     "ng": "ng",
     "build-client": "npm run build-client-development && npm run build-client-test && npm run build-client-production",
     "build-client-local": "ng build --configuration=local",
-    "build-client-development": "ng build --configuration=dev",
-    "build-client-test": "ng build --configuration=test",
-    "build-client-production": "ng build --configuration=production",
+    "build-client-development": "ng build --configuration=dev && npm run copy-term-development",
+    "build-client-test": "ng build --configuration=test && npm run copy-term-test",
+    "build-client-production": "ng build --configuration=production && npm run copy-term-production",
     "test-client": "ng test --code-coverage",
     "lint-client": "tslint --config tslint.json src/client/**/**.ts --exclude **/**.spec.ts --project src/client/tsconfig.json",
     "e2e": "ng e2e",
@@ -23,7 +23,10 @@
     "preversion": "npm run build",
     "check": "npm run lint",
     "lint": "npm run lint-client && npm run lint-server",
-    "test": "npm run check"
+    "test": "npm run check",
+    "copy-term-development": "ncp ./src/client/src/term.html ./dist/client/development/term.html",
+    "copy-term-test": "ncp ./src/client/src/term.html ./dist/client/test/term.html",
+    "copy-term-production": "ncp ./src/client/src/term.html ./dist/client/production/term.html"
   },
   "private": true,
   "dependencies": {
@@ -100,6 +103,7 @@
     "karma-coverage-istanbul-reporter": "^1.4.3",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ncp": "^2.0.0",
     "node-sass": "^4.12.0",
     "nyc": "^11.9.0",
     "postcss": "^6.0.23",

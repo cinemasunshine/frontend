@@ -25,6 +25,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     public seats: ISeat[];
     public disable: boolean;
     public screenData: IInputScreenData;
+    public termURL: string;
     public environment = environment;
 
     constructor(
@@ -65,6 +66,11 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             timeBegin: this.purchase.data.screeningEvent.coaInfo.timeBegin,
             screenCode: this.purchase.data.screeningEvent.coaInfo.screenCode
         };
+        this.termURL = '/term.html?code=';
+        if (this.purchase.data.screeningEvent !== undefined) {
+            this.termURL += this.purchase.data.screeningEvent.superEvent.location.branchCode.slice(-2);
+        }
+        
 
     }
 
