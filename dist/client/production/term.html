@@ -10,7 +10,42 @@
     border-radius: 4px;
 }
     </style>
-    <script></script>
+    <script>
+const PURCHASE_TERM = {
+    '01': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
+    '02': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
+    '06': { ordinance: '静岡県青少年健全育成条例', limit: '23:00' },
+    '07': { ordinance: '愛媛県青少年健全育成条例', limit: '23:00' },
+    '08': { ordinance: '愛媛県青少年健全育成条例', limit: '23:00' },
+    '09': { ordinance: '愛媛県青少年健全育成条例', limit: '23:00' },
+    '10': { ordinance: '愛媛県青少年健全育成条例', limit: '23:00' },
+    '12': { ordinance: '徳島県青少年健全育成条例', limit: '23:00' },
+    '13': { ordinance: '茨城県青少年健全育成条例', limit: '23:00' },
+    '14': { ordinance: '石川県青少年健全育成条例', limit: '23:00' },
+    '15': { ordinance: '愛媛県青少年健全育成条例', limit: '23:00' },
+    '16': { ordinance: '奈良県青少年健全育成条例', limit: '23:00' },
+    '17': { ordinance: '山口県青少年健全育成条例', limit: '23:00' },
+    '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
+    '19': { ordinance: '千葉県青少年健全育成条例', limit: '23:00' }
+};
+window.onload = function() {
+    var urlParam = location.search.substring(1);
+    // URLにパラメータが存在する場合
+    if (urlParam) {
+        // 「&」が含まれている場合は「&」で分割
+        var param = urlParam.split('&');
+        // パラメータを格納する用の配列を用意
+        var params = [];
+        // 用意した配列にパラメータを格納
+        for (i = 0; i < param.length; i++) {
+            var paramItem = param[i].split('=');
+            params[paramItem[0]] = paramItem[1];
+        }
+        document.getElementById("ordinance").innerHTML = PURCHASE_TERM[params.code].ordinance;
+        document.getElementById("limit").innerHTML = PURCHASE_TERM[params.code].limit;
+    }
+}
+    </script>
 </head>
 <body>
     <div class="term">
@@ -64,7 +99,7 @@
             ご予約の受付はご鑑賞日2日前から上映開始1時間前までです。1回の購入申込みで購入出来る枚数に制限が付きます。制限枚数は、その都度変更されます。制限枚数以上購入の場合は複数の購入操作が必要となります。複数の購入申込みを行った場合、座席は購入操作ごとで離れたお席になります。
             <br>・
             映画倫理規定管理委員会の定めたレイティング(鑑賞年齢制限)の定められた作品では該当のお客様のご利用をお断りすることがあります。制限年齢に達しないお客様が誤って購入したチケットの返金・交換は一切受付けておりません。
-            <br>・ <span id=""></span>の定めにより、18歳未満及び高校生の方は終映が{{ limit }}を過ぎる上映回のチケットをご購入頂けません。また保護者同伴でもご入場頂けません。
+            <br>・ <span id="ordinance"></span>の定めにより、18歳未満及び高校生の方は終映が<span id="limit"></span>を過ぎる上映回のチケットをご購入頂けません。また保護者同伴でもご入場頂けません。
             <br>・ 本サービスにおける売買契約の成立は、入力頂いた内容に基づきクレジット決済与信手続が終了した時点とします。発券の際には本サービス発行の「予約番号」、お客様入力の「電話番号」が必要となります。
             <br>・
             購入完了画面表示後はお客様の都合による上映作品の日時の変更、購入の取消、チケットの払い戻しはできないものとします。また、交通渋滞による遅延などその他いかなる場合でも、上映作品の日時変更、購入の取消、チケットの払い戻しは受付けません。なお、チケットはクーリングオフの対象外となっております。

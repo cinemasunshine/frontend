@@ -44,6 +44,7 @@ import { SiteSealComponent } from './components/parts/site-seal/site-seal.compon
 import { TestScreenComponent } from './components/test/test-screen/test-screen.component';
 import { DurationPipe } from './pipes/duration/duration.pipe';
 import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format/libphonenumber-format.pipe';
+import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
 import { TimeFormatPipe } from './pipes/time-format/time-format.pipe';
 import {
     AwsCognitoService,
@@ -85,6 +86,7 @@ import {
         ErrorComponent,
         PurchaseFilmOrderComponent,
         PurchaseFilmOrderPerformanceComponent,
+        SafeURLPipe,
         TimeFormatPipe,
         DurationPipe,
         SeatInfoComponent,

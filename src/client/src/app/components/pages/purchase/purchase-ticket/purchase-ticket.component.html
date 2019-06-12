@@ -43,7 +43,7 @@
                     </div>
                 </dd>
             </dl>
-            <ul *ngIf="offer.listOpened" class="not-layout box radius bg-light-gray">
+            <ul *ngIf="offer.listOpened" class="not-layout box radius bg-light-gray ticket-list">
                 <li *ngFor="let mvtkTicket of salesMvtkTickets" [class.disabled]="mvtkTicket.selected">
                     <dl class="d-table">
                         <dt class="d-td">

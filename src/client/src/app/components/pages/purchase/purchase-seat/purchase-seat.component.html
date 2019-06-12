@@ -33,8 +33,7 @@
 
     <h2 class="section-ttl">利用規約</h2>
     <p class="mb-small">利用規約に同意した上で「次へ」ボタンを押してください。</p>
-    <iframe src="/term.html" class="term-flame mb-middle"></iframe>
-
+    <iframe [src]="termURL | safeURL" class="term-flame mb-middle"></iframe>
     <form [formGroup]="seatForm" (ngSubmit)="onSubmit()">
         <div class="mb-x-large text-center">
             <input type="checkbox" formControlName="terms" id="terms">

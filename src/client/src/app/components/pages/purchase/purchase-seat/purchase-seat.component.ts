@@ -70,8 +70,6 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         if (this.purchase.data.screeningEvent !== undefined) {
             this.termURL += this.purchase.data.screeningEvent.superEvent.location.branchCode.slice(-2);
         }
-        
-
     }
 
     public async ngAfterViewInit() {
