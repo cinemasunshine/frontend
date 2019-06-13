@@ -76,7 +76,7 @@
 </div>
 
 <app-modal [open]="ticketsModal" [layout]="false" (close)="ticketsModal = false">
-    <ul inner class="not-layout box radius bg-light-gray">
+    <ul inner class="not-layout box bg-light-gray">
         <li *ngFor="let mvtkTicket of salesMvtkTickets" [class.disabled]="mvtkTicket.selected">
             <dl class="d-table">
                 <dt class="d-td">
