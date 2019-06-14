@@ -43,8 +43,8 @@ $mobile: 767px;
     }
     .seat-premium-class {
         a {
-            background-color: #CCC;
             background-image: url(/images/theater/seat/premium-class.svg);
+            padding-top: 17px;
             &.active {
                 color: #FFF;
                 background-image: url(/images/theater/seat/premium-class_active.svg);
@@ -58,8 +58,8 @@ $mobile: 767px;
     }
     .seat-grand-class {
         a {
-            background-color: #CCC;
             background-image: url(/images/theater/seat/grand-class.svg);
+            padding-top: 17px;
             &.active {
                 color: #FFF;
                 background-image: url(/images/theater/seat/grand-class_active.svg);
@@ -73,8 +73,8 @@ $mobile: 767px;
     }
     .seat-comfort {
         a {
-            background-color: #CCC;
             background-image: url(/images/theater/seat/comfort.svg);
+            padding-top: 53px;
             &.active {
                 color: #FFF;
                 background-image: url(/images/theater/seat/comfort_active.svg);

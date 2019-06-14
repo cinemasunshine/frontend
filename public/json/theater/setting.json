@@ -2,9 +2,9 @@
     "seatSize": { "w": 40, "h": 50 },
     "specialSeatConfig": [
         {"name": "ottoman", "className": "seat-ottoman", "size": { "w": 40, "h": 67 } },
-        {"name": "comfort", "className": "seat-comfort", "size": { "w": 60, "h": 100 } },
-        {"name": "grandClass", "className": "seat-grand-class", "size": { "w": 80, "h": 80 } },
-        {"name": "premiumClass", "className": "seat-premium-class", "size": { "w": 80, "h": 80 } }
+        {"name": "comfort", "className": "seat-comfort", "size": { "w": 62, "h": 91 } },
+        {"name": "grandClass", "className": "seat-grand-class", "size": { "w": 62, "h": 69 } },
+        {"name": "premiumClass", "className": "seat-premium-class", "size": { "w": 62, "h": 69 } }
     ],
     "seatMargin": { "w": 4, "h": 20 },
     "aisle": {
