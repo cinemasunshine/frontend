@@ -327,9 +327,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     let section = '';
                     let status = 'disabled';
                     let seatType = 'standard';
-                    let spseatAdd1 = 0;
-                    let spseatAdd2 = 0;
-                    let spseatKbn = '000';
+                    const spseatAdd1 = 0;
+                    const spseatAdd2 = 0;
+                    const spseatKbn = '000';
                     for (const listSeat of seatStatus.listSeat) {
                         const targetSeat = listSeat.listFreeSeat.find((freeSeat) => {
                             return (freeSeat.seatNum === code);
@@ -337,9 +337,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         if (targetSeat !== undefined) {
                             section = listSeat.seatSection;
                             status = 'default';
-                            spseatAdd1 = targetSeat.spseatAdd1;
-                            spseatAdd2 = targetSeat.spseatAdd2;
-                            spseatKbn = targetSeat.spseatKbn;
+                            // spseatAdd1 = targetSeat.spseatAdd1;
+                            // spseatAdd2 = targetSeat.spseatAdd2;
+                            // spseatKbn = targetSeat.spseatKbn;
                             break;
                         }
                     }
