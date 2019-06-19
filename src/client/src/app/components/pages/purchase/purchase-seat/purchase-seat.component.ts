@@ -26,6 +26,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     public disable: boolean;
     public screenData: IInputScreenData;
     public environment = environment;
+    public seatRegistrationErrorModal: boolean;
 
     constructor(
         public purchase: PurchaseService,
@@ -40,6 +41,7 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         window.scrollTo(0, 0);
         this.isLoading = true;
         this.notSelectSeatModal = false;
+        this.seatRegistrationErrorModal = false;
         this.seats = [];
         this.seatForm = this.formBuilder.group({
             terms: [false, [Validators.requiredTrue]]
@@ -166,7 +168,9 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             await this.purchase.seatRegistrationProcess(offers);
             this.router.navigate(['/purchase/ticket']);
         } catch (err) {
-            this.error.redirect(err);
+            this.seatRegistrationErrorModal = true;
+            this.isLoading = false;
+            this.disable = false;
         }
     }
 

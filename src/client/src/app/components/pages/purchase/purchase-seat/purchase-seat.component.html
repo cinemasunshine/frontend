@@ -79,4 +79,11 @@
         <span class="seat-limit-text">{{ purchase.data.screeningEvent?.coaInfo?.availableNum }}</span>席までとなります。</p>
 </app-modal>
 
+<app-modal [open]="seatRegistrationErrorModal" [layout]="true" (close)="seatRegistrationErrorModal = false">
+    <div class="modal-title large-text text-center mb-middle">
+        <strong>座席予約エラー</strong>
+    </div>
+    <p class="text-center">座席予約に失敗しました。</p>
+</app-modal>
+
 <app-loading [show]="isLoading"></app-loading>

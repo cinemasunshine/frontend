@@ -645,10 +645,14 @@ export class PurchaseService {
         await this.sasaki.getServices();
         // 予約中なら座席削除
         if (this.data.tmpSeatReservationAuthorization !== undefined) {
-            await this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
-                id: this.data.tmpSeatReservationAuthorization.id,
-                purpose: this.data.tmpSeatReservationAuthorization.purpose
-            });
+            try {
+                await this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
+                    id: this.data.tmpSeatReservationAuthorization.id,
+                    purpose: this.data.tmpSeatReservationAuthorization.purpose
+                });
+            } catch (error) {
+                console.error(error);
+            }
             this.data.tmpSeatReservationAuthorization = undefined;
             this.save();
         }
@@ -930,8 +934,10 @@ export class PurchaseService {
                             email: 'noreply@ticket-cinemasunshine.com'
                         },
                         template: (this.user.isMember())
-                        ? getPurchaseCompletionAppEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization, userName })
-                        : getPurchaseCompletionEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization })
+                            ? getPurchaseCompletionAppEmail({
+                                seller, screeningEvent, customerContact, seatReservationAuthorization, userName
+                            })
+                            : getPurchaseCompletionEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization })
                     }
                 }
             });
