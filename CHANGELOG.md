@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+
+## 5.9.0 - 2019-06-21
+### Added
+- グランドシネマサンシャイン座席データ追加
+
 ## 5.8.2 - 2019-06-13
 ### Fixed
 - 特定機種でのwebview表示不具合修正
