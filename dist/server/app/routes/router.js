@@ -19,8 +19,7 @@ function purchaseTransaction(req, res, _next) {
     res.redirect(`/?${params}`);
 }
 function root(_req, res, _next) {
-    const fileName = (process.env.NODE_ENV === 'production') ? 'production.html' : 'index.html';
-    res.sendFile(path.resolve(`${__dirname}/../../../client/${process.env.NODE_ENV}/${fileName}`));
+    res.sendFile(path.resolve(`${__dirname}/../../../client/${process.env.NODE_ENV}/index.html`));
 }
 function notfound(_req, res, _next) {
     res.render('notfound/index');

@@ -1,5 +1,8 @@
 {
     "seatSize": "座席の大きさ",
+    "comfortSeatSize": コンフォートの座席の大きさ,
+    "grandClassSeatSize": グランドクラスの座席の大きさ,
+    "premiumClassSeatSize": プレミアムクラスの座席の大きさ,
     "seatMargin": "座席同士の間隔",
     "aisle": "通路大きさ",
     "seatLabelPos": "座席ラベル位置",
@@ -25,6 +28,9 @@
     "special": "特別席",
     "hc": "車いす席",
     "pair": "ペア席",
+    "comfort": コンフォート,
+    "grandClass": グランドクラス,
+    "premiumClass": プレミアムクラス,
     "html": "独自HTML挿入の場合",
     "style": "独自style挿入の場合",
     "seatNumber": "left or right"
