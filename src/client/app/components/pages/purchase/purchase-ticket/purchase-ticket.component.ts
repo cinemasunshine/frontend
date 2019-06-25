@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { getTicketPrice } from '../../../../functions';
 import { ErrorService, IMvtkTicket, ISalesTicketResult, PurchaseService, UserService } from '../../../../services';
 
 interface Ioffer {
@@ -72,6 +73,7 @@ export class PurchaseTicketComponent implements OnInit {
     public salesPointTickets: ISalesPointTicket[];
     public ticketForm: FormGroup;
     public disable: boolean;
+    public getTicketPrice = getTicketPrice;
 
     constructor(
         public purchase: PurchaseService,
@@ -449,7 +451,7 @@ export class PurchaseTicketComponent implements OnInit {
             return (offer.selected);
         });
         for (const offer of selectedOffers) {
-            result += this.getTicketPrice(offer);
+            result += getTicketPrice(offer);
         }
 
         return result;
@@ -550,6 +552,8 @@ export class PurchaseTicketComponent implements OnInit {
 
             return;
         }
+        const spseatAdd1 = (target.ticketInfo.spseatAdd1 === undefined)
+            ? 0 : target.ticketInfo.spseatAdd1;
 
         target.price = ticket.salePrice;
         target.priceCurrency = this.selectOffer.priceCurrency;
@@ -571,7 +575,7 @@ export class PurchaseTicketComponent implements OnInit {
             mvtkSalesPrice: Number(ticket.ykknInfo.knshknhmbiUnip),
             addPrice: ticket.mvtkTicketcodeResult.addPrice,
             disPrice: 0,
-            salePrice: ticket.salePrice,
+            salePrice: ticket.salePrice + spseatAdd1,
             seatNum: this.selectOffer.seatNumber,
             stdPrice: 0,
             ticketCount: 1,
@@ -600,16 +604,6 @@ export class PurchaseTicketComponent implements OnInit {
         const spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
         // console.log(offer.salePrice);
         return (offer.salePrice + spseatAdd1 + spseatAdd2);
-    }
-
-    /**
-     * 券種金額取得
-     */
-    public getTicketPrice(offer: Ioffer) {
-        const ticketInfo = offer.ticketInfo;
-        // const spseatAdd1 = (ticketInfo.spseatAdd1 === undefined) ? 0 : ticketInfo.spseatAdd1;
-        const spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
-        return (offer.ticketInfo.salePrice + spseatAdd2);
     }
 
 }

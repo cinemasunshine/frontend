@@ -1520,7 +1520,7 @@ __webpack_require__.r(__webpack_exports__);
 var styles_PurchaseCompleteComponent = [_purchase_complete_component_scss_shim_ngstyle__WEBPACK_IMPORTED_MODULE_0__["styles"]];
 var RenderType_PurchaseCompleteComponent = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵcrt"]({ encapsulation: 0, styles: styles_PurchaseCompleteComponent, data: {} });
 
-function View_PurchaseCompleteComponent_1(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "p", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](1, null, [" ", " ", " \uFFE5", " "]))], null, function (_ck, _v) { var currVal_0 = _v.context.$implicit.itemOffered.reservedTicket.coaTicketInfo.seatNum; var currVal_1 = _v.context.$implicit.itemOffered.reservedTicket.coaTicketInfo.ticketName; var currVal_2 = _v.context.$implicit.itemOffered.reservedTicket.coaTicketInfo.salePrice; _ck(_v, 1, 0, currVal_0, currVal_1, currVal_2); }); }
+function View_PurchaseCompleteComponent_1(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "p", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](1, null, [" ", " ", " \uFFE5", " "]))], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = _v.context.$implicit.itemOffered.reservedTicket.coaTicketInfo.seatNum; var currVal_1 = _v.context.$implicit.itemOffered.reservedTicket.coaTicketInfo.ticketName; var currVal_2 = _co.getOrderTicketPrice(_v.context.$implicit); _ck(_v, 1, 0, currVal_0, currVal_1, currVal_2); }); }
 function View_PurchaseCompleteComponent_2(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 6, "li", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](1, 0, null, null, 5, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](2, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u7372\u5F97\u30DD\u30A4\u30F3\u30C8"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](4, 0, null, null, 2, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](5, 0, null, null, 1, "strong", [["class", "red-text"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](6, null, ["", "\u30DD\u30A4\u30F3\u30C8"]))], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.data.incentive; _ck(_v, 6, 0, currVal_0); }); }
 function View_PurchaseCompleteComponent_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 126, "div", [["class", "contents"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](1, 0, null, null, 1, "h1", [["class", "page-ttl"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u8CFC\u5165\u5B8C\u4E86"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](3, 0, null, null, 7, "p", [["class", "read"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u3054\u8CFC\u5165\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3057\u305F\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](5, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u8CFC\u5165\u8005\u60C5\u5831\u5165\u529B\u753B\u9762\u3067\u5165\u529B\u3057\u3066\u3044\u305F\u3060\u3044\u305F\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9\u5B9B\u306B\u8CFC\u5165\u5B8C\u4E86\u30E1\u30FC\u30EB\u3092\u9001\u4FE1\u3057\u307E\u3057\u305F\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](7, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u3054\u5165\u5834\u65B9\u6CD5\u306B\u95A2\u3057\u307E\u3057\u3066\u306F\u30DA\u30FC\u30B8\u4E0B\u90E8\u3092\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](9, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u203B\u8CFC\u5165\u5B8C\u4E86\u30E1\u30FC\u30EB\u306E\u9001\u4FE1\u306B\u6642\u9593\u304C\u304B\u304B\u308B\u4E8B\u304C\u3042\u308A\u307E\u3059\u306E\u3067\u3054\u6CE8\u610F\u304F\u3060\u3055\u3044\u3002"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](11, 0, null, null, 48, "ul", [["class", "box radius bg-light-gray info mb-large form-layout"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](12, 0, null, null, 8, "li", [["class", "purchase-number"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](13, 0, null, null, 7, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](14, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u4E88\u7D04\u756A\u53F7"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](16, 0, null, null, 4, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](17, 0, null, null, 1, "strong", [["class", "red-text large-x-text"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](18, null, ["", ""])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](19, 0, null, null, 1, "p", [["class", "small-x-text"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u203B\u30C1\u30B1\u30C3\u30C8\u306E\u767A\u884C\u7B49\u306B\u5FC5\u8981\u306A\u756A\u53F7\u3068\u306A\u308A\u307E\u3059\u306E\u3067\u5FC5\u305A\u5FD8\u308C\u306A\u3044\u3088\u3046\u306B\u3057\u3066\u304F\u3060\u3055\u3044\u3002"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](21, 0, null, null, 5, "li", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](22, 0, null, null, 4, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](23, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u5287\u5834 / \u30B9\u30AF\u30EA\u30FC\u30F3"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](25, 0, null, null, 1, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](26, null, ["", " / ", ""])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](27, 0, null, null, 5, "li", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](28, 0, null, null, 4, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](29, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u4F5C\u54C1\u540D"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](31, 0, null, null, 1, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](32, null, ["", ""])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](33, 0, null, null, 5, "li", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](34, 0, null, null, 4, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](35, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u9451\u8CDE\u65E5\u6642"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](37, 0, null, null, 1, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](38, null, [" ", " ", " - ", " "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](39, 0, null, null, 6, "li", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](40, 0, null, null, 5, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](41, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u5EA7\u5E2D"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](43, 0, null, null, 2, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_PurchaseCompleteComponent_1)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](45, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](46, 0, null, null, 5, "li", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](47, 0, null, null, 4, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](48, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u3054\u5229\u7528\u91D1\u984D"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](50, 0, null, null, 1, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](51, null, ["\uFFE5", ""])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](52, 0, null, null, 5, "li", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](53, 0, null, null, 4, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](54, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](56, 0, null, null, 1, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](57, null, ["", ""])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_PurchaseCompleteComponent_2)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](59, 16384, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"]], { ngIf: [0, "ngIf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](60, 0, null, null, 53, "div", [["class", "ticket-app-hide"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](61, 0, null, null, 19, "div", [["class", "mb-x-large"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](62, 0, null, null, 15, "p", [["class", "mb-middle small-x-text"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](63, 0, null, null, 1, "strong", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["<\u8CFC\u5165\u5B8C\u4E86\u30E1\u30FC\u30EB\u304C\u5C4A\u304B\u306A\u3044\u5834\u5408\u306E\u3054\u78BA\u8A8D\u4E8B\u9805>"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](65, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u8CFC\u5165\u5B8C\u4E86\u5F8C\u3001\u8CFC\u5165\u5B8C\u4E86\u30E1\u30FC\u30EB\u304C\u5C4A\u304B\u306A\u3044\u5834\u5408\u306F\u4E0B\u8A182\u70B9\u3092\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](67, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u307E\u305F\u3001\u8CFC\u5165\u5B8C\u4E86\u30E1\u30FC\u30EB\u306F\u81EA\u52D5\u9001\u4FE1\u306E\u305F\u3081\u518D\u9001\u4FE1\u306F\u81F4\u3057\u304B\u306D\u307E\u3059\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](69, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u8CFC\u5165\u3067\u304D\u3066\u3044\u308B\u304B\u306E\u3054\u78BA\u8A8D\u306F\u300C\u4E88\u7D04\u756A\u53F7\u300D\u3092\u304A\u63A7\u3048\u306E\u3046\u3048 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](71, 0, null, null, 1, "a", [["class", "inquiry-login-link"], ["target", "_blank"]], [[8, "href", 4]], null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30C1\u30B1\u30C3\u30C8\u7167\u4F1A\u30DA\u30FC\u30B8"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u3088\u308A\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](74, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30FB\u3054\u5165\u529B\u3044\u305F\u3060\u3044\u305F\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9\u306B\u4E0D\u5099\u304C\u3042\u3063\u305F\u5834\u5408\u3084\u30E1\u30FC\u30EB\u306E\u7740\u4FE1\u3092\u62D2\u5426\u3055\u308C\u3066\u3044\u308B\u5834\u5408\u306F\u8CFC\u5165\u5B8C\u4E86\u30E1\u30FC\u30EB\u304C\u53D7\u3051\u53D6\u308C\u306A\u3044\u5834\u5408\u304C\u3042\u308A\u307E\u3059\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](76, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30FB\u30D7\u30ED\u30D0\u30A4\u30C0\u306E\u30E1\u30FC\u30EB\u8A2D\u5B9A\u3001\u643A\u5E2F\u30AD\u30E3\u30EA\u30A2\u4F1A\u793E\u306E\u30E1\u30FC\u30EB\u8A2D\u5B9A\u306E\u30D5\u30A3\u30EB\u30BF\u30EA\u30F3\u30B0\u6A5F\u80FD\u3092\u6709\u52B9\u306B\u3057\u3066\u3044\u308B\u65B9\u306F\u300C\u524A\u9664\u30D5\u30A9\u30EB\u30C0\u300D\u307E\u305F\u306F\u300C\u8FF7\u60D1\u30E1\u30FC\u30EB\u30D5\u30A9\u30EB\u30C0\u300D\u3092\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044\u3002"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](78, 0, null, null, 2, "div", [["class", "button dark-blue-button print-button center-button not-print"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](79, 0, null, null, 1, "a", [["class", "icon-print-white"]], null, [[null, "click"]], function (_v, en, $event) { var ad = true; var _co = _v.component; if (("click" === en)) {
         var pd_0 = (_co.print() !== false);
@@ -1571,8 +1571,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _pipes_time_format_time_format_pipe__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../pipes/time-format/time-format.pipe */ "./app/pipes/time-format/time-format.pipe.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../services */ "./app/services/index.ts");
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../functions */ "./app/functions/index.ts");
+/* harmony import */ var _pipes_time_format_time_format_pipe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../pipes/time-format/time-format.pipe */ "./app/pipes/time-format/time-format.pipe.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../services */ "./app/services/index.ts");
+
 
 
 
@@ -1585,10 +1587,11 @@ var PurchaseCompleteComponent = /** @class */ (function () {
         this.error = error;
         this.user = user;
         this.environment = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"];
+        this.getOrderTicketPrice = _functions__WEBPACK_IMPORTED_MODULE_4__["getOrderTicketPrice"];
     }
     PurchaseCompleteComponent.prototype.ngOnInit = function () {
         window.scrollTo(0, 0);
-        this.data = this.storage.load('complete', _services__WEBPACK_IMPORTED_MODULE_5__["SaveType"].Session);
+        this.data = this.storage.load('complete', _services__WEBPACK_IMPORTED_MODULE_6__["SaveType"].Session);
         if (this.data === null) {
             this.error.redirect(new Error('complete data is null'));
         }
@@ -1660,7 +1663,7 @@ var PurchaseCompleteComponent = /** @class */ (function () {
             || itemOffered.reservationFor.coaInfo === undefined) {
             return '';
         }
-        var timeFormat = new _pipes_time_format_time_format_pipe__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]();
+        var timeFormat = new _pipes_time_format_time_format_pipe__WEBPACK_IMPORTED_MODULE_5__["TimeFormatPipe"]();
         return timeFormat.transform(itemOffered.reservationFor.startDate, itemOffered.reservationFor.coaInfo.dateJouei);
     };
     /**
@@ -1674,7 +1677,7 @@ var PurchaseCompleteComponent = /** @class */ (function () {
             || itemOffered.reservationFor.coaInfo === undefined) {
             return '';
         }
-        var timeFormat = new _pipes_time_format_time_format_pipe__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]();
+        var timeFormat = new _pipes_time_format_time_format_pipe__WEBPACK_IMPORTED_MODULE_5__["TimeFormatPipe"]();
         return timeFormat.transform(itemOffered.reservationFor.endDate, itemOffered.reservationFor.coaInfo.dateJouei);
     };
     return PurchaseCompleteComponent;
@@ -1742,7 +1745,7 @@ __webpack_require__.r(__webpack_exports__);
 var styles_PurchaseConfirmComponent = [_purchase_confirm_component_scss_shim_ngstyle__WEBPACK_IMPORTED_MODULE_0__["styles"]];
 var RenderType_PurchaseConfirmComponent = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵcrt"]({ encapsulation: 0, styles: styles_PurchaseConfirmComponent, data: {} });
 
-function View_PurchaseConfirmComponent_1(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "p", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](1, null, [" ", " ", " \uFFE5", " "]))], null, function (_ck, _v) { var currVal_0 = _v.context.$implicit.seatNumber; var currVal_1 = _v.context.$implicit.ticketInfo.ticketName; var currVal_2 = _v.context.$implicit.ticketInfo.salePrice; _ck(_v, 1, 0, currVal_0, currVal_1, currVal_2); }); }
+function View_PurchaseConfirmComponent_1(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "p", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](1, null, [" ", " ", " \uFFE5", " "]))], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = _v.context.$implicit.seatNumber; var currVal_1 = _v.context.$implicit.ticketInfo.ticketName; var currVal_2 = _co.getTicketPrice(_v.context.$implicit); _ck(_v, 1, 0, currVal_0, currVal_1, currVal_2); }); }
 function View_PurchaseConfirmComponent_3(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](1, null, ["", ""]))], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = ((_co.purchase.data.gmoTokenObject == null) ? null : _co.purchase.data.gmoTokenObject.maskedCardNo); _ck(_v, 1, 0, currVal_0); }); }
 function View_PurchaseConfirmComponent_4(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "dd", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](1, null, ["", ""]))], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.user.data.creditCards[0].cardNo; _ck(_v, 1, 0, currVal_0); }); }
 function View_PurchaseConfirmComponent_2(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 7, "li", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](1, 0, null, null, 6, "dl", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](2, 0, null, null, 1, "dt", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30AB\u30FC\u30C9\u756A\u53F7"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_PurchaseConfirmComponent_3)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](5, 16384, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"]], { ngIf: [0, "ngIf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_PurchaseConfirmComponent_4)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](7, 16384, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"]], { ngIf: [0, "ngIf"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = (_co.purchase.data.gmoTokenObject !== undefined); _ck(_v, 5, 0, currVal_0); var currVal_1 = ((_co.purchase.data.gmoTokenObject === undefined) && (_co.user.data.creditCards !== undefined)); _ck(_v, 7, 0, currVal_1); }, null); }
@@ -1809,7 +1812,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "../../node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../services */ "./app/services/index.ts");
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../functions */ "./app/functions/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../services */ "./app/services/index.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1850,6 +1854,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var PurchaseConfirmComponent = /** @class */ (function () {
     function PurchaseConfirmComponent(purchase, user, formBuilder, router, error) {
         this.purchase = purchase;
@@ -1858,6 +1863,7 @@ var PurchaseConfirmComponent = /** @class */ (function () {
         this.router = router;
         this.error = error;
         this.environment = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"];
+        this.getTicketPrice = _functions__WEBPACK_IMPORTED_MODULE_4__["getTicketPrice"];
     }
     PurchaseConfirmComponent.prototype.ngOnInit = function () {
         window.scrollTo(0, 0);
@@ -4625,7 +4631,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "../../node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../services */ "./app/services/index.ts");
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../functions */ "./app/functions/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../services */ "./app/services/index.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -4666,6 +4673,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var PurchaseTicketComponent = /** @class */ (function () {
     function PurchaseTicketComponent(purchase, user, formBuilder, router, error) {
         this.purchase = purchase;
@@ -4673,6 +4681,7 @@ var PurchaseTicketComponent = /** @class */ (function () {
         this.formBuilder = formBuilder;
         this.router = router;
         this.error = error;
+        this.getTicketPrice = _functions__WEBPACK_IMPORTED_MODULE_4__["getTicketPrice"];
     }
     PurchaseTicketComponent.prototype.ngOnInit = function () {
         window.scrollTo(0, 0);
@@ -5068,7 +5077,7 @@ var PurchaseTicketComponent = /** @class */ (function () {
         });
         for (var _i = 0, selectedOffers_1 = selectedOffers; _i < selectedOffers_1.length; _i++) {
             var offer = selectedOffers_1[_i];
-            result += this.getTicketPrice(offer);
+            result += Object(_functions__WEBPACK_IMPORTED_MODULE_4__["getTicketPrice"])(offer);
         }
         return result;
     };
@@ -5164,6 +5173,8 @@ var PurchaseTicketComponent = /** @class */ (function () {
             this.ticketsModal = false;
             return;
         }
+        var spseatAdd1 = (target.ticketInfo.spseatAdd1 === undefined)
+            ? 0 : target.ticketInfo.spseatAdd1;
         target.price = ticket.salePrice;
         target.priceCurrency = this.selectOffer.priceCurrency;
         target.seatNumber = this.selectOffer.seatNumber;
@@ -5184,7 +5195,7 @@ var PurchaseTicketComponent = /** @class */ (function () {
             mvtkSalesPrice: Number(ticket.ykknInfo.knshknhmbiUnip),
             addPrice: ticket.mvtkTicketcodeResult.addPrice,
             disPrice: 0,
-            salePrice: ticket.salePrice,
+            salePrice: ticket.salePrice + spseatAdd1,
             seatNum: this.selectOffer.seatNumber,
             stdPrice: 0,
             ticketCount: 1,
@@ -5210,15 +5221,6 @@ var PurchaseTicketComponent = /** @class */ (function () {
         var spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
         // console.log(offer.salePrice);
         return (offer.salePrice + spseatAdd1 + spseatAdd2);
-    };
-    /**
-     * 券種金額取得
-     */
-    PurchaseTicketComponent.prototype.getTicketPrice = function (offer) {
-        var ticketInfo = offer.ticketInfo;
-        // const spseatAdd1 = (ticketInfo.spseatAdd1 === undefined) ? 0 : ticketInfo.spseatAdd1;
-        var spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
-        return (offer.ticketInfo.salePrice + spseatAdd2);
     };
     return PurchaseTicketComponent;
 }());
@@ -7575,7 +7577,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
 /* harmony import */ var _pipes_time_format_time_format_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pipes/time-format/time-format.pipe */ "./app/pipes/time-format/time-format.pipe.ts");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util */ "./app/functions/util.ts");
+/* harmony import */ var _purchase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./purchase */ "./app/functions/purchase.ts");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./util */ "./app/functions/util.ts");
+
 
 
 
@@ -7604,11 +7608,11 @@ function getInfo(params) {
     }
     moment__WEBPACK_IMPORTED_MODULE_0__["locale"]('ja');
     var timeFormat = new _pipes_time_format_time_format_pipe__WEBPACK_IMPORTED_MODULE_2__["TimeFormatPipe"]();
-    var familyName = (plofile.familyName === undefined) ? '' : Object(_util__WEBPACK_IMPORTED_MODULE_3__["convertToKatakana"])(plofile.familyName);
-    var givenName = (plofile.givenName === undefined) ? '' : Object(_util__WEBPACK_IMPORTED_MODULE_3__["convertToKatakana"])(plofile.givenName);
+    var familyName = (plofile.familyName === undefined) ? '' : Object(_util__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(plofile.familyName);
+    var givenName = (plofile.givenName === undefined) ? '' : Object(_util__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(plofile.givenName);
     var seller = {
         branchCode: params.seller.location.branchCode,
-        telephone: (params.seller.telephone === undefined) ? '' : Object(_util__WEBPACK_IMPORTED_MODULE_3__["formatTelephone"])(params.seller.telephone, 'National')
+        telephone: (params.seller.telephone === undefined) ? '' : Object(_util__WEBPACK_IMPORTED_MODULE_4__["formatTelephone"])(params.seller.telephone, 'National')
     };
     var screen = { name: screeningEvent.location.name.ja };
     var event = { name: screeningEvent.name.ja };
@@ -7637,8 +7641,7 @@ function getSeat(params) {
     var mapResult = params.seatReservationAuthorization.object.acceptedOffer.map(function (offer) {
         var seatNumber = offer.seatNumber;
         var ticketName = offer.ticketInfo.ticketName;
-        var salePrice = offer.ticketInfo.salePrice;
-        return seatNumber + " " + ticketName + " \uFFE5" + salePrice;
+        return seatNumber + " " + ticketName + " \uFFE5" + Object(_purchase__WEBPACK_IMPORTED_MODULE_3__["getTicketPrice"])(offer);
     });
     return mapResult.join('\n| ');
 }
@@ -7650,7 +7653,7 @@ function getSeat(params) {
 /*!********************************!*\
   !*** ./app/functions/index.ts ***!
   \********************************/
-/*! exports provided: convertToHiragana, convertToKatakana, formatTelephone, getPurchaseCompletionEmail, getPurchaseCompletionAppEmail */
+/*! exports provided: convertToHiragana, convertToKatakana, formatTelephone, getPurchaseCompletionEmail, getPurchaseCompletionAppEmail, getTicketPrice, getOrderTicketPrice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7667,8 +7670,62 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPurchaseCompletionAppEmail", function() { return _email__WEBPACK_IMPORTED_MODULE_1__["getPurchaseCompletionAppEmail"]; });
 
+/* harmony import */ var _purchase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./purchase */ "./app/functions/purchase.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getTicketPrice", function() { return _purchase__WEBPACK_IMPORTED_MODULE_2__["getTicketPrice"]; });
+
+/* harmony import */ var _order__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./order */ "./app/functions/order.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getOrderTicketPrice", function() { return _order__WEBPACK_IMPORTED_MODULE_3__["getOrderTicketPrice"]; });
 
 
+
+
+
+
+
+/***/ }),
+
+/***/ "./app/functions/order.ts":
+/*!********************************!*\
+  !*** ./app/functions/order.ts ***!
+  \********************************/
+/*! exports provided: getOrderTicketPrice */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOrderTicketPrice", function() { return getOrderTicketPrice; });
+/**
+ * 券種金額取得
+ */
+function getOrderTicketPrice(offer) {
+    var ticketInfo = offer.itemOffered.reservedTicket.coaTicketInfo;
+    // const spseatAdd1 = (ticketInfo.spseatAdd1 === undefined) ? 0 : ticketInfo.spseatAdd1;
+    var spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
+    return (ticketInfo.salePrice + spseatAdd2);
+}
+
+
+/***/ }),
+
+/***/ "./app/functions/purchase.ts":
+/*!***********************************!*\
+  !*** ./app/functions/purchase.ts ***!
+  \***********************************/
+/*! exports provided: getTicketPrice */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTicketPrice", function() { return getTicketPrice; });
+/**
+ * 券種金額取得
+ */
+function getTicketPrice(offer) {
+    var ticketInfo = offer.ticketInfo;
+    // const spseatAdd1 = (ticketInfo.spseatAdd1 === undefined) ? 0 : ticketInfo.spseatAdd1;
+    var spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
+    return (ticketInfo.salePrice + spseatAdd2);
+}
 
 
 /***/ }),

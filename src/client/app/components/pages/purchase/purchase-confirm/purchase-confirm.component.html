@@ -49,7 +49,7 @@
                     <dt>座席</dt>
                     <dd>
                         <p *ngFor="let offer of purchase.data.seatReservationAuthorization?.object.acceptedOffer">
-                            {{ offer.seatNumber }} {{ offer.ticketInfo.ticketName }} ￥{{ offer.ticketInfo.salePrice }}
+                            {{ offer.seatNumber }} {{ offer.ticketInfo.ticketName }} ￥{{ getTicketPrice(offer) }}
                         </p>
                     </dd>
                 </dl>
