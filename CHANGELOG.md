@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.10.0 - 2019-06-25
+### Changed
+- 座席仮予約エラーのときメッセージ表示へ変更
+
 
 ## 5.9.0 - 2019-06-21
 ### Added

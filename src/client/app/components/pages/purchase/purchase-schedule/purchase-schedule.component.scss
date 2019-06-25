@@ -1,0 +1,15 @@
+$tablet: 1024px;
+$mobile: 767px;
+
+.inquiry-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+    @media screen and (max-width: $mobile){
+        grid-template-columns: 1fr;
+    }
+    .inquiry-button {
+        height: 100%;
+        width: 100%;
+    }
+}
