@@ -43,6 +43,7 @@ $mobile: 767px;
     }
     .seat-premium-class {
         a {
+            color: #FFF;
             background-image: url(/images/theater/seat/premium-class.svg);
             padding-top: 17px;
             &.active {
@@ -58,6 +59,7 @@ $mobile: 767px;
     }
     .seat-grand-class {
         a {
+            color: #FFF;
             background-image: url(/images/theater/seat/grand-class.svg);
             padding-top: 17px;
             &.active {
