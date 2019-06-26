@@ -1,7 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as COA from '@motionpicture/coa-service';
 import { environment } from '../../../../../environments/environment';
+import { IScreen, ISeat } from '../../../../models';
 import {
     ErrorService,
     FlgMember,
@@ -10,7 +13,6 @@ import {
     SasakiService,
     UserService
 } from '../../../../services';
-import { IInputScreenData, ISeat } from '../../../parts/screen/screen.component';
 
 @Component({
     selector: 'app-purchase-seat',
@@ -24,7 +26,10 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
     public upperLimitModal: boolean;
     public seats: ISeat[];
     public disable: boolean;
-    public screenData: IInputScreenData;
+    public screenData: {
+        screen: IScreen;
+        status: COA.services.reserve.IStateReserveSeatResult;
+    };
     public environment = environment;
     public seatRegistrationErrorModal: boolean;
 
@@ -34,10 +39,11 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         private formBuilder: FormBuilder,
         private sasaki: SasakiService,
         private error: ErrorService,
-        private user: UserService
+        private user: UserService,
+        private http: HttpClient
     ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
         window.scrollTo(0, 0);
         this.isLoading = true;
         this.notSelectSeatModal = false;
@@ -58,16 +64,21 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
 
             return;
         }
+        try {
+            this.screenData = await this.getData({
+                theaterCode: this.purchase.data.screeningEvent.coaInfo.theaterCode,
+                dateJouei: this.purchase.data.screeningEvent.coaInfo.dateJouei,
+                titleCode: this.purchase.data.screeningEvent.coaInfo.titleCode,
+                titleBranchNum: this.purchase.data.screeningEvent.coaInfo.titleBranchNum,
+                timeBegin: this.purchase.data.screeningEvent.coaInfo.timeBegin,
+                screenCode: this.purchase.data.screeningEvent.coaInfo.screenCode
+            });
+            this.isLoading = false;
+        } catch (error) {
+            this.error.redirect(error);
 
-        this.screenData = {
-            theaterCode: this.purchase.data.screeningEvent.coaInfo.theaterCode,
-            dateJouei: this.purchase.data.screeningEvent.coaInfo.dateJouei,
-            titleCode: this.purchase.data.screeningEvent.coaInfo.titleCode,
-            titleBranchNum: this.purchase.data.screeningEvent.coaInfo.titleBranchNum,
-            timeBegin: this.purchase.data.screeningEvent.coaInfo.timeBegin,
-            screenCode: this.purchase.data.screeningEvent.coaInfo.screenCode
-        };
-
+            return;
+        }
     }
 
     public async ngAfterViewInit() {
@@ -78,6 +89,47 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         } catch (error) {
             this.error.redirect(error);
         }
+    }
+
+    /**
+     * データ取得
+     * @method getData
+     */
+    public async getData(params: {
+        theaterCode: string;
+        dateJouei: string;
+        titleCode: string;
+        titleBranchNum: string;
+        timeBegin: string;
+        screenCode: string;
+    }): Promise<{
+        screen: IScreen,
+        status: COA.services.reserve.IStateReserveSeatResult
+    }> {
+        const DIGITS = {
+            '02': -2,
+            '03': -3
+        };
+        const theaterCode = `00${params.theaterCode}`.slice(DIGITS['02']);
+        const screenCode = `000${params.screenCode}`.slice(DIGITS['03']);
+        const screen = await this.http.get<IScreen>(`/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
+        const setting = await this.http.get<IScreen>('/json/theater/setting.json').toPromise();
+
+        await this.sasaki.getServices();
+        const seatStatus = await this.sasaki.getSeatState({
+            theaterCode: params.theaterCode,
+            dateJouei: params.dateJouei,
+            titleCode: params.titleCode,
+            titleBranchNum: params.titleBranchNum,
+            timeBegin: params.timeBegin,
+            screenCode: params.screenCode
+        });
+        // seatStatus = (<any>{ listSeat: [] });
+        // スクリーンデータをマージ
+        return {
+            screen: Object.assign(setting, screen),
+            status: seatStatus
+        };
     }
 
     /**
@@ -190,6 +242,14 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
      */
     public seatSelectionAlert() {
         this.upperLimitModal = true;
+    }
+
+    public getSeatType(seatType: 'ottoman' | 'comfort' | 'grandClass' | 'premiumClass') {
+        if (this.screenData === undefined) {
+            return false;
+        }
+        const findSpecialSeatsResult = this.screenData.screen.specialSeats.find(s => s.name === seatType);
+        return (findSpecialSeatsResult !== undefined && findSpecialSeatsResult.data.length > 0);
     }
 
 }

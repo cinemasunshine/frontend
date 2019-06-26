@@ -1,5 +1,5 @@
 <div class="mb-middle">
-    <app-screen [inputData]="screenData" [test]="true"></app-screen>
+    <app-screen *ngIf="screenData" [screen]="screenData.screen" [status]="screenData.status"></app-screen>
 </div>
 
 <app-loading [show]="isLoading"></app-loading>
