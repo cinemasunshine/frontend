@@ -38,7 +38,7 @@
                     </div>
                     <div *ngIf="offer.selected" class="blue-button ghost-button">
                         <button type="button" (click)="ticketSelect(offer)">
-                            {{ offer.ticketInfo.ticketName }} ￥{{ offer.ticketInfo.salePrice }}
+                            {{ offer.ticketInfo.ticketName }} ￥{{ getTicketPrice(offer) }}
                         </button>
                     </div>
                 </dd>
@@ -82,7 +82,7 @@
                 <dt class="d-td">
                     <div class="mb-xx-small">
                         <strong>
-                            {{ mvtkTicket.ticketName }} ￥{{ mvtkTicket.salePrice }}
+                            {{ mvtkTicket.ticketName }} ￥{{ getSalseTicketPrice(mvtkTicket) }}
                         </strong>
                     </div>
                     <p class="small-x-text">ムビチケ購入番号 {{ mvtkTicket.knyknrNoInfo.knyknrNo }}</p>
@@ -98,7 +98,7 @@
                 <dl class="d-table">
                     <dt class="d-td">
                         <div class="mb-xx-small">
-                            <strong>{{ pointTicket.ticketName }} ￥{{ pointTicket.salePrice }}</strong>
+                            <strong>{{ pointTicket.ticketName }} ￥{{ getSalseTicketPrice(pointTicket) }}</strong>
                         </div>
                         <p class="small-x-text">{{ pointTicket.ticketNote }}</p>
                     </dt>
@@ -113,7 +113,7 @@
             <dl class="d-table">
                 <dt class="d-td">
                     <div class="mb-xx-small">
-                        <strong>{{ ticket.ticketName }} ￥{{ ticket.salePrice }}</strong>
+                        <strong>{{ ticket.ticketName }} ￥{{ getSalseTicketPrice(ticket) }}</strong>
                     </div>
                     <p class="small-x-text">{{ ticket.ticketNote }}</p>
                 </dt>
