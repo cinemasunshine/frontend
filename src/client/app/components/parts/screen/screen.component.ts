@@ -55,6 +55,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     screenElement.innerHTML = this.data.screen.style;
                 }
                 this.scaleDown();
+                this.select.emit(this.getSelectSeats());
             }
         }, time);
     }

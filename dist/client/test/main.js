@@ -4537,7 +4537,6 @@ var PurchaseSeatComponent = /** @class */ (function () {
      * @param {Iseat[]} seats
      */
     PurchaseSeatComponent.prototype.seatSelect = function (seats) {
-        console.log(seats);
         this.seats = seats;
     };
     /**
@@ -6857,6 +6856,7 @@ var ScreenComponent = /** @class */ (function () {
                     screenElement.innerHTML = _this.data.screen.style;
                 }
                 _this.scaleDown();
+                _this.select.emit(_this.getSelectSeats());
             }
         }, time);
     };

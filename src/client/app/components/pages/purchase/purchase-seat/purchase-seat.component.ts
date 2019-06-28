@@ -232,7 +232,6 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
      * @param {Iseat[]} seats
      */
     public seatSelect(seats: ISeat[]) {
-        console.log(seats);
         this.seats = seats;
     }
 
