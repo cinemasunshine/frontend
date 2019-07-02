@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { getTicketPrice } from '../../../../functions';
 import { ErrorService, PurchaseService, UserService } from '../../../../services';
 
 @Component({
@@ -14,6 +15,7 @@ export class PurchaseConfirmComponent implements OnInit {
     public isLoading: boolean;
     public disable: boolean;
     public environment = environment;
+    public getTicketPrice = getTicketPrice;
 
     constructor(
         public purchase: PurchaseService,

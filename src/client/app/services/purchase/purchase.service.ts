@@ -337,8 +337,11 @@ export class PurchaseService {
         if (this.data.seatReservationAuthorization === undefined) {
             return result;
         }
-        this.data.seatReservationAuthorization.object.acceptedOffer.forEach((offer: any) => {
-            result += offer.ticketInfo.salePrice;
+        this.data.seatReservationAuthorization.object.acceptedOffer.forEach((offer) => {
+            const ticketInfo = <any>offer.ticketInfo;
+            // const spseatAdd1 = (ticketInfo.spseatAdd1 === undefined) ? 0 : ticketInfo.spseatAdd1;
+            const spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
+            result += (offer.ticketInfo.salePrice + spseatAdd2);
         });
 
         return result;
@@ -602,8 +605,7 @@ export class PurchaseService {
         this.save();
         await this.sasaki.getServices();
         // 取引期限
-        const VALID_TIME = 10;
-        const expires = moment().add(VALID_TIME, 'minutes').toDate();
+        const expires = moment().add(environment.TRANSACTION_TIME, 'minutes').toDate();
         // 取引開始
         this.data.transaction = await this.sasaki.transaction.placeOrder.start({
             expires: expires,

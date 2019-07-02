@@ -11,7 +11,7 @@
             'transform-origin': origin,
             'transform': 'scale(' + scale + ')'
         }">
-            <div class="screen-inner {{ data.screenType }} screen-{{ theaterCode }}-{{ screenCode }}" 
+            <div class="screen-inner {{ data.screenType }}" 
             [ngStyle]="{ 'width.px': data.screen.size.w, 'height.px': data.screen.size.h }"
             (click)="scaleUp($event)">
                 
