@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.11.0 - 2019-07-02
+### Added
+- 特別席料金対応
+- 特別席説明表示追加
+
 ## 5.10.0 - 2019-06-25
 ### Changed
 - 座席仮予約エラーのときメッセージ表示へ変更
