@@ -2,6 +2,7 @@ import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
 import { TimeFormatPipe } from '../pipes/time-format/time-format.pipe';
+import { getTicketPrice } from './purchase';
 import { convertToKatakana, formatTelephone } from './util';
 
 /**
@@ -181,8 +182,7 @@ function getSeat(params: {
     const mapResult = params.seatReservationAuthorization.object.acceptedOffer.map((offer) => {
         const seatNumber = offer.seatNumber;
         const ticketName = offer.ticketInfo.ticketName;
-        const salePrice = offer.ticketInfo.salePrice;
-        return `${seatNumber} ${ticketName} ￥${salePrice}`;
+        return `${seatNumber} ${ticketName} ￥${getTicketPrice(offer)}`;
     });
 
     return mapResult.join('\n| ');

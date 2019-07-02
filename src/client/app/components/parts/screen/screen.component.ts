@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import 'rxjs/add/operator/toPromise';
-import { ErrorService } from '../../../services/error/error.service';
-import { PurchaseService } from '../../../services/purchase/purchase.service';
-import { SasakiService } from '../../../services/sasaki/sasaki.service';
+import { ILabel, IObject, IScreen, ISeat } from '../../../models';
+import { PurchaseService } from '../../../services';
+
+type IStateReserveSeatResult = COA.services.reserve.IStateReserveSeatResult;
 
 @Component({
     selector: 'app-screen',
@@ -13,11 +13,10 @@ import { SasakiService } from '../../../services/sasaki/sasaki.service';
 })
 export class ScreenComponent implements OnInit, AfterViewInit {
     public static ZOOM_SCALE = 1;
-    @Input() public inputData: IInputScreenData;
-    @Input() public test: boolean;
+    @Input() public screen: IScreen;
+    @Input() public status: IStateReserveSeatResult;
     @Output() public select = new EventEmitter<ISeat[]>();
     @Output() public alert = new EventEmitter();
-    @Output() public load = new EventEmitter<ISeat[]>();
     public data: IData;
     public zoomState: boolean;
     public scale: number;
@@ -26,26 +25,21 @@ export class ScreenComponent implements OnInit, AfterViewInit {
 
     constructor(
         private elementRef: ElementRef,
-        private http: HttpClient,
-        private purchase: PurchaseService,
-        private sasaki: SasakiService,
-        private error: ErrorService
+        private purchase: PurchaseService
     ) { }
 
     /**
      * 初期化
      */
-    public async ngOnInit() {
+    public ngOnInit() {
         this.zoomState = false;
         this.scale = 1;
         this.height = 0;
         this.origin = '0 0';
-        try {
-            const data = await this.getData();
-            this.data = this.createScreen(data);
-        } catch (err) {
-            this.error.redirect(new Error('screen data is not found'));
-        }
+        this.data = this.createScreen({
+            screen: this.screen,
+            status: this.status
+        });
     }
 
     /**
@@ -61,7 +55,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     screenElement.innerHTML = this.data.screen.style;
                 }
                 this.scaleDown();
-                this.load.emit(this.getSelectSeats());
+                this.select.emit(this.getSelectSeats());
             }
         }, time);
     }
@@ -183,50 +177,12 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * データ取得
-     * @method getData
-     */
-    public async getData(): Promise<{
-        screen: IScreen,
-        status: COA.services.reserve.IStateReserveSeatResult
-    }> {
-        const DIGITS = {
-            '02': -2,
-            '03': -3
-        };
-        const theaterCode = `00${this.inputData.theaterCode}`.slice(DIGITS['02']);
-        const screenCode = `000${this.inputData.screenCode}`.slice(DIGITS['03']);
-        const screen = await this.http.get<IScreen>(`/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
-        const setting = await this.http.get<IScreen>('/json/theater/setting.json').toPromise();
-
-        await this.sasaki.getServices();
-        let seatStatus;
-        if (this.test) {
-            seatStatus = (<any>{ listSeat: [] });
-        } else {
-            seatStatus = await this.sasaki.getSeatState({
-                theaterCode: this.inputData.theaterCode,
-                dateJouei: this.inputData.dateJouei,
-                titleCode: this.inputData.titleCode,
-                titleBranchNum: this.inputData.titleBranchNum,
-                timeBegin: this.inputData.timeBegin,
-                screenCode: this.inputData.screenCode
-            });
-        }
-        // スクリーンデータをマージ
-        return {
-            screen: Object.assign(setting, screen),
-            status: seatStatus
-        };
-    }
-
-    /**
      * スクリーン作成
      */
     public createScreen(data: {
         screen: IScreen,
-        status: COA.services.reserve.IStateReserveSeatResult
-    }): IData {
+        status: IStateReserveSeatResult
+    }) {
         // console.log(data.screen);
         const screenData = data.screen;
         const seatStatus = data.status;
@@ -440,142 +396,11 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     }
 }
 
-interface ISize {
-    w: number;
-    h: number;
-}
-
-interface IPosition {
-    x: number;
-    y: number;
-}
-
-interface IObject extends ISize, IPosition {
-    image: string;
-}
-
-interface IScreen {
-    type: number;
-    size: ISize;
-    objects: IObject[];
-    seatStart: IPosition;
-    map: number[][];
-    special: string[];
-    hc: string[];
-    specialSeats: { name: string; data: string[]; }[];
-    seatSize: ISize;
-    specialSeatConfig: { name: string; className: string; size: ISize }[];
-    seatMargin: ISize;
-    aisle: {
-        small: ISize;
-        middle: ISize;
-    };
-    seatLabelPos: number;
-    seatNumberPos: number;
-    seatNumberAlign: 'left' | 'right';
-    html: string;
-    style?: string;
-    columnLabel: boolean;
-    lineLabel: boolean;
-}
-
-interface ILabel {
-    /**
-     * ID
-     */
-    id: number;
-    /**
-     * 幅
-     */
-    w: number;
-    /**
-     * 高さ
-     */
-    h: number;
-    /**
-     * 位置Y
-     */
-    y: number;
-    /**
-     * 位置X
-     */
-    x: number;
-    /**
-     * 表示名
-     */
-    label: string;
-}
-
-export interface ISeat {
-    /**
-     * cssクラス名
-     */
-    className: string;
-    /**
-     * 幅
-     */
-    w: number;
-    /**
-     * 高さ
-     */
-    h: number;
-    /**
-     * 位置Y
-     */
-    y: number;
-    /**
-     * 位置X
-     */
-    x: number;
-    /**
-     * 表示名
-     */
-    label: string;
-    /**
-     * 座席ステータス
-     */
-    status: string;
-    coaInfo: {
-        /**
-         * 座席セクション
-         */
-        section: string;
-        /**
-         * 座席コード
-         */
-        seatNum: string;
-        /**
-         * 特別席区分
-         * 000：通常席、001：コンフォート、002：グラントクラス、003：プレミアクラス
-         */
-        spseatKbn: string;
-        /**
-         * 特別席加算額１
-         * 特別席加算額の興行収入部分
-         */
-        spseatAdd1: number;
-        /**
-         * 特別席加算額２
-         * 特別席加算額のミールクーポン部分
-         */
-        spseatAdd2: number;
-    };
-}
-
-interface IData {
+export interface IData {
     screen: IScreen;
     objects: IObject[];
     screenType: string;
     lineLabels: ILabel[];
     columnLabels: ILabel[];
     seats: ISeat[];
-}
-
-export interface IInputScreenData {
-    theaterCode: string;
-    dateJouei: string;
-    titleCode: string;
-    titleBranchNum: string;
-    timeBegin: string;
-    screenCode: string;
 }

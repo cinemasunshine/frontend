@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { getTicketPrice } from '../../../../functions';
 import { ErrorService, IMvtkTicket, ISalesTicketResult, PurchaseService, UserService } from '../../../../services';
 
 interface Ioffer {
@@ -33,6 +34,9 @@ interface Ioffer {
         ticketNameEng: string;
         ticketNameKana: string;
         usePoint?: number;
+        spseatAdd1: number;
+        spseatAdd2: number;
+        spseatKbn: string;
     };
 }
 
@@ -69,6 +73,7 @@ export class PurchaseTicketComponent implements OnInit {
     public salesPointTickets: ISalesPointTicket[];
     public ticketForm: FormGroup;
     public disable: boolean;
+    public getTicketPrice = getTicketPrice;
 
     constructor(
         public purchase: PurchaseService,
@@ -334,6 +339,7 @@ export class PurchaseTicketComponent implements OnInit {
         if (this.purchase.data.seatReservationAuthorization === undefined
             && this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
             this.offers = this.purchase.data.tmpSeatReservationAuthorization.object.acceptedOffer.map((offer) => {
+
                 return {
                     price: offer.price,
                     priceCurrency: offer.priceCurrency,
@@ -344,7 +350,7 @@ export class PurchaseTicketComponent implements OnInit {
                     limitCount: 0,
                     limitUnit: '',
                     validation: false,
-                    ticketInfo: offer.ticketInfo
+                    ticketInfo: (<any>offer.ticketInfo)
                 };
             });
         } else if (this.purchase.data.seatReservationAuthorization !== undefined) {
@@ -361,7 +367,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: 1,
                         limitUnit: '001',
                         validation: false,
-                        ticketInfo: offer.ticketInfo
+                        ticketInfo: (<any>offer.ticketInfo)
                     };
                 } else if (offer.ticketInfo.usePoint > 0) {
                     // ポイント
@@ -384,7 +390,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: ticket.limitCount,
                         limitUnit: ticket.limitUnit,
                         validation: false,
-                        ticketInfo: offer.ticketInfo
+                        ticketInfo: (<any>offer.ticketInfo)
                     };
                 } else {
                     // 通常
@@ -407,7 +413,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: ticket.limitCount,
                         limitUnit: ticket.limitUnit,
                         validation: false,
-                        ticketInfo: offer.ticketInfo
+                        ticketInfo: (<any>offer.ticketInfo)
                     };
                 }
             });
@@ -445,7 +451,7 @@ export class PurchaseTicketComponent implements OnInit {
             return (offer.selected);
         });
         for (const offer of selectedOffers) {
-            result += offer.ticketInfo.salePrice;
+            result += getTicketPrice(offer);
         }
 
         return result;
@@ -493,6 +499,8 @@ export class PurchaseTicketComponent implements OnInit {
             return (pointTicket.ticketCode === ticket.ticketCode);
         });
         const usePoint = (findTicket !== undefined) ? findTicket.usePoint : 0;
+        const spseatAdd1 = (target.ticketInfo.spseatAdd1 === undefined)
+            ? 0 : target.ticketInfo.spseatAdd1;
         target.price = ticket.salePrice;
         target.priceCurrency = this.selectOffer.priceCurrency;
         target.seatNumber = this.selectOffer.seatNumber;
@@ -513,13 +521,16 @@ export class PurchaseTicketComponent implements OnInit {
             mvtkSalesPrice: 0,
             addPrice: ticket.addPrice,
             disPrice: 0,
-            salePrice: ticket.salePrice,
+            salePrice: ticket.salePrice + spseatAdd1,
             seatNum: this.selectOffer.seatNumber,
             stdPrice: ticket.stdPrice,
             ticketCount: 1,
             ticketNameEng: ticket.ticketNameEng,
             ticketNameKana: ticket.ticketNameKana,
-            usePoint: usePoint
+            usePoint: usePoint,
+            spseatAdd1: target.ticketInfo.spseatAdd1,
+            spseatAdd2: target.ticketInfo.spseatAdd2,
+            spseatKbn: target.ticketInfo.spseatKbn
         };
         this.totalPrice = this.getTotalPrice();
         this.upDateSalseTickets();
@@ -541,6 +552,8 @@ export class PurchaseTicketComponent implements OnInit {
 
             return;
         }
+        const spseatAdd1 = (target.ticketInfo.spseatAdd1 === undefined)
+            ? 0 : target.ticketInfo.spseatAdd1;
 
         target.price = ticket.salePrice;
         target.priceCurrency = this.selectOffer.priceCurrency;
@@ -562,16 +575,35 @@ export class PurchaseTicketComponent implements OnInit {
             mvtkSalesPrice: Number(ticket.ykknInfo.knshknhmbiUnip),
             addPrice: ticket.mvtkTicketcodeResult.addPrice,
             disPrice: 0,
-            salePrice: ticket.salePrice,
+            salePrice: ticket.salePrice + spseatAdd1,
             seatNum: this.selectOffer.seatNumber,
             stdPrice: 0,
             ticketCount: 1,
             ticketNameEng: ticket.mvtkTicketcodeResult.ticketNameEng,
-            ticketNameKana: ticket.mvtkTicketcodeResult.ticketNameKana
+            ticketNameKana: ticket.mvtkTicketcodeResult.ticketNameKana,
+            spseatAdd1: target.ticketInfo.spseatAdd1,
+            spseatAdd2: target.ticketInfo.spseatAdd2,
+            spseatKbn: target.ticketInfo.spseatKbn
         };
         this.totalPrice = this.getTotalPrice();
         this.upDateSalseTickets();
         this.ticketsModal = false;
+    }
+
+    /**
+     * 販売券種金額取得
+     */
+    public getSalseTicketPrice(
+        offer: ISalesTicketResult | ISalesMvtkTicket | ISalesPointTicket
+    ) {
+        if (this.selectOffer === undefined) {
+            return offer.salePrice;
+        }
+        const ticketInfo = (<any>this.selectOffer.ticketInfo);
+        const spseatAdd1 = (ticketInfo.spseatAdd1 === undefined) ? 0 : ticketInfo.spseatAdd1;
+        const spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
+        // console.log(offer.salePrice);
+        return (offer.salePrice + spseatAdd1 + spseatAdd2);
     }
 
 }

@@ -89,3 +89,60 @@ $mobile: 767px;
         cursor: pointer;
     }
 }
+
+.seat-types {
+    ul {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: -5px;
+        li {
+            margin: 0;
+            width: 50%;
+            @media screen and (max-width: $mobile){
+                width: 100%;
+            }
+            .seat-type-inner {
+                display: flex;
+                align-items: center;
+                margin: 5px;
+                border: 1px solid #989898;
+                padding: 10px;
+            }
+            .image {
+                width: 60px;
+                text-align: center;
+            }
+            .text {
+                padding: 0 10px;
+                p {
+                    font-weight: bold;
+                }
+            }
+        }
+        .seat-grand-class {
+            img {
+                width: (62px / 2);
+                height: (69px / 2);
+            }
+        }
+        .seat-premium-class {
+            img {
+                width: (62px / 2);
+                height: (69px / 2);
+            }
+        }
+        .seat-ottoman {
+            img {
+                width: (40px / 2);
+                height: (72px / 2);
+            }
+        }
+        .seat-comfort {
+            img {
+                width: (62px / 2);
+                height: (91px / 2);
+            }
+        }
+    }
+}

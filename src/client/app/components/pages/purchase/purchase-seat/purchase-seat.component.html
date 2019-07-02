@@ -10,11 +10,48 @@
         <span class="small-x-text">※車椅子席をご希望の方は、お手数ですが通常のお席をご購入の上、対象の劇場にご連絡ください。</span>
     </p>
     <div class="mb-middle">
-        <app-screen [inputData]="screenData" [test]="false" (select)="seatSelect($event)" (alert)="seatSelectionAlert()"
-            (load)="loadScreen($event)">
+        <app-screen *ngIf="screenData" [screen]="screenData.screen" [status]="screenData.status"
+            (select)="seatSelect($event)" (alert)="seatSelectionAlert()">
             <app-seat-info type="{{ purchase.data.screeningEvent?.superEvent.coaInfo?.kbnJoueihousiki?.kubunCode }}">
             </app-seat-info>
         </app-screen>
+    </div>
+
+    <div class="mb-middle seat-types">
+        <ul>
+            <li *ngIf="getSeatType('grandClass')" class="seat-grand-class">
+                <div class="seat-type-inner">
+                    <div class="image"><img src="/images/theater/seat/grand-class.svg"></div>
+                    <div class="text">
+                        <p>グランドクラス<br>+￥3,000</p>
+                    </div>
+                </div>
+            </li>
+            <li *ngIf="getSeatType('premiumClass')" class="seat-premium-class">
+                <div class="seat-type-inner">
+                    <div class="image"><img src="/images/theater/seat/premium-class.svg"></div>
+                    <div class="text">
+                        <p>プレミアムクラス<br>+￥1,500</p>
+                    </div>
+                </div>
+            </li>
+            <li *ngIf="getSeatType('comfort')" class="seat-comfort">
+                <div class="seat-type-inner">
+                    <div class="image"><img src="/images/theater/seat/comfort.svg"></div>
+                    <div class="text">
+                        <p>フラットシート</p>
+                    </div>
+                </div>
+            </li>
+            <li *ngIf="getSeatType('ottoman')" class="seat-ottoman">
+                <div class="seat-type-inner">
+                    <div class="image"><img src="/images/theater/seat/ottoman.svg"></div>
+                    <div class="text">
+                        <p>スタンダードクラス<br>オットマン</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
 
     <div class="film-info radius mb-large">

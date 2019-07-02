@@ -20,4 +20,6 @@ export const environment = {
     ANALYTICS_ID: 'UA-99018492-2',
 
     MEMBER_TICKET: DEVELOPMENT_MEMBER_TICKET, // 毎週木曜1,100円鑑賞の購入枚数上限は1枚だけ
+
+    TRANSACTION_TIME: '10'
 };

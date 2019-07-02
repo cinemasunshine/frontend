@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../../environments/environment';
+import { getOrderTicketPrice } from '../../../../functions';
 import { TimeFormatPipe } from '../../../../pipes/time-format/time-format.pipe';
 import { ErrorService, SaveType, StorageService, UserService } from '../../../../services';
 
@@ -17,6 +18,7 @@ export class PurchaseCompleteComponent implements OnInit {
         seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
     };
     public environment = environment;
+    public getOrderTicketPrice = getOrderTicketPrice;
 
     constructor(
         private storage: StorageService,
