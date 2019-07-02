@@ -110,7 +110,7 @@ export async function auth(req: Request, res: Response): Promise<void> {
 }
 
 /**
- * 照会確認表示
+ * 照会表示
  * @function confirm
  * @param {Request} req
  * @param {Response} res
