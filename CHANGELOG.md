@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.11.1 - 2019-07-05
+### Changed
+- 座席仮予約エラーのときエラー画面遷移へ変更
+
 ## 5.11.0 - 2019-07-02
 ### Added
 - 特別席料金対応
