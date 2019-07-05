@@ -4464,7 +4464,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
      */
     PurchaseSeatComponent.prototype.onSubmit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, offers, err_1;
+            var _a, offers, error_3;
             var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -4521,11 +4521,9 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         this.router.navigate(['/purchase/ticket']);
                         return [3 /*break*/, 6];
                     case 5:
-                        err_1 = _b.sent();
-                        this.seatRegistrationErrorModal = true;
-                        this.isLoading = false;
-                        this.disable = false;
-                        return [3 /*break*/, 6];
+                        error_3 = _b.sent();
+                        this.error.redirect(error_3);
+                        return [2 /*return*/];
                     case 6: return [2 /*return*/];
                 }
             });
@@ -9032,7 +9030,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.seatRegistrationProcess = function (offers) {
         return __awaiter(this, void 0, void 0, function () {
-            var error_1, _a;
+            var _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -9043,26 +9041,17 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.sasaki.getServices()];
                     case 1:
                         _b.sent();
-                        if (!(this.data.tmpSeatReservationAuthorization !== undefined)) return [3 /*break*/, 6];
-                        _b.label = 2;
-                    case 2:
-                        _b.trys.push([2, 4, , 5]);
+                        if (!(this.data.tmpSeatReservationAuthorization !== undefined)) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
                                 id: this.data.tmpSeatReservationAuthorization.id,
                                 purpose: this.data.tmpSeatReservationAuthorization.purpose
                             })];
-                    case 3:
+                    case 2:
                         _b.sent();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        error_1 = _b.sent();
-                        console.error(error_1);
-                        return [3 /*break*/, 5];
-                    case 5:
                         this.data.tmpSeatReservationAuthorization = undefined;
                         this.save();
-                        _b.label = 6;
-                    case 6:
+                        _b.label = 3;
+                    case 3:
                         // 座席登録
                         _a = this.data;
                         return [4 /*yield*/, this.sasaki.transaction.placeOrder.createSeatReservationAuthorization({
@@ -9077,7 +9066,7 @@ var PurchaseService = /** @class */ (function () {
                                     typeOf: this.data.transaction.typeOf
                                 }
                             })];
-                    case 7:
+                    case 4:
                         // 座席登録
                         _a.tmpSeatReservationAuthorization =
                             _b.sent();

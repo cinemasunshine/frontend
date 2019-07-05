@@ -219,10 +219,13 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             });
             await this.purchase.seatRegistrationProcess(offers);
             this.router.navigate(['/purchase/ticket']);
-        } catch (err) {
-            this.seatRegistrationErrorModal = true;
-            this.isLoading = false;
-            this.disable = false;
+        } catch (error) {
+            this.error.redirect(error);
+
+            return;
+            // this.seatRegistrationErrorModal = true;
+            // this.isLoading = false;
+            // this.disable = false;
         }
     }
 
