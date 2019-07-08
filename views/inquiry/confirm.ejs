@@ -77,7 +77,7 @@
                     <div class="mb-x-small"><%= offer.itemOffered.reservationFor.location.name.ja %></div>
                     <div class="mb-xx-small small-text"><strong>作品名</strong></div>
                     <div class="mb-x-small"><%= offer.itemOffered.reservationFor.name.ja %></div>
-                    <% if (offer.itemOffered.reservationFor.location.branchCode === (screenPrefix + '20') 
+                    <% if (offer.itemOffered.reservationFor.superEvent.location.branchCode === (screenPrefix + '20') 
                      && offer.itemOffered.reservedTicket.coaTicketInfo.spseatKbn === '003'
                      && offer.itemOffered.reservedTicket.coaTicketInfo.spseatAdd2 > 0) { %>
                     <p>
@@ -88,7 +88,7 @@
                         ※ご鑑賞日当日のみ有効
                     </p>
                     <% } %>
-                    <% if (offer.itemOffered.reservationFor.location.branchCode === (screenPrefix + '20') 
+                    <% if (offer.itemOffered.reservationFor.superEvent.location.branchCode === (screenPrefix + '20') 
                      && offer.itemOffered.reservedTicket.coaTicketInfo.spseatKbn === '002'
                      && offer.itemOffered.reservedTicket.coaTicketInfo.spseatAdd2 > 0) { %>
                     <p>
