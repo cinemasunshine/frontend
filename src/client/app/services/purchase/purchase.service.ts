@@ -647,14 +647,10 @@ export class PurchaseService {
         await this.sasaki.getServices();
         // 予約中なら座席削除
         if (this.data.tmpSeatReservationAuthorization !== undefined) {
-            try {
-                await this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
-                    id: this.data.tmpSeatReservationAuthorization.id,
-                    purpose: this.data.tmpSeatReservationAuthorization.purpose
-                });
-            } catch (error) {
-                console.error(error);
-            }
+            await this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
+                id: this.data.tmpSeatReservationAuthorization.id,
+                purpose: this.data.tmpSeatReservationAuthorization.purpose
+            });
             this.data.tmpSeatReservationAuthorization = undefined;
             this.save();
         }
