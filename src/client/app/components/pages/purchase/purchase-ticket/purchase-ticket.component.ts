@@ -599,7 +599,7 @@ export class PurchaseTicketComponent implements OnInit {
         if (this.selectOffer === undefined) {
             return offer.salePrice;
         }
-        const ticketInfo = (<any>this.selectOffer.ticketInfo);
+        const ticketInfo = this.selectOffer.ticketInfo;
         const spseatAdd1 = (ticketInfo.spseatAdd1 === undefined) ? 0 : ticketInfo.spseatAdd1;
         const spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
         // console.log(offer.salePrice);
