@@ -1,6 +1,6 @@
 {
   "name": "sskts-frontend",
-  "version": "5.11.1",
+  "version": "5.12.0",
   "scripts": {
     "ng": "ng",
     "build-client": "npm run build-client-development && npm run build-client-test && npm run build-client-production",
@@ -36,7 +36,7 @@
     "@angular/platform-browser": "^6.0.7",
     "@angular/platform-browser-dynamic": "^6.0.7",
     "@angular/router": "^6.0.7",
-    "@motionpicture/coa-service": "^6.0.1",
+    "@motionpicture/coa-service": "^7.0.0",
     "@motionpicture/mvtk-reserve-service": "^1.2.1",
     "@motionpicture/sskts-api-javascript-client": "^8.0.1",
     "@motionpicture/sskts-api-nodejs-client": "^8.0.1",
