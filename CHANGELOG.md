@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.12.1 - 2019-07-16
+### Added
+- グランドシネマサンシャイン、IMAXフルスクリーン追加
+
 ## 5.12.0 - 2019-07-10
 ### Added
 - ミールクーポン付きチケットへ説明文追加
