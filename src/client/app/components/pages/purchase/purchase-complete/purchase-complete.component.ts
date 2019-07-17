@@ -91,12 +91,13 @@ export class PurchaseCompleteComponent implements OnInit {
      */
     public getAppreciationDate() {
         const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
+            || itemOffered.reservationFor.coaInfo === undefined) {
             return '';
         }
         moment.locale('ja');
 
-        return moment(itemOffered.reservationFor.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment(itemOffered.reservationFor.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
     }
 
     /**

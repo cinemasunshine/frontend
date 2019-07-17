@@ -87,9 +87,12 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getAppreciationDate() {
+        if (this.screeningEvent.coaInfo === undefined) {
+            return '';
+        }
         moment.locale('ja');
 
-        return moment(this.screeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment(this.screeningEvent.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
     }
 
     /**

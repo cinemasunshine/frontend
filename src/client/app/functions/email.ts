@@ -152,7 +152,7 @@ function getInfo(params: {
      };
     const screen = { name: screeningEvent.location.name.ja };
     const event = { name: screeningEvent.name.ja };
-    const appreciationDate = moment(screeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
+    const appreciationDate = moment(screeningEvent.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
     const startDate = timeFormat.transform(screeningEvent.startDate, screeningEvent.coaInfo.dateJouei);
     const endDate = timeFormat.transform(screeningEvent.endDate, screeningEvent.coaInfo.dateJouei);
     const inquiryUrl =

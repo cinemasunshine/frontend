@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.12.2 - 2019-07-17
+### Fixed
+- 30時間表記の場合の日付ずれ修正
+
 ## 5.12.1 - 2019-07-16
 ### Added
 - グランドシネマサンシャイン、IMAXフルスクリーン追加
