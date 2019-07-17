@@ -281,13 +281,14 @@ export class PurchaseService {
      * @returns {string}
      */
     public getAppreciationDate(): string {
-        if (this.data.screeningEvent === undefined) {
+        const screeningEvent = this.data.screeningEvent;
+        if (screeningEvent === undefined
+            || screeningEvent.coaInfo === undefined) {
             return '';
         }
-        const screeningEvent = this.data.screeningEvent;
         moment.locale('ja');
 
-        return moment(screeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment(screeningEvent.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
     }
 
     /**

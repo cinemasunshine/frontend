@@ -1646,11 +1646,12 @@ var PurchaseCompleteComponent = /** @class */ (function () {
      */
     PurchaseCompleteComponent.prototype.getAppreciationDate = function () {
         var itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+            || itemOffered.reservationFor.coaInfo === undefined) {
             return '';
         }
         moment__WEBPACK_IMPORTED_MODULE_2__["locale"]('ja');
-        return moment__WEBPACK_IMPORTED_MODULE_2__(itemOffered.reservationFor.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment__WEBPACK_IMPORTED_MODULE_2__(itemOffered.reservationFor.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
     };
     /**
      * 上映開始時間取得
@@ -3475,8 +3476,11 @@ var PurchaseOverlapComponent = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseOverlapComponent.prototype.getAppreciationDate = function () {
+        if (this.screeningEvent.coaInfo === undefined) {
+            return '';
+        }
         moment__WEBPACK_IMPORTED_MODULE_2__["locale"]('ja');
-        return moment__WEBPACK_IMPORTED_MODULE_2__(this.screeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment__WEBPACK_IMPORTED_MODULE_2__(this.screeningEvent.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
     };
     /**
      * 上映開始時間取得
@@ -7613,7 +7617,7 @@ function getInfo(params) {
     };
     var screen = { name: screeningEvent.location.name.ja };
     var event = { name: screeningEvent.name.ja };
-    var appreciationDate = moment__WEBPACK_IMPORTED_MODULE_0__(screeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
+    var appreciationDate = moment__WEBPACK_IMPORTED_MODULE_0__(screeningEvent.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
     var startDate = timeFormat.transform(screeningEvent.startDate, screeningEvent.coaInfo.dateJouei);
     var endDate = timeFormat.transform(screeningEvent.endDate, screeningEvent.coaInfo.dateJouei);
     var inquiryUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].FRONTEND_ENDPOINT + "/inquiry/login?theater=" + params.seller.location.branchCode + "&reserve=#{order.confirmationNumber}";
@@ -8669,12 +8673,13 @@ var PurchaseService = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseService.prototype.getAppreciationDate = function () {
-        if (this.data.screeningEvent === undefined) {
+        var screeningEvent = this.data.screeningEvent;
+        if (screeningEvent === undefined
+            || screeningEvent.coaInfo === undefined) {
             return '';
         }
-        var screeningEvent = this.data.screeningEvent;
         moment__WEBPACK_IMPORTED_MODULE_1__["locale"]('ja');
-        return moment__WEBPACK_IMPORTED_MODULE_1__(screeningEvent.startDate).format('YYYY年MM月DD日(ddd)');
+        return moment__WEBPACK_IMPORTED_MODULE_1__(screeningEvent.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
     };
     /**
      * 上映開始時間取得
