@@ -4,8 +4,11 @@
 	 y="0px" viewBox="0 0 80 100" style="enable-background:new 0 0 80 100;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#99999A;}
+	.st1{fill:#FFFFFF;}
 </style>
 <g>
+
+	<path class="st1" d="M74,0H6C2.7,0,0,2.7,0,6v88c0,3.3,2.7,6,6,6h68c3.3,0,6-2.7,6-6V6C80,2.7,77.3,0,74,0z"/>
 	<path class="st0" d="M74,6v88H6V6H74 M74,0H6C2.7,0,0,2.7,0,6v88c0,3.3,2.7,6,6,6h68c3.3,0,6-2.7,6-6V6C80,2.7,77.3,0,74,0L74,0z"
 		/>
 	<g>

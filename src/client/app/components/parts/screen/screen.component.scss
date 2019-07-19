@@ -35,9 +35,16 @@ $mobile: 767px;
     }
     .seat-hc {
         a {
-            background-image: url(/images/theater/seat/hc_disabled.svg) !important;
+            background-image: url(/images/theater/seat/hc.svg);
             span {
                 display: none !important;
+            }
+            &.active {
+                background-image: url(/images/theater/seat/hc_active.svg);
+            }
+            &.disabled {
+                background-image: url(/images/theater/seat/hc_disabled.svg);
+                cursor: default;
             }
         }
     }
