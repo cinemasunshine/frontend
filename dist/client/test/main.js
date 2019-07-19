@@ -3975,7 +3975,7 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                     case 3:
                         searchResult = _a.sent();
                         this.theaters = searchResult.data;
-                        this.dateList = this.getDateList(3);
+                        this.dateList = this.getDateList(7);
                         theater = this.theaters[0];
                         if (theater.location === undefined
                             || theater.location.branchCode === undefined) {
@@ -4011,7 +4011,7 @@ var PurchaseScheduleComponent = /** @class */ (function () {
             var date = moment__WEBPACK_IMPORTED_MODULE_2__().add(i, 'day');
             results.push({
                 value: date.format('YYYYMMDD'),
-                label: (i === 0) ? '本日' : (i === 1) ? '明日' : (i === 2) ? '明後日' : date.format('YYYY/MM/DD')
+                label: date.format('YYYY/MM/DD')
             });
         }
         return results;
@@ -4024,6 +4024,7 @@ var PurchaseScheduleComponent = /** @class */ (function () {
     PurchaseScheduleComponent.prototype.changeConditions = function () {
         return __awaiter(this, void 0, void 0, function () {
             var searchScreeningEventsResult, err_2;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -4041,11 +4042,13 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                                     locationBranchCodes: [this.conditions.theater]
                                 },
                                 startFrom: moment__WEBPACK_IMPORTED_MODULE_2__(this.conditions.date).toDate(),
-                                startThrough: moment__WEBPACK_IMPORTED_MODULE_2__(this.conditions.date).add(1, 'day').toDate()
+                                startThrough: moment__WEBPACK_IMPORTED_MODULE_2__(this.conditions.date).add(2, 'day').toDate()
                             })];
                     case 3:
                         searchScreeningEventsResult = _a.sent();
-                        this.schedules = searchScreeningEventsResult.data;
+                        this.schedules = searchScreeningEventsResult.data.filter(function (data) {
+                            return (data.coaInfo !== undefined && data.coaInfo.dateJouei === _this.conditions.date);
+                        });
                         this.filmOrder = this.getEventFilmOrder();
                         return [3 /*break*/, 5];
                     case 4:
@@ -7059,12 +7062,13 @@ var ScreenComponent = /** @class */ (function () {
                     || screenData.map[y][x] === 10) {
                     // 座席あり
                     // 座席HTML生成
-                    var code_1 = (data.screen.seatNumberAlign === 'left')
-                        ? toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(x + 1))
-                        : toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(screenData.map[y].length - x));
                     var label_1 = (data.screen.seatNumberAlign === 'left')
                         ? "" + labels[labelCount] + String(x + 1)
                         : "" + labels[labelCount] + String(screenData.map[y].length - x);
+                    var code_1 = (screenData.hc.indexOf(label_1) !== -1) ? "\u8ECA\u6905\u5B50" + (screenData.hc.indexOf(label_1) + 1)
+                        : (data.screen.seatNumberAlign === 'left')
+                            ? toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(x + 1))
+                            : toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(screenData.map[y].length - x));
                     var seatSize_1 = { w: screenData.seatSize.w, h: screenData.seatSize.h };
                     var seatPosition_1 = { x: pos.x, y: pos.y };
                     var className_1 = "seat-" + label_1 + " seat-" + label_1.slice(0, 1);

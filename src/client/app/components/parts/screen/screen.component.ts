@@ -250,7 +250,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
 
                 // 座席番号HTML生成
                 if (y === 0) {
-
                     const label = (data.screen.seatNumberAlign === 'left')
                         ? String(x + 1)
                         : String(screenData.map[0].length - x);
@@ -262,7 +261,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         x: pos.x,
                         label: label
                     });
-
                 }
                 if (screenData.map[y][x] === 1
                     || screenData.map[y][x] === 4
@@ -271,12 +269,13 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     || screenData.map[y][x] === 10) {
                     // 座席あり
                     // 座席HTML生成
-                    const code = (data.screen.seatNumberAlign === 'left')
-                        ? `${toFullWidth(labels[labelCount])}－${toFullWidth(String(x + 1))}`
-                        : `${toFullWidth(labels[labelCount])}－${toFullWidth(String(screenData.map[y].length - x))}`;
                     const label = (data.screen.seatNumberAlign === 'left')
                         ? `${labels[labelCount]}${String(x + 1)}`
                         : `${labels[labelCount]}${String(screenData.map[y].length - x)}`;
+                    const code = (screenData.hc.indexOf(label) !== -1) ? `車椅子${screenData.hc.indexOf(label) + 1}`
+                        : (data.screen.seatNumberAlign === 'left')
+                            ? `${toFullWidth(labels[labelCount])}－${toFullWidth(String(x + 1))}`
+                            : `${toFullWidth(labels[labelCount])}－${toFullWidth(String(screenData.map[y].length - x))}`;
                     const seatSize = { w: screenData.seatSize.w, h: screenData.seatSize.h };
                     const seatPosition = { x: pos.x, y: pos.y };
                     let className = `seat-${label} seat-${label.slice(0, 1)}`;

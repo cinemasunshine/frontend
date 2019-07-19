@@ -55,7 +55,7 @@ export class PurchaseScheduleComponent implements OnInit {
             await this.sasaki.getServices();
             const searchResult = await this.sasaki.seller.search({});
             this.theaters = searchResult.data;
-            this.dateList = this.getDateList(3);
+            this.dateList = this.getDateList(7);
             const theater = this.theaters[0];
             if (theater.location === undefined
                 || theater.location.branchCode === undefined) {
@@ -83,7 +83,7 @@ export class PurchaseScheduleComponent implements OnInit {
             const date = moment().add(i, 'day');
             results.push({
                 value: date.format('YYYYMMDD'),
-                label: (i === 0) ? '本日' : (i === 1) ? '明日' : (i === 2) ? '明後日' : date.format('YYYY/MM/DD')
+                label: date.format('YYYY/MM/DD')
             });
         }
 
@@ -106,9 +106,11 @@ export class PurchaseScheduleComponent implements OnInit {
                     locationBranchCodes: [this.conditions.theater]
                 },
                 startFrom: moment(this.conditions.date).toDate(),
-                startThrough: moment(this.conditions.date).add(1, 'day').toDate()
+                startThrough: moment(this.conditions.date).add(2, 'day').toDate()
             });
-            this.schedules = searchScreeningEventsResult.data;
+            this.schedules = searchScreeningEventsResult.data.filter((data) => {
+                return (data.coaInfo !== undefined && data.coaInfo.dateJouei === this.conditions.date);
+            });
             this.filmOrder = this.getEventFilmOrder();
             // console.log(this.filmOrder);
         } catch (err) {
