@@ -17,5 +17,9 @@
     "columnLabel": false,
     "lineLabel": true,
     "hc": [],
-    "specialSeats": []
+    "specialSeats": [],
+    "": {
+        "single": "車椅子1",
+        "multiple": ["車椅子1", "車椅子2", "車椅子3", "車椅子4", "車椅子5"]
+    }
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as COA from '@motionpicture/coa-service';
@@ -19,7 +19,7 @@ import {
     templateUrl: './purchase-seat.component.html',
     styleUrls: ['./purchase-seat.component.scss']
 })
-export class PurchaseSeatComponent implements OnInit, AfterViewInit {
+export class PurchaseSeatComponent implements OnInit {
     public isLoading: boolean;
     public seatForm: FormGroup;
     public notSelectSeatModal: boolean;
@@ -81,16 +81,6 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         }
     }
 
-    public async ngAfterViewInit() {
-        try {
-            if (this.purchase.data.salesTickets.length === 0) {
-                this.purchase.data.salesTickets = await this.fitchSalesTickets();
-            }
-        } catch (error) {
-            this.error.redirect(error);
-        }
-    }
-
     /**
      * データ取得
      * @method getData
@@ -114,7 +104,12 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         const screenCode = `000${params.screenCode}`.slice(DIGITS['03']);
         const screen = await this.http.get<IScreen>(`/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
         const setting = await this.http.get<IScreen>('/json/theater/setting.json').toPromise();
-
+        const hcseatCodes = await this.http.get<{
+            theaterCode: string;
+            single: string;
+            multiple: string[];
+        }[]>('/json/theater/hcSeatCodes.json').toPromise();
+        const hcSeatCode = hcseatCodes.find(h => h.theaterCode === theaterCode);
         await this.sasaki.getServices();
         const seatStatus = await this.sasaki.getSeatState({
             theaterCode: params.theaterCode,
@@ -127,19 +122,12 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
         // seatStatus = (<any>{ listSeat: [] });
         // スクリーンデータをマージ
         return {
-            screen: Object.assign(setting, screen),
+            screen: {
+                theaterCode, screenCode, ...setting, ...screen,
+                hcSeatCode: (hcSeatCode === undefined) ? setting.hcSeatCode : hcSeatCode
+            },
             status: seatStatus
         };
-    }
-
-    /**
-     * スクリーン読み込み完了
-     * @method loadScreen
-     * @param {ISeat[]} seats
-     */
-    public loadScreen(seats: ISeat[]) {
-        this.isLoading = false;
-        this.seats = seats;
     }
 
     /**

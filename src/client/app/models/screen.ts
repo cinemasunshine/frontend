@@ -13,6 +13,8 @@ export interface IObject extends ISize, IPosition {
 }
 
 export interface IScreen {
+    theaterCode: string;
+    screenCode: string;
     type: number;
     size: ISize;
     objects: IObject[];
@@ -35,6 +37,10 @@ export interface IScreen {
     style?: string;
     columnLabel: boolean;
     lineLabel: boolean;
+    hcSeatCode: {
+        single: string;
+        multiple: string[];
+    };
 }
 
 export interface ILabel {

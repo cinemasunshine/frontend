@@ -272,10 +272,15 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     const label = (data.screen.seatNumberAlign === 'left')
                         ? `${labels[labelCount]}${String(x + 1)}`
                         : `${labels[labelCount]}${String(screenData.map[y].length - x)}`;
-                    const code = (screenData.hc.indexOf(label) !== -1) ? `車椅子${screenData.hc.indexOf(label) + 1}`
-                        : (data.screen.seatNumberAlign === 'left')
-                            ? `${toFullWidth(labels[labelCount])}－${toFullWidth(String(x + 1))}`
-                            : `${toFullWidth(labels[labelCount])}－${toFullWidth(String(screenData.map[y].length - x))}`;
+                    let code = (data.screen.seatNumberAlign === 'left')
+                        ? `${toFullWidth(labels[labelCount])}－${toFullWidth(String(x + 1))}`
+                        : `${toFullWidth(labels[labelCount])}－${toFullWidth(String(screenData.map[y].length - x))}`;
+                    if (screenData.hc.indexOf(label) !== -1) {
+                        // 車椅子席座席番号設定
+                        code = (screenData.hc.length === 1)
+                            ? screenData.hcSeatCode.single
+                            : screenData.hcSeatCode.multiple[screenData.hc.indexOf(label)];
+                    }
                     const seatSize = { w: screenData.seatSize.w, h: screenData.seatSize.h };
                     const seatPosition = { x: pos.x, y: pos.y };
                     let className = `seat-${label} seat-${label.slice(0, 1)}`;

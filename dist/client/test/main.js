@@ -4206,7 +4206,7 @@ function View_PurchaseSeatComponent_0(_l) { return _angular_core__WEBPACK_IMPORT
         var pd_0 = ((_co.seatRegistrationErrorModal = false) !== false);
         ad = (pd_0 && ad);
     } return ad; }, _parts_modal_modal_component_ngfactory__WEBPACK_IMPORTED_MODULE_15__["View_ModalComponent_0"], _parts_modal_modal_component_ngfactory__WEBPACK_IMPORTED_MODULE_15__["RenderType_ModalComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](104, 114688, null, 0, _parts_modal_modal_component__WEBPACK_IMPORTED_MODULE_16__["ModalComponent"], [], { open: [0, "open"], layout: [1, "layout"] }, { close: "close" }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](105, 0, null, 0, 2, "div", [["class", "modal-title large-text text-center mb-middle"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](106, 0, null, null, 1, "strong", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30A8\u30E9\u30FC\u304C\u767A\u751F\u3057\u307E\u3057\u305F"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](108, 0, null, 0, 5, "p", [["class", "text-center"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, [" \u304A\u624B\u7D9A\u304D\u306E\u9014\u4E2D\u3067\u30A8\u30E9\u30FC\u304C\u767A\u751F\u3057\u307E\u3057\u305F\u3002"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](110, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, [" \u304A\u624B\u6570\u3092\u304A\u304B\u3051\u3057\u307E\u3059\u304C\u3001\u3082\u3046\u4E00\u5EA6\u64CD\u4F5C\u3092\u304A\u9858\u3044\u3044\u305F\u3057\u307E\u3059\u3002"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](112, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, [" \u203B\u3059\u3067\u306B\u4ED6\u306E\u304A\u5BA2\u69D8\u304C\u540C\u3058\u5EA7\u5E2D\u3092\u9078\u629E\u3057\u305F\u5834\u5408\u3082\u3053\u306E\u30A8\u30E9\u30FC\u304C\u8868\u793A\u3055\u308C\u307E\u3059\u3002 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](114, 0, null, null, 1, "app-loading", [], null, null, null, _parts_loading_loading_component_ngfactory__WEBPACK_IMPORTED_MODULE_17__["View_LoadingComponent_0"], _parts_loading_loading_component_ngfactory__WEBPACK_IMPORTED_MODULE_17__["RenderType_LoadingComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](115, 114688, null, 0, _parts_loading_loading_component__WEBPACK_IMPORTED_MODULE_18__["LoadingComponent"], [], { show: [0, "show"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_1 = _co.screenData; _ck(_v, 18, 0, currVal_1); var currVal_2 = _co.getSeatType("grandClass"); _ck(_v, 22, 0, currVal_2); var currVal_3 = _co.getSeatType("premiumClass"); _ck(_v, 24, 0, currVal_3); var currVal_4 = _co.getSeatType("comfort"); _ck(_v, 26, 0, currVal_4); var currVal_5 = _co.getSeatType("ottoman"); _ck(_v, 28, 0, currVal_5); var currVal_12 = ((_co.purchase.data.screeningEvent == null) ? null : _co.purchase.data.screeningEvent.superEvent.location.branchCode.slice((0 - 2))); _ck(_v, 50, 0, currVal_12); var currVal_20 = _co.seatForm; _ck(_v, 53, 0, currVal_20); var currVal_28 = "terms"; _ck(_v, 60, 0, currVal_28); var currVal_29 = (_co.seatForm.controls["terms"].invalid && (_co.seatForm.controls["terms"].dirty || _co.seatForm.controls["terms"].touched)); _ck(_v, 67, 0, currVal_29); var currVal_30 = "next-white"; var currVal_31 = "15"; var currVal_32 = "15"; _ck(_v, 72, 0, currVal_30, currVal_31, currVal_32); var currVal_34 = "prev-black"; var currVal_35 = "15"; var currVal_36 = "15"; _ck(_v, 77, 0, currVal_34, currVal_35, currVal_36); var currVal_38 = "prev-black"; var currVal_39 = "15"; var currVal_40 = "15"; _ck(_v, 82, 0, currVal_38, currVal_39, currVal_40); _ck(_v, 85, 0); var currVal_41 = _co.notSelectSeatModal; var currVal_42 = true; _ck(_v, 87, 0, currVal_41, currVal_42); var currVal_43 = _co.upperLimitModal; var currVal_44 = true; _ck(_v, 94, 0, currVal_43, currVal_44); var currVal_46 = _co.seatRegistrationErrorModal; var currVal_47 = true; _ck(_v, 104, 0, currVal_46, currVal_47); var currVal_48 = _co.isLoading; _ck(_v, 115, 0, currVal_48); }, function (_ck, _v) { var _co = _v.component; var currVal_0 = ((_co.purchase.data.screeningEvent == null) ? null : ((_co.purchase.data.screeningEvent.coaInfo == null) ? null : _co.purchase.data.screeningEvent.coaInfo.availableNum)); _ck(_v, 8, 0, currVal_0); var currVal_6 = _co.purchase.getTheaterName(); var currVal_7 = _co.purchase.getScreenName(); _ck(_v, 36, 0, currVal_6, currVal_7); var currVal_8 = _co.purchase.getAppreciationDate(); var currVal_9 = _co.purchase.getStartDate(); var currVal_10 = _co.purchase.getEndDate(); _ck(_v, 40, 0, currVal_8, currVal_9, currVal_10); var currVal_11 = _co.purchase.getTitle(); _ck(_v, 44, 0, currVal_11); var currVal_13 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 55).ngClassUntouched; var currVal_14 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 55).ngClassTouched; var currVal_15 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 55).ngClassPristine; var currVal_16 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 55).ngClassDirty; var currVal_17 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 55).ngClassValid; var currVal_18 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 55).ngClassInvalid; var currVal_19 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 55).ngClassPending; _ck(_v, 51, 0, currVal_13, currVal_14, currVal_15, currVal_16, currVal_17, currVal_18, currVal_19); var currVal_21 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 62).ngClassUntouched; var currVal_22 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 62).ngClassTouched; var currVal_23 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 62).ngClassPristine; var currVal_24 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 62).ngClassDirty; var currVal_25 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 62).ngClassValid; var currVal_26 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 62).ngClassInvalid; var currVal_27 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵnov"](_v, 62).ngClassPending; _ck(_v, 57, 0, currVal_21, currVal_22, currVal_23, currVal_24, currVal_25, currVal_26, currVal_27); var currVal_33 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinlineInterpolate"](1, "", ((_co.purchase.data.seller == null) ? null : _co.purchase.data.seller.url), ""); _ck(_v, 75, 0, currVal_33); var currVal_37 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinlineInterpolate"](1, "", _co.environment.APP_SITE_URL, "/#/purchase"); _ck(_v, 80, 0, currVal_37); var currVal_45 = ((_co.purchase.data.screeningEvent == null) ? null : ((_co.purchase.data.screeningEvent.coaInfo == null) ? null : _co.purchase.data.screeningEvent.coaInfo.availableNum)); _ck(_v, 101, 0, currVal_45); }); }
-function View_PurchaseSeatComponent_Host_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "app-purchase-seat", [], null, null, null, View_PurchaseSeatComponent_0, RenderType_PurchaseSeatComponent)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 4308992, null, 0, _purchase_seat_component__WEBPACK_IMPORTED_MODULE_19__["PurchaseSeatComponent"], [_services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_4__["PurchaseService"], _angular_router__WEBPACK_IMPORTED_MODULE_20__["Router"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["FormBuilder"], _services_sasaki_sasaki_service__WEBPACK_IMPORTED_MODULE_21__["SasakiService"], _services_error_error_service__WEBPACK_IMPORTED_MODULE_22__["ErrorService"], _services_user_user_service__WEBPACK_IMPORTED_MODULE_23__["UserService"], _angular_common_http__WEBPACK_IMPORTED_MODULE_24__["HttpClient"]], null, null)], function (_ck, _v) { _ck(_v, 1, 0); }, null); }
+function View_PurchaseSeatComponent_Host_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "app-purchase-seat", [], null, null, null, View_PurchaseSeatComponent_0, RenderType_PurchaseSeatComponent)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 114688, null, 0, _purchase_seat_component__WEBPACK_IMPORTED_MODULE_19__["PurchaseSeatComponent"], [_services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_4__["PurchaseService"], _angular_router__WEBPACK_IMPORTED_MODULE_20__["Router"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["FormBuilder"], _services_sasaki_sasaki_service__WEBPACK_IMPORTED_MODULE_21__["SasakiService"], _services_error_error_service__WEBPACK_IMPORTED_MODULE_22__["ErrorService"], _services_user_user_service__WEBPACK_IMPORTED_MODULE_23__["UserService"], _angular_common_http__WEBPACK_IMPORTED_MODULE_24__["HttpClient"]], null, null)], function (_ck, _v) { _ck(_v, 1, 0); }, null); }
 var PurchaseSeatComponentNgFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵccf"]("app-purchase-seat", _purchase_seat_component__WEBPACK_IMPORTED_MODULE_19__["PurchaseSeatComponent"], View_PurchaseSeatComponent_Host_0, {}, {}, []);
 
 
@@ -4251,6 +4251,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../../environments/environment */ "./environments/environment.ts");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../services */ "./app/services/index.ts");
+var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -4351,36 +4359,13 @@ var PurchaseSeatComponent = /** @class */ (function () {
             });
         });
     };
-    PurchaseSeatComponent.prototype.ngAfterViewInit = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, error_2;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 3, , 4]);
-                        if (!(this.purchase.data.salesTickets.length === 0)) return [3 /*break*/, 2];
-                        _a = this.purchase.data;
-                        return [4 /*yield*/, this.fitchSalesTickets()];
-                    case 1:
-                        _a.salesTickets = _b.sent();
-                        _b.label = 2;
-                    case 2: return [3 /*break*/, 4];
-                    case 3:
-                        error_2 = _b.sent();
-                        this.error.redirect(error_2);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
     /**
      * データ取得
      * @method getData
      */
     PurchaseSeatComponent.prototype.getData = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var DIGITS, theaterCode, screenCode, screen, setting, seatStatus;
+            var DIGITS, theaterCode, screenCode, screen, setting, hcseatCodes, hcSeatCode, seatStatus;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -4396,8 +4381,12 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.http.get('/json/theater/setting.json').toPromise()];
                     case 2:
                         setting = _a.sent();
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.http.get('/json/theater/hcSeatCodes.json').toPromise()];
                     case 3:
+                        hcseatCodes = _a.sent();
+                        hcSeatCode = hcseatCodes.find(function (h) { return h.theaterCode === theaterCode; });
+                        return [4 /*yield*/, this.sasaki.getServices()];
+                    case 4:
                         _a.sent();
                         return [4 /*yield*/, this.sasaki.getSeatState({
                                 theaterCode: params.theaterCode,
@@ -4407,26 +4396,17 @@ var PurchaseSeatComponent = /** @class */ (function () {
                                 timeBegin: params.timeBegin,
                                 screenCode: params.screenCode
                             })];
-                    case 4:
+                    case 5:
                         seatStatus = _a.sent();
                         // seatStatus = (<any>{ listSeat: [] });
                         // スクリーンデータをマージ
                         return [2 /*return*/, {
-                                screen: Object.assign(setting, screen),
+                                screen: __assign({ theaterCode: theaterCode, screenCode: screenCode }, setting, screen, { hcSeatCode: (hcSeatCode === undefined) ? setting.hcSeatCode : hcSeatCode }),
                                 status: seatStatus
                             }];
                 }
             });
         });
-    };
-    /**
-     * スクリーン読み込み完了
-     * @method loadScreen
-     * @param {ISeat[]} seats
-     */
-    PurchaseSeatComponent.prototype.loadScreen = function (seats) {
-        this.isLoading = false;
-        this.seats = seats;
     };
     /**
      * 販売可能チケット情報取得
@@ -4471,7 +4451,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
      */
     PurchaseSeatComponent.prototype.onSubmit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, offers, error_3;
+            var _a, offers, error_2;
             var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -4528,8 +4508,8 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         this.router.navigate(['/purchase/ticket']);
                         return [3 /*break*/, 6];
                     case 5:
-                        error_3 = _b.sent();
-                        this.error.redirect(error_3);
+                        error_2 = _b.sent();
+                        this.error.redirect(error_2);
                         return [2 /*return*/];
                     case 6: return [2 /*return*/];
                 }
@@ -7065,10 +7045,15 @@ var ScreenComponent = /** @class */ (function () {
                     var label_1 = (data.screen.seatNumberAlign === 'left')
                         ? "" + labels[labelCount] + String(x + 1)
                         : "" + labels[labelCount] + String(screenData.map[y].length - x);
-                    var code_1 = (screenData.hc.indexOf(label_1) !== -1) ? "\u8ECA\u6905\u5B50" + (screenData.hc.indexOf(label_1) + 1)
-                        : (data.screen.seatNumberAlign === 'left')
-                            ? toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(x + 1))
-                            : toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(screenData.map[y].length - x));
+                    var code_1 = (data.screen.seatNumberAlign === 'left')
+                        ? toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(x + 1))
+                        : toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(screenData.map[y].length - x));
+                    if (screenData.hc.indexOf(label_1) !== -1) {
+                        // 車椅子席座席番号設定
+                        code_1 = (screenData.hc.length === 1)
+                            ? screenData.hcSeatCode.single
+                            : screenData.hcSeatCode.multiple[screenData.hc.indexOf(label_1)];
+                    }
                     var seatSize_1 = { w: screenData.seatSize.w, h: screenData.seatSize.h };
                     var seatPosition_1 = { x: pos.x, y: pos.y };
                     var className_1 = "seat-" + label_1 + " seat-" + label_1.slice(0, 1);
