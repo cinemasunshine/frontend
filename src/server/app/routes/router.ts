@@ -2,8 +2,10 @@
  * ルーティング
  */
 import { Application, NextFunction, Request, Response } from 'express';
+import * as moment from 'moment';
 import * as path from 'path';
 import { signInRedirect } from '../controllers/authorize/authorize.controller';
+import { getTemplate } from '../controllers/mail/mail.controller';
 import authorizeRouter from './authorize';
 import inquiryRouter from './inquiry';
 import masterRouter from './master';
@@ -42,6 +44,8 @@ export default (app: Application) => {
     app.use('/api/purchase', purchaseRouter);
     app.use('/api/master', masterRouter);
     app.use('/api/authorize', authorizeRouter);
+    app.post('/api/mail/template', getTemplate);
+    app.get('/api/serverTime', (_req, res) => { res.json({ date: moment().toISOString() }); });
     app.use('/inquiry', inquiryRouter);
     app.use('/method', methodRouter);
     app.get('/purchase/transaction', purchaseTransaction);
