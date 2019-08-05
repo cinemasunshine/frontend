@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.13.0 - 2019-08-05
+### Changed
+- 取引期限をサーバータイムから算出へ変更
+- アプリ仮予約確認を表示するように変更
+### Fixed
+- アプリで座席選択から戻る際にエラー表示にならないよう改修
+
 ## 5.12.2 - 2019-07-17
 ### Fixed
 - 30時間表記の場合の日付ずれ修正
