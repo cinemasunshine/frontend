@@ -111,10 +111,10 @@ export class PurchaseTransactionComponent implements OnInit {
                 // 取引期限切れなら購入情報削除
                 this.purchase.reset();
             }
-            if (this.user.isNative()) {
-                // アプリなら購入情報削除
-                this.purchase.reset();
-            }
+            // if (this.user.isNative()) {
+            //     // アプリなら購入情報削除
+            //     this.purchase.reset();
+            // }
             if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
                 // 重複確認へ
                 this.storage.save('screeningEvent', screeningEvent, SaveType.Session);

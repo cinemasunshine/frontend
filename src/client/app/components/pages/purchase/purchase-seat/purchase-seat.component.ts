@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as COA from '@motionpicture/coa-service';
@@ -19,7 +19,7 @@ import {
     templateUrl: './purchase-seat.component.html',
     styleUrls: ['./purchase-seat.component.scss']
 })
-export class PurchaseSeatComponent implements OnInit, AfterViewInit {
+export class PurchaseSeatComponent implements OnInit {
     public isLoading: boolean;
     public seatForm: FormGroup;
     public notSelectSeatModal: boolean;
@@ -78,16 +78,6 @@ export class PurchaseSeatComponent implements OnInit, AfterViewInit {
             this.error.redirect(error);
 
             return;
-        }
-    }
-
-    public async ngAfterViewInit() {
-        try {
-            if (this.purchase.data.salesTickets.length === 0) {
-                this.purchase.data.salesTickets = await this.fitchSalesTickets();
-            }
-        } catch (error) {
-            this.error.redirect(error);
         }
     }
 

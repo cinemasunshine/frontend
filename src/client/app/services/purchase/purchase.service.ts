@@ -11,6 +11,7 @@ import { CallNativeService } from '../call-native/call-native.service';
 import { SasakiService } from '../sasaki/sasaki.service';
 import { SaveType, StorageService } from '../storage/storage.service';
 import { UserService } from '../user/user.service';
+import { UtilService } from '../util/util.service';
 
 declare const ga: Function;
 
@@ -129,7 +130,8 @@ export class PurchaseService {
         private sasaki: SasakiService,
         private awsCognito: AwsCognitoService,
         private callNative: CallNativeService,
-        private user: UserService
+        private userService: UserService,
+        private utilService: UtilService
     ) {
         this.load();
     }
@@ -605,8 +607,9 @@ export class PurchaseService {
         this.data.seller = searchResult.data[0];
         this.save();
         await this.sasaki.getServices();
+        const now = (await this.utilService.getServerTime()).date;
         // 取引期限
-        const expires = moment().add(environment.TRANSACTION_TIME, 'minutes').toDate();
+        const expires = moment(now).add(environment.TRANSACTION_TIME, 'minutes').toDate();
         // 取引開始
         this.data.transaction = await this.sasaki.transaction.placeOrder.start({
             expires: expires,
@@ -735,7 +738,7 @@ export class PurchaseService {
             id: this.data.transaction.id,
             object: { customerContact }
         });
-        if (this.user.isNative() && !this.user.isMember()) {
+        if (this.userService.isNative() && !this.userService.isMember()) {
             try {
                 const updateRecordsArgs = {
                     datasetName: 'profile',
@@ -826,7 +829,7 @@ export class PurchaseService {
      */
     public async incentiveProcess() {
         if (this.data.transaction === undefined
-            || this.user.data.account === undefined) {
+            || this.userService.data.account === undefined) {
             throw new Error('status is different');
         }
         await this.sasaki.getServices();
@@ -837,7 +840,7 @@ export class PurchaseService {
             },
             object: {
                 amount: Incentive.WatchingMovies,
-                toAccountNumber: this.user.data.account.typeOfGood.accountNumber,
+                toAccountNumber: this.userService.data.account.typeOfGood.accountNumber,
                 notes: '鑑賞'
             }
         });
@@ -849,7 +852,7 @@ export class PurchaseService {
      */
     public async pointPaymentProcess() {
         if (this.data.transaction === undefined
-            || this.user.data.account === undefined
+            || this.userService.data.account === undefined
             || this.data.seatReservationAuthorization === undefined) {
             throw new Error('status is different');
         }
@@ -873,7 +876,7 @@ export class PurchaseService {
             object: {
                 typeOf: factory.paymentMethodType.Account,
                 amount: usePoint,
-                fromAccount: this.user.data.account.typeOfGood,
+                fromAccount: this.userService.data.account.typeOfGood,
                 notes
             },
             purpose: {
@@ -932,7 +935,7 @@ export class PurchaseService {
                         sender: {
                             email: 'noreply@ticket-cinemasunshine.com'
                         },
-                        template: (this.user.isMember())
+                        template: (this.userService.isMember())
                             ? getPurchaseCompletionAppEmail({
                                 seller, screeningEvent, customerContact, seatReservationAuthorization, userName
                             })
@@ -968,7 +971,7 @@ export class PurchaseService {
             console.error(err);
         }
 
-        if (this.user.isNative() && !this.user.isMember()) {
+        if (this.userService.isNative() && !this.userService.isMember()) {
             // アプリ非会員ならCognitoへ登録
             try {
                 const reservationRecord = await this.awsCognito.getRecords({
@@ -999,7 +1002,7 @@ export class PurchaseService {
             }
         }
         // プッシュ通知登録
-        if (this.user.isNative()) {
+        if (this.userService.isNative()) {
             try {
                 const itemOffered = order.acceptedOffers[0].itemOffered;
                 if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {

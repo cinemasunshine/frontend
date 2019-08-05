@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const moment = require("moment");
 const path = require("path");
 const authorize_controller_1 = require("../controllers/authorize/authorize.controller");
+const mail_controller_1 = require("../controllers/mail/mail.controller");
 const authorize_1 = require("./authorize");
 const inquiry_1 = require("./inquiry");
 const master_1 = require("./master");
@@ -34,6 +36,8 @@ exports.default = (app) => {
     app.use('/api/purchase', purchase_1.default);
     app.use('/api/master', master_1.default);
     app.use('/api/authorize', authorize_1.default);
+    app.post('/api/mail/template', mail_controller_1.getTemplate);
+    app.get('/api/serverTime', (_req, res) => { res.json({ date: moment().toISOString() }); });
     app.use('/inquiry', inquiry_1.default);
     app.use('/method', method_1.default);
     app.get('/purchase/transaction', purchaseTransaction);
