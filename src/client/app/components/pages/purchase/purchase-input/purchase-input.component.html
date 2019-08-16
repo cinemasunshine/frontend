@@ -69,7 +69,7 @@
                 <dt>メールアドレス確認</dt>
                 <dd>
                     <input
-                        [class.validation]="inputForm.controls['emailConfirm'].invalid && inputForm.controls['emailConfirm'].touched"
+                        [class.validation]="(inputForm.controls['emailConfirm'].invalid && inputForm.controls['emailConfirm'].touched) || (inputForm.controls['email'].touched && inputForm.controls['emailConfirm'].touched && (inputForm.controls['email'].value !== inputForm.controls['emailConfirm'].value))"
                         type="email" formControlName="emailConfirm" placeholder="(例)cinema@cinemasunshine.co.jp">
                     <div
                         *ngIf="inputForm.controls['emailConfirm'].invalid && inputForm.controls['emailConfirm'].touched">
