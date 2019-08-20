@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.13.2 - 2019-08-20
+###  Changed
+- jqueryをcdnから変更
+### Fixed
+- 仮予約確認での取引削除不具合修正
+- メールアドレス入力不具合修正
+
 ## 5.13.1 - 2019-08-05
 ### Fixed
 - 購入完了メール文言修正
