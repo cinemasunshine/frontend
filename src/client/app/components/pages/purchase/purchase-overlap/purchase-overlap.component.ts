@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../../environments/environment';
+import { object2query } from '../../../../functions';
 import { TimeFormatPipe } from '../../../../pipes/time-format/time-format.pipe';
 import { ErrorService, PurchaseService, SaveType, StorageService } from '../../../../services';
 
@@ -12,6 +13,8 @@ import { ErrorService, PurchaseService, SaveType, StorageService } from '../../.
     styleUrls: ['./purchase-overlap.component.scss']
 })
 export class PurchaseOverlapComponent implements OnInit {
+    public isLoading: boolean;
+    public disable: boolean;
     public screeningEvent: factory.chevre.event.screeningEvent.IEvent;
 
     constructor(
@@ -23,6 +26,8 @@ export class PurchaseOverlapComponent implements OnInit {
 
     public async ngOnInit() {
         window.scrollTo(0, 0);
+        this.isLoading = false;
+        this.disable = false;
         try {
             // イベント情報取得
             this.screeningEvent = <factory.chevre.event.screeningEvent.IEvent>this.storage.load('screeningEvent', SaveType.Session);
@@ -45,6 +50,11 @@ export class PurchaseOverlapComponent implements OnInit {
      * 新しい取引へ
      */
     public async newTransaction() {
+        if (this.disable) {
+            return;
+        }
+        this.isLoading = true;
+        this.disable = true;
         try {
             await this.purchase.cancelSeatRegistrationProcess();
         } catch (err) {
@@ -54,15 +64,7 @@ export class PurchaseOverlapComponent implements OnInit {
         const params = this.storage.load('parameters', SaveType.Session);
         params.passportToken = undefined;
         params.signInRedirect = false;
-        let query = '';
-        for (let i = 0; i < Object.keys(params).length; i++) {
-            const key = Object.keys(params)[i];
-            const value = (<any>params)[key];
-            if (i > 0) {
-                query += '&';
-            }
-            query += `${key}=${value}`;
-        }
+        const query = object2query(params);
         location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?${query}`;
     }
 

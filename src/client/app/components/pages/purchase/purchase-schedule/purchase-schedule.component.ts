@@ -56,7 +56,7 @@ export class PurchaseScheduleComponent implements OnInit {
             const searchResult = await this.sasaki.seller.search({});
             this.theaters = searchResult.data;
             this.dateList = this.getDateList(3);
-            const theater = this.theaters[0];
+            const theater = this.theaters[this.theaters.length - 1];
             if (theater.location === undefined
                 || theater.location.branchCode === undefined) {
                 throw new Error('branchCode is undefined');
