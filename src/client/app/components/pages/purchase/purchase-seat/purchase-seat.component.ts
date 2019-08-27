@@ -183,10 +183,30 @@ export class PurchaseSeatComponent implements OnInit {
 
             return;
         }
+
         try {
+            // 券種取得
             if (this.purchase.data.salesTickets.length === 0) {
                 this.purchase.data.salesTickets = await this.fitchSalesTickets();
             }
+        } catch (error) {
+            this.error.redirect(error);
+
+            return;
+        }
+
+        try {
+            // 座席取り消し
+            if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
+                await this.purchase.cancelSeatRegistrationProcess();
+            }
+        } catch (error) {
+            this.error.redirect(error);
+
+            return;
+        }
+
+        try {
             const offers = this.seats.map((seat) => {
                 const salesTicket = (<ISalesTicketResult[]>this.purchase.data.salesTickets)[0];
 
@@ -210,12 +230,9 @@ export class PurchaseSeatComponent implements OnInit {
             await this.purchase.seatRegistrationProcess(offers);
             this.router.navigate(['/purchase/ticket']);
         } catch (error) {
-            this.error.redirect(error);
-
-            return;
-            // this.seatRegistrationErrorModal = true;
-            // this.isLoading = false;
-            // this.disable = false;
+            this.seatRegistrationErrorModal = true;
+            this.isLoading = false;
+            this.disable = false;
         }
     }
 
