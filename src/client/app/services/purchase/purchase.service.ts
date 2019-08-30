@@ -4,7 +4,7 @@ import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../environments/environment';
-import { convertToKatakana, getPurchaseCompletionAppEmail, getPurchaseCompletionEmail } from '../../functions';
+import { convertToKatakana, getPurchaseCompletionEmail, getPurchaseCompletionMemberEmail } from '../../functions';
 import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
 import { AwsCognitoService } from '../aws-cognito/aws-cognito.service';
 import { CallNativeService } from '../call-native/call-native.service';
@@ -936,7 +936,7 @@ export class PurchaseService {
                             email: 'noreply@ticket-cinemasunshine.com'
                         },
                         template: (this.userService.isMember())
-                            ? getPurchaseCompletionAppEmail({
+                            ? getPurchaseCompletionMemberEmail({
                                 seller, screeningEvent, customerContact, seatReservationAuthorization, userName
                             })
                             : getPurchaseCompletionEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization })

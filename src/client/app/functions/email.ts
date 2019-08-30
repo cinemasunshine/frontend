@@ -65,9 +65,9 @@ export function getPurchaseCompletionEmail(params: {
 }
 
 /**
- * 購入完了メール(スマホアプリ)取得
+ * 購入完了メール会員版取得
  */
-export function getPurchaseCompletionAppEmail(params: {
+export function getPurchaseCompletionMemberEmail(params: {
     screeningEvent: factory.chevre.event.screeningEvent.IEvent;
     seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
     seatReservationAuthorization: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>;

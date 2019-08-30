@@ -27,10 +27,11 @@ class Auth2Model {
         // `${resourceServerUrl}/people.creditCards`,
         // `${resourceServerUrl}/people.ownershipInfos.read-only`
         ];
-        this.clientId = (args.clientId === undefined) ? args.session.clientId : args.clientId;
+        const clientId = (args.clientId === undefined && args.session !== undefined)
+            ? args.session.clientId : args.clientId;
         this.credentials = (args.session === undefined) ? undefined : args.session.credentials;
         const clientList = JSON.parse(process.env.CLIENT_OAUTH2_LIST);
-        const findResult = clientList.find(client => client.id === this.clientId);
+        const findResult = clientList.find(client => client.id === clientId);
         this.clientId = (findResult === undefined) ? clientList[0].id : findResult.id;
         this.clientSecret = (findResult === undefined) ? clientList[0].secret : findResult.secret;
         this.state = Auth2Model.STATE;
