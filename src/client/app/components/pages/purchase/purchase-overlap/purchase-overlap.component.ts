@@ -56,10 +56,14 @@ export class PurchaseOverlapComponent implements OnInit {
         this.isLoading = true;
         this.disable = true;
         try {
-            await this.purchase.cancelSeatRegistrationProcess();
-        } catch (err) {
-            console.error(err);
+            // 座席取り消し
+            if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
+                await this.purchase.cancelSeatRegistrationProcess();
+            }
+        } catch (error) {
+            console.error(error);
         }
+        this.purchase.reset();
         this.storage.remove('screeningEvent', SaveType.Session);
         const params = this.storage.load('parameters', SaveType.Session);
         params.passportToken = undefined;

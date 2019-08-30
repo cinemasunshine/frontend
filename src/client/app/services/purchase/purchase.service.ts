@@ -636,7 +636,7 @@ export class PurchaseService {
             purpose: this.data.tmpSeatReservationAuthorization.purpose
         });
         this.data.tmpSeatReservationAuthorization = undefined;
-        this.reset();
+        this.save();
     }
 
     /**
