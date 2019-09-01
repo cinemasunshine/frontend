@@ -26,9 +26,7 @@
         [4, 1, 1, 1, 1, 6, 0, 0, 0, 0, 0, 0, 0],
         [4, 1, 1, 1, 1, 6, 0, 0, 0, 0, 0, 0, 0]
     ],
-    "special": [],
     "hc": ["A10", "A11"],
-    "pair": [],
     "seatNumberAlign": "right",
     "style": "<style>.line-object{ left: 200px !important; }</style>"
 }

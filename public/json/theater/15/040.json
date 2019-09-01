@@ -27,8 +27,6 @@
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
-    "special": [],
     "hc": ["A9", "A10"],
-    "pair": [],
     "style": "<style>.seat-A9 { left: 698px !important; }.seat-A10 { left: 742px !important; }</style>"
 }

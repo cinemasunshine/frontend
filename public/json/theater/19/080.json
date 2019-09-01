@@ -38,9 +38,7 @@
         [1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1]
     ],
-    "special": [],
     "hc": ["F2", "F28"],
-    "pair": [],
     "seatNumberAlign": "right",
     "style": "<style>.line-object-6, .line-object-7, .line-object-8, .line-object-9, .line-object-10, .line-object-11, .line-object-12{ left: 271px !important; }.seat-F28{top: 690px !important;left: 274px !important;} .seat-F2{top: 690px !important;left: 1378px !important;}</style>"
 }

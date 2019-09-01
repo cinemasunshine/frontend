@@ -31,8 +31,6 @@
         [0, 0, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
-    "special": [],
     "hc": ["E2"],
-    "pair": [],
     "style": "<style>.line-object { left: 230px !important; }</style>"
 }
