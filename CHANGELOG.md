@@ -14,8 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.14.0 - 2019-08-30
+### Changed
+- 座席重複時のエラーハンドリング変更
+
 ## 5.13.2 - 2019-08-20
-###  Changed
+### Changed
 - jqueryをcdnから変更
 ### Fixed
 - 仮予約確認での取引削除不具合修正

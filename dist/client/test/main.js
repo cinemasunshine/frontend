@@ -3424,7 +3424,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
      */
     PurchaseOverlapComponent.prototype.newTransaction = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var err_1, params, query;
+            var error_1, params, query;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3435,16 +3435,19 @@ var PurchaseOverlapComponent = /** @class */ (function () {
                         this.disable = true;
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 4, , 5]);
+                        if (!(this.purchase.data.tmpSeatReservationAuthorization !== undefined)) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.purchase.cancelSeatRegistrationProcess()];
                     case 2:
                         _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        err_1 = _a.sent();
-                        console.error(err_1);
-                        return [3 /*break*/, 4];
+                        _a.label = 3;
+                    case 3: return [3 /*break*/, 5];
                     case 4:
+                        error_1 = _a.sent();
+                        console.error(error_1);
+                        return [3 /*break*/, 5];
+                    case 5:
+                        this.purchase.reset();
                         this.storage.remove('screeningEvent', _services__WEBPACK_IMPORTED_MODULE_6__["SaveType"].Session);
                         params = this.storage.load('parameters', _services__WEBPACK_IMPORTED_MODULE_6__["SaveType"].Session);
                         params.passportToken = undefined;
@@ -4455,7 +4458,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
      */
     PurchaseSeatComponent.prototype.onSubmit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, offers, error_2;
+            var _a, error_2, error_3, offers, error_4;
             var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -4479,14 +4482,32 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         }
                         _b.label = 1;
                     case 1:
-                        _b.trys.push([1, 5, , 6]);
+                        _b.trys.push([1, 4, , 5]);
                         if (!(this.purchase.data.salesTickets.length === 0)) return [3 /*break*/, 3];
                         _a = this.purchase.data;
                         return [4 /*yield*/, this.fitchSalesTickets()];
                     case 2:
                         _a.salesTickets = _b.sent();
                         _b.label = 3;
-                    case 3:
+                    case 3: return [3 /*break*/, 5];
+                    case 4:
+                        error_2 = _b.sent();
+                        this.error.redirect(error_2);
+                        return [2 /*return*/];
+                    case 5:
+                        _b.trys.push([5, 8, , 9]);
+                        if (!(this.purchase.data.tmpSeatReservationAuthorization !== undefined)) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.purchase.cancelSeatRegistrationProcess()];
+                    case 6:
+                        _b.sent();
+                        _b.label = 7;
+                    case 7: return [3 /*break*/, 9];
+                    case 8:
+                        error_3 = _b.sent();
+                        this.error.redirect(error_3);
+                        return [2 /*return*/];
+                    case 9:
+                        _b.trys.push([9, 11, , 12]);
                         offers = this.seats.map(function (seat) {
                             var salesTicket = _this.purchase.data.salesTickets[0];
                             return {
@@ -4507,15 +4528,17 @@ var PurchaseSeatComponent = /** @class */ (function () {
                             };
                         });
                         return [4 /*yield*/, this.purchase.seatRegistrationProcess(offers)];
-                    case 4:
+                    case 10:
                         _b.sent();
                         this.router.navigate(['/purchase/ticket']);
-                        return [3 /*break*/, 6];
-                    case 5:
-                        error_2 = _b.sent();
-                        this.error.redirect(error_2);
-                        return [2 /*return*/];
-                    case 6: return [2 /*return*/];
+                        return [3 /*break*/, 12];
+                    case 11:
+                        error_4 = _b.sent();
+                        this.seatRegistrationErrorModal = true;
+                        this.isLoading = false;
+                        this.disable = false;
+                        return [3 /*break*/, 12];
+                    case 12: return [2 /*return*/];
                 }
             });
         });
@@ -9034,7 +9057,7 @@ var PurchaseService = /** @class */ (function () {
                     case 2:
                         _a.sent();
                         this.data.tmpSeatReservationAuthorization = undefined;
-                        this.reset();
+                        this.save();
                         return [2 /*return*/];
                 }
             });
