@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.15.0 - 2019-09-03
+### Changed
+ - ポータルから会員購入対応
+
 ## 5.14.0 - 2019-08-30
 ### Changed
 - 座席重複時のエラーハンドリング変更

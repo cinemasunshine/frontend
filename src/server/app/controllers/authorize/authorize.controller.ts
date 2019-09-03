@@ -78,7 +78,7 @@ export async function getCredentials(req: Request, res: Response) {
  */
 export async function signIn(req: Request, res: Response) {
     log('signIn', req.body.clientId);
-    if (req.session === undefined || req.body.clientId === undefined) {
+    if (req.session === undefined) {
         res.status(400);
         res.json();
         return;
