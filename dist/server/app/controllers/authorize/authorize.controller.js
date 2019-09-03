@@ -86,7 +86,7 @@ exports.getCredentials = getCredentials;
 function signIn(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         log('signIn', req.body.clientId);
-        if (req.session === undefined || req.body.clientId === undefined) {
+        if (req.session === undefined) {
             res.status(400);
             res.json();
             return;
