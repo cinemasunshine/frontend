@@ -12,7 +12,7 @@ export interface IObject extends ISize, IPosition {
     image: string;
 }
 
-export interface IScreen {
+export interface IScreenConfig {
     type: number;
     size: ISize;
     objects: IObject[];

@@ -10,7 +10,7 @@
         <span class="small-x-text">※車椅子席をご希望の方は、お手数ですが通常のお席をご購入の上、対象の劇場にご連絡ください。</span>
     </p>
     <div class="mb-middle">
-        <app-screen *ngIf="screenData" [screen]="screenData.screen" [status]="screenData.status"
+        <app-screen *ngIf="screenData" [screenConfig]="screenData.screenConfig" [screen]="screenData.screen" [status]="screenData.status"
             (select)="seatSelect($event)" (alert)="seatSelectionAlert()">
             <app-seat-info type="{{ purchase.data.screeningEvent?.superEvent.coaInfo?.kbnJoueihousiki?.kubunCode }}">
             </app-seat-info>

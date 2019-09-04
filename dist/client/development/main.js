@@ -4185,7 +4185,7 @@ function View_PurchaseSeatComponent_1(_l) { return _angular_core__WEBPACK_IMPORT
     } if (("alert" === en)) {
         var pd_1 = (_co.seatSelectionAlert() !== false);
         ad = (pd_1 && ad);
-    } return ad; }, _parts_screen_screen_component_ngfactory__WEBPACK_IMPORTED_MODULE_2__["View_ScreenComponent_0"], _parts_screen_screen_component_ngfactory__WEBPACK_IMPORTED_MODULE_2__["RenderType_ScreenComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 4308992, null, 0, _parts_screen_screen_component__WEBPACK_IMPORTED_MODULE_3__["ScreenComponent"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], _services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_4__["PurchaseService"]], { screen: [0, "screen"], status: [1, "status"] }, { select: "select", alert: "alert" }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](2, 0, null, 0, 1, "app-seat-info", [], null, null, null, _parts_seat_info_seat_info_component_ngfactory__WEBPACK_IMPORTED_MODULE_5__["View_SeatInfoComponent_0"], _parts_seat_info_seat_info_component_ngfactory__WEBPACK_IMPORTED_MODULE_5__["RenderType_SeatInfoComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](3, 114688, null, 0, _parts_seat_info_seat_info_component__WEBPACK_IMPORTED_MODULE_6__["SeatInfoComponent"], [], { type: [0, "type"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.screenData.screen; var currVal_1 = _co.screenData.status; _ck(_v, 1, 0, currVal_0, currVal_1); var currVal_2 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinlineInterpolate"](1, "", ((_co.purchase.data.screeningEvent == null) ? null : ((_co.purchase.data.screeningEvent.superEvent.coaInfo == null) ? null : ((_co.purchase.data.screeningEvent.superEvent.coaInfo.kbnJoueihousiki == null) ? null : _co.purchase.data.screeningEvent.superEvent.coaInfo.kbnJoueihousiki.kubunCode))), ""); _ck(_v, 3, 0, currVal_2); }, null); }
+    } return ad; }, _parts_screen_screen_component_ngfactory__WEBPACK_IMPORTED_MODULE_2__["View_ScreenComponent_0"], _parts_screen_screen_component_ngfactory__WEBPACK_IMPORTED_MODULE_2__["RenderType_ScreenComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 4308992, null, 0, _parts_screen_screen_component__WEBPACK_IMPORTED_MODULE_3__["ScreenComponent"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], _services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_4__["PurchaseService"]], { screenConfig: [0, "screenConfig"], status: [1, "status"], screen: [2, "screen"] }, { select: "select", alert: "alert" }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](2, 0, null, 0, 1, "app-seat-info", [], null, null, null, _parts_seat_info_seat_info_component_ngfactory__WEBPACK_IMPORTED_MODULE_5__["View_SeatInfoComponent_0"], _parts_seat_info_seat_info_component_ngfactory__WEBPACK_IMPORTED_MODULE_5__["RenderType_SeatInfoComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](3, 114688, null, 0, _parts_seat_info_seat_info_component__WEBPACK_IMPORTED_MODULE_6__["SeatInfoComponent"], [], { type: [0, "type"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.screenData.screenConfig; var currVal_1 = _co.screenData.status; var currVal_2 = _co.screenData.screen; _ck(_v, 1, 0, currVal_0, currVal_1, currVal_2); var currVal_3 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinlineInterpolate"](1, "", ((_co.purchase.data.screeningEvent == null) ? null : ((_co.purchase.data.screeningEvent.superEvent.coaInfo == null) ? null : ((_co.purchase.data.screeningEvent.superEvent.coaInfo.kbnJoueihousiki == null) ? null : _co.purchase.data.screeningEvent.superEvent.coaInfo.kbnJoueihousiki.kubunCode))), ""); _ck(_v, 3, 0, currVal_3); }, null); }
 function View_PurchaseSeatComponent_2(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 8, "li", [["class", "seat-grand-class"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](1, 0, null, null, 7, "div", [["class", "seat-type-inner"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](2, 0, null, null, 1, "div", [["class", "image"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](3, 0, null, null, 0, "img", [["src", "/images/theater/seat/grand-class.svg"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](4, 0, null, null, 4, "div", [["class", "text"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](5, 0, null, null, 3, "p", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30B0\u30E9\u30F3\u30C9\u30AF\u30E9\u30B9"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](7, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["+\uFFE53,000"]))], null, null); }
 function View_PurchaseSeatComponent_3(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 8, "li", [["class", "seat-premium-class"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](1, 0, null, null, 7, "div", [["class", "seat-type-inner"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](2, 0, null, null, 1, "div", [["class", "image"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](3, 0, null, null, 0, "img", [["src", "/images/theater/seat/premium-class.svg"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](4, 0, null, null, 4, "div", [["class", "text"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](5, 0, null, null, 3, "p", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30D7\u30EC\u30DF\u30A2\u30E0\u30AF\u30E9\u30B9"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](7, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["+\uFFE51,500"]))], null, null); }
 function View_PurchaseSeatComponent_4(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 6, "li", [["class", "seat-comfort"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](1, 0, null, null, 5, "div", [["class", "seat-type-inner"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](2, 0, null, null, 1, "div", [["class", "image"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](3, 0, null, null, 0, "img", [["src", "/images/theater/seat/comfort.svg"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](4, 0, null, null, 2, "div", [["class", "text"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](5, 0, null, null, 1, "p", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30D5\u30E9\u30C3\u30C8\u30B7\u30FC\u30C8"]))], null, null); }
@@ -4367,19 +4367,16 @@ var PurchaseSeatComponent = /** @class */ (function () {
      */
     PurchaseSeatComponent.prototype.getData = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var DIGITS, theaterCode, screenCode, screen, setting, seatStatus;
+            var DIGITS, theaterCode, screenCode, screenConfig, setting, status, screens, screen;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        DIGITS = {
-                            '02': -2,
-                            '03': -3
-                        };
+                        DIGITS = { '02': -2, '03': -3 };
                         theaterCode = ("00" + params.theaterCode).slice(DIGITS['02']);
                         screenCode = ("000" + params.screenCode).slice(DIGITS['03']);
                         return [4 /*yield*/, this.http.get("/json/theater/" + theaterCode + "/" + screenCode + ".json").toPromise()];
                     case 1:
-                        screen = _a.sent();
+                        screenConfig = _a.sent();
                         return [4 /*yield*/, this.http.get('/json/theater/setting.json').toPromise()];
                     case 2:
                         setting = _a.sent();
@@ -4395,12 +4392,21 @@ var PurchaseSeatComponent = /** @class */ (function () {
                                 screenCode: params.screenCode
                             })];
                     case 4:
-                        seatStatus = _a.sent();
-                        // seatStatus = (<any>{ listSeat: [] });
+                        status = _a.sent();
+                        return [4 /*yield*/, this.sasaki.getScreens({
+                                theaterCode: params.theaterCode
+                            })];
+                    case 5:
+                        screens = _a.sent();
+                        screen = screens.find(function (s) { return s.screenCode === params.screenCode; });
+                        if (screen === undefined) {
+                            throw new Error('screen notfound');
+                        }
                         // スクリーンデータをマージ
                         return [2 /*return*/, {
-                                screen: Object.assign(setting, screen),
-                                status: seatStatus
+                                screenConfig: Object.assign(setting, screenConfig),
+                                status: status,
+                                screen: screen
                             }];
                 }
             });
@@ -4562,7 +4568,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
         if (this.screenData === undefined) {
             return false;
         }
-        var findSpecialSeatsResult = this.screenData.screen.specialSeats.find(function (s) { return s.name === seatType; });
+        var findSpecialSeatsResult = this.screenData.screenConfig.specialSeats.find(function (s) { return s.name === seatType; });
         return (findSpecialSeatsResult !== undefined && findSpecialSeatsResult.data.length > 0);
     };
     return PurchaseSeatComponent;
@@ -6778,8 +6784,8 @@ function View_ScreenComponent_5(_l) { return _angular_core__WEBPACK_IMPORTED_MOD
 function View_ScreenComponent_1(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 13, "div", [["class", "screen-scroll"]], null, null, null, null, null)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgStyle"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["KeyValueDiffers"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer2"]], { ngStyle: [0, "ngStyle"] }, null), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵpod"](2, { "height.px": 0, "transform-origin": 1, "transform": 2 }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](3, 0, null, null, 10, "div", [], [[8, "className", 0]], [[null, "click"]], function (_v, en, $event) { var ad = true; var _co = _v.component; if (("click" === en)) {
         var pd_0 = (_co.scaleUp($event) !== false);
         ad = (pd_0 && ad);
-    } return ad; }, null, null)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](4, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgStyle"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["KeyValueDiffers"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer2"]], { ngStyle: [0, "ngStyle"] }, null), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵpod"](5, { "width.px": 0, "height.px": 1 }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_2)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](7, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_3)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](9, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_4)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](11, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_5)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](13, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = _ck(_v, 2, 0, _co.height, _co.origin, (("scale(" + _co.scale) + ")")); _ck(_v, 1, 0, currVal_0); var currVal_2 = _ck(_v, 5, 0, _co.data.screen.size.w, _co.data.screen.size.h); _ck(_v, 4, 0, currVal_2); var currVal_3 = _co.data.objects; _ck(_v, 7, 0, currVal_3); var currVal_4 = _co.data.columnLabels; _ck(_v, 9, 0, currVal_4); var currVal_5 = _co.data.lineLabels; _ck(_v, 11, 0, currVal_5); var currVal_6 = _co.data.seats; _ck(_v, 13, 0, currVal_6); }, function (_ck, _v) { var _co = _v.component; var currVal_1 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinlineInterpolate"](1, "screen-inner ", _co.data.screenType, ""); _ck(_v, 3, 0, currVal_1); }); }
-function View_ScreenComponent_6(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "div", [], [[8, "className", 0]], null, null, null, null)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵncd"](null, 0)], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinlineInterpolate"](1, "", _co.data.screenType, ""); _ck(_v, 0, 0, currVal_0); }); }
+    } return ad; }, null, null)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](4, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgStyle"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["KeyValueDiffers"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer2"]], { ngStyle: [0, "ngStyle"] }, null), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵpod"](5, { "width.px": 0, "height.px": 1 }), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_2)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](7, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_3)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](9, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_4)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](11, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_5)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](13, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], { ngForOf: [0, "ngForOf"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = _ck(_v, 2, 0, _co.height, _co.origin, (("scale(" + _co.scale) + ")")); _ck(_v, 1, 0, currVal_0); var currVal_2 = _ck(_v, 5, 0, _co.data.screenConfig.size.w, _co.data.screenConfig.size.h); _ck(_v, 4, 0, currVal_2); var currVal_3 = _co.data.objects; _ck(_v, 7, 0, currVal_3); var currVal_4 = _co.data.columnLabels; _ck(_v, 9, 0, currVal_4); var currVal_5 = _co.data.lineLabels; _ck(_v, 11, 0, currVal_5); var currVal_6 = _co.data.seats; _ck(_v, 13, 0, currVal_6); }, function (_ck, _v) { var _co = _v.component; var currVal_1 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinlineInterpolate"](1, "screen-inner ", _co.data.screenConfigType, ""); _ck(_v, 3, 0, currVal_1); }); }
+function View_ScreenComponent_6(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "div", [], [[8, "className", 0]], null, null, null, null)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵncd"](null, 0)], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵinlineInterpolate"](1, "", _co.data.screenConfigType, ""); _ck(_v, 0, 0, currVal_0); }); }
 function View_ScreenComponent_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 15, "div", [["class", "radius bg-light-gray"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](1, 0, null, null, 12, "div", [["class", "screen"], ["style", "visibility: visible;"]], [[2, "zoom", null]], [["window", "resize"]], function (_v, en, $event) { var ad = true; var _co = _v.component; if (("window:resize" === en)) {
         var pd_0 = (_co.resize() !== false);
         ad = (pd_0 && ad);
@@ -6788,7 +6794,7 @@ function View_ScreenComponent_0(_l) { return _angular_core__WEBPACK_IMPORTED_MOD
         ad = (pd_0 && ad);
     } return ad; }, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](3, 0, null, null, 1, "app-icon", [["height", "15"], ["iconName", "zoom-out"], ["width", "15"]], null, null, null, _icon_icon_component_ngfactory__WEBPACK_IMPORTED_MODULE_3__["View_IconComponent_0"], _icon_icon_component_ngfactory__WEBPACK_IMPORTED_MODULE_3__["RenderType_IconComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](4, 114688, null, 0, _icon_icon_component__WEBPACK_IMPORTED_MODULE_4__["IconComponent"], [], { iconName: [0, "iconName"], width: [1, "width"], height: [2, "height"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](5, 0, null, null, 3, "div", [["class", "small-x-text"], ["href", "#"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u30BA\u30FC\u30E0 "])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](7, 0, null, null, 0, "br", [], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵted"](-1, null, ["\u89E3\u9664"])), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_1)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](10, 16384, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"]], { ngIf: [0, "ngIf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](11, 0, null, null, 0, "div", [["class", "device-type-pc"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](12, 0, null, null, 0, "div", [["class", "device-type-sp"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](13, 0, null, null, 0, "div", [["class", "screen-style"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_ScreenComponent_6)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](15, 16384, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"]], { ngIf: [0, "ngIf"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_2 = "zoom-out"; var currVal_3 = "15"; var currVal_4 = "15"; _ck(_v, 4, 0, currVal_2, currVal_3, currVal_4); var currVal_5 = _co.data; _ck(_v, 10, 0, currVal_5); var currVal_6 = _co.data; _ck(_v, 15, 0, currVal_6); }, function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.zoomState; _ck(_v, 1, 0, currVal_0); var currVal_1 = _co.zoomState; _ck(_v, 2, 0, currVal_1); }); }
 function View_ScreenComponent_Host_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "app-screen", [], null, null, null, View_ScreenComponent_0, RenderType_ScreenComponent)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 4308992, null, 0, _screen_component__WEBPACK_IMPORTED_MODULE_5__["ScreenComponent"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], _services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"]], null, null)], function (_ck, _v) { _ck(_v, 1, 0); }, null); }
-var ScreenComponentNgFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵccf"]("app-screen", _screen_component__WEBPACK_IMPORTED_MODULE_5__["ScreenComponent"], View_ScreenComponent_Host_0, { screen: "screen", status: "status" }, { select: "select", alert: "alert" }, ["*"]);
+var ScreenComponentNgFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵccf"]("app-screen", _screen_component__WEBPACK_IMPORTED_MODULE_5__["ScreenComponent"], View_ScreenComponent_Host_0, { screenConfig: "screenConfig", status: "status", screen: "screen" }, { select: "select", alert: "alert" }, ["*"]);
 
 
 
@@ -6829,7 +6835,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var rxjs_add_operator_toPromise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/add/operator/toPromise */ "../../node_modules/rxjs-compat/_esm5/add/operator/toPromise.js");
 /* harmony import */ var rxjs_add_operator_toPromise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(rxjs_add_operator_toPromise__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services */ "./app/services/index.ts");
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../functions */ "./app/functions/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services */ "./app/services/index.ts");
+
 
 
 
@@ -6848,10 +6856,7 @@ var ScreenComponent = /** @class */ (function () {
         this.scale = 1;
         this.height = 0;
         this.origin = '0 0';
-        this.data = this.createScreen({
-            screen: this.screen,
-            status: this.status
-        });
+        this.data = this.createScreen();
     };
     /**
      * レンダリング後処理
@@ -6863,8 +6868,8 @@ var ScreenComponent = /** @class */ (function () {
             if (_this.data !== undefined) {
                 clearInterval(timer);
                 var screenElement = document.querySelector('.screen-style');
-                if (screenElement !== null && _this.data.screen.style !== undefined) {
-                    screenElement.innerHTML = _this.data.screen.style;
+                if (screenElement !== null && _this.data.screenConfig.style !== undefined) {
+                    screenElement.innerHTML = _this.data.screenConfig.style;
                 }
                 _this.scaleDown();
                 _this.select.emit(_this.getSelectSeats());
@@ -6966,9 +6971,9 @@ var ScreenComponent = /** @class */ (function () {
         var element = this.elementRef.nativeElement;
         var screen = element.querySelector('.screen');
         this.zoomState = false;
-        var scale = screen.offsetWidth / this.data.screen.size.w;
+        var scale = screen.offsetWidth / this.data.screenConfig.size.w;
         this.scale = (scale > ScreenComponent.ZOOM_SCALE) ? ScreenComponent.ZOOM_SCALE : scale;
-        this.height = this.data.screen.size.h * this.scale;
+        this.height = this.data.screenConfig.size.h * this.scale;
         this.origin = '0 0';
     };
     /**
@@ -6981,102 +6986,98 @@ var ScreenComponent = /** @class */ (function () {
     /**
      * スクリーン作成
      */
-    ScreenComponent.prototype.createScreen = function (data) {
-        // console.log(data.screen);
-        var screenData = data.screen;
-        var seatStatus = data.status;
+    ScreenComponent.prototype.createScreen = function () {
+        // console.log(this.screenConfig, this.status, this.screen);
+        var screenConfig = this.screenConfig;
+        var seatStatus = this.status;
+        var screen = this.screen;
         // y軸ラベル
-        var labels = [];
-        var startLabelNo = 65;
-        var endLabelNo = 91;
-        for (var i = startLabelNo; i < endLabelNo; i++) {
-            labels.push(String.fromCharCode(i));
-        }
+        var lowerCase = (screen !== undefined
+            && (Object(_functions__WEBPACK_IMPORTED_MODULE_2__["isLowerCase"])(screen.listSeat[0].seatNum[0])
+                || Object(_functions__WEBPACK_IMPORTED_MODULE_2__["isLowerCase"])(screen.listSeat[screen.listSeat.length - 1].seatNum[0])));
+        var labels = lowerCase
+            ? 'abcdefghijklmnopqrstuvwxyz'.split('') : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
         // 行ラベル
         var lineLabels = [];
         // 列ラベル
         var columnLabels = [];
         // 座席リスト
         var seats = [];
-        var toFullWidth = function (value) {
-            return value.replace(/./g, function (s) {
-                return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
-            });
-        };
         var pos = { x: 0, y: 0 };
         var labelCount = 0;
-        for (var y = 0; y < screenData.map.length; y++) {
+        for (var y = 0; y < screenConfig.map.length; y++) {
             if (y === 0) {
                 pos.y = 0;
             }
             // ポジション設定
             if (y === 0) {
-                pos.y += screenData.seatStart.y;
+                pos.y += screenConfig.seatStart.y;
             }
-            else if (screenData.map[y].length === 0) {
-                pos.y += screenData.aisle.middle.h - screenData.seatMargin.h;
+            else if (screenConfig.map[y].length === 0) {
+                pos.y += screenConfig.aisle.middle.h - screenConfig.seatMargin.h;
             }
             else {
                 labelCount++;
-                pos.y += screenData.seatSize.h + screenData.seatMargin.h;
+                pos.y += screenConfig.seatSize.h + screenConfig.seatMargin.h;
             }
             var _loop_1 = function (x) {
                 if (x === 0) {
-                    pos.x = screenData.seatStart.x;
+                    pos.x = screenConfig.seatStart.x;
                 }
                 // 座席ラベルHTML生成
                 if (x === 0) {
                     lineLabels.push({
                         id: labelCount,
-                        w: screenData.seatSize.w,
-                        h: screenData.seatSize.h,
+                        w: screenConfig.seatSize.w,
+                        h: screenConfig.seatSize.h,
                         y: pos.y,
-                        x: pos.x - screenData.seatLabelPos,
+                        x: pos.x - screenConfig.seatLabelPos,
                         label: labels[labelCount]
                     });
                 }
-                if (screenData.map[y][x] === 8) {
-                    pos.x += screenData.aisle.middle.w;
+                if (screenConfig.map[y][x] === 8) {
+                    pos.x += screenConfig.aisle.middle.w;
                 }
-                else if (screenData.map[y][x] === 9) {
-                    pos.x += screenData.aisle.middle.w;
+                else if (screenConfig.map[y][x] === 9) {
+                    pos.x += screenConfig.aisle.middle.w;
                 }
-                else if (screenData.map[y][x] === 10) {
-                    pos.x += (screenData.seatSize.w / 2) + screenData.seatMargin.w;
+                else if (screenConfig.map[y][x] === 10) {
+                    pos.x += (screenConfig.seatSize.w / 2) + screenConfig.seatMargin.w;
                 }
-                else if (screenData.map[y][x] === 11) {
-                    pos.x += (screenData.seatSize.w / 2) + screenData.seatMargin.w;
+                else if (screenConfig.map[y][x] === 11) {
+                    pos.x += (screenConfig.seatSize.w / 2) + screenConfig.seatMargin.w;
                 }
                 // 座席番号HTML生成
                 if (y === 0) {
-                    var label = (data.screen.seatNumberAlign === 'left')
+                    var label = (screenConfig.seatNumberAlign === 'left')
                         ? String(x + 1)
-                        : String(screenData.map[0].length - x);
+                        : String(screenConfig.map[0].length - x);
                     columnLabels.push({
                         id: x,
-                        w: screenData.seatSize.w,
-                        h: screenData.seatSize.h,
-                        y: pos.y - screenData.seatNumberPos,
+                        w: screenConfig.seatSize.w,
+                        h: screenConfig.seatSize.h,
+                        y: pos.y - screenConfig.seatNumberPos,
                         x: pos.x,
                         label: label
                     });
                 }
-                if (screenData.map[y][x] === 1
-                    || screenData.map[y][x] === 4
-                    || screenData.map[y][x] === 5
-                    || screenData.map[y][x] === 8
-                    || screenData.map[y][x] === 10) {
+                if (screenConfig.map[y][x] === 1
+                    || screenConfig.map[y][x] === 4
+                    || screenConfig.map[y][x] === 5
+                    || screenConfig.map[y][x] === 8
+                    || screenConfig.map[y][x] === 10) {
                     // 座席あり
                     // 座席HTML生成
-                    var code_1 = (data.screen.seatNumberAlign === 'left')
-                        ? toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(x + 1))
-                        : toFullWidth(labels[labelCount]) + "\uFF0D" + toFullWidth(String(screenData.map[y].length - x));
-                    var label_1 = (data.screen.seatNumberAlign === 'left')
+                    var code_1 = (screenConfig.seatNumberAlign === 'left')
+                        ? Object(_functions__WEBPACK_IMPORTED_MODULE_2__["toFullWidth"])(labels[labelCount]) + "\uFF0D" + Object(_functions__WEBPACK_IMPORTED_MODULE_2__["toFullWidth"])(String(x + 1))
+                        : Object(_functions__WEBPACK_IMPORTED_MODULE_2__["toFullWidth"])(labels[labelCount]) + "\uFF0D" + Object(_functions__WEBPACK_IMPORTED_MODULE_2__["toFullWidth"])(String(screenConfig.map[y].length - x));
+                    var label = (screenConfig.seatNumberAlign === 'left')
                         ? "" + labels[labelCount] + String(x + 1)
-                        : "" + labels[labelCount] + String(screenData.map[y].length - x);
-                    var seatSize_1 = { w: screenData.seatSize.w, h: screenData.seatSize.h };
+                        : "" + labels[labelCount] + String(screenConfig.map[y].length - x);
+                    var upperCaseLabel_1 = label.toUpperCase();
+                    var seatSize_1 = { w: screenConfig.seatSize.w, h: screenConfig.seatSize.h };
                     var seatPosition_1 = { x: pos.x, y: pos.y };
-                    var className_1 = "seat-" + label_1 + " seat-" + label_1.slice(0, 1);
+                    var className_1 = "seat-" + upperCaseLabel_1 + " seat-" + upperCaseLabel_1.slice(0, 1);
                     var section = '';
                     var status_1 = 'disabled';
                     var seatType_1 = 'standard';
@@ -7091,9 +7092,6 @@ var ScreenComponent = /** @class */ (function () {
                         if (targetSeat !== undefined) {
                             section = listSeat.seatSection;
                             status_1 = 'default';
-                            // spseatAdd1 = targetSeat.spseatAdd1;
-                            // spseatAdd2 = targetSeat.spseatAdd2;
-                            // spseatKbn = targetSeat.spseatKbn;
                             break;
                         }
                     }
@@ -7107,17 +7105,17 @@ var ScreenComponent = /** @class */ (function () {
                             status_1 = 'active';
                         }
                     }
-                    if (screenData.hc.indexOf(label_1) !== -1) {
+                    if (screenConfig.hc.indexOf(upperCaseLabel_1) !== -1) {
                         // 車椅子
                         className_1 += ' seat-hc';
                         seatType_1 = 'hc';
                     }
-                    screenData.specialSeats.forEach(function (specialSeat) {
+                    screenConfig.specialSeats.forEach(function (specialSeat) {
                         // 特別席
-                        if (specialSeat.data.indexOf(label_1) === -1) {
+                        if (specialSeat.data.indexOf(upperCaseLabel_1) === -1) {
                             return;
                         }
-                        var config = screenData.specialSeatConfig.find(function (c) { return c.name === specialSeat.name; });
+                        var config = screenConfig.specialSeatConfig.find(function (c) { return c.name === specialSeat.name; });
                         if (config === undefined) {
                             return;
                         }
@@ -7125,7 +7123,7 @@ var ScreenComponent = /** @class */ (function () {
                         seatType_1 = config.name;
                         seatSize_1.w = config.size.w;
                         seatSize_1.h = config.size.h;
-                        seatPosition_1.y = pos.y - (config.size.h - screenData.seatSize.h);
+                        seatPosition_1.y = pos.y - (config.size.h - screenConfig.seatSize.h);
                     });
                     var seat = {
                         className: className_1,
@@ -7133,7 +7131,7 @@ var ScreenComponent = /** @class */ (function () {
                         h: seatSize_1.h,
                         y: seatPosition_1.y,
                         x: seatPosition_1.x,
-                        label: label_1,
+                        label: label,
                         status: status_1,
                         seatType: seatType_1,
                         coaInfo: {
@@ -7146,56 +7144,56 @@ var ScreenComponent = /** @class */ (function () {
                     };
                     seats.push(seat);
                     // x軸の座席の大きさによるズレを調整
-                    screenData.specialSeats.forEach(function (specialSeat) {
+                    screenConfig.specialSeats.forEach(function (specialSeat) {
                         // 特別席
-                        if (specialSeat.data.indexOf(label_1) === -1) {
+                        if (specialSeat.data.indexOf(upperCaseLabel_1) === -1) {
                             return;
                         }
-                        var config = screenData.specialSeatConfig.find(function (c) { return c.name === specialSeat.name; });
+                        var config = screenConfig.specialSeatConfig.find(function (c) { return c.name === specialSeat.name; });
                         if (config === undefined) {
                             return;
                         }
-                        pos.x += config.size.w - screenData.seatSize.w;
+                        pos.x += config.size.w - screenConfig.seatSize.w;
                     });
                 }
                 // ポジション設定
-                if (screenData.map[y][x] === 2) {
-                    pos.x += screenData.aisle.middle.w + screenData.seatMargin.w;
+                if (screenConfig.map[y][x] === 2) {
+                    pos.x += screenConfig.aisle.middle.w + screenConfig.seatMargin.w;
                 }
-                else if (screenData.map[y][x] === 3) {
-                    pos.x += screenData.aisle.small.w + screenData.seatMargin.w;
+                else if (screenConfig.map[y][x] === 3) {
+                    pos.x += screenConfig.aisle.small.w + screenConfig.seatMargin.w;
                 }
-                else if (screenData.map[y][x] === 4) {
-                    pos.x += screenData.aisle.middle.w + screenData.seatSize.w + screenData.seatMargin.w;
+                else if (screenConfig.map[y][x] === 4) {
+                    pos.x += screenConfig.aisle.middle.w + screenConfig.seatSize.w + screenConfig.seatMargin.w;
                 }
-                else if (screenData.map[y][x] === 5) {
-                    pos.x += screenData.aisle.small.w + screenData.seatSize.w + screenData.seatMargin.w;
+                else if (screenConfig.map[y][x] === 5) {
+                    pos.x += screenConfig.aisle.small.w + screenConfig.seatSize.w + screenConfig.seatMargin.w;
                 }
-                else if (screenData.map[y][x] === 6) {
-                    pos.x += screenData.aisle.middle.w + screenData.seatSize.w + screenData.seatMargin.w;
+                else if (screenConfig.map[y][x] === 6) {
+                    pos.x += screenConfig.aisle.middle.w + screenConfig.seatSize.w + screenConfig.seatMargin.w;
                 }
-                else if (screenData.map[y][x] === 7) {
-                    pos.x += screenData.aisle.small.w + screenData.seatSize.w + screenData.seatMargin.w;
+                else if (screenConfig.map[y][x] === 7) {
+                    pos.x += screenConfig.aisle.small.w + screenConfig.seatSize.w + screenConfig.seatMargin.w;
                 }
                 else {
-                    pos.x += screenData.seatSize.w + screenData.seatMargin.w;
+                    pos.x += screenConfig.seatSize.w + screenConfig.seatMargin.w;
                 }
             };
             var this_1 = this;
-            for (var x = 0; x < screenData.map[y].length; x++) {
+            for (var x = 0; x < screenConfig.map[y].length; x++) {
                 _loop_1(x);
             }
         }
         // スクリーンタイプ
-        var screenType = (screenData.type === 1)
-            ? 'screen-imax' : (screenData.type === 2)
+        var screenType = (screenConfig.type === 1)
+            ? 'screen-imax' : (screenConfig.type === 2)
             ? 'screen-4dx' : '';
         return {
-            screen: screenData,
-            objects: screenData.objects,
+            screenConfig: screenConfig,
+            objects: screenConfig.objects,
             screenType: screenType,
-            lineLabels: (data.screen.lineLabel) ? lineLabels : [],
-            columnLabels: (data.screen.columnLabel) ? columnLabels : [],
+            lineLabels: (screenConfig.lineLabel) ? lineLabels : [],
+            columnLabels: (screenConfig.columnLabel) ? columnLabels : [],
             seats: seats
         };
     };
@@ -7401,6 +7399,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _test_screen_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./test-screen.component */ "./app/components/test/test-screen/test-screen.component.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _services_sasaki_sasaki_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../services/sasaki/sasaki.service */ "./app/services/sasaki/sasaki.service.ts");
 /**
  * @fileoverview This file was generated by the Angular template compiler. Do not edit.
  *
@@ -7418,12 +7417,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var styles_TestScreenComponent = [_test_screen_component_scss_shim_ngstyle__WEBPACK_IMPORTED_MODULE_0__["styles"]];
 var RenderType_TestScreenComponent = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵcrt"]({ encapsulation: 0, styles: styles_TestScreenComponent, data: {} });
 
-function View_TestScreenComponent_1(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "app-screen", [], null, null, null, _parts_screen_screen_component_ngfactory__WEBPACK_IMPORTED_MODULE_2__["View_ScreenComponent_0"], _parts_screen_screen_component_ngfactory__WEBPACK_IMPORTED_MODULE_2__["RenderType_ScreenComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 4308992, null, 0, _parts_screen_screen_component__WEBPACK_IMPORTED_MODULE_3__["ScreenComponent"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], _services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_4__["PurchaseService"]], { screen: [0, "screen"], status: [1, "status"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.screenData.screen; var currVal_1 = _co.screenData.status; _ck(_v, 1, 0, currVal_0, currVal_1); }, null); }
+function View_TestScreenComponent_1(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "app-screen", [], null, null, null, _parts_screen_screen_component_ngfactory__WEBPACK_IMPORTED_MODULE_2__["View_ScreenComponent_0"], _parts_screen_screen_component_ngfactory__WEBPACK_IMPORTED_MODULE_2__["RenderType_ScreenComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 4308992, null, 0, _parts_screen_screen_component__WEBPACK_IMPORTED_MODULE_3__["ScreenComponent"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], _services_purchase_purchase_service__WEBPACK_IMPORTED_MODULE_4__["PurchaseService"]], { screenConfig: [0, "screenConfig"], status: [1, "status"], screen: [2, "screen"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.screenData.screenConfig; var currVal_1 = _co.screenData.status; var currVal_2 = _co.screenData.screen; _ck(_v, 1, 0, currVal_0, currVal_1, currVal_2); }, null); }
 function View_TestScreenComponent_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 2, "div", [["class", "mb-middle"]], null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_TestScreenComponent_1)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](2, 16384, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"]], { ngIf: [0, "ngIf"] }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](3, 0, null, null, 1, "app-loading", [], null, null, null, _parts_loading_loading_component_ngfactory__WEBPACK_IMPORTED_MODULE_6__["View_LoadingComponent_0"], _parts_loading_loading_component_ngfactory__WEBPACK_IMPORTED_MODULE_6__["RenderType_LoadingComponent"])), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](4, 114688, null, 0, _parts_loading_loading_component__WEBPACK_IMPORTED_MODULE_7__["LoadingComponent"], [], { show: [0, "show"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.screenData; _ck(_v, 2, 0, currVal_0); var currVal_1 = _co.isLoading; _ck(_v, 4, 0, currVal_1); }, null); }
-function View_TestScreenComponent_Host_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "app-test-screen", [], null, null, null, View_TestScreenComponent_0, RenderType_TestScreenComponent)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 114688, null, 0, _test_screen_component__WEBPACK_IMPORTED_MODULE_8__["TestScreenComponent"], [_angular_router__WEBPACK_IMPORTED_MODULE_9__["ActivatedRoute"], _angular_common_http__WEBPACK_IMPORTED_MODULE_10__["HttpClient"]], null, null)], function (_ck, _v) { _ck(_v, 1, 0); }, null); }
+function View_TestScreenComponent_Host_0(_l) { return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 1, "app-test-screen", [], null, null, null, View_TestScreenComponent_0, RenderType_TestScreenComponent)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 114688, null, 0, _test_screen_component__WEBPACK_IMPORTED_MODULE_8__["TestScreenComponent"], [_angular_router__WEBPACK_IMPORTED_MODULE_9__["ActivatedRoute"], _angular_common_http__WEBPACK_IMPORTED_MODULE_10__["HttpClient"], _services_sasaki_sasaki_service__WEBPACK_IMPORTED_MODULE_11__["SasakiService"]], null, null)], function (_ck, _v) { _ck(_v, 1, 0); }, null); }
 var TestScreenComponentNgFactory = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵccf"]("app-test-screen", _test_screen_component__WEBPACK_IMPORTED_MODULE_8__["TestScreenComponent"], View_TestScreenComponent_Host_0, {}, {}, []);
 
 
@@ -7465,6 +7465,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services */ "./app/services/index.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -7503,10 +7504,12 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var TestScreenComponent = /** @class */ (function () {
-    function TestScreenComponent(activatedRoute, http) {
+    function TestScreenComponent(activatedRoute, http, sasaki) {
         this.activatedRoute = activatedRoute;
         this.http = http;
+        this.sasaki = sasaki;
     }
     TestScreenComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -7539,28 +7542,41 @@ var TestScreenComponent = /** @class */ (function () {
      */
     TestScreenComponent.prototype.getData = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var DIGITS, theaterCode, screenCode, screen, setting, seatStatus;
+            var DIGITS, theaterCode, screenCode, screenConfig, setting, status, screen, screens, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        DIGITS = {
-                            '02': -2,
-                            '03': -3
-                        };
+                        DIGITS = { '02': -2, '03': -3 };
                         theaterCode = ("00" + params.theaterCode).slice(DIGITS['02']);
                         screenCode = ("000" + params.screenCode).slice(DIGITS['03']);
                         return [4 /*yield*/, this.http.get("/json/theater/" + theaterCode + "/" + screenCode + ".json").toPromise()];
                     case 1:
-                        screen = _a.sent();
+                        screenConfig = _a.sent();
                         return [4 /*yield*/, this.http.get('/json/theater/setting.json').toPromise()];
                     case 2:
                         setting = _a.sent();
-                        seatStatus = { listSeat: [] };
-                        // スクリーンデータをマージ
-                        return [2 /*return*/, {
-                                screen: Object.assign(setting, screen),
-                                status: seatStatus
-                            }];
+                        status = { listSeat: [] };
+                        _a.label = 3;
+                    case 3:
+                        _a.trys.push([3, 5, , 6]);
+                        return [4 /*yield*/, this.sasaki.getScreens({
+                                theaterCode: params.theaterCode
+                            })];
+                    case 4:
+                        screens = _a.sent();
+                        screen = screens.find(function (s) { return s.screenCode === params.screenCode; });
+                        return [3 /*break*/, 6];
+                    case 5:
+                        error_1 = _a.sent();
+                        console.error(error_1);
+                        return [3 /*break*/, 6];
+                    case 6: 
+                    // スクリーンデータをマージ
+                    return [2 /*return*/, {
+                            screenConfig: Object.assign(setting, screenConfig),
+                            status: status,
+                            screen: screen
+                        }];
                 }
             });
         });
@@ -7663,7 +7679,7 @@ function getSeat(params) {
 /*!********************************!*\
   !*** ./app/functions/index.ts ***!
   \********************************/
-/*! exports provided: convertToHiragana, convertToKatakana, formatTelephone, object2query, getPurchaseCompletionEmail, getPurchaseCompletionMemberEmail, getTicketPrice, getOrderTicketPrice */
+/*! exports provided: convertToHiragana, convertToKatakana, toFullWidth, isUpperCase, isLowerCase, formatTelephone, object2query, getPurchaseCompletionEmail, getPurchaseCompletionMemberEmail, getTicketPrice, getOrderTicketPrice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7672,6 +7688,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "convertToHiragana", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["convertToHiragana"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "convertToKatakana", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["convertToKatakana"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toFullWidth", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["toFullWidth"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isUpperCase", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["isUpperCase"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isLowerCase", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["isLowerCase"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatTelephone", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["formatTelephone"]; });
 
@@ -7746,13 +7768,16 @@ function getTicketPrice(offer) {
 /*!*******************************!*\
   !*** ./app/functions/util.ts ***!
   \*******************************/
-/*! exports provided: convertToHiragana, convertToKatakana, formatTelephone, object2query */
+/*! exports provided: convertToHiragana, convertToKatakana, toFullWidth, isUpperCase, isLowerCase, formatTelephone, object2query */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "convertToHiragana", function() { return convertToHiragana; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "convertToKatakana", function() { return convertToKatakana; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toFullWidth", function() { return toFullWidth; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isUpperCase", function() { return isUpperCase; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isLowerCase", function() { return isLowerCase; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatTelephone", function() { return formatTelephone; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "object2query", function() { return object2query; });
 /* harmony import */ var libphonenumber_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! libphonenumber-js */ "../../node_modules/libphonenumber-js/index.es6.js");
@@ -7776,6 +7801,24 @@ function convertToKatakana(str) {
         var chr = match.charCodeAt(0) + 0x60;
         return String.fromCharCode(chr);
     });
+}
+/**
+ * 全角変換
+ */
+function toFullWidth(value) {
+    return value.replace(/./g, function (s) { return String.fromCharCode(s.charCodeAt(0) + 0xFEE0); });
+}
+/**
+ * 大文字判定
+ */
+function isUpperCase(value) {
+    return /^[A-ZＡ-Ｚ]+$/g.test(value);
+}
+/**
+ * 小文字文字判定
+ */
+function isLowerCase(value) {
+    return /^[a-zａ-ｚ]+$/g.test(value);
 }
 /**
  * 電話番号変換
@@ -9928,6 +9971,21 @@ var SasakiService = /** @class */ (function () {
             var url;
             return __generator(this, function (_a) {
                 url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/getSeatState";
+                return [2 /*return*/, this.http.get(url, {
+                        params: args
+                    }).toPromise()];
+            });
+        });
+    };
+    /**
+     * スクリーンマスタ取得
+     * @param {COA.services.master.IScreenArgs} args
+     */
+    SasakiService.prototype.getScreens = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getScreens";
                 return [2 /*return*/, this.http.get(url, {
                         params: args
                     }).toPromise()];

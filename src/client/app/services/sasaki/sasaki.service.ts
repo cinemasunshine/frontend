@@ -149,6 +149,20 @@ export class SasakiService {
     }
 
     /**
+     * スクリーンマスタ取得
+     * @param {COA.services.master.IScreenArgs} args
+     */
+    public async getScreens(
+        args: COA.services.master.IScreenArgs
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/master/getScreens`;
+
+        return this.http.get<COA.services.master.IScreenResult[]>(url, {
+            params: <any>args
+        }).toPromise();
+    }
+
+    /**
      * ムビチケチケットコード取得
      * @param {COA.services.master.IMvtkTicketcodeArgs} args
      */

@@ -25,6 +25,27 @@ export function convertToKatakana(str: string) {
 }
 
 /**
+ * 全角変換
+ */
+export function toFullWidth(value: string) {
+    return value.replace(/./g, s => String.fromCharCode(s.charCodeAt(0) + 0xFEE0));
+}
+
+/**
+ * 大文字判定
+ */
+export function isUpperCase(value: string) {
+    return /^[A-ZＡ-Ｚ]+$/g.test(value);
+}
+
+/**
+ * 小文字文字判定
+ */
+export function isLowerCase(value: string) {
+    return /^[a-zａ-ｚ]+$/g.test(value);
+}
+
+/**
  * 電話番号変換
  */
 export function formatTelephone(telephone: string, format?: libphonenumber.NumberFormat) {

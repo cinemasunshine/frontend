@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as COA from '@motionpicture/coa-service';
 import { environment } from '../../../../../environments/environment';
-import { IScreen, ISeat } from '../../../../models';
+import { IScreenConfig, ISeat } from '../../../../models';
 import {
     ErrorService,
     FlgMember,
@@ -27,7 +27,7 @@ export class PurchaseSeatComponent implements OnInit {
     public seats: ISeat[];
     public disable: boolean;
     public screenData: {
-        screen: IScreen;
+        screenConfig: IScreenConfig;
         status: COA.services.reserve.IStateReserveSeatResult;
     };
     public environment = environment;
@@ -93,20 +93,18 @@ export class PurchaseSeatComponent implements OnInit {
         timeBegin: string;
         screenCode: string;
     }): Promise<{
-        screen: IScreen,
+        screenConfig: IScreenConfig,
         status: COA.services.reserve.IStateReserveSeatResult
+        screen: COA.services.master.IScreenResult
     }> {
-        const DIGITS = {
-            '02': -2,
-            '03': -3
-        };
+        const DIGITS = { '02': -2, '03': -3 };
         const theaterCode = `00${params.theaterCode}`.slice(DIGITS['02']);
         const screenCode = `000${params.screenCode}`.slice(DIGITS['03']);
-        const screen = await this.http.get<IScreen>(`/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
-        const setting = await this.http.get<IScreen>('/json/theater/setting.json').toPromise();
+        const screenConfig = await this.http.get<IScreenConfig>(`/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
+        const setting = await this.http.get<IScreenConfig>('/json/theater/setting.json').toPromise();
 
         await this.sasaki.getServices();
-        const seatStatus = await this.sasaki.getSeatState({
+        const status = await this.sasaki.getSeatState({
             theaterCode: params.theaterCode,
             dateJouei: params.dateJouei,
             titleCode: params.titleCode,
@@ -114,11 +112,18 @@ export class PurchaseSeatComponent implements OnInit {
             timeBegin: params.timeBegin,
             screenCode: params.screenCode
         });
-        // seatStatus = (<any>{ listSeat: [] });
+        const screens = await this.sasaki.getScreens({
+            theaterCode: params.theaterCode
+        });
+        const screen = screens.find(s => s.screenCode === params.screenCode);
+        if (screen === undefined) {
+            throw new Error('screen notfound');
+        }
         // スクリーンデータをマージ
         return {
-            screen: Object.assign(setting, screen),
-            status: seatStatus
+            screenConfig: Object.assign(setting, screenConfig),
+            status,
+            screen
         };
     }
 
@@ -257,7 +262,7 @@ export class PurchaseSeatComponent implements OnInit {
         if (this.screenData === undefined) {
             return false;
         }
-        const findSpecialSeatsResult = this.screenData.screen.specialSeats.find(s => s.name === seatType);
+        const findSpecialSeatsResult = this.screenData.screenConfig.specialSeats.find(s => s.name === seatType);
         return (findSpecialSeatsResult !== undefined && findSpecialSeatsResult.data.length > 0);
     }
 

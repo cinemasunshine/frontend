@@ -8,5 +8,6 @@ const router = express.Router();
 
 router.get('/getSalesTickets', master.getSalesTickets);
 router.get('/getTickets', master.getTickets);
+router.get('/getScreens', master.getScreens);
 
 export default router;
