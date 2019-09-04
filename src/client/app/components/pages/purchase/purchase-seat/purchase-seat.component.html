@@ -10,8 +10,8 @@
         <span class="small-x-text">※車椅子席をご希望の方は、お手数ですが通常のお席をご購入の上、対象の劇場にご連絡ください。</span>
     </p>
     <div class="mb-middle">
-        <app-screen *ngIf="screenData" [screenConfig]="screenData.screenConfig" [screen]="screenData.screen" [status]="screenData.status"
-            (select)="seatSelect($event)" (alert)="seatSelectionAlert()">
+        <app-screen *ngIf="screenData" [screenConfig]="screenData.screenConfig" [screen]="screenData.screen"
+            [status]="screenData.status" (select)="seatSelect($event)" (alert)="seatSelectionAlert()">
             <app-seat-info type="{{ purchase.data.screeningEvent?.superEvent.coaInfo?.kbnJoueihousiki?.kubunCode }}">
             </app-seat-info>
         </app-screen>
@@ -48,6 +48,14 @@
                     <div class="image"><img src="/images/theater/seat/ottoman.svg"></div>
                     <div class="text">
                         <p>スタンダードクラス<br>オットマン</p>
+                    </div>
+                </div>
+            </li>
+            <li *ngIf="getSeatType('pairLeft') || getSeatType('pairRight')" class="seat-pair">
+                <div class="seat-type-inner">
+                    <div class="image"><img src="/images/theater/seat/pair.svg"></div>
+                    <div class="text">
+                        <p>ペアシート</p>
                     </div>
                 </div>
             </li>

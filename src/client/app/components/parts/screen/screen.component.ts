@@ -94,13 +94,29 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         if (this.isMobile() && !this.zoomState) {
             return;
         }
-        const screeningEvent = this.purchase.data.screeningEvent;
+        const upperCaseLabel = seat.label.toUpperCase();
+        const pair = this.data.screenConfig.pair.find(p => p.find(label => upperCaseLabel === label) !== undefined);
+        if (pair !== undefined) {
+            // ペアシート
+            const pairSeatLabel = pair.find(label => label !== upperCaseLabel);
+            const pairSeat = this.data.seats.find(s => s.label.toUpperCase() === pairSeatLabel);
+            if (pairSeat !== undefined) {
+                if (pairSeat.status === 'default') {
+                    pairSeat.status = 'active';
+                } else if (pairSeat.status === 'active') {
+                    pairSeat.status = 'default';
+                }
+            } else {
+                return;
+            }
+        }
         if (seat.status === 'default') {
             seat.status = 'active';
         } else if (seat.status === 'active') {
             seat.status = 'default';
         }
 
+        const screeningEvent = this.purchase.data.screeningEvent;
         if (screeningEvent === undefined
             || screeningEvent.coaInfo === undefined
             || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {

@@ -20,6 +20,7 @@ export interface IScreenConfig {
     map: number[][];
     special: string[];
     hc: string[];
+    pair: string[][];
     specialSeats: { name: string; data: string[]; }[];
     seatSize: ISize;
     specialSeatConfig: { name: string; className: string; size: ISize }[];
