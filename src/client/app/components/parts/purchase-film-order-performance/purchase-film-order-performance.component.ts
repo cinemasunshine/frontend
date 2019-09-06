@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import { environment } from '../../../../environments/environment';
+import { object2query } from '../../../functions';
 
 interface Iavailability {
     text: string;
@@ -14,6 +15,7 @@ interface Iavailability {
 })
 export class PurchaseFilmOrderPerformanceComponent implements OnInit {
     @Input() public data: factory.chevre.event.screeningEvent.IEvent;
+    @Input() public member: boolean;
     public availability: Iavailability;
 
     constructor() { }
@@ -58,7 +60,11 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
         if (availability === 0 || availability === undefined) {
             return;
         }
-        location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?id=${this.data.identifier}`;
+        const query = object2query({
+            id: this.data.identifier,
+            member: (this.member) ? '1' : '0'
+        });
+        location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?${query}`;
     }
 
 }

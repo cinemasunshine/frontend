@@ -13,6 +13,7 @@ interface IFilmOrder {
 })
 export class PurchaseFilmOrderComponent implements OnInit {
     @Input() public data: IFilmOrder;
+    @Input() public member: boolean;
     public title: string;
     public duration: string;
 
