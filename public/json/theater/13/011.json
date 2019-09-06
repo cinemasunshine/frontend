@@ -40,8 +40,6 @@
         [1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1]
 
     ],
-    "special": [],
     "hc": ["D20","D21"],
-    "pair": [],
     "style": "<style>.line-object-0, .line-object-1, .line-object-2 { display: none !important; }</style>"
 }

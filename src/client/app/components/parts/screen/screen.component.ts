@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import 'rxjs/add/operator/toPromise';
-import { ILabel, IObject, IScreen, ISeat } from '../../../models';
+import { isLowerCase, toFullWidth } from '../../../functions';
+import { ILabel, IObject, IScreenConfig, ISeat } from '../../../models';
 import { PurchaseService } from '../../../services';
 
 type IStateReserveSeatResult = COA.services.reserve.IStateReserveSeatResult;
+type IScreenResult = COA.services.master.IScreenResult;
 
 @Component({
     selector: 'app-screen',
@@ -13,8 +15,9 @@ type IStateReserveSeatResult = COA.services.reserve.IStateReserveSeatResult;
 })
 export class ScreenComponent implements OnInit, AfterViewInit {
     public static ZOOM_SCALE = 1;
-    @Input() public screen: IScreen;
+    @Input() public screenConfig: IScreenConfig;
     @Input() public status: IStateReserveSeatResult;
+    @Input() public screen?: IScreenResult;
     @Output() public select = new EventEmitter<ISeat[]>();
     @Output() public alert = new EventEmitter();
     public data: IData;
@@ -36,10 +39,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         this.scale = 1;
         this.height = 0;
         this.origin = '0 0';
-        this.data = this.createScreen({
-            screen: this.screen,
-            status: this.status
-        });
+        this.data = this.createScreen();
     }
 
     /**
@@ -51,8 +51,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
             if (this.data !== undefined) {
                 clearInterval(timer);
                 const screenElement = document.querySelector('.screen-style');
-                if (screenElement !== null && this.data.screen.style !== undefined) {
-                    screenElement.innerHTML = this.data.screen.style;
+                if (screenElement !== null && this.data.screenConfig.style !== undefined) {
+                    screenElement.innerHTML = this.data.screenConfig.style;
                 }
                 this.scaleDown();
                 this.select.emit(this.getSelectSeats());
@@ -94,13 +94,29 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         if (this.isMobile() && !this.zoomState) {
             return;
         }
-        const screeningEvent = this.purchase.data.screeningEvent;
+        const upperCaseLabel = seat.label.toUpperCase();
+        const pair = this.data.screenConfig.pair.find(p => p.find(label => upperCaseLabel === label) !== undefined);
+        if (pair !== undefined) {
+            // ペアシート
+            const pairSeatLabel = pair.find(label => label !== upperCaseLabel);
+            const pairSeat = this.data.seats.find(s => s.label.toUpperCase() === pairSeatLabel);
+            if (pairSeat !== undefined) {
+                if (pairSeat.status === 'default') {
+                    pairSeat.status = 'active';
+                } else if (pairSeat.status === 'active') {
+                    pairSeat.status = 'default';
+                }
+            } else {
+                return;
+            }
+        }
         if (seat.status === 'default') {
             seat.status = 'active';
         } else if (seat.status === 'active') {
             seat.status = 'default';
         }
 
+        const screeningEvent = this.purchase.data.screeningEvent;
         if (screeningEvent === undefined
             || screeningEvent.coaInfo === undefined
             || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
@@ -162,9 +178,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         const element: HTMLElement = this.elementRef.nativeElement;
         const screen = <HTMLDivElement>element.querySelector('.screen');
         this.zoomState = false;
-        const scale = screen.offsetWidth / this.data.screen.size.w;
+        const scale = screen.offsetWidth / this.data.screenConfig.size.w;
         this.scale = (scale > ScreenComponent.ZOOM_SCALE) ? ScreenComponent.ZOOM_SCALE : scale;
-        this.height = this.data.screen.size.h * this.scale;
+        this.height = this.data.screenConfig.size.h * this.scale;
         this.origin = '0 0';
     }
 
@@ -179,20 +195,19 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     /**
      * スクリーン作成
      */
-    public createScreen(data: {
-        screen: IScreen,
-        status: IStateReserveSeatResult
-    }) {
-        // console.log(data.screen);
-        const screenData = data.screen;
-        const seatStatus = data.status;
+    public createScreen() {
+        // console.log(this.screenConfig, this.status, this.screen);
+        const screenConfig = this.screenConfig;
+        const seatStatus = this.status;
+        const screen = this.screen;
         // y軸ラベル
-        const labels: string[] = [];
-        const startLabelNo = 65;
-        const endLabelNo = 91;
-        for (let i = startLabelNo; i < endLabelNo; i++) {
-            labels.push(String.fromCharCode(i));
-        }
+        const lowerCase = (
+            screen !== undefined
+            && (isLowerCase(screen.listSeat[0].seatNum[0])
+            || isLowerCase(screen.listSeat[screen.listSeat.length - 1].seatNum[0])));
+        const labels = lowerCase
+            ? 'abcdefghijklmnopqrstuvwxyz'.split('') : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
         // 行ラベル
         const lineLabels: ILabel[] = [];
         // 列ラベル
@@ -200,86 +215,82 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         // 座席リスト
         const seats: ISeat[] = [];
 
-        const toFullWidth = (value: string) => {
-            return value.replace(/./g, (s: string) => {
-                return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
-            });
-        };
         const pos = { x: 0, y: 0 };
         let labelCount = 0;
-        for (let y = 0; y < screenData.map.length; y++) {
+        for (let y = 0; y < screenConfig.map.length; y++) {
             if (y === 0) {
                 pos.y = 0;
             }
             // ポジション設定
             if (y === 0) {
-                pos.y += screenData.seatStart.y;
-            } else if (screenData.map[y].length === 0) {
-                pos.y += screenData.aisle.middle.h - screenData.seatMargin.h;
+                pos.y += screenConfig.seatStart.y;
+            } else if (screenConfig.map[y].length === 0) {
+                pos.y += screenConfig.aisle.middle.h - screenConfig.seatMargin.h;
             } else {
                 labelCount++;
-                pos.y += screenData.seatSize.h + screenData.seatMargin.h;
+                pos.y += screenConfig.seatSize.h + screenConfig.seatMargin.h;
             }
 
-            for (let x = 0; x < screenData.map[y].length; x++) {
+            for (let x = 0; x < screenConfig.map[y].length; x++) {
                 if (x === 0) {
-                    pos.x = screenData.seatStart.x;
+                    pos.x = screenConfig.seatStart.x;
                 }
 
                 // 座席ラベルHTML生成
                 if (x === 0) {
                     lineLabels.push({
                         id: labelCount,
-                        w: screenData.seatSize.w,
-                        h: screenData.seatSize.h,
+                        w: screenConfig.seatSize.w,
+                        h: screenConfig.seatSize.h,
                         y: pos.y,
-                        x: pos.x - screenData.seatLabelPos,
+                        x: pos.x - screenConfig.seatLabelPos,
                         label: labels[labelCount]
                     });
                 }
 
-                if (screenData.map[y][x] === 8) {
-                    pos.x += screenData.aisle.middle.w;
-                } else if (screenData.map[y][x] === 9) {
-                    pos.x += screenData.aisle.middle.w;
-                } else if (screenData.map[y][x] === 10) {
-                    pos.x += (screenData.seatSize.w / 2) + screenData.seatMargin.w;
-                } else if (screenData.map[y][x] === 11) {
-                    pos.x += (screenData.seatSize.w / 2) + screenData.seatMargin.w;
+                if (screenConfig.map[y][x] === 8) {
+                    pos.x += screenConfig.aisle.middle.w;
+                } else if (screenConfig.map[y][x] === 9) {
+                    pos.x += screenConfig.aisle.middle.w;
+                } else if (screenConfig.map[y][x] === 10) {
+                    pos.x += (screenConfig.seatSize.w / 2) + screenConfig.seatMargin.w;
+                } else if (screenConfig.map[y][x] === 11) {
+                    pos.x += (screenConfig.seatSize.w / 2) + screenConfig.seatMargin.w;
                 }
 
                 // 座席番号HTML生成
                 if (y === 0) {
 
-                    const label = (data.screen.seatNumberAlign === 'left')
+                    const label = (screenConfig.seatNumberAlign === 'left')
                         ? String(x + 1)
-                        : String(screenData.map[0].length - x);
+                        : String(screenConfig.map[0].length - x);
                     columnLabels.push({
                         id: x,
-                        w: screenData.seatSize.w,
-                        h: screenData.seatSize.h,
-                        y: pos.y - screenData.seatNumberPos,
+                        w: screenConfig.seatSize.w,
+                        h: screenConfig.seatSize.h,
+                        y: pos.y - screenConfig.seatNumberPos,
                         x: pos.x,
                         label: label
                     });
 
                 }
-                if (screenData.map[y][x] === 1
-                    || screenData.map[y][x] === 4
-                    || screenData.map[y][x] === 5
-                    || screenData.map[y][x] === 8
-                    || screenData.map[y][x] === 10) {
+                if (screenConfig.map[y][x] === 1
+                    || screenConfig.map[y][x] === 4
+                    || screenConfig.map[y][x] === 5
+                    || screenConfig.map[y][x] === 8
+                    || screenConfig.map[y][x] === 10) {
                     // 座席あり
                     // 座席HTML生成
-                    const code = (data.screen.seatNumberAlign === 'left')
+                    const code = (screenConfig.seatNumberAlign === 'left')
                         ? `${toFullWidth(labels[labelCount])}－${toFullWidth(String(x + 1))}`
-                        : `${toFullWidth(labels[labelCount])}－${toFullWidth(String(screenData.map[y].length - x))}`;
-                    const label = (data.screen.seatNumberAlign === 'left')
+                        : `${toFullWidth(labels[labelCount])}－${toFullWidth(String(screenConfig.map[y].length - x))}`;
+                    const label = (screenConfig.seatNumberAlign === 'left')
                         ? `${labels[labelCount]}${String(x + 1)}`
-                        : `${labels[labelCount]}${String(screenData.map[y].length - x)}`;
-                    const seatSize = { w: screenData.seatSize.w, h: screenData.seatSize.h };
+                        : `${labels[labelCount]}${String(screenConfig.map[y].length - x)}`;
+                    const upperCaseLabel = label.toUpperCase();
+                    const seatSize = { w: screenConfig.seatSize.w, h: screenConfig.seatSize.h };
                     const seatPosition = { x: pos.x, y: pos.y };
-                    let className = `seat-${label} seat-${label.slice(0, 1)}`;
+                    let className = `seat-${upperCaseLabel} seat-${upperCaseLabel.slice(0, 1)}`;
                     let section = '';
                     let status = 'disabled';
                     let seatType = 'standard';
@@ -293,9 +304,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         if (targetSeat !== undefined) {
                             section = listSeat.seatSection;
                             status = 'default';
-                            // spseatAdd1 = targetSeat.spseatAdd1;
-                            // spseatAdd2 = targetSeat.spseatAdd2;
-                            // spseatKbn = targetSeat.spseatKbn;
                             break;
                         }
                     }
@@ -310,17 +318,17 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         }
                     }
 
-                    if (screenData.hc.indexOf(label) !== -1) {
+                    if (screenConfig.hc.indexOf(upperCaseLabel) !== -1) {
                         // 車椅子
                         className += ' seat-hc';
                         seatType = 'hc';
                     }
-                    screenData.specialSeats.forEach((specialSeat) => {
+                    screenConfig.specialSeats.forEach((specialSeat) => {
                         // 特別席
-                        if (specialSeat.data.indexOf(label) === -1) {
+                        if (specialSeat.data.indexOf(upperCaseLabel) === -1) {
                             return;
                         }
-                        const config = screenData.specialSeatConfig.find(c => c.name === specialSeat.name);
+                        const config = screenConfig.specialSeatConfig.find(c => c.name === specialSeat.name);
                         if (config === undefined) {
                             return;
                         }
@@ -328,7 +336,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         seatType = config.name;
                         seatSize.w = config.size.w;
                         seatSize.h = config.size.h;
-                        seatPosition.y = pos.y - (config.size.h - screenData.seatSize.h);
+                        seatPosition.y = pos.y - (config.size.h - screenConfig.seatSize.h);
                     });
 
                     const seat = {
@@ -350,54 +358,54 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     };
                     seats.push(seat);
                     // x軸の座席の大きさによるズレを調整
-                    screenData.specialSeats.forEach((specialSeat) => {
+                    screenConfig.specialSeats.forEach((specialSeat) => {
                         // 特別席
-                        if (specialSeat.data.indexOf(label) === -1) {
+                        if (specialSeat.data.indexOf(upperCaseLabel) === -1) {
                             return;
                         }
-                        const config = screenData.specialSeatConfig.find(c => c.name === specialSeat.name);
+                        const config = screenConfig.specialSeatConfig.find(c => c.name === specialSeat.name);
                         if (config === undefined) {
                             return;
                         }
-                        pos.x += config.size.w - screenData.seatSize.w;
+                        pos.x += config.size.w - screenConfig.seatSize.w;
                     });
                 }
                 // ポジション設定
-                if (screenData.map[y][x] === 2) {
-                    pos.x += screenData.aisle.middle.w + screenData.seatMargin.w;
-                } else if (screenData.map[y][x] === 3) {
-                    pos.x += screenData.aisle.small.w + screenData.seatMargin.w;
-                } else if (screenData.map[y][x] === 4) {
-                    pos.x += screenData.aisle.middle.w + screenData.seatSize.w + screenData.seatMargin.w;
-                } else if (screenData.map[y][x] === 5) {
-                    pos.x += screenData.aisle.small.w + screenData.seatSize.w + screenData.seatMargin.w;
-                } else if (screenData.map[y][x] === 6) {
-                    pos.x += screenData.aisle.middle.w + screenData.seatSize.w + screenData.seatMargin.w;
-                } else if (screenData.map[y][x] === 7) {
-                    pos.x += screenData.aisle.small.w + screenData.seatSize.w + screenData.seatMargin.w;
+                if (screenConfig.map[y][x] === 2) {
+                    pos.x += screenConfig.aisle.middle.w + screenConfig.seatMargin.w;
+                } else if (screenConfig.map[y][x] === 3) {
+                    pos.x += screenConfig.aisle.small.w + screenConfig.seatMargin.w;
+                } else if (screenConfig.map[y][x] === 4) {
+                    pos.x += screenConfig.aisle.middle.w + screenConfig.seatSize.w + screenConfig.seatMargin.w;
+                } else if (screenConfig.map[y][x] === 5) {
+                    pos.x += screenConfig.aisle.small.w + screenConfig.seatSize.w + screenConfig.seatMargin.w;
+                } else if (screenConfig.map[y][x] === 6) {
+                    pos.x += screenConfig.aisle.middle.w + screenConfig.seatSize.w + screenConfig.seatMargin.w;
+                } else if (screenConfig.map[y][x] === 7) {
+                    pos.x += screenConfig.aisle.small.w + screenConfig.seatSize.w + screenConfig.seatMargin.w;
                 } else {
-                    pos.x += screenData.seatSize.w + screenData.seatMargin.w;
+                    pos.x += screenConfig.seatSize.w + screenConfig.seatMargin.w;
                 }
             }
         }
         // スクリーンタイプ
-        const screenType = (screenData.type === 1)
-            ? 'screen-imax' : (screenData.type === 2)
+        const screenType = (screenConfig.type === 1)
+            ? 'screen-imax' : (screenConfig.type === 2)
                 ? 'screen-4dx' : '';
 
         return {
-            screen: screenData,
-            objects: screenData.objects,
+            screenConfig: screenConfig,
+            objects: screenConfig.objects,
             screenType: screenType,
-            lineLabels: (data.screen.lineLabel) ? lineLabels : [],
-            columnLabels: (data.screen.columnLabel) ? columnLabels : [],
+            lineLabels: (screenConfig.lineLabel) ? lineLabels : [],
+            columnLabels: (screenConfig.columnLabel) ? columnLabels : [],
             seats: seats
         };
     }
 }
 
 export interface IData {
-    screen: IScreen;
+    screenConfig: IScreenConfig;
     objects: IObject[];
     screenType: string;
     lineLabels: ILabel[];

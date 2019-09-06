@@ -12,7 +12,7 @@ export interface IObject extends ISize, IPosition {
     image: string;
 }
 
-export interface IScreen {
+export interface IScreenConfig {
     type: number;
     size: ISize;
     objects: IObject[];
@@ -20,6 +20,7 @@ export interface IScreen {
     map: number[][];
     special: string[];
     hc: string[];
+    pair: string[][];
     specialSeats: { name: string; data: string[]; }[];
     seatSize: ISize;
     specialSeatConfig: { name: string; className: string; size: ISize }[];

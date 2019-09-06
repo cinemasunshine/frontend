@@ -25,8 +25,6 @@
         [1, 4, 1, 1, 1, 1, 1, 1, 1],
         [1]
     ],
-    "special": [],
     "hc": ["I1"],
-    "pair": [],
     "style": "<style>.seat a { position: absolute; top: 0; left: 0;}.seat-A a { left: 136px !important; }.line-object-8 { display: none;}</style>"
 }

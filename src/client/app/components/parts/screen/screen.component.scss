@@ -41,6 +41,41 @@ $mobile: 767px;
             }
         }
     }
+    .seat-pair-left {
+        a {
+            background-image: url(/images/theater/seat/pair.svg);
+            padding-top: 20px;
+            padding-left: 5px;
+            background-size: cover !important;
+            &.active {
+                color: #FFF;
+                background-image: url(/images/theater/seat/pair_active.svg);
+            }
+            &.disabled {
+                color: #FFF;
+                background-image: url(/images/theater/seat/pair_disabled.svg);
+                cursor: default;
+            }
+        }
+    }
+    .seat-pair-right {
+        a {
+            background-image: url(/images/theater/seat/pair.svg);
+            padding-top: 20px;
+            padding-right: 5px;
+            background-size: cover !important;
+            background-position: right;
+            &.active {
+                color: #FFF;
+                background-image: url(/images/theater/seat/pair_active.svg);
+            }
+            &.disabled {
+                color: #FFF;
+                background-image: url(/images/theater/seat/pair_disabled.svg);
+                cursor: default;
+            }
+        }
+    }
     .seat-premium-class {
         a {
             color: #FFF;

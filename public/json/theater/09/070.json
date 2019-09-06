@@ -28,8 +28,6 @@
         [1, 1, 1, 1, 1, 1, 1, 4, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 4, 1, 1]
     ],
-    "special": [],
     "hc": [],
-    "pair": [],
     "style": "<style>.seat a { position: absolute; top: 0; left: 0;}.seat-A a, .seat-B a, .seat-E a, .seat-F a, .seat-G a, .seat-H a, .seat-I a, .seat-J a, .seat-K a { left: 137px !important; }</style>"
 }

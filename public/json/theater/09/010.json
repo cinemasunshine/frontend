@@ -39,8 +39,6 @@
         [1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1]
     ],
-    "special": [],
     "hc": ["J18","J19"],
-    "pair": [],
     "style": "<style>.seat a { position: absolute; top: 0; left: 0;}.seat-A a { left: 246px !important; }.seat-B a { left: 157px !important; }.seat-C a, .seat-D a, .seat-E a, .seat-F a, .seat-G a, .seat-H a, .seat-I a, .seat-J a { left: 67px !important; } .seat-K a, .seat-L a, .seat-M a, .seat-N a, .seat-O a { left: 132px !important; }</style>"
 }

@@ -24,8 +24,6 @@
         [0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
-    "special": [],
     "hc": ["A7"],
-    "pair": [],
     "style": "<style>.line-object { left: 375px !important; }.seat-A7 { left: 741px !important; }</style>"
 }

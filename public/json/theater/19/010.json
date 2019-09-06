@@ -29,9 +29,7 @@
         [0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1],
         [0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1]
     ],
-    "special": [],
     "hc": ["E14", "E15"],
-    "pair": [],
     "seatNumberAlign": "right",
     "style": "<style>.line-object-4, .line-object-5, .line-object-6, .line-object-7, .line-object-8, .line-object-9, .line-object-10, .line-object-11{ left: 254px !important; }</style>"
 }

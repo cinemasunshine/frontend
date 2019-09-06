@@ -43,3 +43,21 @@ export async function getTickets(req: Request, res: Response): Promise<void> {
         errorProsess(res, err);
     }
 }
+
+/**
+ * スクリーンマスター一覧取得
+ * @function getScreens
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+export async function getScreens(req: Request, res: Response): Promise<void> {
+    try {
+        log('getScreens');
+        const args = req.query;
+        const result = await COA.services.master.screen(args);
+        res.json(result);
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}

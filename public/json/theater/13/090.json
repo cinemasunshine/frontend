@@ -32,8 +32,6 @@
         
         
     ],
-    "special": [],
     "hc": ["B2", "B3"],
-    "pair": [],
     "style": "<style>.seat-B2 { left: 375px !important; } .seat-B3 { left: 419px !important; }</style>"
 }
