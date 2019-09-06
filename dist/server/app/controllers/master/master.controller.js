@@ -57,3 +57,24 @@ function getTickets(req, res) {
     });
 }
 exports.getTickets = getTickets;
+/**
+ * スクリーンマスター一覧取得
+ * @function getScreens
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<void>}
+ */
+function getScreens(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            log('getScreens');
+            const args = req.query;
+            const result = yield COA.services.master.screen(args);
+            res.json(result);
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.getScreens = getScreens;

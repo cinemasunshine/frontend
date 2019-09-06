@@ -28,8 +28,6 @@
         [0, 0, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
-    "special": [],
     "hc": ["B2"],
-    "pair": [],
     "style": "<style>.line-object { left: 287px !important; }</style>"
 }

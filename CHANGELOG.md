@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.16.0 - 2019-09-06
+### Added
+ - ペアシート対応
+ - ららぽーと沼津座席データ追加
+### Changed
+ - 小文字座席番号に対応
+
 ## 5.15.0 - 2019-09-03
 ### Changed
  - ポータルから会員購入対応
