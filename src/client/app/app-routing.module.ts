@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { environment } from '../environments/environment';
 import { AuthSigninComponent } from './components/pages/auth/auth-signin/auth-signin.component';
 import { BaseComponent } from './components/pages/base/base.component';
 import { ErrorComponent } from './components/pages/error/error.component';
@@ -78,7 +79,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, { useHash: true, enableTracing: true })],
+    imports: [RouterModule.forRoot(routes, { useHash: true, enableTracing: !environment.production })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }
