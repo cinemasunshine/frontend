@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.16.1 - 2019-09-10
+### Fixed
+ - 4dx座席表示修正
+ - クレジットカード入力レイアウト修正
+
 ## 5.16.0 - 2019-09-06
 ### Added
  - ペアシート対応
