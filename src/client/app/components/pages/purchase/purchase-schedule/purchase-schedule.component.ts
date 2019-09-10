@@ -26,7 +26,7 @@ export class PurchaseScheduleComponent implements OnInit {
     public dateList: IDate[];
     public filmOrder: IFilmOrder[];
     public schedules: factory.chevre.event.screeningEvent.IEvent[];
-    public conditions: { theater: string; date: string };
+    public conditions: { theater: string; date: string; member: boolean; };
     public environment = environment;
 
     constructor(
@@ -39,7 +39,8 @@ export class PurchaseScheduleComponent implements OnInit {
         this.filmOrder = [];
         this.conditions = {
             theater: '',
-            date: ''
+            date: '',
+            member: false
         };
     }
 
@@ -63,7 +64,8 @@ export class PurchaseScheduleComponent implements OnInit {
             }
             this.conditions = {
                 theater: theater.location.branchCode,
-                date: this.dateList[0].value
+                date: this.dateList[0].value,
+                member: false
             };
             await this.changeConditions();
         } catch (err) {

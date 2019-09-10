@@ -11,7 +11,7 @@
             'transform-origin': origin,
             'transform': 'scale(' + scale + ')'
         }">
-            <div class="screen-inner {{ data.screenConfigType }}" 
+            <div class="screen-inner {{ data.screenType }}" 
             [ngStyle]="{ 'width.px': data.screenConfig.size.w, 'height.px': data.screenConfig.size.h }"
             (click)="scaleUp($event)">
                 
@@ -64,7 +64,7 @@
         <div class="device-type-sp"></div>
         <div class="screen-style"></div>
     </div>
-    <div *ngIf="data" class="{{ data.screenConfigType }}">
+    <div *ngIf="data" class="{{ data.screenType }}">
         <ng-content></ng-content>
     </div>
 </div>
