@@ -57,8 +57,11 @@ dl {
 
 .credit-image {
     display: inline-block;
+    vertical-align: middle;
+    margin-left: 20px;
     @media screen and (max-width: $mobile) {
         display: block;
+        margin-left: 0;
     }
     img {
         width: auto;
@@ -73,23 +76,15 @@ dl {
 
 .credit {         
     dl {
-        dt {
-            line-height: 44px;
-            @media screen and (max-width: $mobile) {
-                line-height: 1;
-            }
+        display: flex;
+        align-items: center;
+        @media screen and (max-width: $mobile) {
+            display: block;
         }
         dd {
             width: 300px;
             @media screen and (max-width: $mobile) {
                 width: auto;
-            }
-        }
-    }
-    .price {
-        dl {
-            dt {
-                line-height: 1;
             }
         }
     }

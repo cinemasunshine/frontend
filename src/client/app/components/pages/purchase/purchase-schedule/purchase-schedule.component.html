@@ -21,6 +21,15 @@
             </dd>
         </dl>
         <dl>
+            <dt class="mb-x-small">会員ステータス</dt>
+            <dd class="mb-small">
+                <select [(ngModel)]="conditions.member" (change)="changeConditions()">
+                    <option [value]="false">非会員</option>
+                    <option [value]="true">会員</option>
+                </select>
+            </dd>
+        </dl>
+        <dl>
             <dt class="mb-x-small">鑑賞日</dt>
             <dd class="mb-small">
                 <select [(ngModel)]="conditions.date" (change)="changeConditions()">
@@ -31,7 +40,7 @@
     </div>
 
     <ul class="film-order">
-        <app-purchase-film-order *ngFor="let film of filmOrder" [data]="film"></app-purchase-film-order>
+        <app-purchase-film-order *ngFor="let film of filmOrder" [data]="film" [member]="conditions.member"></app-purchase-film-order>
     </ul>
 
 </div>
