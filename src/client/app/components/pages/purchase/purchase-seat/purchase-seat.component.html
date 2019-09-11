@@ -23,7 +23,7 @@
                 <div class="seat-type-inner">
                     <div class="image"><img src="/images/theater/seat/grand-class.svg"></div>
                     <div class="text">
-                        <p>グランドクラス<br>+￥3,000</p>
+                        <p class="font-weight-bold">グランドクラス<br>+￥3,000</p>
                     </div>
                 </div>
             </li>
@@ -31,7 +31,7 @@
                 <div class="seat-type-inner">
                     <div class="image"><img src="/images/theater/seat/premium-class.svg"></div>
                     <div class="text">
-                        <p>プレミアムクラス<br>+￥1,500</p>
+                        <p class="font-weight-bold">プレミアムクラス<br>+￥1,500</p>
                     </div>
                 </div>
             </li>
@@ -39,7 +39,7 @@
                 <div class="seat-type-inner">
                     <div class="image"><img src="/images/theater/seat/comfort.svg"></div>
                     <div class="text">
-                        <p>フラットシート</p>
+                        <p class="font-weight-bold">フラットシート</p>
                     </div>
                 </div>
             </li>
@@ -47,15 +47,16 @@
                 <div class="seat-type-inner">
                     <div class="image"><img src="/images/theater/seat/ottoman.svg"></div>
                     <div class="text">
-                        <p>スタンダードクラス<br>オットマン</p>
+                        <p class="font-weight-bold">スタンダードクラス<br>オットマン</p>
                     </div>
                 </div>
             </li>
-            <li *ngIf="getSeatType('pairLeft') || getSeatType('pairRight')" class="seat-pair">
+            <li *ngIf="getSeatType('parentAndChildPairLeft') || getSeatType('parentAndChildPairRight')" class="seat-parent-and-child-pair">
                 <div class="seat-type-inner">
-                    <div class="image"><img src="/images/theater/seat/pair.svg"></div>
+                    <div class="image"><img src="/images/theater/seat/parent-and-child-pair.svg"></div>
                     <div class="text">
-                        <p>ペアシート</p>
+                        <p class="font-weight-bold">おやこペアシート</p>
+                        <p class="small-x-text">２席単位での販売です。<br>大人＋小学生以下もしくは小学生以下２名のご利用をお勧めします。</p>
                     </div>
                 </div>
             </li>

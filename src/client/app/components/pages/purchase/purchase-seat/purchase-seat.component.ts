@@ -258,7 +258,13 @@ export class PurchaseSeatComponent implements OnInit {
         this.upperLimitModal = true;
     }
 
-    public getSeatType(seatType: 'ottoman' | 'comfort' | 'grandClass' | 'premiumClass' | 'pairLeft' | 'pairRight') {
+    public getSeatType(seatType:
+        'ottoman'
+        | 'comfort'
+        | 'grandClass'
+        | 'premiumClass'
+        | 'parentAndChildPairLeft'
+        | 'parentAndChildPairRight') {
         if (this.screenData === undefined) {
             return false;
         }
