@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 
 @Injectable()
 export class UtilService {
@@ -32,7 +33,8 @@ export class UtilService {
      * サーバータイム取得
      */
     public async getServerTime() {
-        const result = await this.http.get<{ date: string }>('/api/serverTime').toPromise();
+        const query = `?date=${moment().toISOString()}`;
+        const result = await this.http.get<{ date: string }>(`/api/serverTime${query}`).toPromise();
 
         return result;
     }

@@ -41,37 +41,37 @@ $mobile: 767px;
             }
         }
     }
-    .seat-pair-left {
+    .seat-parent-and-child-pair-left {
         a {
-            background-image: url(/images/theater/seat/pair.svg);
+            background-image: url(/images/theater/seat/parent-and-child-pair.svg);
             padding-top: 20px;
             padding-left: 5px;
             background-size: cover !important;
             &.active {
                 color: #FFF;
-                background-image: url(/images/theater/seat/pair_active.svg);
+                background-image: url(/images/theater/seat/parent-and-child-pair_active.svg);
             }
             &.disabled {
                 color: #FFF;
-                background-image: url(/images/theater/seat/pair_disabled.svg);
+                background-image: url(/images/theater/seat/parent-and-child-pair_disabled.svg);
                 cursor: default;
             }
         }
     }
-    .seat-pair-right {
+    .seat-parent-and-child-pair-right {
         a {
-            background-image: url(/images/theater/seat/pair.svg);
+            background-image: url(/images/theater/seat/parent-and-child-pair.svg);
             padding-top: 20px;
             padding-right: 5px;
             background-size: cover !important;
             background-position: right;
             &.active {
                 color: #FFF;
-                background-image: url(/images/theater/seat/pair_active.svg);
+                background-image: url(/images/theater/seat/parent-and-child-pair_active.svg);
             }
             &.disabled {
                 color: #FFF;
-                background-image: url(/images/theater/seat/pair_disabled.svg);
+                background-image: url(/images/theater/seat/parent-and-child-pair_disabled.svg);
                 cursor: default;
             }
         }

@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.16.2 - 2019-09-18
+### Changed
+ - ペアシートをおやこペアシートへ変更
+ - 座席ステータスを列挙型へ変更
+### Fixed
+ - サーバータイム取得修正
+
 ## 5.16.1 - 2019-09-10
 ### Fixed
  - 4dx座席表示修正
