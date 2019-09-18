@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outp
 import * as COA from '@motionpicture/coa-service';
 import 'rxjs/add/operator/toPromise';
 import { isLowerCase, toFullWidth } from '../../../functions';
-import { ILabel, IObject, IScreenConfig, ISeat } from '../../../models';
+import { ILabel, IObject, IScreenConfig, ISeat, SeatStatus } from '../../../models';
 import { PurchaseService } from '../../../services';
 
 type IStateReserveSeatResult = COA.services.reserve.IStateReserveSeatResult;
@@ -80,7 +80,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
      */
     public getSelectSeats(): ISeat[] {
         return this.data.seats.filter((seat) => {
-            return (seat.status === 'active');
+            return (seat.status === SeatStatus.Active);
         });
     }
 
@@ -94,6 +94,9 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         if (this.isMobile() && !this.zoomState) {
             return;
         }
+        if (seat.status === SeatStatus.Disabled) {
+            return;
+        }
         const upperCaseLabel = seat.label.toUpperCase();
         const pair = this.data.screenConfig.pair.find(p => p.find(label => upperCaseLabel === label) !== undefined);
         if (pair !== undefined) {
@@ -101,26 +104,27 @@ export class ScreenComponent implements OnInit, AfterViewInit {
             const pairSeatLabel = pair.find(label => label !== upperCaseLabel);
             const pairSeat = this.data.seats.find(s => s.label.toUpperCase() === pairSeatLabel);
             if (pairSeat !== undefined) {
-                if (pairSeat.status === 'default') {
-                    pairSeat.status = 'active';
-                } else if (pairSeat.status === 'active') {
-                    pairSeat.status = 'default';
+                if (pairSeat.status === SeatStatus.Default) {
+                    pairSeat.status = SeatStatus.Active;
+                } else if (pairSeat.status === SeatStatus.Active) {
+                    pairSeat.status = SeatStatus.Default;
                 }
             } else {
                 return;
             }
         }
-        if (seat.status === 'default') {
-            seat.status = 'active';
-        } else if (seat.status === 'active') {
-            seat.status = 'default';
+
+        if (seat.status === SeatStatus.Default) {
+            seat.status = SeatStatus.Active;
+        } else if (seat.status === SeatStatus.Active) {
+            seat.status = SeatStatus.Default;
         }
 
         const screeningEvent = this.purchase.data.screeningEvent;
         if (screeningEvent === undefined
             || screeningEvent.coaInfo === undefined
             || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
-            seat.status = 'default';
+            seat.status = SeatStatus.Default;
             this.alert.emit();
 
             return;
@@ -204,7 +208,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         const lowerCase = (
             screen !== undefined
             && (isLowerCase(screen.listSeat[0].seatNum[0])
-            || isLowerCase(screen.listSeat[screen.listSeat.length - 1].seatNum[0])));
+                || isLowerCase(screen.listSeat[screen.listSeat.length - 1].seatNum[0])));
         const labels = lowerCase
             ? 'abcdefghijklmnopqrstuvwxyz'.split('') : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
@@ -292,7 +296,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     const seatPosition = { x: pos.x, y: pos.y };
                     let className = `seat-${upperCaseLabel} seat-${upperCaseLabel.slice(0, 1)}`;
                     let section = '';
-                    let status = 'disabled';
+                    let status: SeatStatus = SeatStatus.Disabled;
                     let seatType = 'standard';
                     const spseatAdd1 = 0;
                     const spseatAdd2 = 0;
@@ -303,7 +307,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         });
                         if (targetSeat !== undefined) {
                             section = listSeat.seatSection;
-                            status = 'default';
+                            status = SeatStatus.Default;
                             break;
                         }
                     }
@@ -314,7 +318,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         });
                         if (targetOffer !== undefined) {
                             section = targetOffer.seatSection;
-                            status = 'active';
+                            status = SeatStatus.Active;
                         }
                     }
 

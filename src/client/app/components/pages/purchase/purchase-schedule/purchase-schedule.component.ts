@@ -55,7 +55,8 @@ export class PurchaseScheduleComponent implements OnInit {
         try {
             await this.sasaki.getServices();
             const searchResult = await this.sasaki.seller.search({});
-            this.theaters = searchResult.data;
+            this.theaters =
+                searchResult.data.filter(t => t.location !== undefined && t.location.branchCode !== undefined);
             this.dateList = this.getDateList(3);
             const theater = this.theaters[this.theaters.length - 1];
             if (theater.location === undefined

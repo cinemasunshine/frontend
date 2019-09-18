@@ -93,7 +93,7 @@ export interface ISeat {
     /**
      * 座席ステータス
      */
-    status: string;
+    status: SeatStatus;
     coaInfo: {
         /**
          * 座席セクション
@@ -119,4 +119,22 @@ export interface ISeat {
          */
         spseatAdd2: number;
     };
+}
+
+/**
+ * 座席ステータス
+ */
+export enum SeatStatus {
+    /**
+     * 空席
+     */
+    Default = 'default',
+    /**
+     * 選択中
+     */
+    Active = 'active',
+    /**
+     * 選択不可
+     */
+    Disabled = 'disabled'
 }
