@@ -4000,7 +4000,8 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.sasaki.seller.search({})];
                     case 3:
                         searchResult = _a.sent();
-                        this.theaters = searchResult.data;
+                        this.theaters =
+                            searchResult.data.filter(function (t) { return t.location !== undefined && t.location.branchCode !== undefined; });
                         this.dateList = this.getDateList(3);
                         theater = this.theaters[this.theaters.length - 1];
                         if (theater.location === undefined
@@ -10477,6 +10478,8 @@ var UserService = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UtilService", function() { return UtilService; });
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -10513,6 +10516,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
     }
 };
 
+
 var UtilService = /** @class */ (function () {
     function UtilService(http) {
         this.http = http;
@@ -10538,10 +10542,12 @@ var UtilService = /** @class */ (function () {
      */
     UtilService.prototype.getServerTime = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result;
+            var query, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.http.get('/api/serverTime').toPromise()];
+                    case 0:
+                        query = "?date=" + moment__WEBPACK_IMPORTED_MODULE_1__().toISOString();
+                        return [4 /*yield*/, this.http.get("/api/serverTime" + query).toPromise()];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result];
