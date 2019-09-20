@@ -49,5 +49,5 @@
         { "name": "parentAndChildPairLeft", "data": ["A2", "A5", "B2", "B5", "B8", "C2", "C5", "C8", "D2", "D5", "D8", "E2", "E5", "E8"] },
         { "name": "parentAndChildPairRight", "data": ["A3", "A6", "B3", "B6", "B9", "C3", "C6", "C9", "D3", "D6", "D9", "E3", "E6", "E9"] }
     ],
-    "style": "<style>.seat-parent-and-child-pair-right{margin-left: -4px;}</style>"
+    "style": "<style>.seat-parent-and-child-pair-right{margin-left: -4px;}.seat-A5,.seat-B5,.seat-C5,.seat-D5,.seat-E5{left: 549px !important;}.seat-A6,.seat-B6,.seat-C6,.seat-D6,.seat-E6{left: 609px !important;}.seat-B8,.seat-C8,.seat-D8,.seat-E8{left: 665px !important;}.seat-B9,.seat-C9,.seat-D9,.seat-E9{left: 725px !important;}.seat-A9{left: 700px !important;}</style>"
 }
