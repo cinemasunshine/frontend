@@ -6937,10 +6937,10 @@ var ScreenComponent = /** @class */ (function () {
             return;
         }
         var upperCaseLabel = seat.label.toUpperCase();
-        var pair = this.data.screenConfig.pair.find(function (p) { return p.find(function (label) { return upperCaseLabel === label; }) !== undefined; });
-        if (pair !== undefined) {
+        var findPair = this.data.screenConfig.pair.find(function (p) { return p.find(function (label) { return upperCaseLabel === label; }) !== undefined; });
+        if (findPair !== undefined) {
             // ペアシート
-            var pairSeatLabel_1 = pair.find(function (label) { return label !== upperCaseLabel; });
+            var pairSeatLabel_1 = findPair.find(function (label) { return label !== upperCaseLabel; });
             var pairSeat = this.data.seats.find(function (s) { return s.label.toUpperCase() === pairSeatLabel_1; });
             if (pairSeat !== undefined) {
                 if (pairSeat.status === _models__WEBPACK_IMPORTED_MODULE_3__["SeatStatus"].Default) {
@@ -6950,10 +6950,8 @@ var ScreenComponent = /** @class */ (function () {
                     pairSeat.status = _models__WEBPACK_IMPORTED_MODULE_3__["SeatStatus"].Default;
                 }
             }
-            else {
-                return;
-            }
         }
+        // 選択シート
         if (seat.status === _models__WEBPACK_IMPORTED_MODULE_3__["SeatStatus"].Default) {
             seat.status = _models__WEBPACK_IMPORTED_MODULE_3__["SeatStatus"].Active;
         }
@@ -6964,6 +6962,16 @@ var ScreenComponent = /** @class */ (function () {
         if (screeningEvent === undefined
             || screeningEvent.coaInfo === undefined
             || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
+            // 選択制限
+            if (findPair !== undefined) {
+                // ペアシート
+                var pairSeatLabel_2 = findPair.find(function (label) { return label !== upperCaseLabel; });
+                var pairSeat = this.data.seats.find(function (s) { return s.label.toUpperCase() === pairSeatLabel_2; });
+                if (pairSeat !== undefined) {
+                    pairSeat.status = _models__WEBPACK_IMPORTED_MODULE_3__["SeatStatus"].Default;
+                }
+            }
+            // 選択シート
             seat.status = _models__WEBPACK_IMPORTED_MODULE_3__["SeatStatus"].Default;
             this.alert.emit();
             return;
