@@ -98,10 +98,10 @@ export class ScreenComponent implements OnInit, AfterViewInit {
             return;
         }
         const upperCaseLabel = seat.label.toUpperCase();
-        const pair = this.data.screenConfig.pair.find(p => p.find(label => upperCaseLabel === label) !== undefined);
-        if (pair !== undefined) {
+        const findPair = this.data.screenConfig.pair.find(p => p.find(label => upperCaseLabel === label) !== undefined);
+        if (findPair !== undefined) {
             // ペアシート
-            const pairSeatLabel = pair.find(label => label !== upperCaseLabel);
+            const pairSeatLabel = findPair.find(label => label !== upperCaseLabel);
             const pairSeat = this.data.seats.find(s => s.label.toUpperCase() === pairSeatLabel);
             if (pairSeat !== undefined) {
                 if (pairSeat.status === SeatStatus.Default) {
@@ -109,11 +109,10 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                 } else if (pairSeat.status === SeatStatus.Active) {
                     pairSeat.status = SeatStatus.Default;
                 }
-            } else {
-                return;
             }
         }
 
+        // 選択シート
         if (seat.status === SeatStatus.Default) {
             seat.status = SeatStatus.Active;
         } else if (seat.status === SeatStatus.Active) {
@@ -124,6 +123,16 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         if (screeningEvent === undefined
             || screeningEvent.coaInfo === undefined
             || screeningEvent.coaInfo.availableNum < this.getSelectSeats().length) {
+            // 選択制限
+            if (findPair !== undefined) {
+                // ペアシート
+                const pairSeatLabel = findPair.find(label => label !== upperCaseLabel);
+                const pairSeat = this.data.seats.find(s => s.label.toUpperCase() === pairSeatLabel);
+                if (pairSeat !== undefined) {
+                    pairSeat.status = SeatStatus.Default;
+                }
+            }
+            // 選択シート
             seat.status = SeatStatus.Default;
             this.alert.emit();
 

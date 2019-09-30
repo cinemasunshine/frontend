@@ -14,6 +14,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 5.16.3 - 2019-09-30
+### Added
+ - ららぽーと沼津条例追加
+### Changed
+ - ららぽーと沼津へポイント券種対応
+### Fixed
+ - ペアシート選択時不具合修正
+ - ららぽーと沼津座席修正
+
 ## 5.16.2 - 2019-09-18
 ### Changed
  - ペアシートをおやこペアシートへ変更

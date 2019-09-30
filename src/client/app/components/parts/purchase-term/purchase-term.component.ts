@@ -16,7 +16,8 @@ const PURCHASE_TERM = {
     '17': { ordinance: '山口県青少年健全育成条例', limit: '23:00' },
     '18': { ordinance: '鹿児島県青少年保護育成条例', limit: '23:00' },
     '19': { ordinance: '千葉県青少年健全育成条例', limit: '23:00' },
-    '20': { ordinance: '東京都青少年健全育成条例', limit: '23:00' }
+    '20': { ordinance: '東京都青少年健全育成条例', limit: '23:00' },
+    '21': { ordinance: '静岡県青少年健全育成条例', limit: '23:00' }
 };
 
 @Component({
