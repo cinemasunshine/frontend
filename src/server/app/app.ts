@@ -2,8 +2,7 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as expressLayouts from 'express-ejs-layouts';
-// tslint:disable-next-line:no-require-imports
-import expressValidator = require('express-validator');
+import * as expressValidator from 'express-validator';
 import * as helmet from 'helmet';
 import basicAuth from './middlewares/basicAuth/basic-auth.middleware';
 import benchmarks from './middlewares/benchmarks/benchmarks.middleware';

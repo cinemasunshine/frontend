@@ -1,7 +1,7 @@
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
-import { TimeFormatPipe } from '../pipes/time-format/time-format.pipe';
+import { TimeFormatPipe } from '../modules/shared/pipes';
 import { getTicketPrice } from './purchase';
 import { convertToKatakana, formatTelephone } from './util';
 

@@ -75,6 +75,7 @@ class Auth2Model {
         session.auth = authSession;
     }
 }
+exports.Auth2Model = Auth2Model;
 /**
  * 状態（固定値）
  */
@@ -83,4 +84,3 @@ Auth2Model.STATE = 'STATE';
  * 検証コード（固定値）
  */
 Auth2Model.CODE_VERIFIER = 'CODE_VERIFIER';
-exports.Auth2Model = Auth2Model;

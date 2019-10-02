@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
+ - angular8へバージョンアップ
+ - モジュール分割
+ - モジュールごとの遅延ロード対応
 
 ### Fixed
 

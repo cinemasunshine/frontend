@@ -52,3 +52,4 @@ docs/
 .vscode/
 npm-debug*
 .nyc_output/
+dist/client/production/stats.json

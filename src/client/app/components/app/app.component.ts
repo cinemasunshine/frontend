@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { UserService } from '../../services/user/user.service';
+import { UserService } from '../../services';
 
 declare const ga: Function;
 
@@ -23,7 +23,7 @@ export class AppComponent {
                     ga('set', 'page', event.urlAfterRedirects);
                     ga('send', 'pageview');
                 } catch (err) {
-                    console.error(err);
+                    console.warn(err);
                 }
             }
         });
