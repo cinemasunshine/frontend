@@ -507,7 +507,7 @@ var PurchaseConfirmComponent = /** @class */ (function () {
                         this.disable = true;
                         this.isLoading = true;
                         if (this.purchase.isExpired()) {
-                            this.router.navigate(['expired']);
+                            this.router.navigate(['/expired']);
                             return [2 /*return*/];
                         }
                         if (!(this.purchase.getTotalPrice() > 0)) return [3 /*break*/, 4];
@@ -1110,7 +1110,7 @@ var PurchaseInputComponent = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         if (this.purchase.isExpired()) {
-                            this.router.navigate(['expired']);
+                            this.router.navigate(['/expired']);
                             return [2 /*return*/];
                         }
                         this.disable = true;
@@ -1811,7 +1811,7 @@ var PurchaseMvtkInputComponent = /** @class */ (function () {
                         this.disable = true;
                         this.isLoading = true;
                         if (this.purchase.isExpired()) {
-                            this.router.navigate(['expired']);
+                            this.router.navigate(['/expired']);
                             return [2 /*return*/];
                         }
                         _a.label = 1;
@@ -3122,7 +3122,7 @@ var PurchaseSeatComponent = /** @class */ (function () {
                         this.disable = true;
                         this.isLoading = true;
                         if (this.purchase.isExpired()) {
-                            this.router.navigate(['expired']);
+                            this.router.navigate(['/expired']);
                             return [2 /*return*/];
                         }
                         _b.label = 1;
@@ -3670,7 +3670,7 @@ var PurchaseTicketComponent = /** @class */ (function () {
                         this.disable = true;
                         this.isLoading = true;
                         if (this.purchase.isExpired()) {
-                            this.router.navigate(['expired']);
+                            this.router.navigate(['/expired']);
                             return [2 /*return*/];
                         }
                         _a.label = 1;

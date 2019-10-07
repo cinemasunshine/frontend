@@ -173,7 +173,7 @@ export class PurchaseInputComponent implements OnInit {
             return;
         }
         if (this.purchase.isExpired()) {
-            this.router.navigate(['expired']);
+            this.router.navigate(['/expired']);
 
             return;
         }
