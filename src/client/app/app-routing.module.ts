@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
 import { TestGuardService } from './guards';
-import { ErrorModule } from './modules/error/error.module';
+import { ErrorComponent } from './modules/error/pages/error/error.component';
+import { ExpiredComponent } from './modules/error/pages/expired/expired.component';
+import { NotFoundComponent } from './modules/error/pages/not-found/not-found.component';
 import { BaseComponent } from './modules/shared/components/pages/base/base.component';
 
 const routes: Routes = [
@@ -27,7 +29,11 @@ const routes: Routes = [
     {
         path: '',
         component: BaseComponent,
-        loadChildren: () => ErrorModule
+        children: [
+            { path: 'error', component: ErrorComponent },
+            { path: 'expired', component: ExpiredComponent },
+            { path: '**', component: NotFoundComponent }
+          ]
     }
 ];
 
