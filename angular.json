@@ -67,12 +67,10 @@
                 {
                   "replace": "src/client/environments/environment.ts",
                   "with": "src/client/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "src/client/index.html",
-                  "with": "src/client/production.html"
                 }
-              ]
+              ],
+              "index": "src/client/index.production.html",
+              "statsJson": true
             }
           }
         },

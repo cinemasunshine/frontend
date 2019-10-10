@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.0.0 - 2019-10-10
+### Changed
+ - angular8へバージョンアップ
+ - モジュール分割
+ - モジュールごとの遅延ロード対応
+
 ## 5.16.3 - 2019-09-30
 ### Added
  - ららぽーと沼津条例追加
