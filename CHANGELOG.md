@@ -7,15 +7,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
- - angular8へバージョンアップ
- - モジュール分割
- - モジュールごとの遅延ロード対応
 
 ### Fixed
 
 ### Security
 
 ### Removed
+
+## 6.0.0 - 2019-10-10
+### Changed
+ - angular8へバージョンアップ
+ - モジュール分割
+ - モジュールごとの遅延ロード対応
 
 ## 5.16.3 - 2019-09-30
 ### Added
