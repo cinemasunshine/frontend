@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-// tslint:disable-next-line:no-require-imports
 const expressValidator = require("express-validator");
 const helmet = require("helmet");
 const basic_auth_middleware_1 = require("./middlewares/basicAuth/basic-auth.middleware");
