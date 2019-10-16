@@ -6,3 +6,4 @@ export * from './sasaki.service';
 export * from './storage.service';
 export * from './user.service';
 export * from './util.service';
+export * from './inquiry.service';

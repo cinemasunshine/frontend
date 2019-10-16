@@ -1,3 +1,99 @@
-<p>
-  inquiry-confirm works!
-</p>
+<div class="contents">
+    <h1 class="page-ttl">チケット情報確認</h1>
+    <p class="read">入場に必要なQRコードの情報は下記になります。</p>
+
+    <div class="ghost-button black-button mb-large center-button ticket-scroll-button">
+        <a class="icon-ticket-black" (click)="scrollToTicket()">チケット情報まで移動</a>
+    </div>
+
+    <div class="box radius bg-ultra-light-gray mb-large">
+        <div class="section-ttl text-center">スムーズに入場するには？</div>
+        <p class="small-x-text mb-small read">
+            このページをホーム画面やブックマーク、お気に入りに追加すると<br>当日に予約番号と電話番号を入力しなくてもQRコードが表示できて当日の入場もスムーズです。</p>
+        <div class="small-x-text bookmark"><img src="/images/inquiry/bookmark.svg" alt=""></div>
+    </div>
+
+    <div class="box radius bg-light-gray mb-large">
+        <dl>
+            <dt>予約番号</dt>
+            <dd><strong class="red-text large-x-text">{{ order.confirmationNumber }}</strong></dd>
+            <dd class="small-x-text">※チケットの発行・照会等に必要な番号となりますので必ずお控えください。</dd>
+        </dl>
+    </div>
+
+    <h2 class="page-ttl qr-tickets">入場用QRコード</h2>
+    <p class="read">当日ご入場の際は、QRコードをスタッフに提示してご入場してください。</p>
+    <ul class="tickets mb-large">
+        <li class="ticket" *ngFor="let acceptedOffer of order.acceptedOffers; let index = index">
+            <div class="inner bg-light-gray">
+                <div class="box radius border-bottom-dot bg-white">
+                    <div class="mb-xx-small small-text"><strong>座席</strong>
+                        [券種]</div>
+                    <div class="ticket-number bg-light-gray small-text">
+                        {{ (index + 1) }}/{{ order.acceptedOffers.length }}枚
+                    </div>
+                    <div class="mb-xx-small">
+                        <strong
+                            class="large-text">{{ acceptedOffer.itemOffered.reservedTicket.ticketedSeat.seatNumber }}</strong>
+                    </div>
+                    <div>
+                        [{{ acceptedOffer.itemOffered.reservedTicket.coaTicketInfo.ticketName }}]
+                    </div>
+                </div>
+
+                <div *ngIf="moment(acceptedOffer.itemOffered.reservationFor.endDate).add(1, 'months').unix() < moment().unix()"
+                    class="box radius border-bottom-dot not-qr-code bg-white">
+                    <p class="text-center">上映日から1ヶ月以上経過しています。</p>
+                </div>
+                <div *ngIf="moment(acceptedOffer.itemOffered.reservationFor.startDate).add(-24, 'hours').unix() > moment().unix()"
+                    class="box radius border-bottom-dot not-qr-code bg-white">
+                    <p class="text-center">鑑賞日前日からQRコードが表示されます。</p>
+                </div>
+                <div *ngIf="!(moment(acceptedOffer.itemOffered.reservationFor.endDate).add(1, 'months').unix() < moment().unix()) && !(moment(acceptedOffer.itemOffered.reservationFor.startDate).add(-24, 'hours').unix() > moment().unix())"
+                    class="box radius border-bottom-dot qr-code bg-white text-center">
+                    <img [src]="tokenList[index]">
+                </div>
+                <div class="box">
+                    <div class="mb-xx-small small-text"><strong>鑑賞日時</strong></div>
+                    <div class="mb-x-small">
+                        {{ getAppreciationDate() }}&nbsp;{{ getStartDate() }}&nbsp;-&nbsp;{{ getEndDate() }}
+                    </div>
+                    <div class="mb-xx-small small-text"><strong>劇場</strong></div>
+                    <div class="mb-x-small">{{ order.seller.name }}</div>
+                    <div class="mb-xx-small small-text"><strong>スクリーン</strong></div>
+                    <div class="mb-x-small">{{ getScreenName() }}</div>
+                    <div class="mb-xx-small small-text"><strong>作品名</strong></div>
+                    <div class="mb-x-small">{{ getTitle() }}</div>
+                    <p *ngIf="isGrandSpecialSeat('003')">
+                        【グランドクラス】<br>
+                        <span
+                            class="red-text">本チケットには、ミールクーポン<%= acceptedOffer.itemOffered.reservedTicket.coaTicketInfo.spseatAdd2.toLocaleString() %>円分が含まれています。</span><br>
+                        4F・コンセッション、5F・クラッパーズダイナー、12F・バール パノーラマのいずれかでご提示の上、ご利用願います。<br>
+                        ※お釣りのお返しは致しかねます。<br>
+                        ※ご鑑賞日当日のみ有効
+                    </p>
+                    <p *ngIf="isGrandSpecialSeat('002')">
+                        【プレミアムクラス】<br>
+                        <span
+                            class="red-text">本チケットには、ミールクーポン<%= acceptedOffer.itemOffered.reservedTicket.coaTicketInfo.spseatAdd2.toLocaleString() %>円分が含まれています。</span><br>
+                        4F・コンセッション、5F・クラッパーズダイナー、12F・バール パノーラマのいずれかでご提示の上、ご利用願います。<br>
+                        ※お釣りのお返しは致しかねます。<br>
+                        ※ご鑑賞日当日のみ有効
+                    </p>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div class="button-area clearfix">
+        <div class="prev-link">
+            <a [routerLink]="'/inquiry/' + seller.location?.branchCode + '/login'">
+                <app-icon iconName="prev-black" width="15" height="15"></app-icon>戻る
+            </a>
+        </div>
+    </div>
+
+
+</div>
+
+<app-loading [show]="isLoading"></app-loading>
