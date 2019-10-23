@@ -7,7 +7,6 @@ import * as path from 'path';
 import { signInRedirect } from '../controllers/authorize/authorize.controller';
 import { getTemplate } from '../controllers/mail/mail.controller';
 import authorizeRouter from './authorize';
-import inquiryRouter from './inquiry';
 import masterRouter from './master';
 import methodRouter from './method';
 import purchaseRouter from './purchase';
@@ -20,24 +19,6 @@ function defaultSetting(req: Request, res: Response, next: NextFunction) {
     next();
 }
 
-function purchaseTransaction(req: Request, res: Response, _next: NextFunction) {
-    const params = Object.keys(req.query).map((key) => `${key}=${req.query[key]}`).join('&');
-    res.redirect(`/?${params}`);
-}
-
-function root(_req: Request, res: Response, _next: NextFunction) {
-    res.sendFile(path.resolve(`${__dirname}/../../../client/${process.env.NODE_ENV}/index.html`));
-}
-
-function notfound(_req: Request, res: Response, _next: NextFunction) {
-    res.render('notfound/index');
-}
-
-function error(err: Error, _req: Request, res: Response, _next: NextFunction) {
-    res.locals.error = err;
-    res.render('error/index');
-}
-
 export default (app: Application) => {
     app.set('layout', 'layouts/layout');
     app.use(defaultSetting);
@@ -46,11 +27,27 @@ export default (app: Application) => {
     app.use('/api/authorize', authorizeRouter);
     app.post('/api/mail/template', getTemplate);
     app.get('/api/serverTime', (_req, res) => { res.json({ date: moment().toISOString() }); });
-    app.use('/inquiry', inquiryRouter);
+    app.get('/inquiry/login', (req: Request, res: Response) => {
+        if (req.query.reserve === undefined) {
+            res.redirect(`/#/inquiry/${req.query.theater}/login`);
+            return;
+        }
+        res.redirect(`/#/inquiry/${req.query.theater}/${req.query.reserve}/login`);
+    });
     app.use('/method', methodRouter);
-    app.get('/purchase/transaction', purchaseTransaction);
     app.get('/signIn', signInRedirect);
-    app.get('/', root);
-    app.use(notfound);
-    app.use(error);
+    app.get('/purchase/transaction', (req: Request, res: Response) => {
+        const params = Object.keys(req.query).map((key) => `${key}=${req.query[key]}`).join('&');
+        res.redirect(`/?${params}`);
+    });
+    app.get('/', (_req: Request, res: Response) => {
+        res.sendFile(path.resolve(`${__dirname}/../../../client/${process.env.NODE_ENV}/index.html`));
+    });
+    app.use((_req: Request, res: Response) => {
+        res.render('notfound/index');
+    });
+    app.use((err: Error, _req: Request, res: Response) => {
+        res.locals.error = err;
+        res.render('error/index');
+    });
 };

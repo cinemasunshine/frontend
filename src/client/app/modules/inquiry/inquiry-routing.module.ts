@@ -10,7 +10,8 @@ const routes: Routes = [
     path: '',
     component: InquiryBaseComponent,
     children: [
-      { path: 'login/:theater', component: InquiryLoginComponent },
+      { path: ':theaterCode/:confirmationNumber/login', component: InquiryLoginComponent },
+      { path: ':theaterCode/login', component: InquiryLoginComponent },
       { path: 'confirm', component: InquiryConfirmComponent },
     ]
   }
