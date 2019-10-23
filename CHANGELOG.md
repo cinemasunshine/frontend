@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.1.0 - 2019-10-23
+### Changed
+ - 照会ページをクライアントサイドで生成へ変更
+
 ## 6.0.0 - 2019-10-10
 ### Changed
  - angular8へバージョンアップ
