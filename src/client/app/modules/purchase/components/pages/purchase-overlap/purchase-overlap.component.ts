@@ -14,7 +14,6 @@ import { TimeFormatPipe } from '../../../../shared/pipes';
 })
 export class PurchaseOverlapComponent implements OnInit {
     public isLoading: boolean;
-    public disable: boolean;
     public screeningEvent: factory.chevre.event.screeningEvent.IEvent;
 
     constructor(
@@ -27,7 +26,6 @@ export class PurchaseOverlapComponent implements OnInit {
     public async ngOnInit() {
         window.scrollTo(0, 0);
         this.isLoading = false;
-        this.disable = false;
         try {
             // イベント情報取得
             this.screeningEvent = <factory.chevre.event.screeningEvent.IEvent>this.storage.load('screeningEvent', SaveType.Session);
@@ -50,11 +48,7 @@ export class PurchaseOverlapComponent implements OnInit {
      * 新しい取引へ
      */
     public async newTransaction() {
-        if (this.disable) {
-            return;
-        }
         this.isLoading = true;
-        this.disable = true;
         try {
             // 座席取り消し
             if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {

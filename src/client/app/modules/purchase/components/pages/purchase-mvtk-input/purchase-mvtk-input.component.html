@@ -59,7 +59,7 @@
     <p class="small-x-text">※不足金額が発生した場合は別途クレジットカードにてお支払いいただきます。</p>
 
     <form (ngSubmit)="onSubmit()">
-        <app-buttons nextLabel="認証する" prevLabel="戻る" prevLink="/purchase/ticket"></app-buttons>
+        <app-buttons [disabled]="isLoading" nextLabel="認証する" prevLabel="戻る" prevLink="/purchase/ticket"></app-buttons>
     </form>
     <app-site-seal></app-site-seal>
 </div>

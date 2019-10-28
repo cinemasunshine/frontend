@@ -25,7 +25,6 @@ export class PurchaseSeatComponent implements OnInit {
     public notSelectSeatModal: boolean;
     public upperLimitModal: boolean;
     public seats: ISeat[];
-    public disable: boolean;
     public screenData: {
         screenConfig: IScreenConfig;
         status: COA.services.reserve.IStateReserveSeatResult;
@@ -52,7 +51,6 @@ export class PurchaseSeatComponent implements OnInit {
         this.seatForm = this.formBuilder.group({
             terms: [false, [Validators.requiredTrue]]
         });
-        this.disable = false;
         if (this.purchase.data.screeningEvent === undefined) {
             this.error.redirect(new Error('screeningEvent is undefined'));
 
@@ -173,15 +171,11 @@ export class PurchaseSeatComponent implements OnInit {
             this.notSelectSeatModal = true;
             return;
         }
-        if (this.disable) {
-            return;
-        }
         if (this.seatForm.invalid) {
             this.seatForm.controls.terms.markAsDirty();
 
             return;
         }
-        this.disable = true;
         this.isLoading = true;
         if (this.purchase.isExpired()) {
             this.router.navigate(['/expired']);
@@ -237,7 +231,6 @@ export class PurchaseSeatComponent implements OnInit {
         } catch (error) {
             this.seatRegistrationErrorModal = true;
             this.isLoading = false;
-            this.disable = false;
         }
     }
 

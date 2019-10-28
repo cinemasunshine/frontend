@@ -14,7 +14,6 @@ export class PurchaseMvtkInputComponent implements OnInit {
     public inputValidationModal: boolean;
     public authErrorModal: boolean;
     public isLoading: boolean;
-    public disable: boolean;
 
     constructor(
         public purchase: PurchaseService,
@@ -30,7 +29,6 @@ export class PurchaseMvtkInputComponent implements OnInit {
         this.mvtkForms = [];
         this.mvtkForms.push(this.createForm());
         this.mvtkInputForm = this.formBuilder.group({});
-        this.disable = false;
     }
 
     /**
@@ -89,10 +87,6 @@ export class PurchaseMvtkInputComponent implements OnInit {
 
             return;
         }
-        if (this.disable) {
-            return;
-        }
-        this.disable = true;
         this.isLoading = true;
         if (this.purchase.isExpired()) {
             this.router.navigate(['/expired']);
@@ -112,7 +106,6 @@ export class PurchaseMvtkInputComponent implements OnInit {
             console.error(err);
             this.isLoading = false;
             this.authErrorModal = true;
-            this.disable = false;
         }
     }
 
