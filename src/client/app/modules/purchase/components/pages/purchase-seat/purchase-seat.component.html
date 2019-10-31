@@ -97,7 +97,7 @@
 
         <div class="button-area">
             <div class="button next-button blue-button">
-                <button type="submit">
+                <button [disabled]="isLoading" type="submit">
                     <app-icon iconName="next-white" width="15" height="15"></app-icon>次へ
                 </button>
             </div>

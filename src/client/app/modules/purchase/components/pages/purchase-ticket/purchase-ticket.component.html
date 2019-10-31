@@ -70,7 +70,7 @@
         </p>
     </div>
     <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
-        <app-buttons nextLabel="次へ" prevLabel="戻る" prevLink="/purchase/seat"></app-buttons>
+        <app-buttons [disabled]="isLoading" nextLabel="次へ" prevLabel="戻る" prevLink="/purchase/seat"></app-buttons>
     </form>
     <app-site-seal></app-site-seal>
 </div>
