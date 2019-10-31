@@ -37,7 +37,6 @@ export class PurchaseInputComponent implements OnInit {
     public isLoading: boolean;
     public securityCodeModal: boolean;
     public creditCardAlertModal: boolean;
-    public disable: boolean;
     public creditCardType: CreditCardType;
 
     constructor(
@@ -60,7 +59,6 @@ export class PurchaseInputComponent implements OnInit {
             month: []
         };
         this.inputForm = this.createForm();
-        this.disable = false;
         this.creditCardType = CreditCardType.Input;
         this.creditCardAlertModal = this.purchase.data.isCreditCardError;
         if (this.purchase.data.isCreditCardError) {
@@ -145,10 +143,6 @@ export class PurchaseInputComponent implements OnInit {
      * @method onSubmit
      */
     public async onSubmit() {
-        if (this.disable) {
-            return;
-        }
-
         if (this.inputForm.invalid) {
             // フォームのステータス変更
             this.inputForm.controls.familyName.markAsTouched();
@@ -177,7 +171,6 @@ export class PurchaseInputComponent implements OnInit {
 
             return;
         }
-        this.disable = true;
         this.isLoading = true;
         try {
             if (this.purchase.data.transaction === undefined) {
@@ -209,8 +202,6 @@ export class PurchaseInputComponent implements OnInit {
                         this.inputForm.controls.securityCode.setValue('');
                         this.inputForm.controls.holderName.setValue('');
                     }
-                    this.disable = false;
-
                     return;
                 }
                 if (this.user.isMember()

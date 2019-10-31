@@ -13,7 +13,6 @@ import { ErrorService, PurchaseService, UserService } from '../../../../../servi
 export class PurchaseConfirmComponent implements OnInit {
     public confirmForm: FormGroup;
     public isLoading: boolean;
-    public disable: boolean;
     public environment = environment;
     public getTicketPrice = getTicketPrice;
 
@@ -31,19 +30,14 @@ export class PurchaseConfirmComponent implements OnInit {
         this.confirmForm = this.formBuilder.group({
             notes: [false, [Validators.requiredTrue]]
         });
-        this.disable = false;
     }
 
     public async onSubmit() {
-        if (this.disable) {
-            return;
-        }
         if (this.confirmForm.invalid) {
             this.confirmForm.controls.notes.markAsDirty();
 
             return;
         }
-        this.disable = true;
         this.isLoading = true;
         if (this.purchase.isExpired()) {
             this.router.navigate(['/expired']);
