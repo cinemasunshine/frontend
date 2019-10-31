@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.1.0 - 2019-10-31
+### Changed
+ - disabled属性をローディングと同期
+ - node-sass@4.13.0更新
+
 ## 6.1.0 - 2019-10-23
 ### Changed
  - 照会ページをクライアントサイドで生成へ変更
