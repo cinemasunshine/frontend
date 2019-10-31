@@ -3,6 +3,7 @@ import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
+import { xml2js } from 'xml-js';
 import { environment } from '../../environments/environment';
 import {
     convertToKatakana,
@@ -233,12 +234,96 @@ export class PurchaseService {
      * @param {factory.chevre.event.screeningEvent.IEvent} screeningEvent
      * @returns {boolean}
      */
-    public isSalse(screeningEvent: factory.chevre.event.screeningEvent.IEvent): boolean {
-        if (screeningEvent.offers === undefined) {
+    public async isSalse(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
+        try {
+            const now = (await this.utilService.getServerTime()).date;
+            if (screeningEvent.offers === undefined
+                || screeningEvent.coaInfo === undefined) {
+                return new Error('イベントが情報が不足しています');
+            }
+            if (moment(screeningEvent.offers.validFrom).unix() > moment(now).unix()) {
+                // COA販売前
+                throw new Error('COA販売前');
+            }
+
+            const salesEndTime = {
+                value: Number(environment.SALES_END_TIME_VALUE),
+                unit: <moment.DurationInputArg2>environment.SALES_END_TIME_UNIT
+            };
+            if (moment(screeningEvent.startDate).add(salesEndTime.value, salesEndTime.unit).unix() < moment(now).unix()) {
+                // 販売終了
+                throw new Error('販売終了');
+            }
+
+            const theatreTable =
+                await this.utilService.getJson<{ code: string; name: string }[]>('/json/table/theaters.json');
+            const prefix = (environment.production) ? '0' : '1';
+            const branchCode = screeningEvent.superEvent.location.branchCode;
+            const theatreTableFindResult = theatreTable.find(t => branchCode === `${prefix}${t.code}`);
+            if (theatreTableFindResult === undefined) {
+                throw new Error('劇場が見つかりません');
+            }
+            const url = `${environment.SCHEDULE_API_URL}/${theatreTableFindResult.name}/schedule/xml/schedule.xml?date=${now}`;
+            const xml = await this.utilService.getText(url);
+            /**
+             * TODO
+             * JSONへ移行する
+             * xml2jsと合わせて依存関係も削除（timers,stream）
+             */
+            const scheduleResult = <any>xml2js(xml, { compact: true });
+            const coainfo = screeningEvent.coaInfo;
+            // console.log('scheduleResult', scheduleResult);
+            // console.log('coainfo', coainfo);
+            const schedule: any[] = (Array.isArray(scheduleResult.schedules.schedule))
+                ? scheduleResult.schedules.schedule : [scheduleResult.schedules.schedule];
+            const scheduleFindResult = schedule.find((s: any) => s.date._text === coainfo.dateJouei);
+            if (scheduleFindResult === undefined) {
+                throw new Error('scheduleが見つかりません');
+            }
+            // console.log('scheduleFindResult', scheduleFindResult);
+            const movie: any[] = (Array.isArray(scheduleFindResult.movie))
+                ? scheduleFindResult.movie : [scheduleFindResult.movie];
+            const movieFindResult = movie.find((m: any) => {
+                return (m.movie_short_code._cdata === coainfo.titleCode
+                    && m.movie_branch_code._cdata === coainfo.titleBranchNum);
+            });
+            if (movieFindResult === undefined) {
+                throw new Error('movieが見つかりません');
+            }
+            // console.log('movieFindResult', movieFindResult);
+            const screen: any[] = (Array.isArray(movieFindResult.screen))
+                ? movieFindResult.screen : [movieFindResult.screen];
+            const screenFindResult = screen.find((s: any) => s.screen_code._cdata === coainfo.screenCode);
+            if (screenFindResult === undefined) {
+                throw new Error('screenが見つかりません');
+            }
+            // console.log('screenFindResult', screenFindResult);
+            const time: any[] = (Array.isArray(screenFindResult.time))
+                ? screenFindResult.time : [screenFindResult.time];
+            const timeFindResult =
+                time.find((t: any) => (t.start_time._text === coainfo.timeBegin));
+            if (timeFindResult === undefined) {
+                throw new Error('timeが見つかりません');
+            }
+            // console.log('timeFindResult', timeFindResult);
+            if (timeFindResult.rsv_start_day !== undefined
+                && timeFindResult.rsv_start_time !== undefined) {
+                const reservation = {
+                    year: timeFindResult.rsv_start_day._cdata.slice(0, 4),
+                    month: timeFindResult.rsv_start_day._cdata.slice(4, 6),
+                    day: timeFindResult.rsv_start_day._cdata.slice(6, 8),
+                    hour: timeFindResult.rsv_start_time._cdata.slice(0, 2),
+                    minute: timeFindResult.rsv_start_time._cdata.slice(2, 4),
+                };
+                const date =
+                    moment(`${reservation.year}-${reservation.month}-${reservation.day} ${reservation.hour}:${reservation.minute}`);
+                return (date.unix() < moment(now).unix());
+            }
+            return true;
+        } catch (error) {
+            console.error(error);
             return false;
         }
-
-        return (moment(screeningEvent.offers.validFrom).unix() <= moment().unix());
     }
 
     /**
@@ -569,8 +654,8 @@ export class PurchaseService {
         const tmpReserveNum = (<any>this.data.seatReservationAuthorization.result.responseBody).tmpReserveNum;
         const systemReservationNumber = `${coaInfo.dateJouei}${tmpReserveNum}`;
         const siteCode = String(Number(`00${coaInfo.theaterCode}`.slice(DIGITS)));
-        const deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '0' : options.deleteFlag;
-        const reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
+        const deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '' : options.deleteFlag;
+        const reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '2' : options.reservedDeviceType;
         const skhnCd = `${coaInfo.titleCode}${`00${coaInfo.titleBranchNum}`.slice(DIGITS)}`;
 
         return {
@@ -817,12 +902,12 @@ export class PurchaseService {
     //         throw new Error('status is different');
     //     }
     //     const DIGITS = {
-    //         '02': -2,
-    //         '08': -8
+    //         '2': -2,
+    //         '8': -8
     //     };
-    //     const orderCount = `00${this.data.orderCount}`.slice(DIGITS['02']);
+    //     const orderCount = `00${this.data.orderCount}`.slice(DIGITS['2']);
     //     const tmpReserveNum =
-    //         `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['08']);
+    //         `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['8']);
     //     const theaterCode = this.data.screeningEvent.coaInfo.theaterCode;
     //     const reserveDate = moment().format('YYYYMMDD');
     //     this.data.orderCount += 1;

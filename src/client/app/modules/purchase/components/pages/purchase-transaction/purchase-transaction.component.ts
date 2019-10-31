@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 import {
     AwsCognitoService,
     ErrorService,
@@ -97,13 +96,8 @@ export class PurchaseTransactionComponent implements OnInit {
                 id: (<string>this.parameters.performanceId)
             });
             // 開始可能日判定
-            if (!this.purchase.isSalse(screeningEvent)) {
+            if (!(await this.purchase.isSalse(screeningEvent))) {
                 throw new Error('Unable to start sales');
-            }
-            const END_TIME = 10;
-            // 終了可能日判定
-            if (moment().add(END_TIME, 'minutes').unix() > moment(screeningEvent.startDate).unix()) {
-                throw new Error('unable to end sales');
             }
             if (this.purchase.data.transaction !== undefined && this.purchase.isExpired()) {
                 // 取引期限切れなら購入情報削除
