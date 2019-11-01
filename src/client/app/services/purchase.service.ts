@@ -655,7 +655,7 @@ export class PurchaseService {
         const systemReservationNumber = `${coaInfo.dateJouei}${tmpReserveNum}`;
         const siteCode = String(Number(`00${coaInfo.theaterCode}`.slice(DIGITS)));
         const deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '' : options.deleteFlag;
-        const reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '2' : options.reservedDeviceType;
+        const reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
         const skhnCd = `${coaInfo.titleCode}${`00${coaInfo.titleBranchNum}`.slice(DIGITS)}`;
 
         return {
@@ -902,10 +902,10 @@ export class PurchaseService {
     //         throw new Error('status is different');
     //     }
     //     const DIGITS = {
-    //         '2': -2,
+    //         '02': -2,
     //         '8': -8
     //     };
-    //     const orderCount = `00${this.data.orderCount}`.slice(DIGITS['2']);
+    //     const orderCount = `00${this.data.orderCount}`.slice(DIGITS['02']);
     //     const tmpReserveNum =
     //         `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['8']);
     //     const theaterCode = this.data.screeningEvent.coaInfo.theaterCode;

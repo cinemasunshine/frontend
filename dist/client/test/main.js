@@ -3654,7 +3654,7 @@ var PurchaseService = /** @class */ (function () {
         var systemReservationNumber = "" + coaInfo.dateJouei + tmpReserveNum;
         var siteCode = String(Number(("00" + coaInfo.theaterCode).slice(DIGITS)));
         var deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '' : options.deleteFlag;
-        var reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '2' : options.reservedDeviceType;
+        var reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
         var skhnCd = "" + coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS);
         return {
             kgygishCd: _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].MVTK_COMPANY_CODE,
@@ -3994,10 +3994,10 @@ var PurchaseService = /** @class */ (function () {
     //         throw new Error('status is different');
     //     }
     //     const DIGITS = {
-    //         '2': -2,
+    //         '02': -2,
     //         '8': -8
     //     };
-    //     const orderCount = `00${this.data.orderCount}`.slice(DIGITS['2']);
+    //     const orderCount = `00${this.data.orderCount}`.slice(DIGITS['02']);
     //     const tmpReserveNum =
     //         `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['8']);
     //     const theaterCode = this.data.screeningEvent.coaInfo.theaterCode;
