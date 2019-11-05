@@ -64,18 +64,18 @@
                     <div class="mb-x-small">{{ getScreenName() }}</div>
                     <div class="mb-xx-small small-text"><strong>作品名</strong></div>
                     <div class="mb-x-small">{{ getTitle() }}</div>
-                    <p *ngIf="isGrandSpecialSeat('003')">
+                    <p *ngIf="isGrandSpecialSeat(acceptedOffer.itemOffered, '003')">
                         【グランドクラス】<br>
                         <span
-                            class="red-text">本チケットには、ミールクーポン<%= acceptedOffer.itemOffered.reservedTicket.coaTicketInfo.spseatAdd2.toLocaleString() %>円分が含まれています。</span><br>
+                            class="red-text">本チケットには、ミールクーポン{{ acceptedOffer.itemOffered.reservedTicket.coaTicketInfo.spseatAdd2.toLocaleString() }}円分が含まれています。</span><br>
                         4F・コンセッション、5F・クラッパーズダイナー、12F・バール パノーラマのいずれかでご提示の上、ご利用願います。<br>
                         ※お釣りのお返しは致しかねます。<br>
                         ※ご鑑賞日当日のみ有効
                     </p>
-                    <p *ngIf="isGrandSpecialSeat('002')">
+                    <p *ngIf="isGrandSpecialSeat(acceptedOffer.itemOffered, '002')">
                         【プレミアムクラス】<br>
                         <span
-                            class="red-text">本チケットには、ミールクーポン<%= acceptedOffer.itemOffered.reservedTicket.coaTicketInfo.spseatAdd2.toLocaleString() %>円分が含まれています。</span><br>
+                            class="red-text">本チケットには、ミールクーポン{{ acceptedOffer.itemOffered.reservedTicket.coaTicketInfo.spseatAdd2.toLocaleString() }}円分が含まれています。</span><br>
                         4F・コンセッション、5F・クラッパーズダイナー、12F・バール パノーラマのいずれかでご提示の上、ご利用願います。<br>
                         ※お釣りのお返しは致しかねます。<br>
                         ※ご鑑賞日当日のみ有効
