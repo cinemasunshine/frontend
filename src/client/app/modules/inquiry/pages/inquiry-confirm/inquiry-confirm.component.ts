@@ -142,11 +142,7 @@ export class InquiryConfirmComponent implements OnInit {
     /**
      * 特別席判定（グランドシネマサンシャイン）
      */
-    public isGrandSpecialSeat(specialSeat: '002' | '003') {
-        if (this.order.acceptedOffers.length === 0) {
-            return false;
-        }
-        const itemOffered = this.order.acceptedOffers[0].itemOffered;
+    public isGrandSpecialSeat(itemOffered: factory.order.IItemOffered, specialSeat: '002' | '003') {
         if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
             return false;
         }
