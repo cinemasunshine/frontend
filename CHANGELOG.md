@@ -14,7 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
-## 6.1.0 - 2019-10-31
+## 6.1.2 - 2019-11-07
+### Fixed
+ - 照会ページミールクーポン表記修正
+
+## 6.1.1 - 2019-10-31
 ### Changed
  - disabled属性をローディングと同期
  - node-sass@4.13.0更新
