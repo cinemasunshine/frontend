@@ -4335,9 +4335,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @motionpicture/sskts-api-javascript-client */ "../../node_modules/@motionpicture/sskts-api-javascript-client/lib/index.js");
 /* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
+/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -4381,10 +4384,14 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
+
+
 var SasakiService = /** @class */ (function () {
-    function SasakiService(http, storage) {
+    function SasakiService(http, storage, utilservice) {
         this.http = http;
         this.storage = storage;
+        this.utilservice = utilservice;
     }
     /**
      * getServices
@@ -4441,20 +4448,32 @@ var SasakiService = /** @class */ (function () {
      */
     SasakiService.prototype.authorize = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var user, purchase, clientId, member, url, branchCode, body, result, option;
+            var user, purchase, clientId, member, url, branchCode, body, now, expiryDate, isTokenExpired, result, option;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
-                        purchase = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
+                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        purchase = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
                         clientId = (user === null) ? undefined : user.clientId;
                         member = (user === null) ? undefined : user.memberType;
                         url = '/api/authorize/getCredentials';
                         branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
                             ? undefined : purchase.seller.location.branchCode;
                         body = { clientId: clientId, member: member, branchCode: branchCode };
-                        return [4 /*yield*/, this.http.post(url, body).toPromise()];
+                        if (!(this.auth !== undefined && this.auth.credentials.expiryDate !== undefined)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.utilservice.getServerTime()];
                     case 1:
+                        now = (_a.sent()).date;
+                        expiryDate = this.auth.credentials.expiryDate;
+                        isTokenExpired = (expiryDate !== undefined)
+                            ? (expiryDate <= (moment__WEBPACK_IMPORTED_MODULE_2__(now).add(-5, 'minute').toDate()).getTime()) : false;
+                        if (!isTokenExpired) {
+                            // アクセストークン取得・更新しない
+                            return [2 /*return*/];
+                        }
+                        _a.label = 2;
+                    case 2: return [4 /*yield*/, this.http.post(url, body).toPromise()];
+                    case 3:
                         result = _a.sent();
                         option = {
                             domain: '',
@@ -4486,7 +4505,7 @@ var SasakiService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         url = '/api/authorize/signIn';
-                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
+                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
                         clientId = user.clientId;
                         body = { clientId: clientId };
                         return [4 /*yield*/, this.http.post(url, body).toPromise()];
@@ -4507,7 +4526,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
                 return [2 /*return*/, this.http.post(url, args).toPromise()];
             });
         });
@@ -4520,7 +4539,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
                 return [2 /*return*/, this.http.post(url, args).toPromise()];
             });
         });
@@ -4533,7 +4552,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].API_ENDPOINT + "/api/purchase/getSeatState";
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/getSeatState";
                 return [2 /*return*/, this.http.get(url, {
                         params: args
                     }).toPromise()];
@@ -4548,7 +4567,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].API_ENDPOINT + "/api/master/getScreens";
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getScreens";
                 return [2 /*return*/, this.http.get(url, {
                         params: args
                     }).toPromise()];
@@ -4565,7 +4584,7 @@ var SasakiService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
+                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
                         return [4 /*yield*/, this.http.post(url, args).toPromise()];
                     case 1:
                         result = _a.sent();
@@ -4587,7 +4606,7 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].API_ENDPOINT + "/api/master/getSalesTickets";
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getSalesTickets";
                 return [2 /*return*/, this.http.get(url, {
                         params: args
                     }).toPromise()];
@@ -4603,14 +4622,14 @@ var SasakiService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var url;
             return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].API_ENDPOINT + "/api/master/getTickets";
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getTickets";
                 return [2 /*return*/, this.http.get(url, {
                         params: args
                     }).toPromise()];
             });
         });
     };
-    SasakiService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineInjectable"]({ factory: function SasakiService_Factory() { return new SasakiService(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_3__["StorageService"])); }, token: SasakiService, providedIn: "root" });
+    SasakiService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({ factory: function SasakiService_Factory() { return new SasakiService(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_4__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_5__["UtilService"])); }, token: SasakiService, providedIn: "root" });
     return SasakiService;
 }());
 

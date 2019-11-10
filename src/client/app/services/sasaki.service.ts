@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as sasaki from '@motionpicture/sskts-api-javascript-client';
+import * as moment from 'moment';
 import { environment } from '../../environments/environment';
 import { IPurchaseData } from './purchase.service';
 import { SaveType, StorageService } from './storage.service';
 import { IUserData } from './user.service';
+import { UtilService } from './util.service';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +29,8 @@ export class SasakiService {
 
     constructor(
         private http: HttpClient,
-        private storage: StorageService
+        private storage: StorageService,
+        private utilservice: UtilService
     ) { }
 
     /**
@@ -74,12 +77,23 @@ export class SasakiService {
         const branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
             ? undefined : purchase.seller.location.branchCode;
         const body = { clientId, member, branchCode };
+        if (this.auth !== undefined && this.auth.credentials.expiryDate !== undefined) {
+            const now = (await this.utilservice.getServerTime()).date;
+            const expiryDate = this.auth.credentials.expiryDate;
+            const isTokenExpired = (expiryDate !== undefined)
+                ? (expiryDate <= (moment(now).add(-5, 'minute').toDate()).getTime()) : false;
+            if (!isTokenExpired) {
+                // アクセストークン取得・更新しない
+                return;
+            }
+        }
         const result = await this.http.post<{
-            credentials: { accessToken: string; };
+            credentials: { accessToken: string; expiryDate?: number; };
             clientId: string;
             endpoint: string;
             userName: string;
         }>(url, body).toPromise();
+
         const option = {
             domain: '',
             clientId: result.clientId,
