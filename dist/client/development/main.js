@@ -4448,18 +4448,10 @@ var SasakiService = /** @class */ (function () {
      */
     SasakiService.prototype.authorize = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var user, purchase, clientId, member, url, branchCode, body, now, expiryDate, isTokenExpired, result, option;
+            var now, expiryDate, isTokenExpired, user, purchase, clientId, member, url, branchCode, body, result, option;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
-                        purchase = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
-                        clientId = (user === null) ? undefined : user.clientId;
-                        member = (user === null) ? undefined : user.memberType;
-                        url = '/api/authorize/getCredentials';
-                        branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
-                            ? undefined : purchase.seller.location.branchCode;
-                        body = { clientId: clientId, member: member, branchCode: branchCode };
                         if (!(this.auth !== undefined && this.auth.credentials.expiryDate !== undefined)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.utilservice.getServerTime()];
                     case 1:
@@ -4472,7 +4464,16 @@ var SasakiService = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         _a.label = 2;
-                    case 2: return [4 /*yield*/, this.http.post(url, body).toPromise()];
+                    case 2:
+                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        purchase = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        clientId = (user === null) ? undefined : user.clientId;
+                        member = (user === null) ? undefined : user.memberType;
+                        url = '/api/authorize/getCredentials';
+                        branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
+                            ? undefined : purchase.seller.location.branchCode;
+                        body = { clientId: clientId, member: member, branchCode: branchCode };
+                        return [4 /*yield*/, this.http.post(url, body).toPromise()];
                     case 3:
                         result = _a.sent();
                         option = {

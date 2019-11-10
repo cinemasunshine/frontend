@@ -69,14 +69,6 @@ export class SasakiService {
      * @method authorize
      */
     public async authorize() {
-        const user: IUserData | null = this.storage.load('user', SaveType.Session);
-        const purchase: IPurchaseData | null = this.storage.load('purchase', SaveType.Session);
-        const clientId = (user === null) ? undefined : user.clientId;
-        const member = (user === null) ? undefined : user.memberType;
-        const url = '/api/authorize/getCredentials';
-        const branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
-            ? undefined : purchase.seller.location.branchCode;
-        const body = { clientId, member, branchCode };
         if (this.auth !== undefined && this.auth.credentials.expiryDate !== undefined) {
             const now = (await this.utilservice.getServerTime()).date;
             const expiryDate = this.auth.credentials.expiryDate;
@@ -87,6 +79,14 @@ export class SasakiService {
                 return;
             }
         }
+        const user: IUserData | null = this.storage.load('user', SaveType.Session);
+        const purchase: IPurchaseData | null = this.storage.load('purchase', SaveType.Session);
+        const clientId = (user === null) ? undefined : user.clientId;
+        const member = (user === null) ? undefined : user.memberType;
+        const url = '/api/authorize/getCredentials';
+        const branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
+            ? undefined : purchase.seller.location.branchCode;
+        const body = { clientId, member, branchCode };
         const result = await this.http.post<{
             credentials: { accessToken: string; expiryDate?: number; };
             clientId: string;
