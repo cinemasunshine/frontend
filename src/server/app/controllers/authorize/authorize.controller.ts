@@ -60,7 +60,7 @@ export async function getCredentials(req: Request, res: Response) {
         }
 
         res.json({
-            credentials: { accessToken: accessToken },
+            credentials: { accessToken: accessToken, expiryDate: options.auth.credentials.expiry_date },
             clientId: options.auth.options.clientId,
             endpoint,
             userName

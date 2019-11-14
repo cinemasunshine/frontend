@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.1.3 - 2019-11-14
+### Fixed
+ - アクセストークン取得最適化
+
 ## 6.1.2 - 2019-11-07
 ### Fixed
  - 照会ページミールクーポン表記修正
