@@ -2604,7 +2604,7 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                             searchResult.data.filter(function (t) {
                                 return (t.location !== undefined && t.location !== null && t.location.branchCode !== undefined);
                             });
-                        this.dateList = this.getDateList(3);
+                        this.dateList = this.getDateList();
                         theater = this.theaters[this.theaters.length - 1];
                         if (theater.location === undefined
                             || theater.location.branchCode === undefined) {
@@ -2632,16 +2632,16 @@ var PurchaseScheduleComponent = /** @class */ (function () {
     };
     /**
      * @method getDateList
-     * @param {number} loop
      * @returns {IDate[]}
      */
-    PurchaseScheduleComponent.prototype.getDateList = function (loop) {
+    PurchaseScheduleComponent.prototype.getDateList = function () {
         var results = [];
-        for (var i = 0; i < loop; i++) {
+        var limit = 35;
+        for (var i = 0; i < limit; i++) {
             var date = moment__WEBPACK_IMPORTED_MODULE_2__().add(i, 'day');
             results.push({
                 value: date.format('YYYYMMDD'),
-                label: (i === 0) ? '本日' : (i === 1) ? '明日' : (i === 2) ? '明後日' : date.format('YYYY/MM/DD')
+                label: date.format('YYYY/MM/DD(ddd)')
             });
         }
         return results;

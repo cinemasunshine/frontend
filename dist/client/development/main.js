@@ -3263,14 +3263,14 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.isSalse = function (screeningEvent) {
         return __awaiter(this, void 0, void 0, function () {
-            var now, salesEndTime, theatreTable, prefix_1, branchCode_1, theatreTableFindResult, url, xml, scheduleResult, coainfo_1, schedule, scheduleFindResult, movie, movieFindResult, screen_1, screenFindResult, time, timeFindResult, reservation, date, error_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var now, salesEndTime, theatreTable, prefix_1, branchCode_1, theatreTableFindResult, _a, url, xml, scheduleResult, coainfo_1, schedule, scheduleFindResult, movie, movieFindResult, screen_1, screenFindResult, time, timeFindResult, reservation, date, error_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
+                        _b.trys.push([0, 6, , 7]);
                         return [4 /*yield*/, this.utilService.getServerTime()];
                     case 1:
-                        now = (_a.sent()).date;
+                        now = (_b.sent()).date;
                         if (screeningEvent.offers === undefined
                             || screeningEvent.coaInfo === undefined) {
                             return [2 /*return*/, new Error('イベントが情報が不足しています')];
@@ -3289,17 +3289,25 @@ var PurchaseService = /** @class */ (function () {
                         }
                         return [4 /*yield*/, this.utilService.getJson('/json/table/theaters.json')];
                     case 2:
-                        theatreTable = _a.sent();
+                        theatreTable = _b.sent();
                         prefix_1 = (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) ? '0' : '1';
                         branchCode_1 = screeningEvent.superEvent.location.branchCode;
                         theatreTableFindResult = theatreTable.find(function (t) { return branchCode_1 === "" + prefix_1 + t.code; });
                         if (theatreTableFindResult === undefined) {
                             throw new Error('劇場が見つかりません');
                         }
-                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].SCHEDULE_API_URL + "/" + theatreTableFindResult.name + "/schedule/xml/schedule.xml?date=" + now;
-                        return [4 /*yield*/, this.utilService.getText(url)];
+                        if (!(this.scheduleApiEndpoint === undefined)) return [3 /*break*/, 4];
+                        _a = this;
+                        return [4 /*yield*/, this.utilService.getJson("/api/config?date" + now)];
                     case 3:
-                        xml = _a.sent();
+                        _a.scheduleApiEndpoint =
+                            (_b.sent()).scheduleApiEndpoint;
+                        _b.label = 4;
+                    case 4:
+                        url = this.scheduleApiEndpoint + "/" + theatreTableFindResult.name + "/schedule/xml/schedule.xml?date=" + now;
+                        return [4 /*yield*/, this.utilService.getText(url)];
+                    case 5:
+                        xml = _b.sent();
                         scheduleResult = Object(xml_js__WEBPACK_IMPORTED_MODULE_2__["xml2js"])(xml, { compact: true });
                         coainfo_1 = screeningEvent.coaInfo;
                         schedule = (Array.isArray(scheduleResult.schedules.schedule))
@@ -3342,12 +3350,17 @@ var PurchaseService = /** @class */ (function () {
                             date = moment__WEBPACK_IMPORTED_MODULE_1__(reservation.year + "-" + reservation.month + "-" + reservation.day + " " + reservation.hour + ":" + reservation.minute);
                             return [2 /*return*/, (date.unix() < moment__WEBPACK_IMPORTED_MODULE_1__(now).unix())];
                         }
-                        return [2 /*return*/, true];
-                    case 4:
-                        error_1 = _a.sent();
+                        else {
+                            // COAXMLの場合
+                            // console.log(timeFindResult.available._text, (timeFindResult.available._text !== '6'));
+                            return [2 /*return*/, (timeFindResult.available._text !== '6')];
+                        }
+                        return [3 /*break*/, 7];
+                    case 6:
+                        error_1 = _b.sent();
                         console.error(error_1);
                         return [2 /*return*/, false];
-                    case 5: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -5195,8 +5208,7 @@ var environment = {
     MEMBER_TICKET: _ticket__WEBPACK_IMPORTED_MODULE_0__["DEVELOPMENT_MEMBER_TICKET"],
     TRANSACTION_TIME: '10',
     SALES_END_TIME_VALUE: '10',
-    SALES_END_TIME_UNIT: 'minutes',
-    SCHEDULE_API_URL: 'https://sskts-xmlcontroller-test.azurewebsites.net'
+    SALES_END_TIME_UNIT: 'minutes' // 販売終了時間の単位（上映開始時間から相対）
 };
 
 

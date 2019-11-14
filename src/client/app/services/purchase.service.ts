@@ -131,6 +131,7 @@ enum Incentive {
 export class PurchaseService {
 
     public data: IPurchaseData;
+    public scheduleApiEndpoint?: string;
 
     constructor(
         private storage: StorageService,
@@ -263,7 +264,11 @@ export class PurchaseService {
             if (theatreTableFindResult === undefined) {
                 throw new Error('劇場が見つかりません');
             }
-            const url = `${environment.SCHEDULE_API_URL}/${theatreTableFindResult.name}/schedule/xml/schedule.xml?date=${now}`;
+            if (this.scheduleApiEndpoint === undefined) {
+                this.scheduleApiEndpoint =
+                    (await this.utilService.getJson<{ scheduleApiEndpoint: string }>(`/api/config?date${now}`)).scheduleApiEndpoint;
+            }
+            const url = `${this.scheduleApiEndpoint}/${theatreTableFindResult.name}/schedule/xml/schedule.xml?date=${now}`;
             const xml = await this.utilService.getText(url);
             /**
              * TODO
@@ -318,8 +323,11 @@ export class PurchaseService {
                 const date =
                     moment(`${reservation.year}-${reservation.month}-${reservation.day} ${reservation.hour}:${reservation.minute}`);
                 return (date.unix() < moment(now).unix());
+            } else {
+                // COAXMLの場合
+                // console.log(timeFindResult.available._text, (timeFindResult.available._text !== '6'));
+                return (timeFindResult.available._text !== '6');
             }
-            return true;
         } catch (error) {
             console.error(error);
             return false;

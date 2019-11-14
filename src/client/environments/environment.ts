@@ -23,7 +23,5 @@ export const environment = {
 
     TRANSACTION_TIME: '120', // 取引時間（分）
     SALES_END_TIME_VALUE: '10', // 販売終了時間の値（上映開始時間から相対）
-    SALES_END_TIME_UNIT: 'minutes', // 販売終了時間の単位（上映開始時間から相対）
-
-    SCHEDULE_API_URL: 'https://sskts-xmlcontroller-test.azurewebsites.net'
+    SALES_END_TIME_UNIT: 'minutes' // 販売終了時間の単位（上映開始時間から相対）
 };
