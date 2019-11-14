@@ -67,7 +67,7 @@ function getCredentials(req, res) {
                 userName = options.auth.verifyIdToken({}).getUsername();
             }
             res.json({
-                credentials: { accessToken: accessToken },
+                credentials: { accessToken: accessToken, expiryDate: options.auth.credentials.expiry_date },
                 clientId: options.auth.options.clientId,
                 endpoint,
                 userName
