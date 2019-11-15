@@ -3263,7 +3263,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.isSalse = function (screeningEvent) {
         return __awaiter(this, void 0, void 0, function () {
-            var now, salesEndTime, theatreTable, prefix_1, branchCode_1, theatreTableFindResult, _a, url, xml, scheduleResult, coainfo_1, schedule, scheduleFindResult, movie, movieFindResult, screen_1, screenFindResult, time, timeFindResult, reservation, date, error_1;
+            var now, today, salesEndTime, theatreTable, prefix_1, branchCode_1, theatreTableFindResult, _a, url, xml, coaInfo_1, scheduleResult, schedule, scheduleFindResult, movie, movieFindResult, screen_1, screenFindResult, time, timeFindResult, reservation, date, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -3271,13 +3271,10 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.utilService.getServerTime()];
                     case 1:
                         now = (_b.sent()).date;
+                        today = moment__WEBPACK_IMPORTED_MODULE_1__(moment__WEBPACK_IMPORTED_MODULE_1__(now).format('YYYYMMDD')).toDate();
                         if (screeningEvent.offers === undefined
                             || screeningEvent.coaInfo === undefined) {
                             return [2 /*return*/, new Error('イベントが情報が不足しています')];
-                        }
-                        if (moment__WEBPACK_IMPORTED_MODULE_1__(screeningEvent.offers.validFrom).unix() > moment__WEBPACK_IMPORTED_MODULE_1__(now).unix()) {
-                            // COA販売前
-                            throw new Error('COA販売前');
                         }
                         salesEndTime = {
                             value: Number(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].SALES_END_TIME_VALUE),
@@ -3308,32 +3305,40 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.utilService.getText(url)];
                     case 5:
                         xml = _b.sent();
+                        coaInfo_1 = screeningEvent.coaInfo;
+                        if (!(/\<rsv_start_day\>/.test(xml)
+                            && /\<\/rsv_start_day\>/.test(xml)
+                            && /\<rsv_start_time\>/.test(xml)
+                            && /\<\/rsv_start_time\>/.test(xml))
+                            && coaInfo_1.flgEarlyBooking === '1') {
+                            // COA版先行販売の場合予約可能開始日で判定
+                            return [2 /*return*/, (moment__WEBPACK_IMPORTED_MODULE_1__(coaInfo_1.rsvStartDate).unix() <= moment__WEBPACK_IMPORTED_MODULE_1__(today).unix())];
+                        }
                         scheduleResult = Object(xml_js__WEBPACK_IMPORTED_MODULE_2__["xml2js"])(xml, { compact: true });
-                        coainfo_1 = screeningEvent.coaInfo;
                         schedule = (Array.isArray(scheduleResult.schedules.schedule))
                             ? scheduleResult.schedules.schedule : [scheduleResult.schedules.schedule];
-                        scheduleFindResult = schedule.find(function (s) { return s.date._text === coainfo_1.dateJouei; });
+                        scheduleFindResult = schedule.find(function (s) { return s.date._text === coaInfo_1.dateJouei; });
                         if (scheduleFindResult === undefined) {
                             throw new Error('scheduleが見つかりません');
                         }
                         movie = (Array.isArray(scheduleFindResult.movie))
                             ? scheduleFindResult.movie : [scheduleFindResult.movie];
                         movieFindResult = movie.find(function (m) {
-                            return (m.movie_short_code._cdata === coainfo_1.titleCode
-                                && m.movie_branch_code._cdata === coainfo_1.titleBranchNum);
+                            return (m.movie_short_code._cdata === coaInfo_1.titleCode
+                                && m.movie_branch_code._cdata === coaInfo_1.titleBranchNum);
                         });
                         if (movieFindResult === undefined) {
                             throw new Error('movieが見つかりません');
                         }
                         screen_1 = (Array.isArray(movieFindResult.screen))
                             ? movieFindResult.screen : [movieFindResult.screen];
-                        screenFindResult = screen_1.find(function (s) { return s.screen_code._cdata === coainfo_1.screenCode; });
+                        screenFindResult = screen_1.find(function (s) { return s.screen_code._cdata === coaInfo_1.screenCode; });
                         if (screenFindResult === undefined) {
                             throw new Error('screenが見つかりません');
                         }
                         time = (Array.isArray(screenFindResult.time))
                             ? screenFindResult.time : [screenFindResult.time];
-                        timeFindResult = time.find(function (t) { return (t.start_time._text === coainfo_1.timeBegin); });
+                        timeFindResult = time.find(function (t) { return (t.start_time._text === coaInfo_1.timeBegin); });
                         if (timeFindResult === undefined) {
                             throw new Error('timeが見つかりません');
                         }

@@ -238,13 +238,10 @@ export class PurchaseService {
     public async isSalse(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
         try {
             const now = (await this.utilService.getServerTime()).date;
+            const today = moment(moment(now).format('YYYYMMDD')).toDate();
             if (screeningEvent.offers === undefined
                 || screeningEvent.coaInfo === undefined) {
                 return new Error('イベントが情報が不足しています');
-            }
-            if (moment(screeningEvent.offers.validFrom).unix() > moment(now).unix()) {
-                // COA販売前
-                throw new Error('COA販売前');
             }
 
             const salesEndTime = {
@@ -255,7 +252,11 @@ export class PurchaseService {
                 // 販売終了
                 throw new Error('販売終了');
             }
-
+            /**
+             * TODO
+             * JSONへ移行する
+             * xml2jsと合わせて依存関係も削除（timers,stream）
+             */
             const theatreTable =
                 await this.utilService.getJson<{ code: string; name: string }[]>('/json/table/theaters.json');
             const prefix = (environment.production) ? '0' : '1';
@@ -270,18 +271,21 @@ export class PurchaseService {
             }
             const url = `${this.scheduleApiEndpoint}/${theatreTableFindResult.name}/schedule/xml/schedule.xml?date=${now}`;
             const xml = await this.utilService.getText(url);
-            /**
-             * TODO
-             * JSONへ移行する
-             * xml2jsと合わせて依存関係も削除（timers,stream）
-             */
+            const coaInfo = screeningEvent.coaInfo;
+            if (!(/\<rsv_start_day\>/.test(xml)
+                && /\<\/rsv_start_day\>/.test(xml)
+                && /\<rsv_start_time\>/.test(xml)
+                && /\<\/rsv_start_time\>/.test(xml))
+                && coaInfo.flgEarlyBooking === '1') {
+                // COA版先行販売の場合予約可能開始日で判定
+                return (moment(coaInfo.rsvStartDate).unix() <= moment(today).unix());
+            }
             const scheduleResult = <any>xml2js(xml, { compact: true });
-            const coainfo = screeningEvent.coaInfo;
             // console.log('scheduleResult', scheduleResult);
-            // console.log('coainfo', coainfo);
+            // console.log('coaInfo', coaInfo);
             const schedule: any[] = (Array.isArray(scheduleResult.schedules.schedule))
                 ? scheduleResult.schedules.schedule : [scheduleResult.schedules.schedule];
-            const scheduleFindResult = schedule.find((s: any) => s.date._text === coainfo.dateJouei);
+            const scheduleFindResult = schedule.find((s: any) => s.date._text === coaInfo.dateJouei);
             if (scheduleFindResult === undefined) {
                 throw new Error('scheduleが見つかりません');
             }
@@ -289,8 +293,8 @@ export class PurchaseService {
             const movie: any[] = (Array.isArray(scheduleFindResult.movie))
                 ? scheduleFindResult.movie : [scheduleFindResult.movie];
             const movieFindResult = movie.find((m: any) => {
-                return (m.movie_short_code._cdata === coainfo.titleCode
-                    && m.movie_branch_code._cdata === coainfo.titleBranchNum);
+                return (m.movie_short_code._cdata === coaInfo.titleCode
+                    && m.movie_branch_code._cdata === coaInfo.titleBranchNum);
             });
             if (movieFindResult === undefined) {
                 throw new Error('movieが見つかりません');
@@ -298,7 +302,7 @@ export class PurchaseService {
             // console.log('movieFindResult', movieFindResult);
             const screen: any[] = (Array.isArray(movieFindResult.screen))
                 ? movieFindResult.screen : [movieFindResult.screen];
-            const screenFindResult = screen.find((s: any) => s.screen_code._cdata === coainfo.screenCode);
+            const screenFindResult = screen.find((s: any) => s.screen_code._cdata === coaInfo.screenCode);
             if (screenFindResult === undefined) {
                 throw new Error('screenが見つかりません');
             }
@@ -306,7 +310,7 @@ export class PurchaseService {
             const time: any[] = (Array.isArray(screenFindResult.time))
                 ? screenFindResult.time : [screenFindResult.time];
             const timeFindResult =
-                time.find((t: any) => (t.start_time._text === coainfo.timeBegin));
+                time.find((t: any) => (t.start_time._text === coaInfo.timeBegin));
             if (timeFindResult === undefined) {
                 throw new Error('timeが見つかりません');
             }
