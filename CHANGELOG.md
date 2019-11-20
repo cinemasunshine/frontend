@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.1.3 - 2019-11-20
+### Changed
+ - 大和郡山IMAX座席変更
+
 ## 6.1.3 - 2019-11-14
 ### Fixed
  - アクセストークン取得最適化
