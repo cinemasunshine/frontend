@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
-## 6.2.0 - 2019-11-20
+## 6.2.0 - 2019-11-21
 ### Added
  - 予約可能確認追加
 
