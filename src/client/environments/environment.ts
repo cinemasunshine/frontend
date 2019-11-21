@@ -21,5 +21,7 @@ export const environment = {
 
     MEMBER_TICKET: DEVELOPMENT_MEMBER_TICKET, // 毎週木曜1,100円鑑賞の購入枚数上限は1枚だけ
 
-    TRANSACTION_TIME: '120'
+    TRANSACTION_TIME: '120', // 取引時間（分）
+    SALES_END_TIME_VALUE: '10', // 販売終了時間の値（上映開始時間から相対）
+    SALES_END_TIME_UNIT: 'minutes' // 販売終了時間の単位（上映開始時間から相対）
 };

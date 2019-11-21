@@ -62,10 +62,13 @@
     "redis": "^2.8.0",
     "rxjs": "^6.5.3",
     "rxjs-compat": "^6.5.3",
+    "stream": "0.0.2",
+    "timers": "^0.1.1",
     "tslib": "^1.10.0",
     "uuid": "^3.3.3",
     "webpack-bundle-analyzer": "^3.5.2",
     "winston": "^2.4.4",
+    "xml-js": "^1.6.11",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

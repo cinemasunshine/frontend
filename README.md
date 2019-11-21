@@ -34,6 +34,7 @@
 | `CHANGE_API_THEATERS`               | false    |                  | API切り替え劇場branchCode(カンマ区切り)   |
 | `SSKTS_API_ENDPOINT_2`              | false    |                  | スケジュール取得API非表示劇場(カンマ区切り)   |
 | `DEBUG`                             | false    | sskts-frontend:* | デバッグ                                |
+| `SCHEDULE_API_ENDPOINT`             | true     |                  | スケジュールAPIエンドポイント             |
 
 ## Azure Environment variables
 

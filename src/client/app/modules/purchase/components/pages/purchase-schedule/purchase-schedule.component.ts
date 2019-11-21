@@ -59,7 +59,7 @@ export class PurchaseScheduleComponent implements OnInit {
                 searchResult.data.filter((t) => {
                     return (t.location !== undefined && t.location !== null && t.location.branchCode !== undefined);
                 });
-            this.dateList = this.getDateList(3);
+            this.dateList = this.getDateList();
             const theater = this.theaters[this.theaters.length - 1];
             if (theater.location === undefined
                 || theater.location.branchCode === undefined) {
@@ -79,16 +79,16 @@ export class PurchaseScheduleComponent implements OnInit {
 
     /**
      * @method getDateList
-     * @param {number} loop
      * @returns {IDate[]}
      */
-    public getDateList(loop: number): IDate[] {
+    public getDateList(): IDate[] {
         const results = [];
-        for (let i = 0; i < loop; i++) {
+        const limit = 35;
+        for (let i = 0; i < limit; i++) {
             const date = moment().add(i, 'day');
             results.push({
                 value: date.format('YYYYMMDD'),
-                label: (i === 0) ? '本日' : (i === 1) ? '明日' : (i === 2) ? '明後日' : date.format('YYYY/MM/DD')
+                label: date.format('YYYY/MM/DD(ddd)')
             });
         }
 

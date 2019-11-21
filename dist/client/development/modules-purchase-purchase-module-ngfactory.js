@@ -2604,7 +2604,7 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                             searchResult.data.filter(function (t) {
                                 return (t.location !== undefined && t.location !== null && t.location.branchCode !== undefined);
                             });
-                        this.dateList = this.getDateList(3);
+                        this.dateList = this.getDateList();
                         theater = this.theaters[this.theaters.length - 1];
                         if (theater.location === undefined
                             || theater.location.branchCode === undefined) {
@@ -2632,16 +2632,16 @@ var PurchaseScheduleComponent = /** @class */ (function () {
     };
     /**
      * @method getDateList
-     * @param {number} loop
      * @returns {IDate[]}
      */
-    PurchaseScheduleComponent.prototype.getDateList = function (loop) {
+    PurchaseScheduleComponent.prototype.getDateList = function () {
         var results = [];
-        for (var i = 0; i < loop; i++) {
+        var limit = 35;
+        for (var i = 0; i < limit; i++) {
             var date = moment__WEBPACK_IMPORTED_MODULE_2__().add(i, 'day');
             results.push({
                 value: date.format('YYYYMMDD'),
-                label: (i === 0) ? '本日' : (i === 1) ? '明日' : (i === 2) ? '明後日' : date.format('YYYY/MM/DD')
+                label: date.format('YYYY/MM/DD(ddd)')
             });
         }
         return results;
@@ -4028,9 +4028,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseTransactionComponent", function() { return PurchaseTransactionComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../services */ "./app/services/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../services */ "./app/services/index.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -4070,7 +4068,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-
 var PurchaseTransactionComponent = /** @class */ (function () {
     function PurchaseTransactionComponent(storage, router, sasaki, purchase, error, awsCognito, user) {
         this.storage = storage;
@@ -4086,12 +4083,12 @@ var PurchaseTransactionComponent = /** @class */ (function () {
      */
     PurchaseTransactionComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var screeningEvent, END_TIME, err_1;
+            var screeningEvent, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 8, , 9]);
-                        this.parameters = this.storage.load('parameters', _services__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
+                        _a.trys.push([0, 9, , 10]);
+                        this.parameters = this.storage.load('parameters', _services__WEBPACK_IMPORTED_MODULE_2__["SaveType"].Session);
                         if (!this.parameters.signInRedirect) {
                             this.user.reset();
                             this.user.load();
@@ -4103,7 +4100,7 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                         this.user.setNative(this.parameters.native);
                         this.user.setClientId(this.parameters.clientId);
                         this.user.save();
-                        if (!(this.parameters.member === _services__WEBPACK_IMPORTED_MODULE_3__["FlgMember"].Member
+                        if (!(this.parameters.member === _services__WEBPACK_IMPORTED_MODULE_2__["FlgMember"].Member
                             && !this.parameters.signInRedirect)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.sasaki.signIn()];
                     case 1:
@@ -4123,14 +4120,11 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                             })];
                     case 6:
                         screeningEvent = _a.sent();
+                        return [4 /*yield*/, this.purchase.isSalse(screeningEvent)];
+                    case 7:
                         // 開始可能日判定
-                        if (!this.purchase.isSalse(screeningEvent)) {
+                        if (!(_a.sent())) {
                             throw new Error('Unable to start sales');
-                        }
-                        END_TIME = 10;
-                        // 終了可能日判定
-                        if (moment__WEBPACK_IMPORTED_MODULE_2__().add(END_TIME, 'minutes').unix() > moment__WEBPACK_IMPORTED_MODULE_2__(screeningEvent.startDate).unix()) {
-                            throw new Error('unable to end sales');
                         }
                         if (this.purchase.data.transaction !== undefined && this.purchase.isExpired()) {
                             // 取引期限切れなら購入情報削除
@@ -4142,7 +4136,7 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                         // }
                         if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
                             // 重複確認へ
-                            this.storage.save('screeningEvent', screeningEvent, _services__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
+                            this.storage.save('screeningEvent', screeningEvent, _services__WEBPACK_IMPORTED_MODULE_2__["SaveType"].Session);
                             this.router.navigate(["/purchase/overlap"]);
                             return [2 /*return*/];
                         }
@@ -4150,16 +4144,16 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                                 passportToken: this.parameters.passportToken,
                                 screeningEvent: screeningEvent
                             })];
-                    case 7:
-                        _a.sent();
-                        this.storage.remove('parameters', _services__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
-                        this.router.navigate(['/purchase/seat'], { replaceUrl: true });
-                        return [3 /*break*/, 9];
                     case 8:
+                        _a.sent();
+                        this.storage.remove('parameters', _services__WEBPACK_IMPORTED_MODULE_2__["SaveType"].Session);
+                        this.router.navigate(['/purchase/seat'], { replaceUrl: true });
+                        return [3 /*break*/, 10];
+                    case 9:
                         err_1 = _a.sent();
                         this.error.redirect(err_1);
-                        return [3 /*break*/, 9];
-                    case 9: return [2 /*return*/];
+                        return [3 /*break*/, 10];
+                    case 10: return [2 /*return*/];
                 }
             });
         });
