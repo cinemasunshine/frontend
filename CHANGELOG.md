@@ -14,7 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
-## 6.1.3 - 2019-11-20
+## 6.2.0 - 2019-11-21
+### Added
+ - 予約可能確認追加
+
+## 6.1.4 - 2019-11-20
 ### Changed
  - 大和郡山IMAX座席変更
 

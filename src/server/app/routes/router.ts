@@ -26,6 +26,7 @@ export default (app: Application) => {
     app.use('/api/master', masterRouter);
     app.use('/api/authorize', authorizeRouter);
     app.post('/api/mail/template', getTemplate);
+    app.get('/api/config', (_req, res) => { res.json({ scheduleApiEndpoint: process.env.SCHEDULE_API_ENDPOINT }); });
     app.get('/api/serverTime', (_req, res) => { res.json({ date: moment().toISOString() }); });
     app.get('/inquiry/login', (req: Request, res: Response) => {
         if (req.query.reserve === undefined) {
