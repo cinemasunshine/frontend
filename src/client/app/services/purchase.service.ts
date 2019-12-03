@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { factory } from '@cinerino/api-javascript-client';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
-import { factory } from '@motionpicture/sskts-api-javascript-client';
 import * as moment from 'moment';
 import { xml2js } from 'xml-js';
 import { environment } from '../../environments/environment';
@@ -13,7 +13,7 @@ import {
 import { TimeFormatPipe } from '../modules/shared/pipes';
 import { AwsCognitoService } from './aws-cognito.service';
 import { CallNativeService } from './call-native.service';
-import { SasakiService } from './sasaki.service';
+import { CinerinoService } from './cinerino.service';
 import { SaveType, StorageService } from './storage.service';
 import { UserService } from './user.service';
 import { UtilService } from './util.service';
@@ -135,7 +135,7 @@ export class PurchaseService {
 
     constructor(
         private storage: StorageService,
-        private sasaki: SasakiService,
+        private cinerinoService: CinerinoService,
         private awsCognito: AwsCognitoService,
         private callNative: CallNativeService,
         private userService: UserService,
@@ -697,24 +697,24 @@ export class PurchaseService {
         // 購入データ削除
         this.reset();
         this.data.screeningEvent = args.screeningEvent;
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         if (this.data.screeningEvent.superEvent.location === undefined
             || this.data.screeningEvent.superEvent.location.branchCode === undefined) {
             throw new Error('branchCode is undefined');
         }
         const branchCode = this.data.screeningEvent.superEvent.location.branchCode;
         // 劇場のショップを検索
-        const searchResult = await this.sasaki.seller.search({
+        const searchResult = await this.cinerinoService.seller.search({
             location: { branchCodes: [branchCode] }
         });
         this.data.seller = searchResult.data[0];
         this.save();
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         const now = (await this.utilService.getServerTime()).date;
         // 取引期限
         const expires = moment(now).add(environment.TRANSACTION_TIME, 'minutes').toDate();
         // 取引開始
-        this.data.transaction = await this.sasaki.transaction.placeOrder.start({
+        this.data.transaction = await this.cinerinoService.transaction.placeOrder.start({
             expires: expires,
             seller: {
                 typeOf: this.data.seller.typeOf,
@@ -733,8 +733,8 @@ export class PurchaseService {
         if (this.data.tmpSeatReservationAuthorization === undefined) {
             throw new Error('status is different');
         }
-        await this.sasaki.getServices();
-        await this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
+        await this.cinerinoService.getServices();
+        await this.cinerinoService.transaction.placeOrder4sskts.cancelSeatReservationAuthorization({
             id: this.data.tmpSeatReservationAuthorization.id,
             purpose: this.data.tmpSeatReservationAuthorization.purpose
         });
@@ -751,10 +751,10 @@ export class PurchaseService {
             || this.data.screeningEvent === undefined) {
             throw new Error('status is different');
         }
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         // 予約中なら座席削除
         if (this.data.tmpSeatReservationAuthorization !== undefined) {
-            await this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
+            await this.cinerinoService.transaction.placeOrder4sskts.cancelSeatReservationAuthorization({
                 id: this.data.tmpSeatReservationAuthorization.id,
                 purpose: this.data.tmpSeatReservationAuthorization.purpose
             });
@@ -763,7 +763,7 @@ export class PurchaseService {
         }
         // 座席登録
         this.data.tmpSeatReservationAuthorization =
-            await this.sasaki.transaction.placeOrder.createSeatReservationAuthorization({
+            await this.cinerinoService.transaction.placeOrder4sskts.createSeatReservationAuthorization({
                 object: {
                     event: {
                         id: this.data.screeningEvent.id
@@ -790,10 +790,10 @@ export class PurchaseService {
             || this.data.screeningEvent === undefined) {
             throw new Error('status is different');
         }
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         // console.log('changeSeatReservationArgs', changeSeatReservationArgs);
         this.data.seatReservationAuthorization =
-            await this.sasaki.transaction.placeOrder.changeSeatReservationOffers({
+            await this.cinerinoService.transaction.placeOrder4sskts.changeSeatReservationOffers({
                 id: this.data.tmpSeatReservationAuthorization.id,
                 object: {
                     event: {
@@ -811,7 +811,7 @@ export class PurchaseService {
         }
         if (this.data.creditCardAuthorization !== undefined) {
             // クレジットカード登録済みなら削除
-            await this.sasaki.payment.voidTransaction({
+            await this.cinerinoService.payment.voidTransaction({
                 id: this.data.creditCardAuthorization.id,
                 object: {
                     typeOf: factory.chevre.paymentMethodType.CreditCard
@@ -835,9 +835,9 @@ export class PurchaseService {
         if (this.data.transaction === undefined) {
             throw new Error('transaction is undefined');
         }
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         // 入力情報を登録
-        this.data.customerContact = await this.sasaki.transaction.placeOrder.setCustomerContact({
+        this.data.customerContact = await this.cinerinoService.transaction.placeOrder.setCustomerContact({
             id: this.data.transaction.id,
             object: { customerContact }
         });
@@ -869,10 +869,10 @@ export class PurchaseService {
             || this.data.paymentCreditCard === undefined) {
             throw new Error('status is different');
         }
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         if (this.data.creditCardAuthorization !== undefined) {
             // クレジットカード登録済みなら削除
-            await this.sasaki.payment.voidTransaction({
+            await this.cinerinoService.payment.voidTransaction({
                 id: this.data.creditCardAuthorization.id,
                 object: {
                     typeOf: factory.chevre.paymentMethodType.CreditCard
@@ -887,7 +887,7 @@ export class PurchaseService {
         }
         // クレジットカード登録
         const METHOD_LUMP: any = '1';
-        this.data.creditCardAuthorization = await this.sasaki.payment.authorizeCreditCard({
+        this.data.creditCardAuthorization = await this.cinerinoService.payment.authorizeCreditCard({
             object: {
                 typeOf: factory.paymentMethodType.CreditCard,
                 // orderId: this.createOrderId(),
@@ -935,18 +935,19 @@ export class PurchaseService {
             || this.userService.data.account === undefined) {
             throw new Error('status is different');
         }
-        await this.sasaki.getServices();
-        this.data.pecorinoAwardAuthorization = await this.sasaki.transaction.placeOrder.createPecorinoAwardAuthorization({
-            purpose: {
-                id: this.data.transaction.id,
-                typeOf: this.data.transaction.typeOf
-            },
-            object: {
-                amount: Incentive.WatchingMovies,
-                toAccountNumber: this.userService.data.account.typeOfGood.accountNumber,
-                notes: '鑑賞'
-            }
-        });
+        await this.cinerinoService.getServices();
+        this.data.pecorinoAwardAuthorization =
+            await this.cinerinoService.transaction.placeOrder.authorizePointAward({
+                purpose: {
+                    id: this.data.transaction.id,
+                    typeOf: this.data.transaction.typeOf
+                },
+                object: {
+                    amount: Incentive.WatchingMovies,
+                    toAccountNumber: this.userService.data.account.typeOfGood.accountNumber,
+                    notes: '鑑賞'
+                }
+            });
         this.data.incentive = Incentive.WatchingMovies;
     }
 
@@ -959,7 +960,7 @@ export class PurchaseService {
             || this.data.seatReservationAuthorization === undefined) {
             throw new Error('status is different');
         }
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         const ticketNames = [];
         let usePoint = 0;
         for (const offer of this.data.seatReservationAuthorization.object.acceptedOffer) {
@@ -975,7 +976,7 @@ export class PurchaseService {
 
         const notes = ticketNames.join(',');
 
-        await this.sasaki.payment.authorizeAccount({
+        await this.cinerinoService.payment.authorizeAccount({
             object: {
                 typeOf: factory.paymentMethodType.Account,
                 amount: usePoint,
@@ -998,7 +999,7 @@ export class PurchaseService {
         const seller = this.data.seller;
         const seatReservationAuthorization = this.data.seatReservationAuthorization;
         const customerContact = this.data.customerContact;
-        const userName = this.sasaki.userName;
+        const userName = this.cinerinoService.userName;
         if (transaction === undefined
             || screeningEvent === undefined
             || seller === undefined
@@ -1006,46 +1007,41 @@ export class PurchaseService {
             || customerContact === undefined) {
             throw new Error('status is different');
         }
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         if (this.isReserveMvtk()) {
             // ムビチケ使用
             const mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync();
-            await this.sasaki.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
+            await this.cinerinoService.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
         }
-        let order;
+        let order: factory.order.IOrder;
         try {
             if (this.isReserveMvtk()) {
                 // 決済方法として、ムビチケを追加する
                 this.data.mvtkAuthorization =
-                    await this.sasaki.transaction.placeOrder.createMvtkAuthorization({
+                    await this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
                         purpose: {
                             id: transaction.id,
                             typeOf: transaction.typeOf
                         },
                         object: {
-                            typeOf: factory.action.authorize.discount.mvtk.ObjectType.Mvtk,
-                            price: this.getMvtkTotalPrice(),
                             seatInfoSyncIn: this.getMvtkSeatInfoSync()
                         }
                     });
             }
             // 取引確定
-            order = await this.sasaki.transaction.placeOrder.confirm({
+            const confirmResult = await this.cinerinoService.transaction.placeOrder4sskts.confirm({
                 id: transaction.id,
-                options: {
-                    sendEmailMessage: true,
-                    email: {
-                        sender: {
-                            email: 'noreply@ticket-cinemasunshine.com'
-                        },
-                        template: (this.userService.isMember())
-                            ? getPurchaseCompletionMemberEmail({
-                                seller, screeningEvent, customerContact, seatReservationAuthorization, userName
-                            })
-                            : getPurchaseCompletionEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization })
-                    }
+                sendEmailMessage: true,
+                email: {
+                    sender: { email: 'noreply@ticket-cinemasunshine.com' },
+                    template: (this.userService.isMember())
+                        ? getPurchaseCompletionMemberEmail({
+                            seller, screeningEvent, customerContact, seatReservationAuthorization, userName
+                        })
+                        : getPurchaseCompletionEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization })
                 }
             });
+            order = confirmResult.order;
         } catch (err) {
             if (this.isReserveMvtk()) {
                 await this.cancelMvtksSatInfoSync(0);
@@ -1144,7 +1140,7 @@ export class PurchaseService {
             const mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync({
                 deleteFlag: deleteFlag
             });
-            await this.sasaki.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
+            await this.cinerinoService.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
         } catch (err) {
             const limit = 3;
             if (count > limit) {
@@ -1166,7 +1162,7 @@ export class PurchaseService {
             || this.data.screeningEvent.coaInfo === undefined) {
             throw new Error('status is different');
         }
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         const DIGITS = -2;
         const coaInfo = this.data.screeningEvent.coaInfo;
         const valid = '1';
@@ -1178,7 +1174,7 @@ export class PurchaseService {
             stCd: Number(coaInfo.theaterCode.slice(DIGITS)).toString(),
             jeiYmd: moment(coaInfo.dateJouei).format('YYYY/MM/DD')
         };
-        const mvtkPurchaseNumberAuthResult = await this.sasaki.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs);
+        const mvtkPurchaseNumberAuthResult = await this.cinerinoService.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs);
         const success = 'N000';
         if (mvtkPurchaseNumberAuthResult.resultInfo.status !== success
             || mvtkPurchaseNumberAuthResult.ykknmiNumSum === null
@@ -1204,7 +1200,7 @@ export class PurchaseService {
                     titleBranchNum: coaInfo.titleBranchNum,
                     dateJouei: coaInfo.dateJouei
                 };
-                const mvtkTicketcodeResult = await this.sasaki.mvtkTicketcode(mvtkTicketcodeArgs);
+                const mvtkTicketcodeResult = await this.cinerinoService.mvtkTicketcode(mvtkTicketcodeArgs);
                 // console.log('mvtkTicketcodeResult', mvtkTicketcodeResult);
                 const data = {
                     mvtkTicketcodeResult: mvtkTicketcodeResult,

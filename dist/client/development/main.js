@@ -2859,6 +2859,323 @@ var InAppBrowserTarget;
 
 /***/ }),
 
+/***/ "./app/services/cinerino.service.ts":
+/*!******************************************!*\
+  !*** ./app/services/cinerino.service.ts ***!
+  \******************************************/
+/*! exports provided: CinerinoService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CinerinoService", function() { return CinerinoService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
+/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
+/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+
+
+
+
+
+
+
+
+var CinerinoService = /** @class */ (function () {
+    function CinerinoService(http, storage, utilservice) {
+        this.http = http;
+        this.storage = storage;
+        this.utilservice = utilservice;
+    }
+    /**
+     * getServices
+     */
+    CinerinoService.prototype.getServices = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var option, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.createOption()];
+                    case 1:
+                        option = _a.sent();
+                        this.event = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Event(option);
+                        this.order = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Order(option);
+                        this.seller = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Seller(option);
+                        this.person = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Person(option);
+                        this.payment = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Payment(option);
+                        this.ownershipInfo = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].person.OwnershipInfo(option);
+                        this.transaction = {
+                            placeOrder: new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].transaction.PlaceOrder(option),
+                            placeOrder4sskts: new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].transaction.PlaceOrder4sskts(option)
+                        };
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_1 = _a.sent();
+                        console.error(err_1);
+                        throw new Error('getServices is failed');
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * @method createOption
+     */
+    CinerinoService.prototype.createOption = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.authorize()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, {
+                                endpoint: this.endpoint,
+                                auth: this.auth
+                            }];
+                }
+            });
+        });
+    };
+    /**
+     * @method authorize
+     */
+    CinerinoService.prototype.authorize = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var now, expiryDate, isTokenExpired, user, purchase, clientId, member, url, branchCode, body, result, option;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(this.auth !== undefined && this.auth.credentials.expiryDate !== undefined)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.utilservice.getServerTime()];
+                    case 1:
+                        now = (_a.sent()).date;
+                        expiryDate = this.auth.credentials.expiryDate;
+                        isTokenExpired = (expiryDate !== undefined)
+                            ? (expiryDate <= (moment__WEBPACK_IMPORTED_MODULE_2__(now).add(-5, 'minute').toDate()).getTime()) : false;
+                        if (!isTokenExpired) {
+                            // アクセストークン取得・更新しない
+                            return [2 /*return*/];
+                        }
+                        _a.label = 2;
+                    case 2:
+                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        purchase = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        clientId = (user === null) ? undefined : user.clientId;
+                        member = (user === null) ? undefined : user.memberType;
+                        url = '/api/authorize/getCredentials';
+                        branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
+                            ? undefined : purchase.seller.location.branchCode;
+                        body = { clientId: clientId, member: member, branchCode: branchCode };
+                        return [4 /*yield*/, this.http.post(url, body).toPromise()];
+                    case 3:
+                        result = _a.sent();
+                        option = {
+                            domain: '',
+                            clientId: result.clientId,
+                            redirectUri: '',
+                            logoutUri: '',
+                            responseType: '',
+                            scope: '',
+                            state: '',
+                            nonce: null,
+                            tokenIssuer: ''
+                        };
+                        this.auth = _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["createAuthInstance"](option);
+                        this.auth.setCredentials(result.credentials);
+                        this.endpoint = result.endpoint;
+                        this.userName = result.userName;
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * サインイン
+     */
+    CinerinoService.prototype.signIn = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, user, clientId, body, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = '/api/authorize/signIn';
+                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        clientId = user.clientId;
+                        body = { clientId: clientId };
+                        return [4 /*yield*/, this.http.post(url, body).toPromise()];
+                    case 1:
+                        result = _a.sent();
+                        // console.log(result.url);
+                        location.href = result.url;
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * ムビチケ照会
+     * @param {mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn} args
+     */
+    CinerinoService.prototype.mvtkPurchaseNumberAuth = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
+                return [2 /*return*/, this.http.post(url, args).toPromise()];
+            });
+        });
+    };
+    /**
+     * ムビチケ座席指定情報連携
+     * @param {mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn} args
+     */
+    CinerinoService.prototype.mvtksSatInfoSync = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
+                return [2 /*return*/, this.http.post(url, args).toPromise()];
+            });
+        });
+    };
+    /**
+     * 座席ステータス取得
+     * @param {COA.services.reserve.IStateReserveSeatArgs} args
+     */
+    CinerinoService.prototype.getSeatState = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/getSeatState";
+                return [2 /*return*/, this.http.get(url, {
+                        params: args
+                    }).toPromise()];
+            });
+        });
+    };
+    /**
+     * スクリーンマスタ取得
+     * @param {COA.services.master.IScreenArgs} args
+     */
+    CinerinoService.prototype.getScreens = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getScreens";
+                return [2 /*return*/, this.http.get(url, {
+                        params: args
+                    }).toPromise()];
+            });
+        });
+    };
+    /**
+     * ムビチケチケットコード取得
+     * @param {COA.services.master.IMvtkTicketcodeArgs} args
+     */
+    CinerinoService.prototype.mvtkTicketcode = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
+                        return [4 /*yield*/, this.http.post(url, args).toPromise()];
+                    case 1:
+                        result = _a.sent();
+                        // 暫定的に対応
+                        if (result.name === 'COAServiceError') {
+                            throw new Error('COAServiceError');
+                        }
+                        return [2 /*return*/, result];
+                }
+            });
+        });
+    };
+    /**
+     * 券種取得
+     * @method getSalesTickets
+     * @param {COA.services.reserve.ISalesTicketArgs} args
+     */
+    CinerinoService.prototype.getSalesTickets = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getSalesTickets";
+                return [2 /*return*/, this.http.get(url, {
+                        params: args
+                    }).toPromise()];
+            });
+        });
+    };
+    /**
+     * 券種マスター一覧取得
+     * @method getTickets
+     * @param {COA.services.reserve.ITicketArgs} args
+     */
+    CinerinoService.prototype.getTickets = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getTickets";
+                return [2 /*return*/, this.http.get(url, {
+                        params: args
+                    }).toPromise()];
+            });
+        });
+    };
+    CinerinoService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({ factory: function CinerinoService_Factory() { return new CinerinoService(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_4__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_5__["UtilService"])); }, token: CinerinoService, providedIn: "root" });
+    return CinerinoService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./app/services/error.service.ts":
 /*!***************************************!*\
   !*** ./app/services/error.service.ts ***!
@@ -2895,7 +3212,7 @@ var ErrorService = /** @class */ (function () {
 /*!*******************************!*\
   !*** ./app/services/index.ts ***!
   \*******************************/
-/*! exports provided: ErrorService, PurchaseService, FlgMember, UserService, AwsCognitoService, CallNativeService, InAppBrowserTarget, SasakiService, SaveType, StorageService, UtilService, InquiryService */
+/*! exports provided: ErrorService, PurchaseService, FlgMember, UserService, AwsCognitoService, CallNativeService, InAppBrowserTarget, CinerinoService, SaveType, StorageService, UtilService, InquiryService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2914,8 +3231,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _purchase_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./purchase.service */ "./app/services/purchase.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PurchaseService", function() { return _purchase_service__WEBPACK_IMPORTED_MODULE_3__["PurchaseService"]; });
 
-/* harmony import */ var _sasaki_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sasaki.service */ "./app/services/sasaki.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SasakiService", function() { return _sasaki_service__WEBPACK_IMPORTED_MODULE_4__["SasakiService"]; });
+/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CinerinoService", function() { return _cinerino_service__WEBPACK_IMPORTED_MODULE_4__["CinerinoService"]; });
 
 /* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SaveType", function() { return _storage_service__WEBPACK_IMPORTED_MODULE_5__["SaveType"]; });
@@ -2956,7 +3273,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InquiryService", function() { return InquiryService; });
-/* harmony import */ var _sasaki_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sasaki.service */ "./app/services/sasaki.service.ts");
+/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
 /* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -3065,7 +3382,7 @@ var InquiryService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.sasakiService.getServices()];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.sasakiService.order.findByOrderInquiryKey(params)];
+                        return [4 /*yield*/, this.sasakiService.order.findByOrderInquiryKey4sskts(params)];
                     case 2:
                         order = _a.sent();
                         return [2 /*return*/, order];
@@ -3073,7 +3390,7 @@ var InquiryService = /** @class */ (function () {
             });
         });
     };
-    InquiryService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjectable"]({ factory: function InquiryService_Factory() { return new InquiryService(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_1__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_sasaki_service__WEBPACK_IMPORTED_MODULE_0__["SasakiService"])); }, token: InquiryService, providedIn: "root" });
+    InquiryService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjectable"]({ factory: function InquiryService_Factory() { return new InquiryService(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_1__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_0__["CinerinoService"])); }, token: InquiryService, providedIn: "root" });
     return InquiryService;
 }());
 
@@ -3091,8 +3408,8 @@ var InquiryService = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseService", function() { return PurchaseService; });
-/* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @motionpicture/sskts-api-javascript-client */ "../../node_modules/@motionpicture/sskts-api-javascript-client/lib/index.js");
-/* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
+/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var xml_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xml-js */ "../../node_modules/xml-js/lib/index.js");
@@ -3102,7 +3419,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modules/shared/pipes */ "./app/modules/shared/pipes/index.ts");
 /* harmony import */ var _aws_cognito_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./aws-cognito.service */ "./app/services/aws-cognito.service.ts");
 /* harmony import */ var _call_native_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./call-native.service */ "./app/services/call-native.service.ts");
-/* harmony import */ var _sasaki_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./sasaki.service */ "./app/services/sasaki.service.ts");
+/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
 /* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./user.service */ "./app/services/user.service.ts");
 /* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
@@ -3170,9 +3487,9 @@ var Incentive;
     Incentive[Incentive["WatchingMovies"] = 1] = "WatchingMovies";
 })(Incentive || (Incentive = {}));
 var PurchaseService = /** @class */ (function () {
-    function PurchaseService(storage, sasaki, awsCognito, callNative, userService, utilService) {
+    function PurchaseService(storage, cinerinoService, awsCognito, callNative, userService, utilService) {
         this.storage = storage;
-        this.sasaki = sasaki;
+        this.cinerinoService = cinerinoService;
         this.awsCognito = awsCognito;
         this.callNative = callNative;
         this.userService = userService;
@@ -3702,7 +4019,7 @@ var PurchaseService = /** @class */ (function () {
                         // 購入データ削除
                         this.reset();
                         this.data.screeningEvent = args.screeningEvent;
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         if (this.data.screeningEvent.superEvent.location === undefined
@@ -3710,14 +4027,14 @@ var PurchaseService = /** @class */ (function () {
                             throw new Error('branchCode is undefined');
                         }
                         branchCode = this.data.screeningEvent.superEvent.location.branchCode;
-                        return [4 /*yield*/, this.sasaki.seller.search({
+                        return [4 /*yield*/, this.cinerinoService.seller.search({
                                 location: { branchCodes: [branchCode] }
                             })];
                     case 2:
                         searchResult = _b.sent();
                         this.data.seller = searchResult.data[0];
                         this.save();
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 3:
                         _b.sent();
                         return [4 /*yield*/, this.utilService.getServerTime()];
@@ -3726,7 +4043,7 @@ var PurchaseService = /** @class */ (function () {
                         expires = moment__WEBPACK_IMPORTED_MODULE_1__(now).add(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].TRANSACTION_TIME, 'minutes').toDate();
                         // 取引開始
                         _a = this.data;
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.start({
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder.start({
                                 expires: expires,
                                 seller: {
                                     typeOf: this.data.seller.typeOf,
@@ -3755,10 +4072,10 @@ var PurchaseService = /** @class */ (function () {
                         if (this.data.tmpSeatReservationAuthorization === undefined) {
                             throw new Error('status is different');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.cancelSeatReservationAuthorization({
                                 id: this.data.tmpSeatReservationAuthorization.id,
                                 purpose: this.data.tmpSeatReservationAuthorization.purpose
                             })];
@@ -3785,11 +4102,11 @@ var PurchaseService = /** @class */ (function () {
                             || this.data.screeningEvent === undefined) {
                             throw new Error('status is different');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         if (!(this.data.tmpSeatReservationAuthorization !== undefined)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.cancelSeatReservationAuthorization({
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.cancelSeatReservationAuthorization({
                                 id: this.data.tmpSeatReservationAuthorization.id,
                                 purpose: this.data.tmpSeatReservationAuthorization.purpose
                             })];
@@ -3801,7 +4118,7 @@ var PurchaseService = /** @class */ (function () {
                     case 3:
                         // 座席登録
                         _a = this.data;
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.createSeatReservationAuthorization({
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.createSeatReservationAuthorization({
                                 object: {
                                     event: {
                                         id: this.data.screeningEvent.id
@@ -3840,12 +4157,12 @@ var PurchaseService = /** @class */ (function () {
                             || this.data.screeningEvent === undefined) {
                             throw new Error('status is different');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         // console.log('changeSeatReservationArgs', changeSeatReservationArgs);
                         _a = this.data;
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.changeSeatReservationOffers({
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.changeSeatReservationOffers({
                                 id: this.data.tmpSeatReservationAuthorization.id,
                                 object: {
                                     event: {
@@ -3867,10 +4184,10 @@ var PurchaseService = /** @class */ (function () {
                         }
                         if (!(this.data.creditCardAuthorization !== undefined)) return [3 /*break*/, 4];
                         // クレジットカード登録済みなら削除
-                        return [4 /*yield*/, this.sasaki.payment.voidTransaction({
+                        return [4 /*yield*/, this.cinerinoService.payment.voidTransaction({
                                 id: this.data.creditCardAuthorization.id,
                                 object: {
-                                    typeOf: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.CreditCard
+                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.CreditCard
                                 },
                                 purpose: {
                                     id: this.data.transaction.id,
@@ -3903,12 +4220,12 @@ var PurchaseService = /** @class */ (function () {
                         if (this.data.transaction === undefined) {
                             throw new Error('transaction is undefined');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         // 入力情報を登録
                         _a = this.data;
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.setCustomerContact({
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder.setCustomerContact({
                                 id: this.data.transaction.id,
                                 object: { customerContact: customerContact }
                             })];
@@ -3956,15 +4273,15 @@ var PurchaseService = /** @class */ (function () {
                             || this.data.paymentCreditCard === undefined) {
                             throw new Error('status is different');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         if (!(this.data.creditCardAuthorization !== undefined)) return [3 /*break*/, 3];
                         // クレジットカード登録済みなら削除
-                        return [4 /*yield*/, this.sasaki.payment.voidTransaction({
+                        return [4 /*yield*/, this.cinerinoService.payment.voidTransaction({
                                 id: this.data.creditCardAuthorization.id,
                                 object: {
-                                    typeOf: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.CreditCard
+                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.CreditCard
                                 },
                                 purpose: {
                                     id: this.data.transaction.id,
@@ -3980,9 +4297,9 @@ var PurchaseService = /** @class */ (function () {
                     case 3:
                         METHOD_LUMP = '1';
                         _a = this.data;
-                        return [4 /*yield*/, this.sasaki.payment.authorizeCreditCard({
+                        return [4 /*yield*/, this.cinerinoService.payment.authorizeCreditCard({
                                 object: {
-                                    typeOf: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.CreditCard,
+                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.CreditCard,
                                     // orderId: this.createOrderId(),
                                     method: METHOD_LUMP,
                                     creditCard: this.data.paymentCreditCard,
@@ -4037,11 +4354,11 @@ var PurchaseService = /** @class */ (function () {
                             || this.userService.data.account === undefined) {
                             throw new Error('status is different');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         _a = this.data;
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.createPecorinoAwardAuthorization({
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder.authorizePointAward({
                                 purpose: {
                                     id: this.data.transaction.id,
                                     typeOf: this.data.transaction.typeOf
@@ -4053,7 +4370,8 @@ var PurchaseService = /** @class */ (function () {
                                 }
                             })];
                     case 2:
-                        _a.pecorinoAwardAuthorization = _b.sent();
+                        _a.pecorinoAwardAuthorization =
+                            _b.sent();
                         this.data.incentive = Incentive.WatchingMovies;
                         return [2 /*return*/];
                 }
@@ -4074,7 +4392,7 @@ var PurchaseService = /** @class */ (function () {
                             || this.data.seatReservationAuthorization === undefined) {
                             throw new Error('status is different');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         ticketNames = [];
@@ -4095,9 +4413,9 @@ var PurchaseService = /** @class */ (function () {
                             _loop_3(offer);
                         }
                         notes = ticketNames.join(',');
-                        return [4 /*yield*/, this.sasaki.payment.authorizeAccount({
+                        return [4 /*yield*/, this.cinerinoService.payment.authorizeAccount({
                                 object: {
-                                    typeOf: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.Account,
+                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.Account,
                                     amount: usePoint,
                                     fromAccount: this.userService.data.account.typeOfGood,
                                     notes: notes
@@ -4119,7 +4437,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.purchaseRegistrationProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var transaction, screeningEvent, seller, seatReservationAuthorization, customerContact, userName, mvtksSatInfoSyncArgs, order, _a, err_2, complete, sendData, reservationRecord_1, updateRecordsArgs, err_3, itemOffered, reservationFor, localNotificationArgs;
+            var transaction, screeningEvent, seller, seatReservationAuthorization, customerContact, userName, mvtksSatInfoSyncArgs, order, _a, confirmResult, err_2, complete, sendData, reservationRecord_1, updateRecordsArgs, err_3, itemOffered, reservationFor, localNotificationArgs;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4128,7 +4446,7 @@ var PurchaseService = /** @class */ (function () {
                         seller = this.data.seller;
                         seatReservationAuthorization = this.data.seatReservationAuthorization;
                         customerContact = this.data.customerContact;
-                        userName = this.sasaki.userName;
+                        userName = this.cinerinoService.userName;
                         if (transaction === undefined
                             || screeningEvent === undefined
                             || seller === undefined
@@ -4136,12 +4454,12 @@ var PurchaseService = /** @class */ (function () {
                             || customerContact === undefined) {
                             throw new Error('status is different');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         if (!this.isReserveMvtk()) return [3 /*break*/, 3];
                         mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync();
-                        return [4 /*yield*/, this.sasaki.mvtksSatInfoSync(mvtksSatInfoSyncArgs)];
+                        return [4 /*yield*/, this.cinerinoService.mvtksSatInfoSync(mvtksSatInfoSyncArgs)];
                     case 2:
                         _b.sent();
                         _b.label = 3;
@@ -4150,14 +4468,12 @@ var PurchaseService = /** @class */ (function () {
                         if (!this.isReserveMvtk()) return [3 /*break*/, 5];
                         // 決済方法として、ムビチケを追加する
                         _a = this.data;
-                        return [4 /*yield*/, this.sasaki.transaction.placeOrder.createMvtkAuthorization({
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
                                 purpose: {
                                     id: transaction.id,
                                     typeOf: transaction.typeOf
                                 },
                                 object: {
-                                    typeOf: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].action.authorize.discount.mvtk.ObjectType.Mvtk,
-                                    price: this.getMvtkTotalPrice(),
                                     seatInfoSyncIn: this.getMvtkSeatInfoSync()
                                 }
                             })];
@@ -4166,25 +4482,21 @@ var PurchaseService = /** @class */ (function () {
                         _a.mvtkAuthorization =
                             _b.sent();
                         _b.label = 5;
-                    case 5: return [4 /*yield*/, this.sasaki.transaction.placeOrder.confirm({
+                    case 5: return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.confirm({
                             id: transaction.id,
-                            options: {
-                                sendEmailMessage: true,
-                                email: {
-                                    sender: {
-                                        email: 'noreply@ticket-cinemasunshine.com'
-                                    },
-                                    template: (this.userService.isMember())
-                                        ? Object(_functions__WEBPACK_IMPORTED_MODULE_4__["getPurchaseCompletionMemberEmail"])({
-                                            seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization, userName: userName
-                                        })
-                                        : Object(_functions__WEBPACK_IMPORTED_MODULE_4__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
-                                }
+                            sendEmailMessage: true,
+                            email: {
+                                sender: { email: 'noreply@ticket-cinemasunshine.com' },
+                                template: (this.userService.isMember())
+                                    ? Object(_functions__WEBPACK_IMPORTED_MODULE_4__["getPurchaseCompletionMemberEmail"])({
+                                        seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization, userName: userName
+                                    })
+                                    : Object(_functions__WEBPACK_IMPORTED_MODULE_4__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
                             }
                         })];
                     case 6:
-                        // 取引確定
-                        order = _b.sent();
+                        confirmResult = _b.sent();
+                        order = confirmResult.order;
                         return [3 /*break*/, 10];
                     case 7:
                         err_2 = _b.sent();
@@ -4229,7 +4541,7 @@ var PurchaseService = /** @class */ (function () {
                         reservationRecord_1.orders.push(order);
                         reservationRecord_1.orders.forEach(function (recordOrder, index) {
                             var itemOffered = recordOrder.acceptedOffers[0].itemOffered;
-                            if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
+                            if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
                                 return;
                             }
                             var endDate = moment__WEBPACK_IMPORTED_MODULE_1__(itemOffered.reservationFor.endDate).unix();
@@ -4255,7 +4567,7 @@ var PurchaseService = /** @class */ (function () {
                         if (this.userService.isNative()) {
                             try {
                                 itemOffered = order.acceptedOffers[0].itemOffered;
-                                if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
+                                if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
                                     throw new Error('itemOffered.typeOf is not EventReservation');
                                 }
                                 reservationFor = itemOffered.reservationFor;
@@ -4297,7 +4609,7 @@ var PurchaseService = /** @class */ (function () {
                         mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync({
                             deleteFlag: deleteFlag
                         });
-                        return [4 /*yield*/, this.sasaki.mvtksSatInfoSync(mvtksSatInfoSyncArgs)];
+                        return [4 /*yield*/, this.cinerinoService.mvtksSatInfoSync(mvtksSatInfoSyncArgs)];
                     case 1:
                         _a.sent();
                         return [3 /*break*/, 4];
@@ -4329,7 +4641,7 @@ var PurchaseService = /** @class */ (function () {
                             || this.data.screeningEvent.coaInfo === undefined) {
                             throw new Error('status is different');
                         }
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _b.sent();
                         DIGITS = -2;
@@ -4343,7 +4655,7 @@ var PurchaseService = /** @class */ (function () {
                             stCd: Number(coaInfo.theaterCode.slice(DIGITS)).toString(),
                             jeiYmd: moment__WEBPACK_IMPORTED_MODULE_1__(coaInfo.dateJouei).format('YYYY/MM/DD')
                         };
-                        return [4 /*yield*/, this.sasaki.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs)];
+                        return [4 /*yield*/, this.cinerinoService.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs)];
                     case 2:
                         mvtkPurchaseNumberAuthResult = _b.sent();
                         success = 'N000';
@@ -4379,7 +4691,7 @@ var PurchaseService = /** @class */ (function () {
                                             titleBranchNum: coaInfo.titleBranchNum,
                                             dateJouei: coaInfo.dateJouei
                                         };
-                                        return [4 /*yield*/, this_4.sasaki.mvtkTicketcode(mvtkTicketcodeArgs)];
+                                        return [4 /*yield*/, this_4.cinerinoService.mvtkTicketcode(mvtkTicketcodeArgs)];
                                     case 2:
                                         mvtkTicketcodeResult = _b.sent();
                                         data = {
@@ -4420,324 +4732,8 @@ var PurchaseService = /** @class */ (function () {
             });
         });
     };
-    PurchaseService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdefineInjectable"]({ factory: function PurchaseService_Factory() { return new PurchaseService(_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_9__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_sasaki_service__WEBPACK_IMPORTED_MODULE_8__["SasakiService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_aws_cognito_service__WEBPACK_IMPORTED_MODULE_6__["AwsCognitoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_call_native_service__WEBPACK_IMPORTED_MODULE_7__["CallNativeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_user_service__WEBPACK_IMPORTED_MODULE_10__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_11__["UtilService"])); }, token: PurchaseService, providedIn: "root" });
+    PurchaseService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdefineInjectable"]({ factory: function PurchaseService_Factory() { return new PurchaseService(_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_9__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_8__["CinerinoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_aws_cognito_service__WEBPACK_IMPORTED_MODULE_6__["AwsCognitoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_call_native_service__WEBPACK_IMPORTED_MODULE_7__["CallNativeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_user_service__WEBPACK_IMPORTED_MODULE_10__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_11__["UtilService"])); }, token: PurchaseService, providedIn: "root" });
     return PurchaseService;
-}());
-
-
-
-/***/ }),
-
-/***/ "./app/services/sasaki.service.ts":
-/*!****************************************!*\
-  !*** ./app/services/sasaki.service.ts ***!
-  \****************************************/
-/*! exports provided: SasakiService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SasakiService", function() { return SasakiService; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @motionpicture/sskts-api-javascript-client */ "../../node_modules/@motionpicture/sskts-api-javascript-client/lib/index.js");
-/* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
-/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-
-
-
-
-
-
-
-
-
-
-var SasakiService = /** @class */ (function () {
-    function SasakiService(http, storage, utilservice) {
-        this.http = http;
-        this.storage = storage;
-        this.utilservice = utilservice;
-    }
-    /**
-     * getServices
-     */
-    SasakiService.prototype.getServices = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var option, err_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.createOption()];
-                    case 1:
-                        option = _a.sent();
-                        this.event = new _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Event(option);
-                        this.order = new _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Order(option);
-                        this.seller = new _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Seller(option);
-                        this.person = new _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Person(option);
-                        this.payment = new _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Payment(option);
-                        this.ownershipInfo = new _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].person.OwnershipInfo(option);
-                        this.transaction = {
-                            placeOrder: new _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].transaction.PlaceOrder(option)
-                        };
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_1 = _a.sent();
-                        console.error(err_1);
-                        throw new Error('getServices is failed');
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * @method createOption
-     */
-    SasakiService.prototype.createOption = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.authorize()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, {
-                                endpoint: this.endpoint,
-                                auth: this.auth
-                            }];
-                }
-            });
-        });
-    };
-    /**
-     * @method authorize
-     */
-    SasakiService.prototype.authorize = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var now, expiryDate, isTokenExpired, user, purchase, clientId, member, url, branchCode, body, result, option;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(this.auth !== undefined && this.auth.credentials.expiryDate !== undefined)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.utilservice.getServerTime()];
-                    case 1:
-                        now = (_a.sent()).date;
-                        expiryDate = this.auth.credentials.expiryDate;
-                        isTokenExpired = (expiryDate !== undefined)
-                            ? (expiryDate <= (moment__WEBPACK_IMPORTED_MODULE_2__(now).add(-5, 'minute').toDate()).getTime()) : false;
-                        if (!isTokenExpired) {
-                            // アクセストークン取得・更新しない
-                            return [2 /*return*/];
-                        }
-                        _a.label = 2;
-                    case 2:
-                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
-                        purchase = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
-                        clientId = (user === null) ? undefined : user.clientId;
-                        member = (user === null) ? undefined : user.memberType;
-                        url = '/api/authorize/getCredentials';
-                        branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
-                            ? undefined : purchase.seller.location.branchCode;
-                        body = { clientId: clientId, member: member, branchCode: branchCode };
-                        return [4 /*yield*/, this.http.post(url, body).toPromise()];
-                    case 3:
-                        result = _a.sent();
-                        option = {
-                            domain: '',
-                            clientId: result.clientId,
-                            redirectUri: '',
-                            logoutUri: '',
-                            responseType: '',
-                            scope: '',
-                            state: '',
-                            nonce: null,
-                            tokenIssuer: ''
-                        };
-                        this.auth = _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["createAuthInstance"](option);
-                        this.auth.setCredentials(result.credentials);
-                        this.endpoint = result.endpoint;
-                        this.userName = result.userName;
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * サインイン
-     */
-    SasakiService.prototype.signIn = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var url, user, clientId, body, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        url = '/api/authorize/signIn';
-                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
-                        clientId = user.clientId;
-                        body = { clientId: clientId };
-                        return [4 /*yield*/, this.http.post(url, body).toPromise()];
-                    case 1:
-                        result = _a.sent();
-                        // console.log(result.url);
-                        location.href = result.url;
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * ムビチケ照会
-     * @param {mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn} args
-     */
-    SasakiService.prototype.mvtkPurchaseNumberAuth = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
-                return [2 /*return*/, this.http.post(url, args).toPromise()];
-            });
-        });
-    };
-    /**
-     * ムビチケ座席指定情報連携
-     * @param {mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn} args
-     */
-    SasakiService.prototype.mvtksSatInfoSync = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
-                return [2 /*return*/, this.http.post(url, args).toPromise()];
-            });
-        });
-    };
-    /**
-     * 座席ステータス取得
-     * @param {COA.services.reserve.IStateReserveSeatArgs} args
-     */
-    SasakiService.prototype.getSeatState = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/getSeatState";
-                return [2 /*return*/, this.http.get(url, {
-                        params: args
-                    }).toPromise()];
-            });
-        });
-    };
-    /**
-     * スクリーンマスタ取得
-     * @param {COA.services.master.IScreenArgs} args
-     */
-    SasakiService.prototype.getScreens = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getScreens";
-                return [2 /*return*/, this.http.get(url, {
-                        params: args
-                    }).toPromise()];
-            });
-        });
-    };
-    /**
-     * ムビチケチケットコード取得
-     * @param {COA.services.master.IMvtkTicketcodeArgs} args
-     */
-    SasakiService.prototype.mvtkTicketcode = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
-                        return [4 /*yield*/, this.http.post(url, args).toPromise()];
-                    case 1:
-                        result = _a.sent();
-                        // 暫定的に対応
-                        if (result.name === 'COAServiceError') {
-                            throw new Error('COAServiceError');
-                        }
-                        return [2 /*return*/, result];
-                }
-            });
-        });
-    };
-    /**
-     * 券種取得
-     * @method getSalesTickets
-     * @param {COA.services.reserve.ISalesTicketArgs} args
-     */
-    SasakiService.prototype.getSalesTickets = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getSalesTickets";
-                return [2 /*return*/, this.http.get(url, {
-                        params: args
-                    }).toPromise()];
-            });
-        });
-    };
-    /**
-     * 券種マスター一覧取得
-     * @method getTickets
-     * @param {COA.services.reserve.ITicketArgs} args
-     */
-    SasakiService.prototype.getTickets = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/master/getTickets";
-                return [2 /*return*/, this.http.get(url, {
-                        params: args
-                    }).toPromise()];
-            });
-        });
-    };
-    SasakiService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({ factory: function SasakiService_Factory() { return new SasakiService(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_4__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_5__["UtilService"])); }, token: SasakiService, providedIn: "root" });
-    return SasakiService;
 }());
 
 
@@ -4812,9 +4808,9 @@ var StorageService = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FlgMember", function() { return FlgMember; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
-/* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @motionpicture/sskts-api-javascript-client */ "../../node_modules/@motionpicture/sskts-api-javascript-client/lib/index.js");
-/* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _sasaki_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sasaki.service */ "./app/services/sasaki.service.ts");
+/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
+/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
 /* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -4888,9 +4884,9 @@ var FlgMember;
     FlgMember["Member"] = "1";
 })(FlgMember || (FlgMember = {}));
 var UserService = /** @class */ (function () {
-    function UserService(storage, sasaki) {
+    function UserService(storage, cinerinoService) {
         this.storage = storage;
-        this.sasaki = sasaki;
+        this.cinerinoService = cinerinoService;
         this.load();
         this.save();
     }
@@ -4938,11 +4934,11 @@ var UserService = /** @class */ (function () {
                     case 0:
                         this.data.memberType = FlgMember.Member;
                         this.save();
-                        return [4 /*yield*/, this.sasaki.getServices()];
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.sasaki.person.getProfile({
-                                personId: 'me'
+                        return [4 /*yield*/, this.cinerinoService.person.getProfile({
+                                id: 'me'
                             })];
                     case 2:
                         profile = _a.sent();
@@ -4953,7 +4949,7 @@ var UserService = /** @class */ (function () {
                         _a.label = 3;
                     case 3:
                         _a.trys.push([3, 5, , 6]);
-                        return [4 /*yield*/, this.sasaki.ownershipInfo.searchCreditCards({
+                        return [4 /*yield*/, this.cinerinoService.ownershipInfo.searchCreditCards({
                                 id: 'me'
                             })];
                     case 4:
@@ -4965,24 +4961,24 @@ var UserService = /** @class */ (function () {
                         console.error(err_1);
                         this.data.creditCards = [];
                         return [3 /*break*/, 6];
-                    case 6: return [4 /*yield*/, this.sasaki.ownershipInfo.search({
+                    case 6: return [4 /*yield*/, this.cinerinoService.ownershipInfo.search({
                             sort: {
-                                ownedFrom: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].sortType.Ascending
+                                ownedFrom: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].sortType.Ascending
                             },
                             typeOfGood: {
-                                typeOf: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].ownershipInfo.AccountGoodType.Account,
-                                accountType: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].accountType.Point
+                                typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].ownershipInfo.AccountGoodType.Account,
+                                accountType: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].accountType.Point
                             }
                         })];
                     case 7:
                         searchResult = _a.sent();
                         accounts = searchResult.data.filter(function (a) {
-                            return (a.typeOfGood.status === _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].pecorino.accountStatusType.Opened);
+                            return (a.typeOfGood.status === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].pecorino.accountStatusType.Opened);
                         });
                         if (!(accounts.length === 0)) return [3 /*break*/, 9];
-                        return [4 /*yield*/, this.sasaki.ownershipInfo.openAccount({
+                        return [4 /*yield*/, this.cinerinoService.ownershipInfo.openAccount({
                                 name: this.data.profile.familyName + " " + this.data.profile.givenName,
-                                accountType: _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].accountType.Point
+                                accountType: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].accountType.Point
                             })];
                     case 8:
                         openResult = _a.sent();
@@ -5032,7 +5028,7 @@ var UserService = /** @class */ (function () {
     UserService.prototype.setClientId = function (value) {
         this.data.clientId = value;
     };
-    UserService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjectable"]({ factory: function UserService_Factory() { return new UserService(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_sasaki_service__WEBPACK_IMPORTED_MODULE_1__["SasakiService"])); }, token: UserService, providedIn: "root" });
+    UserService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjectable"]({ factory: function UserService_Factory() { return new UserService(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_1__["CinerinoService"])); }, token: UserService, providedIn: "root" });
     return UserService;
 }());
 

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { factory } from '@cinerino/api-javascript-client';
 import {
     AwsCognitoService,
+    CinerinoService,
     ErrorService,
     FlgMember,
     PurchaseService,
-    SasakiService,
     SaveType,
     StorageService,
     UserService
@@ -54,7 +55,7 @@ export class PurchaseTransactionComponent implements OnInit {
     constructor(
         private storage: StorageService,
         private router: Router,
-        private sasaki: SasakiService,
+        private cinerinoService: CinerinoService,
         private purchase: PurchaseService,
         private error: ErrorService,
         private awsCognito: AwsCognitoService,
@@ -80,7 +81,7 @@ export class PurchaseTransactionComponent implements OnInit {
             this.user.save();
             if (this.parameters.member === FlgMember.Member
                 && !this.parameters.signInRedirect) {
-                await this.sasaki.signIn();
+                await this.cinerinoService.signIn();
 
                 return;
             }
@@ -90,9 +91,9 @@ export class PurchaseTransactionComponent implements OnInit {
             if (this.parameters.identityId !== undefined) {
                 await this.awsCognito.authenticateWithDeviceId(this.parameters.identityId);
             }
-            await this.sasaki.getServices();
+            await this.cinerinoService.getServices();
             // イベント情報取得
-            const screeningEvent = await this.sasaki.event.findScreeningEventById({
+            const screeningEvent = await this.cinerinoService.event.findById<factory.chevre.eventType.ScreeningEvent>({
                 id: (<string>this.parameters.performanceId)
             });
             // 開始可能日判定

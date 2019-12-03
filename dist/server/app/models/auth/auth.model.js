@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const sasaki = require("@motionpicture/sskts-api-nodejs-client");
+const cinerino = require("@cinerino/api-nodejs-client");
 const debug = require("debug");
 const log = debug('sskts-frontend:AuthModel');
 /**
@@ -32,10 +32,10 @@ class AuthModel {
      * 認証クラス作成
      * @memberof AuthModel
      * @method create
-     * @returns {sasaki.auth.ClientCredentials}
+     * @returns {cinerino.auth.ClientCredentials}
      */
     create() {
-        return new sasaki.auth.ClientCredentials({
+        return new cinerino.auth.ClientCredentials({
             domain: process.env.AUTHORIZE_SERVER_DOMAIN,
             clientId: this.clientId,
             clientSecret: this.clientSecret,

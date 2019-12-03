@@ -6,11 +6,11 @@ import * as COA from '@motionpicture/coa-service';
 import { environment } from '../../../../../../environments/environment';
 import { IScreenConfig, ISeat } from '../../../../../models';
 import {
+    CinerinoService,
     ErrorService,
     FlgMember,
     ISalesTicketResult,
     PurchaseService,
-    SasakiService,
     UserService
 } from '../../../../../services';
 
@@ -36,7 +36,7 @@ export class PurchaseSeatComponent implements OnInit {
         public purchase: PurchaseService,
         private router: Router,
         private formBuilder: FormBuilder,
-        private sasaki: SasakiService,
+        private cinerinoService: CinerinoService,
         private error: ErrorService,
         private user: UserService,
         private http: HttpClient
@@ -101,8 +101,8 @@ export class PurchaseSeatComponent implements OnInit {
         const screenConfig = await this.http.get<IScreenConfig>(`/json/theater/${theaterCode}/${screenCode}.json`).toPromise();
         const setting = await this.http.get<IScreenConfig>('/json/theater/setting.json').toPromise();
 
-        await this.sasaki.getServices();
-        const status = await this.sasaki.getSeatState({
+        await this.cinerinoService.getServices();
+        const status = await this.cinerinoService.getSeatState({
             theaterCode: params.theaterCode,
             dateJouei: params.dateJouei,
             titleCode: params.titleCode,
@@ -110,7 +110,7 @@ export class PurchaseSeatComponent implements OnInit {
             timeBegin: params.timeBegin,
             screenCode: params.screenCode
         });
-        const screens = await this.sasaki.getScreens({
+        const screens = await this.cinerinoService.getScreens({
             theaterCode: params.theaterCode
         });
         const screen = screens.find(s => s.screenCode === params.screenCode);
@@ -147,7 +147,7 @@ export class PurchaseSeatComponent implements OnInit {
         if (screeningEvent.coaInfo === undefined) {
             throw new Error('coaInfo is undefined');
         }
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         const salesTicketArgs = {
             theaterCode: screeningEvent.coaInfo.theaterCode,
             dateJouei: screeningEvent.coaInfo.dateJouei,
@@ -156,7 +156,7 @@ export class PurchaseSeatComponent implements OnInit {
             timeBegin: screeningEvent.coaInfo.timeBegin,
             flgMember: (this.user.isMember()) ? FlgMember.Member : FlgMember.NonMember
         };
-        const salesTickets = await this.sasaki.getSalesTickets(salesTicketArgs);
+        const salesTickets = await this.cinerinoService.getSalesTickets(salesTicketArgs);
         // console.log('salesTickets', salesTicketArgs, salesTickets);
 
         return salesTickets;
