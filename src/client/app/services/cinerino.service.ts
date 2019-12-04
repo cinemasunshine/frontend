@@ -71,16 +71,6 @@ export class CinerinoService {
      * @method authorize
      */
     public async authorize() {
-        if (this.auth !== undefined && this.auth.credentials.expiryDate !== undefined) {
-            const now = (await this.utilservice.getServerTime()).date;
-            const expiryDate = this.auth.credentials.expiryDate;
-            const isTokenExpired = (expiryDate !== undefined)
-                ? (expiryDate <= (moment(now).add(-5, 'minute').toDate()).getTime()) : false;
-            if (!isTokenExpired) {
-                // アクセストークン取得・更新しない
-                return;
-            }
-        }
         const user: IUserData | null = this.storage.load('user', SaveType.Session);
         const purchase: IPurchaseData | null = this.storage.load('purchase', SaveType.Session);
         const clientId = (user === null) ? undefined : user.clientId;
@@ -89,6 +79,19 @@ export class CinerinoService {
         const branchCode = (purchase === null || purchase.seller === undefined || purchase.seller.location === undefined)
             ? undefined : purchase.seller.location.branchCode;
         const body = { clientId, member, branchCode };
+        if (this.auth !== undefined
+            && this.auth.credentials.expiryDate !== undefined
+            && body.member !== '1') {
+            const now = (await this.utilservice.getServerTime()).date;
+            const expiryDate = this.auth.credentials.expiryDate;
+            const isTokenExpired = (expiryDate !== undefined)
+                ? (moment(expiryDate).add(-5, 'minutes').unix() <= moment(now).unix()) : false;
+            if (!isTokenExpired) {
+                // アクセストークン取得・更新しない
+                return;
+            }
+        }
+        // アクセストークン取得・更新
         const result = await this.http.post<{
             credentials: { accessToken: string; expiryDate?: number; };
             clientId: string;
