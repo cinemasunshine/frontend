@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 照会
  */
-const sasaki = require("@motionpicture/sskts-api-nodejs-client");
+const cinerino = require("@cinerino/api-nodejs-client");
 const debug = require("debug");
 const http_status_1 = require("http-status");
 const moment = require("moment");
@@ -33,7 +33,7 @@ function login(req, res) {
             const inquiryModel = new inquiry_model_1.InquiryModel(req.session.inquiry);
             const options = base_controller_1.getOptions(req);
             const branchCode = req.query.theater;
-            const searchResult = yield new sasaki.service.Seller(options).search({
+            const searchResult = yield new cinerino.service.Seller(options).search({
                 location: {
                     branchCodes: [branchCode]
                 }
@@ -80,7 +80,7 @@ function auth(req, res) {
             if (validationResult.isEmpty()) {
                 const theaterCode = (inquiryModel.seller.location === undefined || inquiryModel.seller.location.branchCode === undefined)
                     ? '' : inquiryModel.seller.location.branchCode;
-                inquiryModel.order = yield new sasaki.service.Order(options).findByOrderInquiryKey({
+                inquiryModel.order = yield new cinerino.service.Order(options).findByOrderInquiryKey4sskts({
                     telephone: inquiryModel.input.telephone,
                     confirmationNumber: Number(inquiryModel.input.reserveNum),
                     theaterCode

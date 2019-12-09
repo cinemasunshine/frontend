@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as COA from '@motionpicture/coa-service';
 import {
+    CinerinoService,
     ErrorService,
     FlgMember,
     PurchaseService,
-    SasakiService,
     UserService
 } from '../../../../../services';
 
@@ -28,7 +28,7 @@ export class PurchasePointComponent implements OnInit {
 
     constructor(
         public user: UserService,
-        private sasaki: SasakiService,
+        private cinerinoService: CinerinoService,
         private purchase: PurchaseService,
         private error: ErrorService,
         private router: Router
@@ -52,7 +52,7 @@ export class PurchasePointComponent implements OnInit {
             for (let i = 0; i < (reserveLength + 1); i++) {
                 this.ticketValueList.push(i);
             }
-            const masterTickets = await this.sasaki.getTickets({
+            const masterTickets = await this.cinerinoService.getTickets({
                 theaterCode: screeningEvent.coaInfo.theaterCode
             });
             this.pointTickets = masterTickets.filter((masterTicket) => {

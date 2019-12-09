@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { factory } from '@motionpicture/sskts-api-javascript-client';
+import { factory } from '@cinerino/api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
-import { ErrorService, PurchaseService, SasakiService } from '../../../../../services';
+import { CinerinoService, ErrorService, PurchaseService } from '../../../../../services';
 
 type IMovieTheater = factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
 interface IFilmOrder {
@@ -32,7 +32,7 @@ export class PurchaseScheduleComponent implements OnInit {
     constructor(
         private error: ErrorService,
         private purchase: PurchaseService,
-        private sasaki: SasakiService
+        private cinerinoService: CinerinoService
     ) {
         this.theaters = [];
         this.dateList = [];
@@ -53,8 +53,8 @@ export class PurchaseScheduleComponent implements OnInit {
         window.scrollTo(0, 0);
         this.isLoading = true;
         try {
-            await this.sasaki.getServices();
-            const searchResult = await this.sasaki.seller.search({});
+            await this.cinerinoService.getServices();
+            const searchResult = await this.cinerinoService.seller.search({});
             this.theaters =
                 searchResult.data.filter((t) => {
                     return (t.location !== undefined && t.location !== null && t.location.branchCode !== undefined);
@@ -104,8 +104,8 @@ export class PurchaseScheduleComponent implements OnInit {
         this.isLoading = true;
         this.filmOrder = [];
         try {
-            await this.sasaki.getServices();
-            const searchScreeningEventsResult = await this.sasaki.event.searchScreeningEvents({
+            await this.cinerinoService.getServices();
+            const searchScreeningEventsResult = await this.cinerinoService.event.search({
                 typeOf: factory.chevre.eventType.ScreeningEvent,
                 superEvent: {
                     locationBranchCodes: [this.conditions.theater]

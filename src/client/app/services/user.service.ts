@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { factory } from '@motionpicture/sskts-api-javascript-client';
-import { SasakiService } from './sasaki.service';
+import { factory } from '@cinerino/api-javascript-client';
+import { CinerinoService } from './cinerino.service';
 import { SaveType, StorageService } from './storage.service';
 
 type IAccount = factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount<factory.accountType>>;
@@ -51,7 +51,7 @@ export class UserService {
 
     constructor(
         private storage: StorageService,
-        private sasaki: SasakiService
+        private cinerinoService: CinerinoService
     ) {
         this.load();
         this.save();
@@ -100,10 +100,10 @@ export class UserService {
     public async initMember() {
         this.data.memberType = FlgMember.Member;
         this.save();
-        await this.sasaki.getServices();
+        await this.cinerinoService.getServices();
         // 連絡先取得
-        const profile = await this.sasaki.person.getProfile({
-            personId: 'me'
+        const profile = await this.cinerinoService.person.getProfile({
+            id: 'me'
         });
         if (profile === undefined) {
             throw new Error('profile is undefined');
@@ -112,7 +112,7 @@ export class UserService {
 
         try {
             // クレジットカード検索
-            const creditCards = await this.sasaki.ownershipInfo.searchCreditCards({
+            const creditCards = await this.cinerinoService.ownershipInfo.searchCreditCards({
                 id: 'me'
             });
             this.data.creditCards = creditCards;
@@ -123,7 +123,7 @@ export class UserService {
 
         // 口座検索
         const searchResult =
-            await this.sasaki.ownershipInfo.search<factory.ownershipInfo.AccountGoodType.Account>({
+            await this.cinerinoService.ownershipInfo.search<factory.ownershipInfo.AccountGoodType.Account>({
                 sort: {
                     ownedFrom: factory.sortType.Ascending
                 },
@@ -138,7 +138,7 @@ export class UserService {
             });
         if (accounts.length === 0) {
             // 口座開設
-            const openResult = await this.sasaki.ownershipInfo.openAccount({
+            const openResult = await this.cinerinoService.ownershipInfo.openAccount({
                 name: `${this.data.profile.familyName} ${this.data.profile.givenName}`,
                 accountType: factory.accountType.Point
             });

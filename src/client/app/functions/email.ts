@@ -1,4 +1,4 @@
-import { factory } from '@motionpicture/sskts-api-javascript-client';
+import { factory } from '@cinerino/api-javascript-client';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
 import { TimeFormatPipe } from '../modules/shared/pipes';

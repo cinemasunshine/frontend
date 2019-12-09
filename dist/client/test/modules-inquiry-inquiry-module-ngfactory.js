@@ -3943,8 +3943,8 @@ var styles = [".button-area[_ngcontent-%COMP%] {\n  margin: 30px auto 0; }\n  @m
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InquiryConfirmComponent", function() { return InquiryConfirmComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @motionpicture/sskts-api-javascript-client */ "../../node_modules/@motionpicture/sskts-api-javascript-client/lib/index.js");
-/* harmony import */ var _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
+/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var qrcode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! qrcode */ "../../node_modules/qrcode/lib/browser.js");
@@ -4021,7 +4021,7 @@ var InquiryConfirmComponent = /** @class */ (function () {
                     case 1:
                         if (!(_i < _a.length)) return [3 /*break*/, 5];
                         acceptedOffer = _a[_i];
-                        if (!(acceptedOffer.itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+                        if (!(acceptedOffer.itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
                             || acceptedOffer.itemOffered.reservedTicket.ticketToken === undefined)) return [3 /*break*/, 2];
                         this.tokenList.push('');
                         return [3 /*break*/, 4];
@@ -4050,7 +4050,7 @@ var InquiryConfirmComponent = /** @class */ (function () {
             return '';
         }
         var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
             return '';
         }
         return itemOffered.reservationFor.location.name.ja;
@@ -4065,7 +4065,7 @@ var InquiryConfirmComponent = /** @class */ (function () {
             return '';
         }
         var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
             return '';
         }
         return itemOffered.reservationFor.name.ja;
@@ -4080,7 +4080,7 @@ var InquiryConfirmComponent = /** @class */ (function () {
             return '';
         }
         var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
             || itemOffered.reservationFor.coaInfo === undefined) {
             return '';
         }
@@ -4096,7 +4096,7 @@ var InquiryConfirmComponent = /** @class */ (function () {
             return '';
         }
         var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
             || itemOffered.reservationFor.coaInfo === undefined) {
             return '';
         }
@@ -4113,7 +4113,7 @@ var InquiryConfirmComponent = /** @class */ (function () {
             return '';
         }
         var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
             || itemOffered.reservationFor.coaInfo === undefined) {
             return '';
         }
@@ -4124,7 +4124,7 @@ var InquiryConfirmComponent = /** @class */ (function () {
      * 特別席判定（グランドシネマサンシャイン）
      */
     InquiryConfirmComponent.prototype.isGrandSpecialSeat = function (itemOffered, specialSeat) {
-        if (itemOffered.typeOf !== _motionpicture_sskts_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
             return false;
         }
         var screenPrefix = (_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].production) ? '0' : '1';
