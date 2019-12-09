@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as COA from '@motionpicture/coa-service';
 import { IScreenConfig } from '../../../../models';
-import { SasakiService } from '../../../../services';
+import { CinerinoService } from '../../../../services';
 
 @Component({
     selector: 'app-test-screen',
@@ -19,7 +19,7 @@ export class TestScreenComponent implements OnInit {
     constructor(
         private activatedRoute: ActivatedRoute,
         private http: HttpClient,
-        private sasaki: SasakiService
+        private cinerinoService: CinerinoService
     ) { }
 
     public ngOnInit() {
@@ -63,7 +63,7 @@ export class TestScreenComponent implements OnInit {
         const status = (<any>{ listSeat: [] });
         let screen;
         try {
-            const screens = await this.sasaki.getScreens({
+            const screens = await this.cinerinoService.getScreens({
                 theaterCode: params.theaterCode
             });
             screen = screens.find(s => s.screenCode === params.screenCode);

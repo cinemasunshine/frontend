@@ -1,7 +1,7 @@
 /**
  * 照会
  */
-import * as sasaki from '@motionpicture/sskts-api-nodejs-client';
+import * as cinerino from '@cinerino/api-nodejs-client';
 import * as debug from 'debug';
 import { Request, Response } from 'express';
 import { NOT_FOUND } from 'http-status';
@@ -23,7 +23,7 @@ export async function login(req: Request, res: Response): Promise<void> {
         const inquiryModel = new InquiryModel((<Express.Session>req.session).inquiry);
         const options = getOptions(req);
         const branchCode = req.query.theater;
-        const searchResult = await new sasaki.service.Seller(options).search({
+        const searchResult = await new cinerino.service.Seller(options).search({
             location: {
                 branchCodes: [branchCode]
             }
@@ -68,7 +68,7 @@ export async function auth(req: Request, res: Response): Promise<void> {
             const theaterCode =
                 (inquiryModel.seller.location === undefined || inquiryModel.seller.location.branchCode === undefined)
                     ? '' : inquiryModel.seller.location.branchCode;
-            inquiryModel.order = await new sasaki.service.Order(options).findByOrderInquiryKey({
+            inquiryModel.order = await new cinerino.service.Order(options).findByOrderInquiryKey4sskts({
                 telephone: inquiryModel.input.telephone,
                 confirmationNumber: Number(inquiryModel.input.reserveNum),
                 theaterCode

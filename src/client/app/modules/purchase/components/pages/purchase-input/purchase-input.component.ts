@@ -1,16 +1,16 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { factory } from '@motionpicture/sskts-api-javascript-client';
+import { factory } from '@cinerino/api-javascript-client';
 import * as libphonenumber from 'libphonenumber-js';
 import * as moment from 'moment';
 import { convertToHiragana, convertToKatakana, formatTelephone } from '../../../../../functions';
 import {
     AwsCognitoService,
+    CinerinoService,
     ErrorService,
     IGmoTokenObject,
     PurchaseService,
-    SasakiService,
     UserService
 } from '../../../../../services';
 import { LibphonenumberFormatPipe } from '../../../../shared/pipes';
@@ -47,7 +47,7 @@ export class PurchaseInputComponent implements OnInit {
         private router: Router,
         private error: ErrorService,
         private awsCognito: AwsCognitoService,
-        private sasaki: SasakiService
+        private cinerinoService: CinerinoService
 
     ) { }
 
@@ -208,9 +208,9 @@ export class PurchaseInputComponent implements OnInit {
                     && this.inputForm.controls.saveCreditCard.value
                     && this.purchase.data.gmoTokenObject !== undefined) {
                     // 会員 クレジットカード情報保存
-                    await this.sasaki.getServices();
+                    await this.cinerinoService.getServices();
                     const gmoTokenObject = await this.getGmoObject();
-                    await this.sasaki.ownershipInfo.addCreditCard({
+                    await this.cinerinoService.ownershipInfo.addCreditCard({
                         creditCard: {
                             token: gmoTokenObject.token
                         }

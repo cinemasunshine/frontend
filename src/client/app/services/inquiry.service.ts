@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { factory } from '@motionpicture/sskts-api-javascript-client';
-import { SasakiService } from './sasaki.service';
+import { factory } from '@cinerino/api-javascript-client';
+import { CinerinoService } from './cinerino.service';
 import { SaveType, StorageService } from './storage.service';
 
 
@@ -25,7 +25,7 @@ export class InquiryService {
 
     constructor(
         private storage: StorageService,
-        private sasakiService: SasakiService
+        private sasakiService: CinerinoService
     ) {
         this.load();
     }
@@ -81,7 +81,7 @@ export class InquiryService {
         telephone: string;
     }) {
         await this.sasakiService.getServices();
-        const order = await this.sasakiService.order.findByOrderInquiryKey(params);
+        const order = await this.sasakiService.order.findByOrderInquiryKey4sskts(params);
 
         return order;
     }
