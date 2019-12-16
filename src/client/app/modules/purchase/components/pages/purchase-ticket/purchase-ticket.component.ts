@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../../environments/environment';
-import { getTicketPrice } from '../../../../../functions';
+import { getTicketPrice, is4DX } from '../../../../../functions';
 import {
     ErrorService,
     IMvtkTicket,
@@ -79,6 +79,7 @@ export class PurchaseTicketComponent implements OnInit {
     public salesPointTickets: ISalesPointTicket[];
     public ticketForm: FormGroup;
     public getTicketPrice = getTicketPrice;
+    public is4DX = is4DX;
 
     constructor(
         public purchase: PurchaseService,
