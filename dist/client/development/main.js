@@ -664,7 +664,7 @@ function getSeat(params) {
 /*!********************************!*\
   !*** ./app/functions/index.ts ***!
   \********************************/
-/*! exports provided: convertToHiragana, convertToKatakana, toFullWidth, isUpperCase, isLowerCase, formatTelephone, object2query, getPurchaseCompletionEmail, getPurchaseCompletionMemberEmail, getTicketPrice, getOrderTicketPrice */
+/*! exports provided: convertToHiragana, convertToKatakana, toFullWidth, isUpperCase, isLowerCase, formatTelephone, object2query, getPurchaseCompletionEmail, getPurchaseCompletionMemberEmail, getTicketPrice, is4DX, getOrderTicketPrice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -691,6 +691,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _purchase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./purchase */ "./app/functions/purchase.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getTicketPrice", function() { return _purchase__WEBPACK_IMPORTED_MODULE_2__["getTicketPrice"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is4DX", function() { return _purchase__WEBPACK_IMPORTED_MODULE_2__["is4DX"]; });
 
 /* harmony import */ var _order__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./order */ "./app/functions/order.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getOrderTicketPrice", function() { return _order__WEBPACK_IMPORTED_MODULE_3__["getOrderTicketPrice"]; });
@@ -730,12 +732,13 @@ function getOrderTicketPrice(offer) {
 /*!***********************************!*\
   !*** ./app/functions/purchase.ts ***!
   \***********************************/
-/*! exports provided: getTicketPrice */
+/*! exports provided: getTicketPrice, is4DX */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTicketPrice", function() { return getTicketPrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is4DX", function() { return is4DX; });
 /**
  * 券種金額取得
  */
@@ -744,6 +747,18 @@ function getTicketPrice(offer) {
     // const spseatAdd1 = (ticketInfo.spseatAdd1 === undefined) ? 0 : ticketInfo.spseatAdd1;
     var spseatAdd2 = (ticketInfo.spseatAdd2 === undefined) ? 0 : ticketInfo.spseatAdd2;
     return (ticketInfo.salePrice + spseatAdd2);
+}
+/**
+ * 4DX判定
+ */
+function is4DX(screeningEvent) {
+    if (screeningEvent === undefined
+        || screeningEvent.superEvent.coaInfo === undefined
+        || screeningEvent.superEvent.coaInfo.kbnJoueihousiki === undefined) {
+        return false;
+    }
+    var code = screeningEvent.superEvent.coaInfo.kbnJoueihousiki.kubunCode;
+    return (code === '002' || code === '004');
 }
 
 

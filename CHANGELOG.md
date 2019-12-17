@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.3.1 - 2019-12-16
+### Added
+ - 4DX with screenX時も注意文言を追加
+
 ## 6.3.0 - 2019-12-09
 ### Changed
  - SDK変更
