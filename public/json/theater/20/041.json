@@ -1,19 +1,19 @@
 {
     "type": 2,
-    "size": { "w": 1346, "h": 1206 },
+    "size": { "w": 1346, "h": 1282 },
     "objects": [
         {
-            "w": 830, "h": 166,
+            "w": 838, "h": 242,
             "x": 272, "y": 90,
-            "image": "/images/theater/20/screen/004-01.svg"
+            "image": "/images/theater/20/screen/004.svg"
         },
         {
             "w": 128, "h": 770,
-            "x": 80, "y": 346,
+            "x": 80, "y": 422,
             "image": "/images/theater/20/entrance/004.svg"
         }
     ],
-    "seatStart": { "x": 258, "y": 346 },
+    "seatStart": { "x": 258, "y": 422 },
     "map": [
         [1, 1, 1, 5, 1, 1, 1, 4, 1, 1, 1, 5, 1, 1, 1, 1],
         [1, 1, 1, 5, 1, 1, 1, 4, 1, 1, 1, 5, 1, 1, 1, 1],
