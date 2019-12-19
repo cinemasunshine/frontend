@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.3.2 - 2019-12-19
+### Changed
+ - 4DXロゴ変更
+
 ## 6.3.1 - 2019-12-16
 ### Added
  - 4DX with screenX時も注意文言を追加
