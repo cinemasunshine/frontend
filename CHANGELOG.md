@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.3.4 - 2019-12-25
+### Changed
+ - スクリーンXロゴ変更
+
 ## 6.3.3 - 2019-12-23
 ### Added
  - クレジットカードエラー文言追加
