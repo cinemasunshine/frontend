@@ -259,7 +259,7 @@ export class PurchaseService {
             const url = `${this.scheduleApiEndpoint}/${theatreTableFindResult.name}/schedule/json/schedule.json?date=${now}`;
             const schedules = await this.utilService.getJson<ISchedule[]>(url);
             const dateJouei = screeningEvent.coaInfo.dateJouei;
-            const schedule = schedules.find(s => String(s.date) === dateJouei);
+            const schedule = schedules.find(s => s.date === dateJouei);
             if (schedule === undefined) {
                 throw new Error('スケジュールが見つかりません');
             }

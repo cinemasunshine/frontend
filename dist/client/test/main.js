@@ -773,7 +773,7 @@ function is4DX(screeningEvent) {
  */
 function schedule2Performance(schedule, member) {
     var performances = [];
-    var date = String(schedule.date);
+    var date = schedule.date;
     schedule.movie.forEach(function (movie) {
         movie.screen.forEach(function (screen) {
             screen.time.forEach(function (time) {
@@ -1133,7 +1133,7 @@ var Performance = /** @class */ (function () {
      * 予約ステータス情報取得
      */
     Performance.prototype.getAvailability = function () {
-        var value = this.time.seat_count.cntReserveMax / this.time.seat_count.countAllSeat * 100;
+        var value = this.time.seat_count.cnt_reserve_free / this.time.seat_count.cnt_reserve_max * 100;
         var availability = [
             { symbolText: '×', icon: 'vacancy-full-white', className: 'vacancy-full', text: '満席' },
             { symbolText: '△', icon: 'vacancy-little-white', className: 'vacancy-little', text: '購入' },
@@ -1151,7 +1151,7 @@ var Performance = /** @class */ (function () {
         return !this.isBeforePeriod()
             && !this.isAfterPeriod()
             && !this.isWindow()
-            && this.time.seat_count.cntReserveMax > 0;
+            && this.time.seat_count.cnt_reserve_free > 0;
     };
     /**
      * 予約期間前判定
@@ -1175,7 +1175,7 @@ var Performance = /** @class */ (function () {
     Performance.prototype.isWindow = function () {
         var startDate = moment__WEBPACK_IMPORTED_MODULE_0__(this.date + " " + this.time.start_time, 'YYYYMMDD HHmm');
         var now = moment__WEBPACK_IMPORTED_MODULE_0__();
-        return (this.time.seat_count.cntReserveMax > 0
+        return (this.time.seat_count.cnt_reserve_free > 0
             && moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(-10, 'minutes') < now
             && moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(10, 'minutes') > now);
     };
@@ -3776,7 +3776,7 @@ var PurchaseService = /** @class */ (function () {
                     case 5:
                         schedules = _b.sent();
                         dateJouei_1 = screeningEvent.coaInfo.dateJouei;
-                        schedule = schedules.find(function (s) { return String(s.date) === dateJouei_1; });
+                        schedule = schedules.find(function (s) { return s.date === dateJouei_1; });
                         if (schedule === undefined) {
                             throw new Error('スケジュールが見つかりません');
                         }

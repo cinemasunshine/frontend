@@ -29,7 +29,7 @@ export function is4DX(screeningEvent?: factory.chevre.event.screeningEvent.IEven
  */
 export function schedule2Performance(schedule: ISchedule, member: boolean) {
     const performances: Performance[] = [];
-    const date = String(schedule.date);
+    const date = schedule.date;
     schedule.movie.forEach((movie) => {
         movie.screen.forEach((screen) => {
             screen.time.forEach((time) => {
