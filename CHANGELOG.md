@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.0 - 2020-02-10
+### Changed
+ - スケジュールをjson形式で取得へ変更
+
 ## 6.3.4 - 2019-12-25
 ### Changed
  - スクリーンXロゴ変更

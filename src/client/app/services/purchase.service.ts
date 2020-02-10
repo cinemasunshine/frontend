@@ -3,13 +3,14 @@ import { factory } from '@cinerino/api-javascript-client';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as moment from 'moment';
-import { xml2js } from 'xml-js';
 import { environment } from '../../environments/environment';
 import {
     convertToKatakana,
     getPurchaseCompletionEmail,
-    getPurchaseCompletionMemberEmail
+    getPurchaseCompletionMemberEmail,
+    schedule2Performance
 } from '../functions';
+import { ISchedule } from '../models';
 import { TimeFormatPipe } from '../modules/shared/pipes';
 import { AwsCognitoService } from './aws-cognito.service';
 import { CallNativeService } from './call-native.service';
@@ -238,100 +239,36 @@ export class PurchaseService {
     public async isSalse(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
         try {
             const now = (await this.utilService.getServerTime()).date;
-            const today = moment(moment(now).format('YYYYMMDD')).toDate();
             if (screeningEvent.offers === undefined
                 || screeningEvent.coaInfo === undefined) {
                 return new Error('イベントが情報が不足しています');
             }
-
-            const salesEndTime = {
-                value: Number(environment.SALES_END_TIME_VALUE),
-                unit: <moment.DurationInputArg2>environment.SALES_END_TIME_UNIT
-            };
-            if (moment(screeningEvent.startDate).add(salesEndTime.value, salesEndTime.unit).unix() < moment(now).unix()) {
-                // 販売終了
-                throw new Error('販売終了');
-            }
-            /**
-             * TODO
-             * JSONへ移行する
-             * xml2jsと合わせて依存関係も削除（timers,stream）
-             */
+            const branchCode = screeningEvent.coaInfo.theaterCode;
             const theatreTable =
                 await this.utilService.getJson<{ code: string; name: string }[]>('/json/table/theaters.json');
             const prefix = (environment.production) ? '0' : '1';
-            const branchCode = screeningEvent.superEvent.location.branchCode;
             const theatreTableFindResult = theatreTable.find(t => branchCode === `${prefix}${t.code}`);
             if (theatreTableFindResult === undefined) {
                 throw new Error('劇場が見つかりません');
             }
             if (this.scheduleApiEndpoint === undefined) {
-                this.scheduleApiEndpoint =
-                    (await this.utilService.getJson<{ scheduleApiEndpoint: string }>(`/api/config?date${now}`)).scheduleApiEndpoint;
+                this.scheduleApiEndpoint = (await this.utilService.getJson<{
+                    scheduleApiEndpoint: string
+                }>(`/api/config?date${moment().toISOString()}`)).scheduleApiEndpoint;
             }
-            const url = `${this.scheduleApiEndpoint}/${theatreTableFindResult.name}/schedule/xml/schedule.xml?date=${now}`;
-            const xml = await this.utilService.getText(url);
-            const coaInfo = screeningEvent.coaInfo;
-            if (!(/\<rsv_start_day\>/.test(xml)
-                && /\<\/rsv_start_day\>/.test(xml)
-                && /\<rsv_start_time\>/.test(xml)
-                && /\<\/rsv_start_time\>/.test(xml))
-                && coaInfo.flgEarlyBooking === '1') {
-                // COA版先行販売の場合予約可能開始日で判定
-                return (moment(coaInfo.rsvStartDate).unix() <= moment(today).unix());
+            const url = `${this.scheduleApiEndpoint}/${theatreTableFindResult.name}/schedule/json/schedule.json?date=${now}`;
+            const schedules = await this.utilService.getJson<ISchedule[]>(url);
+            const dateJouei = screeningEvent.coaInfo.dateJouei;
+            const schedule = schedules.find(s => s.date === dateJouei);
+            if (schedule === undefined) {
+                throw new Error('スケジュールが見つかりません');
             }
-            const scheduleResult = <any>xml2js(xml, { compact: true });
-            // console.log('scheduleResult', scheduleResult);
-            // console.log('coaInfo', coaInfo);
-            const schedule: any[] = (Array.isArray(scheduleResult.schedules.schedule))
-                ? scheduleResult.schedules.schedule : [scheduleResult.schedules.schedule];
-            const scheduleFindResult = schedule.find((s: any) => s.date._text === coaInfo.dateJouei);
-            if (scheduleFindResult === undefined) {
-                throw new Error('scheduleが見つかりません');
+            const performances = schedule2Performance(schedule, this.userService.isMember());
+            const performance = performances.find(p => `${branchCode}${p.createId()}` === screeningEvent.id);
+            if (performance === undefined) {
+                throw new Error('パフォーマンスが見つかりません');
             }
-            // console.log('scheduleFindResult', scheduleFindResult);
-            const movie: any[] = (Array.isArray(scheduleFindResult.movie))
-                ? scheduleFindResult.movie : [scheduleFindResult.movie];
-            const movieFindResult = movie.find((m: any) => {
-                return (m.movie_short_code._cdata === coaInfo.titleCode
-                    && m.movie_branch_code._cdata === coaInfo.titleBranchNum);
-            });
-            if (movieFindResult === undefined) {
-                throw new Error('movieが見つかりません');
-            }
-            // console.log('movieFindResult', movieFindResult);
-            const screen: any[] = (Array.isArray(movieFindResult.screen))
-                ? movieFindResult.screen : [movieFindResult.screen];
-            const screenFindResult = screen.find((s: any) => s.screen_code._cdata === coaInfo.screenCode);
-            if (screenFindResult === undefined) {
-                throw new Error('screenが見つかりません');
-            }
-            // console.log('screenFindResult', screenFindResult);
-            const time: any[] = (Array.isArray(screenFindResult.time))
-                ? screenFindResult.time : [screenFindResult.time];
-            const timeFindResult =
-                time.find((t: any) => (t.start_time._text === coaInfo.timeBegin));
-            if (timeFindResult === undefined) {
-                throw new Error('timeが見つかりません');
-            }
-            // console.log('timeFindResult', timeFindResult);
-            if (timeFindResult.rsv_start_day !== undefined
-                && timeFindResult.rsv_start_time !== undefined) {
-                const reservation = {
-                    year: timeFindResult.rsv_start_day._cdata.slice(0, 4),
-                    month: timeFindResult.rsv_start_day._cdata.slice(4, 6),
-                    day: timeFindResult.rsv_start_day._cdata.slice(6, 8),
-                    hour: timeFindResult.rsv_start_time._cdata.slice(0, 2),
-                    minute: timeFindResult.rsv_start_time._cdata.slice(2, 4),
-                };
-                const date =
-                    moment(`${reservation.year}-${reservation.month}-${reservation.day} ${reservation.hour}:${reservation.minute}`);
-                return (date.unix() < moment(now).unix());
-            } else {
-                // COAXMLの場合
-                // console.log(timeFindResult.available._text, (timeFindResult.available._text !== '6'));
-                return (timeFindResult.available._text !== '6');
-            }
+            return performance.isSalse();
         } catch (error) {
             console.error(error);
             return false;
