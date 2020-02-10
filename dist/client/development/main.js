@@ -3378,7 +3378,7 @@ var ErrorService = /** @class */ (function () {
 /*!*******************************!*\
   !*** ./app/services/index.ts ***!
   \*******************************/
-/*! exports provided: AwsCognitoService, CallNativeService, InAppBrowserTarget, ErrorService, PurchaseService, CinerinoService, SaveType, StorageService, FlgMember, UserService, UtilService, InquiryService */
+/*! exports provided: ErrorService, PurchaseService, FlgMember, UserService, AwsCognitoService, CallNativeService, InAppBrowserTarget, CinerinoService, SaveType, StorageService, UtilService, InquiryService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
