@@ -664,7 +664,7 @@ function getSeat(params) {
 /*!********************************!*\
   !*** ./app/functions/index.ts ***!
   \********************************/
-/*! exports provided: convertToHiragana, convertToKatakana, toFullWidth, isUpperCase, isLowerCase, formatTelephone, object2query, getPurchaseCompletionEmail, getPurchaseCompletionMemberEmail, getTicketPrice, is4DX, getOrderTicketPrice */
+/*! exports provided: convertToHiragana, convertToKatakana, toFullWidth, isUpperCase, isLowerCase, formatTelephone, object2query, getPurchaseCompletionEmail, getPurchaseCompletionMemberEmail, getTicketPrice, is4DX, schedule2Performance, filterPerformancebyMovie, getOrderTicketPrice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -693,6 +693,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getTicketPrice", function() { return _purchase__WEBPACK_IMPORTED_MODULE_2__["getTicketPrice"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is4DX", function() { return _purchase__WEBPACK_IMPORTED_MODULE_2__["is4DX"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "schedule2Performance", function() { return _purchase__WEBPACK_IMPORTED_MODULE_2__["schedule2Performance"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "filterPerformancebyMovie", function() { return _purchase__WEBPACK_IMPORTED_MODULE_2__["filterPerformancebyMovie"]; });
 
 /* harmony import */ var _order__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./order */ "./app/functions/order.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getOrderTicketPrice", function() { return _order__WEBPACK_IMPORTED_MODULE_3__["getOrderTicketPrice"]; });
@@ -732,13 +736,17 @@ function getOrderTicketPrice(offer) {
 /*!***********************************!*\
   !*** ./app/functions/purchase.ts ***!
   \***********************************/
-/*! exports provided: getTicketPrice, is4DX */
+/*! exports provided: getTicketPrice, is4DX, schedule2Performance, filterPerformancebyMovie */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTicketPrice", function() { return getTicketPrice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is4DX", function() { return is4DX; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "schedule2Performance", function() { return schedule2Performance; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterPerformancebyMovie", function() { return filterPerformancebyMovie; });
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models */ "./app/models/index.ts");
+
 /**
  * 券種金額取得
  */
@@ -759,6 +767,39 @@ function is4DX(screeningEvent) {
     }
     var code = screeningEvent.superEvent.coaInfo.kbnJoueihousiki.kubunCode;
     return (code === '002' || code === '004');
+}
+/**
+ * スケジュールからパフォーマンスへ変換
+ */
+function schedule2Performance(schedule, member) {
+    var performances = [];
+    var date = schedule.date;
+    schedule.movie.forEach(function (movie) {
+        movie.screen.forEach(function (screen) {
+            screen.time.forEach(function (time) {
+                performances.push(new _models__WEBPACK_IMPORTED_MODULE_0__["Performance"]({ date: date, movie: movie, screen: screen, time: time, member: member }));
+            });
+        });
+    });
+    return performances;
+}
+/**
+ * パフォーマンスを作品で絞り込み
+ */
+function filterPerformancebyMovie(performances, movie) {
+    var filterResult = performances.filter(function (p) {
+        return (p.movie.movie_short_code === movie.movie_short_code
+            && p.movie.movie_branch_code === movie.movie_branch_code);
+    });
+    var sortResult = filterResult.sort(function (a, b) {
+        if (a.time.start_time < b.time.start_time) {
+            return -1;
+        }
+        else {
+            return 1;
+        }
+    });
+    return sortResult;
 }
 
 
@@ -1047,14 +1088,123 @@ var TestGuardService = /** @class */ (function () {
 /*!*****************************!*\
   !*** ./app/models/index.ts ***!
   \*****************************/
-/*! exports provided: SeatStatus */
+/*! exports provided: Performance, SeatStatus */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _screen__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./screen */ "./app/models/screen.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SeatStatus", function() { return _screen__WEBPACK_IMPORTED_MODULE_0__["SeatStatus"]; });
+/* harmony import */ var _performance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./performance */ "./app/models/performance.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Performance", function() { return _performance__WEBPACK_IMPORTED_MODULE_0__["Performance"]; });
 
+/* harmony import */ var _screen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./screen */ "./app/models/screen.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SeatStatus", function() { return _screen__WEBPACK_IMPORTED_MODULE_1__["SeatStatus"]; });
+
+
+
+
+
+/***/ }),
+
+/***/ "./app/models/performance.ts":
+/*!***********************************!*\
+  !*** ./app/models/performance.ts ***!
+  \***********************************/
+/*! exports provided: Performance */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Performance", function() { return Performance; });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+
+/**
+ * パフォーマンス
+ */
+var Performance = /** @class */ (function () {
+    function Performance(params) {
+        this.date = params.date;
+        this.movie = params.movie;
+        this.screen = params.screen;
+        this.time = params.time;
+        this.member = (params.member === undefined) ? false : params.member;
+    }
+    /**
+     * 予約ステータス情報取得
+     */
+    Performance.prototype.getAvailability = function () {
+        var value = this.time.seat_count.cnt_reserve_free / this.time.seat_count.cnt_reserve_max * 100;
+        var availability = [
+            { symbolText: '×', icon: 'vacancy-full-white', className: 'vacancy-full', text: '満席' },
+            { symbolText: '△', icon: 'vacancy-little-white', className: 'vacancy-little', text: '購入' },
+            { symbolText: '○', icon: 'vacancy-large-white', className: 'vacancy-large', text: '購入' }
+        ];
+        var threshold = 10;
+        return (value === 0)
+            ? availability[0] : (value <= threshold)
+            ? availability[1] : availability[2];
+    };
+    /**
+     * 販売可能判定
+     */
+    Performance.prototype.isSalse = function () {
+        return !this.isBeforePeriod()
+            && !this.isAfterPeriod()
+            && !this.isWindow()
+            && this.time.seat_count.cnt_reserve_free > 0;
+    };
+    /**
+     * 予約期間前判定
+     */
+    Performance.prototype.isBeforePeriod = function () {
+        var rsvStartDate = (this.member)
+            ? moment__WEBPACK_IMPORTED_MODULE_0__(this.time.member_rsv_start_day + " " + this.time.member_rsv_start_time, 'YYYYMMDD HHmm')
+            : moment__WEBPACK_IMPORTED_MODULE_0__(this.time.rsv_start_day + " " + this.time.rsv_start_time, 'YYYYMMDD HHmm');
+        return rsvStartDate > moment__WEBPACK_IMPORTED_MODULE_0__();
+    };
+    /**
+     * 予約期間後判定（上映開始10分以降）
+     */
+    Performance.prototype.isAfterPeriod = function () {
+        var startDate = moment__WEBPACK_IMPORTED_MODULE_0__(this.date + " " + this.time.start_time, 'YYYYMMDD HHmm');
+        return moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(10, 'minutes') < moment__WEBPACK_IMPORTED_MODULE_0__();
+    };
+    /**
+     * 窓口判定（上映開始10分前から上映開始10分後）
+     */
+    Performance.prototype.isWindow = function () {
+        var startDate = moment__WEBPACK_IMPORTED_MODULE_0__(this.date + " " + this.time.start_time, 'YYYYMMDD HHmm');
+        var now = moment__WEBPACK_IMPORTED_MODULE_0__();
+        return (this.time.seat_count.cnt_reserve_free > 0
+            && moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(-10, 'minutes') < now
+            && moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(10, 'minutes') > now);
+    };
+    /**
+     * 表示判定
+     */
+    Performance.prototype.isDisplay = function () {
+        var now = moment__WEBPACK_IMPORTED_MODULE_0__();
+        var displayStartDate = moment__WEBPACK_IMPORTED_MODULE_0__(this.time.online_display_start_day, 'YYYYMMDD');
+        var endDate = moment__WEBPACK_IMPORTED_MODULE_0__(this.date + ' ' + this.time.end_time, 'YYYYMMDD HHmm');
+        return (displayStartDate < now && endDate > now);
+    };
+    /**
+     * 上映時間取得
+     */
+    Performance.prototype.getTime = function (type) {
+        return (type === 'start')
+            ? this.time.start_time.slice(0, 2) + ":" + this.time.start_time.slice(2, 4)
+            : this.time.end_time.slice(0, 2) + ":" + this.time.end_time.slice(2, 4);
+    };
+    /**
+     * id生成
+     */
+    Performance.prototype.createId = function () {
+        var id = "" + this.movie.movie_short_code + this.movie.movie_branch_code + this.date + this.screen.screen_code + this.time.start_time;
+        return id;
+    };
+    return Performance;
+}());
 
 
 
@@ -3228,7 +3378,7 @@ var ErrorService = /** @class */ (function () {
 /*!*******************************!*\
   !*** ./app/services/index.ts ***!
   \*******************************/
-/*! exports provided: ErrorService, PurchaseService, FlgMember, UserService, AwsCognitoService, CallNativeService, InAppBrowserTarget, CinerinoService, SaveType, StorageService, UtilService, InquiryService */
+/*! exports provided: AwsCognitoService, CallNativeService, InAppBrowserTarget, ErrorService, PurchaseService, CinerinoService, SaveType, StorageService, FlgMember, UserService, UtilService, InquiryService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3428,18 +3578,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var xml_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xml-js */ "../../node_modules/xml-js/lib/index.js");
-/* harmony import */ var xml_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(xml_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions */ "./app/functions/index.ts");
-/* harmony import */ var _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modules/shared/pipes */ "./app/modules/shared/pipes/index.ts");
-/* harmony import */ var _aws_cognito_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./aws-cognito.service */ "./app/services/aws-cognito.service.ts");
-/* harmony import */ var _call_native_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./call-native.service */ "./app/services/call-native.service.ts");
-/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
-/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
-/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./user.service */ "./app/services/user.service.ts");
-/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions */ "./app/functions/index.ts");
+/* harmony import */ var _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modules/shared/pipes */ "./app/modules/shared/pipes/index.ts");
+/* harmony import */ var _aws_cognito_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./aws-cognito.service */ "./app/services/aws-cognito.service.ts");
+/* harmony import */ var _call_native_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./call-native.service */ "./app/services/call-native.service.ts");
+/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
+/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
+/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./user.service */ "./app/services/user.service.ts");
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -3494,7 +3642,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-
 /**
  * インセンティブ
  */
@@ -3517,7 +3664,7 @@ var PurchaseService = /** @class */ (function () {
      * @method load
      */
     PurchaseService.prototype.load = function () {
-        var data = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_9__["SaveType"].Session);
+        var data = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_8__["SaveType"].Session);
         if (data === null) {
             this.data = {
                 salesTickets: [],
@@ -3536,7 +3683,7 @@ var PurchaseService = /** @class */ (function () {
      * @method save
      */
     PurchaseService.prototype.save = function () {
-        this.storage.save('purchase', this.data, _storage_service__WEBPACK_IMPORTED_MODULE_9__["SaveType"].Session);
+        this.storage.save('purchase', this.data, _storage_service__WEBPACK_IMPORTED_MODULE_8__["SaveType"].Session);
     };
     /**
      * リセット
@@ -3560,7 +3707,7 @@ var PurchaseService = /** @class */ (function () {
         if (this.data.customerContact === undefined) {
             return '';
         }
-        return Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(this.data.customerContact.familyName + " " + this.data.customerContact.givenName);
+        return Object(_functions__WEBPACK_IMPORTED_MODULE_3__["convertToKatakana"])(this.data.customerContact.familyName + " " + this.data.customerContact.givenName);
     };
     /**
      * 期限切れ
@@ -3596,7 +3743,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.isSalse = function (screeningEvent) {
         return __awaiter(this, void 0, void 0, function () {
-            var now, today, salesEndTime, theatreTable, prefix_1, branchCode_1, theatreTableFindResult, _a, url, xml, coaInfo_1, scheduleResult, schedule, scheduleFindResult, movie, movieFindResult, screen_1, screenFindResult, time, timeFindResult, reservation, date, error_1;
+            var now, branchCode_1, theatreTable, prefix_1, theatreTableFindResult, _a, url, schedules, dateJouei_1, schedule, performances, performance_1, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -3604,96 +3751,41 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.utilService.getServerTime()];
                     case 1:
                         now = (_b.sent()).date;
-                        today = moment__WEBPACK_IMPORTED_MODULE_1__(moment__WEBPACK_IMPORTED_MODULE_1__(now).format('YYYYMMDD')).toDate();
                         if (screeningEvent.offers === undefined
                             || screeningEvent.coaInfo === undefined) {
                             return [2 /*return*/, new Error('イベントが情報が不足しています')];
                         }
-                        salesEndTime = {
-                            value: Number(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].SALES_END_TIME_VALUE),
-                            unit: _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].SALES_END_TIME_UNIT
-                        };
-                        if (moment__WEBPACK_IMPORTED_MODULE_1__(screeningEvent.startDate).add(salesEndTime.value, salesEndTime.unit).unix() < moment__WEBPACK_IMPORTED_MODULE_1__(now).unix()) {
-                            // 販売終了
-                            throw new Error('販売終了');
-                        }
+                        branchCode_1 = screeningEvent.coaInfo.theaterCode;
                         return [4 /*yield*/, this.utilService.getJson('/json/table/theaters.json')];
                     case 2:
                         theatreTable = _b.sent();
-                        prefix_1 = (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) ? '0' : '1';
-                        branchCode_1 = screeningEvent.superEvent.location.branchCode;
+                        prefix_1 = (_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].production) ? '0' : '1';
                         theatreTableFindResult = theatreTable.find(function (t) { return branchCode_1 === "" + prefix_1 + t.code; });
                         if (theatreTableFindResult === undefined) {
                             throw new Error('劇場が見つかりません');
                         }
                         if (!(this.scheduleApiEndpoint === undefined)) return [3 /*break*/, 4];
                         _a = this;
-                        return [4 /*yield*/, this.utilService.getJson("/api/config?date" + now)];
+                        return [4 /*yield*/, this.utilService.getJson("/api/config?date" + moment__WEBPACK_IMPORTED_MODULE_1__().toISOString())];
                     case 3:
-                        _a.scheduleApiEndpoint =
-                            (_b.sent()).scheduleApiEndpoint;
+                        _a.scheduleApiEndpoint = (_b.sent()).scheduleApiEndpoint;
                         _b.label = 4;
                     case 4:
-                        url = this.scheduleApiEndpoint + "/" + theatreTableFindResult.name + "/schedule/xml/schedule.xml?date=" + now;
-                        return [4 /*yield*/, this.utilService.getText(url)];
+                        url = this.scheduleApiEndpoint + "/" + theatreTableFindResult.name + "/schedule/json/schedule.json?date=" + now;
+                        return [4 /*yield*/, this.utilService.getJson(url)];
                     case 5:
-                        xml = _b.sent();
-                        coaInfo_1 = screeningEvent.coaInfo;
-                        if (!(/\<rsv_start_day\>/.test(xml)
-                            && /\<\/rsv_start_day\>/.test(xml)
-                            && /\<rsv_start_time\>/.test(xml)
-                            && /\<\/rsv_start_time\>/.test(xml))
-                            && coaInfo_1.flgEarlyBooking === '1') {
-                            // COA版先行販売の場合予約可能開始日で判定
-                            return [2 /*return*/, (moment__WEBPACK_IMPORTED_MODULE_1__(coaInfo_1.rsvStartDate).unix() <= moment__WEBPACK_IMPORTED_MODULE_1__(today).unix())];
+                        schedules = _b.sent();
+                        dateJouei_1 = screeningEvent.coaInfo.dateJouei;
+                        schedule = schedules.find(function (s) { return s.date === dateJouei_1; });
+                        if (schedule === undefined) {
+                            throw new Error('スケジュールが見つかりません');
                         }
-                        scheduleResult = Object(xml_js__WEBPACK_IMPORTED_MODULE_2__["xml2js"])(xml, { compact: true });
-                        schedule = (Array.isArray(scheduleResult.schedules.schedule))
-                            ? scheduleResult.schedules.schedule : [scheduleResult.schedules.schedule];
-                        scheduleFindResult = schedule.find(function (s) { return s.date._text === coaInfo_1.dateJouei; });
-                        if (scheduleFindResult === undefined) {
-                            throw new Error('scheduleが見つかりません');
+                        performances = Object(_functions__WEBPACK_IMPORTED_MODULE_3__["schedule2Performance"])(schedule, this.userService.isMember());
+                        performance_1 = performances.find(function (p) { return "" + branchCode_1 + p.createId() === screeningEvent.id; });
+                        if (performance_1 === undefined) {
+                            throw new Error('パフォーマンスが見つかりません');
                         }
-                        movie = (Array.isArray(scheduleFindResult.movie))
-                            ? scheduleFindResult.movie : [scheduleFindResult.movie];
-                        movieFindResult = movie.find(function (m) {
-                            return (m.movie_short_code._cdata === coaInfo_1.titleCode
-                                && m.movie_branch_code._cdata === coaInfo_1.titleBranchNum);
-                        });
-                        if (movieFindResult === undefined) {
-                            throw new Error('movieが見つかりません');
-                        }
-                        screen_1 = (Array.isArray(movieFindResult.screen))
-                            ? movieFindResult.screen : [movieFindResult.screen];
-                        screenFindResult = screen_1.find(function (s) { return s.screen_code._cdata === coaInfo_1.screenCode; });
-                        if (screenFindResult === undefined) {
-                            throw new Error('screenが見つかりません');
-                        }
-                        time = (Array.isArray(screenFindResult.time))
-                            ? screenFindResult.time : [screenFindResult.time];
-                        timeFindResult = time.find(function (t) { return (t.start_time._text === coaInfo_1.timeBegin); });
-                        if (timeFindResult === undefined) {
-                            throw new Error('timeが見つかりません');
-                        }
-                        // console.log('timeFindResult', timeFindResult);
-                        if (timeFindResult.rsv_start_day !== undefined
-                            && timeFindResult.rsv_start_time !== undefined) {
-                            reservation = {
-                                year: timeFindResult.rsv_start_day._cdata.slice(0, 4),
-                                month: timeFindResult.rsv_start_day._cdata.slice(4, 6),
-                                day: timeFindResult.rsv_start_day._cdata.slice(6, 8),
-                                hour: timeFindResult.rsv_start_time._cdata.slice(0, 2),
-                                minute: timeFindResult.rsv_start_time._cdata.slice(2, 4),
-                            };
-                            date = moment__WEBPACK_IMPORTED_MODULE_1__(reservation.year + "-" + reservation.month + "-" + reservation.day + " " + reservation.hour + ":" + reservation.minute);
-                            return [2 /*return*/, (date.unix() < moment__WEBPACK_IMPORTED_MODULE_1__(now).unix())];
-                        }
-                        else {
-                            // COAXMLの場合
-                            // console.log(timeFindResult.available._text, (timeFindResult.available._text !== '6'));
-                            return [2 /*return*/, (timeFindResult.available._text !== '6')];
-                        }
-                        return [3 /*break*/, 7];
+                        return [2 /*return*/, performance_1.isSalse()];
                     case 6:
                         error_1 = _b.sent();
                         console.error(error_1);
@@ -3764,7 +3856,7 @@ var PurchaseService = /** @class */ (function () {
             || screeningEvent.coaInfo === undefined) {
             return '';
         }
-        var timeFormat = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__["TimeFormatPipe"]();
+        var timeFormat = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]();
         return timeFormat.transform(screeningEvent.startDate, screeningEvent.coaInfo.dateJouei);
     };
     /**
@@ -3778,7 +3870,7 @@ var PurchaseService = /** @class */ (function () {
             || screeningEvent.coaInfo === undefined) {
             return '';
         }
-        var timeFormat = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__["TimeFormatPipe"]();
+        var timeFormat = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]();
         return timeFormat.transform(screeningEvent.endDate, screeningEvent.coaInfo.dateJouei);
     };
     /**
@@ -3823,7 +3915,7 @@ var PurchaseService = /** @class */ (function () {
         }
         var branchCode = (this.data.seller !== undefined && this.data.seller.location !== undefined)
             ? this.data.seller.location.branchCode : undefined;
-        var memberTicket = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].MEMBER_TICKET.find(function (data) { return data.THEATER === branchCode; });
+        var memberTicket = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MEMBER_TICKET.find(function (data) { return data.THEATER === branchCode; });
         if (memberTicket === undefined) {
             return [];
         }
@@ -3856,7 +3948,7 @@ var PurchaseService = /** @class */ (function () {
             return false;
         }
         var screeningEvent = this.data.screeningEvent;
-        var pointInfo = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].POINT_TICKET.find(function (ticket) {
+        var pointInfo = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].POINT_TICKET.find(function (ticket) {
             return (screeningEvent.coaInfo !== undefined
                 && ticket.THEATER === screeningEvent.coaInfo.theaterCode);
         });
@@ -4000,7 +4092,7 @@ var PurchaseService = /** @class */ (function () {
             throw new Error('coaInfo is undefined');
         }
         var day = moment__WEBPACK_IMPORTED_MODULE_1__(coaInfo.dateJouei).format('YYYY/MM/DD');
-        var time = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__["TimeFormatPipe"]().transform(this.data.screeningEvent.startDate, coaInfo.dateJouei) + ":00";
+        var time = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]().transform(this.data.screeningEvent.startDate, coaInfo.dateJouei) + ":00";
         var tmpReserveNum = this.data.seatReservationAuthorization.result.responseBody.tmpReserveNum;
         var systemReservationNumber = "" + coaInfo.dateJouei + tmpReserveNum;
         var siteCode = String(Number(("00" + coaInfo.theaterCode).slice(DIGITS)));
@@ -4008,7 +4100,7 @@ var PurchaseService = /** @class */ (function () {
         var reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
         var skhnCd = "" + coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS);
         return {
-            kgygishCd: _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].MVTK_COMPANY_CODE,
+            kgygishCd: _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MVTK_COMPANY_CODE,
             yykDvcTyp: reservedDeviceType,
             trkshFlg: deleteFlag,
             kgygishSstmZskyykNo: systemReservationNumber,
@@ -4056,7 +4148,7 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.utilService.getServerTime()];
                     case 4:
                         now = (_b.sent()).date;
-                        expires = moment__WEBPACK_IMPORTED_MODULE_1__(now).add(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].TRANSACTION_TIME, 'minutes').toDate();
+                        expires = moment__WEBPACK_IMPORTED_MODULE_1__(now).add(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].TRANSACTION_TIME, 'minutes').toDate();
                         // 取引開始
                         _a = this.data;
                         return [4 /*yield*/, this.cinerinoService.transaction.placeOrder.start({
@@ -4255,8 +4347,8 @@ var PurchaseService = /** @class */ (function () {
                         updateRecordsArgs = {
                             datasetName: 'profile',
                             value: {
-                                familyName: (customerContact.familyName === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(customerContact.familyName),
-                                givenName: (customerContact.givenName === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_4__["convertToKatakana"])(customerContact.givenName),
+                                familyName: (customerContact.familyName === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_3__["convertToKatakana"])(customerContact.familyName),
+                                givenName: (customerContact.givenName === undefined) ? '' : Object(_functions__WEBPACK_IMPORTED_MODULE_3__["convertToKatakana"])(customerContact.givenName),
                                 email: (customerContact.email === undefined) ? '' : customerContact.email,
                                 telephone: (customerContact.telephone === undefined) ? '' : customerContact.telephone,
                             }
@@ -4504,10 +4596,10 @@ var PurchaseService = /** @class */ (function () {
                             email: {
                                 sender: { email: 'noreply@ticket-cinemasunshine.com' },
                                 template: (this.userService.isMember())
-                                    ? Object(_functions__WEBPACK_IMPORTED_MODULE_4__["getPurchaseCompletionMemberEmail"])({
+                                    ? Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionMemberEmail"])({
                                         seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization, userName: userName
                                     })
-                                    : Object(_functions__WEBPACK_IMPORTED_MODULE_4__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
+                                    : Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
                             }
                         })];
                     case 6:
@@ -4529,7 +4621,7 @@ var PurchaseService = /** @class */ (function () {
                             seller: this.data.seller,
                             incentive: this.data.incentive
                         };
-                        this.storage.save('complete', complete, _storage_service__WEBPACK_IMPORTED_MODULE_9__["SaveType"].Session);
+                        this.storage.save('complete', complete, _storage_service__WEBPACK_IMPORTED_MODULE_8__["SaveType"].Session);
                         try {
                             sendData = {
                                 hitType: 'event',
@@ -4664,7 +4756,7 @@ var PurchaseService = /** @class */ (function () {
                         coaInfo = this.data.screeningEvent.coaInfo;
                         valid = '1';
                         purchaseNumberAuthArgs = {
-                            kgygishCd: _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].MVTK_COMPANY_CODE,
+                            kgygishCd: _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MVTK_COMPANY_CODE,
                             jhshbtsCd: valid,
                             knyknrNoInfoIn: mvtkInputDataList,
                             skhnCd: coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS),
@@ -4748,7 +4840,7 @@ var PurchaseService = /** @class */ (function () {
             });
         });
     };
-    PurchaseService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdefineInjectable"]({ factory: function PurchaseService_Factory() { return new PurchaseService(_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_9__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_8__["CinerinoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_aws_cognito_service__WEBPACK_IMPORTED_MODULE_6__["AwsCognitoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_call_native_service__WEBPACK_IMPORTED_MODULE_7__["CallNativeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_user_service__WEBPACK_IMPORTED_MODULE_10__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_11__["UtilService"])); }, token: PurchaseService, providedIn: "root" });
+    PurchaseService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdefineInjectable"]({ factory: function PurchaseService_Factory() { return new PurchaseService(_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_8__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_7__["CinerinoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_aws_cognito_service__WEBPACK_IMPORTED_MODULE_5__["AwsCognitoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_call_native_service__WEBPACK_IMPORTED_MODULE_6__["CallNativeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_user_service__WEBPACK_IMPORTED_MODULE_9__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_10__["UtilService"])); }, token: PurchaseService, providedIn: "root" });
     return PurchaseService;
 }());
 
