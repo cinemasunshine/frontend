@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.2 - 2020-03-16
+### Fixed
+ - 緊急用スクリーン沼津修正
+
 ## 6.4.1 - 2020-03-13
 ### Added
  - 緊急用スクリーン追加
