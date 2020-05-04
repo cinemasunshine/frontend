@@ -60,13 +60,13 @@ export class PurchaseScheduleComponent implements OnInit {
                     return (t.location !== undefined && t.location !== null && t.location.branchCode !== undefined);
                 });
             this.dateList = this.getDateList();
-            const theater = this.theaters[this.theaters.length - 1];
-            if (theater.location === undefined
-                || theater.location.branchCode === undefined) {
-                throw new Error('branchCode is undefined');
-            }
+            // const theater = this.theaters[this.theaters.length - 1];
+            // if (theater.location === undefined
+            //     || theater.location.branchCode === undefined) {
+            //     throw new Error('branchCode is undefined');
+            // }
             this.conditions = {
-                theater: theater.location.branchCode,
+                theater: '120',
                 date: this.dateList[0].value,
                 member: false
             };

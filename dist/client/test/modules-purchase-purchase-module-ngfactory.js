@@ -1942,10 +1942,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../../functions */ "./app/functions/index.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../../services */ "./app/services/index.ts");
-/* harmony import */ var _shared_pipes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../shared/pipes */ "./app/modules/shared/pipes/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../services */ "./app/services/index.ts");
+/* harmony import */ var _shared_pipes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../shared/pipes */ "./app/modules/shared/pipes/index.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1987,8 +1985,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-
-
 var PurchaseOverlapComponent = /** @class */ (function () {
     function PurchaseOverlapComponent(storage, purchase, router, error) {
         this.storage = storage;
@@ -2003,7 +1999,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
                 this.isLoading = false;
                 try {
                     // イベント情報取得
-                    this.screeningEvent = this.storage.load('screeningEvent', _services__WEBPACK_IMPORTED_MODULE_5__["SaveType"].Session);
+                    this.screeningEvent = this.storage.load('screeningEvent', _services__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
                     if (this.screeningEvent === null) {
                         throw new Error('screeningEvent is null');
                     }
@@ -2026,7 +2022,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
      */
     PurchaseOverlapComponent.prototype.newTransaction = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var error_1, params, query;
+            var error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2046,12 +2042,8 @@ var PurchaseOverlapComponent = /** @class */ (function () {
                         return [3 /*break*/, 5];
                     case 5:
                         this.purchase.reset();
-                        this.storage.remove('screeningEvent', _services__WEBPACK_IMPORTED_MODULE_5__["SaveType"].Session);
-                        params = this.storage.load('parameters', _services__WEBPACK_IMPORTED_MODULE_5__["SaveType"].Session);
-                        params.passportToken = undefined;
-                        params.signInRedirect = false;
-                        query = Object(_functions__WEBPACK_IMPORTED_MODULE_4__["object2query"])(params);
-                        location.href = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].ENTRANCE_SERVER_URL + "/purchase/index.html?" + query;
+                        this.storage.remove('screeningEvent', _services__WEBPACK_IMPORTED_MODULE_3__["SaveType"].Session);
+                        this.router.navigate(['/purchase/transaction']);
                         return [2 /*return*/];
                 }
             });
@@ -2102,7 +2094,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
         if (this.screeningEvent.coaInfo === undefined) {
             return '';
         }
-        var timeFormat = new _shared_pipes__WEBPACK_IMPORTED_MODULE_6__["TimeFormatPipe"]();
+        var timeFormat = new _shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]();
         return timeFormat.transform(this.screeningEvent.startDate, this.screeningEvent.coaInfo.dateJouei);
     };
     /**
@@ -2114,7 +2106,7 @@ var PurchaseOverlapComponent = /** @class */ (function () {
         if (this.screeningEvent.coaInfo === undefined) {
             return '';
         }
-        var timeFormat = new _shared_pipes__WEBPACK_IMPORTED_MODULE_6__["TimeFormatPipe"]();
+        var timeFormat = new _shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]();
         return timeFormat.transform(this.screeningEvent.endDate, this.screeningEvent.coaInfo.dateJouei);
     };
     return PurchaseOverlapComponent;
@@ -2585,7 +2577,7 @@ var PurchaseScheduleComponent = /** @class */ (function () {
      */
     PurchaseScheduleComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var searchResult, theater, err_1;
+            var searchResult, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2605,13 +2597,13 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                                 return (t.location !== undefined && t.location !== null && t.location.branchCode !== undefined);
                             });
                         this.dateList = this.getDateList();
-                        theater = this.theaters[this.theaters.length - 1];
-                        if (theater.location === undefined
-                            || theater.location.branchCode === undefined) {
-                            throw new Error('branchCode is undefined');
-                        }
+                        // const theater = this.theaters[this.theaters.length - 1];
+                        // if (theater.location === undefined
+                        //     || theater.location.branchCode === undefined) {
+                        //     throw new Error('branchCode is undefined');
+                        // }
                         this.conditions = {
-                            theater: theater.location.branchCode,
+                            theater: '120',
                             date: this.dateList[0].value,
                             member: false
                         };
@@ -4131,10 +4123,6 @@ var PurchaseTransactionComponent = /** @class */ (function () {
                             // 取引期限切れなら購入情報削除
                             this.purchase.reset();
                         }
-                        // if (this.user.isNative()) {
-                        //     // アプリなら購入情報削除
-                        //     this.purchase.reset();
-                        // }
                         if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
                             // 重複確認へ
                             this.storage.save('screeningEvent', screeningEvent, _services__WEBPACK_IMPORTED_MODULE_2__["SaveType"].Session);
@@ -4264,8 +4252,13 @@ var PurchaseFilmOrderPerformanceComponent = /** @class */ (function () {
     function PurchaseFilmOrderPerformanceComponent() {
     }
     PurchaseFilmOrderPerformanceComponent.prototype.ngOnInit = function () {
-        var availability = (this.data.offers === undefined) ? undefined : this.data.offers.availability;
-        this.availability = this.getAvailability(availability);
+        this.availability = this.getAvailability(this.getVacancyRate());
+    };
+    PurchaseFilmOrderPerformanceComponent.prototype.getVacancyRate = function () {
+        return (this.data.remainingAttendeeCapacity === undefined
+            || this.data.maximumAttendeeCapacity === undefined)
+            ? undefined
+            : this.data.remainingAttendeeCapacity / this.data.maximumAttendeeCapacity * 100;
     };
     /**
      * @method getAvailability
@@ -4274,18 +4267,9 @@ var PurchaseFilmOrderPerformanceComponent = /** @class */ (function () {
      */
     PurchaseFilmOrderPerformanceComponent.prototype.getAvailability = function (availability) {
         var availabilityList = [
-            {
-                text: '満席',
-                className: 'vacancy-full'
-            },
-            {
-                text: '残りわずか',
-                className: 'vacancy-little'
-            },
-            {
-                text: '空席あり',
-                className: 'vacancy-large'
-            }
+            { text: '満席', className: 'vacancy-full' },
+            { text: '残りわずか', className: 'vacancy-little' },
+            { text: '空席あり', className: 'vacancy-large' }
         ];
         return (availability === 0 || availability === undefined)
             ? availabilityList[0] : (availability <= 10)
@@ -4296,8 +4280,8 @@ var PurchaseFilmOrderPerformanceComponent = /** @class */ (function () {
      * @returns {void}
      */
     PurchaseFilmOrderPerformanceComponent.prototype.start = function () {
-        var availability = (this.data.offers === undefined) ? undefined : this.data.offers.availability;
-        if (availability === 0 || availability === undefined) {
+        var vacancyRate = this.getVacancyRate();
+        if (vacancyRate === 0 || vacancyRate === undefined) {
             return;
         }
         var query = Object(_functions__WEBPACK_IMPORTED_MODULE_3__["object2query"])({

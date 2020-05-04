@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.3 - 2020-05-04
+### Changed
+ - アクセス制限を二重で通らないように変更
+
 ## 6.4.2 - 2020-03-16
 ### Fixed
  - 緊急用スクリーン沼津修正

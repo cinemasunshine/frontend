@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/api-javascript-client';
 import * as moment from 'moment';
-import { environment } from '../../../../../../environments/environment';
-import { object2query } from '../../../../../functions';
 import { ErrorService, PurchaseService, SaveType, StorageService } from '../../../../../services';
 import { TimeFormatPipe } from '../../../../shared/pipes';
 
@@ -59,11 +57,7 @@ export class PurchaseOverlapComponent implements OnInit {
         }
         this.purchase.reset();
         this.storage.remove('screeningEvent', SaveType.Session);
-        const params = this.storage.load('parameters', SaveType.Session);
-        params.passportToken = undefined;
-        params.signInRedirect = false;
-        const query = object2query(params);
-        location.href = `${environment.ENTRANCE_SERVER_URL}/purchase/index.html?${query}`;
+        this.router.navigate(['/purchase/transaction']);
     }
 
     /**
