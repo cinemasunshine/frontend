@@ -640,7 +640,7 @@ export class PurchaseService {
             throw new Error('branchCode is undefined');
         }
         const branchCode = this.data.screeningEvent.superEvent.location.branchCode;
-        // 劇場のショップを検索
+        // 販売者を検索
         const searchResult = await this.cinerinoService.seller.search({
             location: { branchCodes: [branchCode] }
         });

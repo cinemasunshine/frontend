@@ -21,8 +21,14 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
     constructor() { }
 
     public ngOnInit() {
-        const availability = (this.data.offers === undefined) ? undefined : this.data.offers.availability;
-        this.availability = this.getAvailability(availability);
+        this.availability = this.getAvailability(this.getVacancyRate());
+    }
+
+    public getVacancyRate() {
+        return (this.data.remainingAttendeeCapacity === undefined
+            || this.data.maximumAttendeeCapacity === undefined)
+            ? undefined
+            : this.data.remainingAttendeeCapacity / this.data.maximumAttendeeCapacity * 100;
     }
 
     /**
@@ -30,20 +36,11 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
      * @param {number | null} availability
      * @returns {Iavailability}
      */
-    public getAvailability(availability?: number | factory.chevre.itemAvailability): Iavailability {
+    public getAvailability(availability?: number): Iavailability {
         const availabilityList = [
-            {
-                text: '満席',
-                className: 'vacancy-full'
-            },
-            {
-                text: '残りわずか',
-                className: 'vacancy-little'
-            },
-            {
-                text: '空席あり',
-                className: 'vacancy-large'
-            }
+            { text: '満席', className: 'vacancy-full' },
+            { text: '残りわずか', className: 'vacancy-little' },
+            { text: '空席あり', className: 'vacancy-large' }
         ];
 
         return (availability === 0 || availability === undefined)
@@ -56,8 +53,8 @@ export class PurchaseFilmOrderPerformanceComponent implements OnInit {
      * @returns {void}
      */
     public start(): void {
-        const availability = (this.data.offers === undefined) ? undefined : this.data.offers.availability;
-        if (availability === 0 || availability === undefined) {
+        const vacancyRate = this.getVacancyRate();
+        if (vacancyRate === 0 || vacancyRate === undefined) {
             return;
         }
         const query = object2query({

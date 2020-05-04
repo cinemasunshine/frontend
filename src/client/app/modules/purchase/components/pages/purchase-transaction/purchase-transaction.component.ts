@@ -85,9 +85,6 @@ export class PurchaseTransactionComponent implements OnInit {
 
                 return;
             }
-
-            // ticketアプリテスト
-            // this.parameters.identityId = 'ap-northeast-1:c93ad6a4-47e6-4023-a078-2a9ea80c15c9';
             if (this.parameters.identityId !== undefined) {
                 await this.awsCognito.authenticateWithDeviceId(this.parameters.identityId);
             }
@@ -104,10 +101,6 @@ export class PurchaseTransactionComponent implements OnInit {
                 // 取引期限切れなら購入情報削除
                 this.purchase.reset();
             }
-            // if (this.user.isNative()) {
-            //     // アプリなら購入情報削除
-            //     this.purchase.reset();
-            // }
             if (this.purchase.data.tmpSeatReservationAuthorization !== undefined) {
                 // 重複確認へ
                 this.storage.save('screeningEvent', screeningEvent, SaveType.Session);
