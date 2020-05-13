@@ -107,6 +107,11 @@
         
         <app-purchase-note class="mb-middle" [theaterCode]="purchase.data.screeningEvent?.superEvent.location.branchCode.slice(-2)"></app-purchase-note>
 
+
+        <p class="mb-small small-text text-white" style="background-color: red; padding: 10px;">
+            ※新型コロナウイルス感染症予防のため、全てのご来場のお客様にマスクの着用をお願いしております。<br>
+            マスク未着用のお客様は入場をお断りさせていただきます。
+        </p>
         <form [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
             <div class="mb-x-large text-center">
                 <input type="checkbox" formControlName="notes" id="notes">
@@ -114,7 +119,7 @@
                     <strong>上記内容に同意する</strong>
                 </label>
                 <div *ngIf="confirmForm.controls['notes'].invalid && (confirmForm.controls['notes'].dirty || confirmForm.controls['notes'].touched)"
-                    class="validation-text">利用規約に同意してください</div>
+                    class="validation-text">注意事項に同意してください</div>
             </div>
             <app-buttons [disabled]="isLoading" nextLabel="購入完了" prevLabel="戻る" prevLink="/purchase/input"></app-buttons>
         </form>
