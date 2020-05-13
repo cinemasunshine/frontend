@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.4 - 2020-05-13
+### Added
+ - コロナ対策文言追加
+
 ## 6.4.3 - 2020-05-04
 ### Changed
  - アクセス制限を二重で通らないように変更
