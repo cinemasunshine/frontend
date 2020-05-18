@@ -37,7 +37,7 @@ export interface IUserData {
     native: NativeAppFlg;
     memberType: FlgMember;
     profile?: factory.person.IProfile;
-    creditCards?: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
+    creditCards: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
     account?: IAccount;
     clientId?: string;
@@ -66,7 +66,8 @@ export class UserService {
         if (data === null) {
             this.data = {
                 native: NativeAppFlg.NotNative,
-                memberType: FlgMember.NonMember
+                memberType: FlgMember.NonMember,
+                creditCards: []
             };
 
             return;
@@ -89,7 +90,8 @@ export class UserService {
     public reset() {
         this.data = {
             native: NativeAppFlg.NotNative,
-            memberType: FlgMember.NonMember
+            memberType: FlgMember.NonMember,
+            creditCards: []
         };
         this.save();
     }

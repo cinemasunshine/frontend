@@ -15,6 +15,7 @@ export class TestScreenComponent implements OnInit {
     public screenData: {
         screenConfig: IScreenConfig;
         status: COA.services.reserve.IStateReserveSeatResult;
+        screen?: COA.services.master.IScreenResult;
     };
     constructor(
         private activatedRoute: ActivatedRoute,

@@ -28,6 +28,7 @@ export class PurchaseSeatComponent implements OnInit {
     public screenData: {
         screenConfig: IScreenConfig;
         status: COA.services.reserve.IStateReserveSeatResult;
+        screen: COA.services.master.IScreenResult;
     };
     public environment = environment;
     public seatRegistrationErrorModal: boolean;

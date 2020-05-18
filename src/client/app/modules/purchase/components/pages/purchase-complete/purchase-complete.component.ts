@@ -16,6 +16,7 @@ export class PurchaseCompleteComponent implements OnInit {
         order: factory.order.IOrder;
         transaction: factory.transaction.placeOrder.ITransaction;
         seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+        incentive: number;
     };
     public environment = environment;
     public getOrderTicketPrice = getOrderTicketPrice;

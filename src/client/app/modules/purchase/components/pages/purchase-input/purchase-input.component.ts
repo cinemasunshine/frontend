@@ -95,8 +95,7 @@ export class PurchaseInputComponent implements OnInit {
                     throw new Error('profile is undefined');
                 }
                 const profile = this.user.data.profile;
-                if (this.user.data.creditCards === undefined
-                    || this.user.data.creditCards.length === 0) {
+                if (this.user.data.creditCards.length === 0) {
                     throw new Error('creditCards is notfoud');
                 }
                 const familyName = (profile.familyName === undefined) ? '' : convertToKatakana(profile.familyName);
@@ -184,9 +183,6 @@ export class PurchaseInputComponent implements OnInit {
                             token: (<IGmoTokenObject>this.purchase.data.gmoTokenObject).token
                         };
                     } else {
-                        if (this.user.data.creditCards === undefined) {
-                            throw new Error('creditCards is undefined');
-                        }
                         this.purchase.data.paymentCreditCard = {
                             memberId: 'me',
                             cardSeq: Number(this.user.data.creditCards[0].cardSeq)

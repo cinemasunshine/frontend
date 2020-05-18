@@ -239,8 +239,7 @@ export class PurchaseService {
     public async isSalse(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
         try {
             const now = (await this.utilService.getServerTime()).date;
-            if (screeningEvent.offers === undefined
-                || screeningEvent.coaInfo === undefined) {
+            if (screeningEvent.coaInfo === undefined) {
                 return new Error('イベントが情報が不足しています');
             }
             const branchCode = screeningEvent.coaInfo.theaterCode;
