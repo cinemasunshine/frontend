@@ -4050,7 +4050,9 @@ var InquiryConfirmComponent = /** @class */ (function () {
             return '';
         }
         var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+            || itemOffered.reservationFor.location.name === undefined
+            || itemOffered.reservationFor.location.name.ja === undefined) {
             return '';
         }
         return itemOffered.reservationFor.location.name.ja;
@@ -4065,7 +4067,8 @@ var InquiryConfirmComponent = /** @class */ (function () {
             return '';
         }
         var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+            || itemOffered.reservationFor.name.ja === undefined) {
             return '';
         }
         return itemOffered.reservationFor.name.ja;

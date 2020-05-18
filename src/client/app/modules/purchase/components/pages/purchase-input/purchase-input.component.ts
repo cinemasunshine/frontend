@@ -260,7 +260,7 @@ export class PurchaseInputComponent implements OnInit {
             if (findPaymentAcceptedResult === undefined) {
                 return reject(new Error('findPaymentAcceptedResult is undefined'));
             }
-            Multipayment.init((<factory.seller.ICreditCardPaymentAccepted>findPaymentAcceptedResult).gmoInfo.shopId);
+            Multipayment.init((<any>findPaymentAcceptedResult).gmoInfo.shopId);
             Multipayment.getToken(sendParam, (<any>window).someCallbackFunction);
         });
     }

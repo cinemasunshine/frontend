@@ -10,7 +10,7 @@ import {
     getPurchaseCompletionMemberEmail,
     schedule2Performance
 } from '../functions';
-import { ISchedule } from '../models';
+import { ExternalTicketType, ISchedule } from '../models';
 import { TimeFormatPipe } from '../modules/shared/pipes';
 import { AwsCognitoService } from './aws-cognito.service';
 import { CallNativeService } from './call-native.service';
@@ -69,9 +69,7 @@ export interface IPurchaseData {
     /**
      * 決済情報（クレジット）
      */
-    creditCardAuthorization?: {
-        id: string;
-    };
+    creditCardAuthorization?: { id: string; };
     /**
      * 購入者情報
      */
@@ -79,19 +77,23 @@ export interface IPurchaseData {
     /**
      * ムビチケ券種情報
      */
-    mvtkTickets: IMvtkTicket[];
+    mvtkTickets: IExternalTicket[];
     /**
      * ムビチケ使用情報
      */
-    mvtkAuthorization?: {
-        id: string;
-    };
+    mvtkAuthorization?: { id: string; };
+    /**
+     * MGチケット券種種情報
+     */
+    mgTickets: IExternalTicket[];
+    /**
+     * MGチケット使用情報
+     */
+    mgAuthorization?: { id: string; };
     /**
      * インセンティブ情報
      */
-    pecorinoAwardAuthorization?: {
-        id: string;
-    };
+    pecorinoAwardAuthorization?: { id: string; };
     /**
      * インセンティブ
      */
@@ -109,14 +111,14 @@ export interface IGmoTokenObject {
     isSecurityCodeSet: boolean;
 }
 
-export interface IMvtkTicket {
-    mvtkTicketcodeResult: COA.services.master.IMvtkTicketcodeResult;
+export interface IExternalTicket {
     knyknrNoInfo: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberInfo;
     ykknInfo: mvtkReserve.services.auth.purchaseNumberAuth.IValidTicket;
     input?: {
         knyknrNo: string;
         pinCd: string;
     };
+    ticketcodeResult: COA.services.master.IMvtkTicketcodeResult;
 }
 
 /**
@@ -155,6 +157,7 @@ export class PurchaseService {
             this.data = {
                 salesTickets: [],
                 mvtkTickets: [],
+                mgTickets: [],
                 pointTickets: [],
                 orderCount: 0,
                 incentive: 0,
@@ -182,6 +185,7 @@ export class PurchaseService {
         this.data = {
             salesTickets: [],
             mvtkTickets: [],
+            mgTickets: [],
             pointTickets: [],
             orderCount: 0,
             incentive: 0,
@@ -280,10 +284,12 @@ export class PurchaseService {
      * @returns {string}
      */
     public getTheaterName(): string {
-        if (this.data.screeningEvent === undefined) {
+        const screeningEvent = this.data.screeningEvent;
+        if (screeningEvent === undefined
+            || screeningEvent.superEvent.location.name === undefined
+            || screeningEvent.superEvent.location.name.ja === undefined) {
             return '';
         }
-        const screeningEvent = this.data.screeningEvent;
 
         return screeningEvent.superEvent.location.name.ja;
     }
@@ -294,10 +300,12 @@ export class PurchaseService {
      * @returns {string}
      */
     public getScreenName(): string {
-        if (this.data.screeningEvent === undefined) {
+        const screeningEvent = this.data.screeningEvent;
+        if (screeningEvent === undefined
+            || screeningEvent.location.name === undefined
+            || screeningEvent.location.name.ja === undefined) {
             return '';
         }
-        const screeningEvent = this.data.screeningEvent;
 
         return screeningEvent.location.name.ja;
     }
@@ -308,10 +316,11 @@ export class PurchaseService {
      * @returns {string}
      */
     public getTitle(): string {
-        if (this.data.screeningEvent === undefined) {
+        const screeningEvent = this.data.screeningEvent;
+        if (screeningEvent === undefined
+            || screeningEvent.name.ja === undefined) {
             return '';
         }
-        const screeningEvent = this.data.screeningEvent;
 
         return screeningEvent.name.ja;
     }
@@ -390,16 +399,21 @@ export class PurchaseService {
     }
 
     /**
-     * ムビチケ合計金額計算
+     * 外部チケット合計金額計算
      * @method getTotalPrice
      */
-    public getMvtkTotalPrice(): number {
+    public getExternalTicketTotalPrice(params: { ticketType: ExternalTicketType }): number {
         let result = 0;
         if (this.data.seatReservationAuthorization === undefined) {
             return result;
         }
+        const ticketType = params.ticketType;
         this.data.seatReservationAuthorization.object.acceptedOffer.forEach((offer: any) => {
-            result += offer.ticketInfo.mvtkSalesPrice;
+            if (ticketType === ExternalTicketType.MovieTicket) {
+                result += offer.ticketInfo.mvtkSalesPrice;
+            } else if (ticketType === ExternalTicketType.MGTicket) {
+                result += offer.ticketInfo.mvtkSalesPrice;
+            }
         });
 
         return result;
@@ -424,21 +438,31 @@ export class PurchaseService {
     }
 
     /**
-     * ムビチケ対応作品判定
-     * @method isUsedMvtk
+     * 外部チケット対応作品判定
+     * @method isUsedExternalTicket
      * @returns {boolean}
      */
-    public isUsedMvtk(): boolean {
+    public isUsedExternalTicket(params: { ticketType: ExternalTicketType }): boolean {
         if (this.data.screeningEvent === undefined) {
             return false;
         }
+        const ticketType = params.ticketType;
         const today = moment().format('YYYYMMDD');
         const coaInfo = this.data.screeningEvent.superEvent.coaInfo;
+        if (ticketType === ExternalTicketType.MovieTicket) {
+            return (coaInfo !== undefined
+                && coaInfo.flgMvtkUse === '1'
+                && coaInfo.dateMvtkBegin !== undefined
+                && Number(coaInfo.dateMvtkBegin) <= Number(today));
+        }
+        if (ticketType === ExternalTicketType.MGTicket) {
+            return (coaInfo !== undefined
+                && coaInfo.flgMvtkUse === '1'
+                && coaInfo.dateMvtkBegin !== undefined
+                && Number(coaInfo.dateMvtkBegin) <= Number(today));
+        }
 
-        return (coaInfo !== undefined
-            && coaInfo.flgMvtkUse === '1'
-            && coaInfo.dateMvtkBegin !== undefined
-            && Number(coaInfo.dateMvtkBegin) <= Number(today));
+        return false;
     }
 
     /**
@@ -477,16 +501,23 @@ export class PurchaseService {
     }
 
     /**
-     * ポイントでの予約判定
-     * @method isReserveMvtk
+     * 外部チケットでの予約判定
+     * @method isReserveExternalTicket
      * @returns {boolean}
      */
-    public isReserveMvtk(): boolean {
+    public isReserveExternalTicket(params: { ticketType: ExternalTicketType }): boolean {
         if (this.data.seatReservationAuthorization === undefined) {
             return false;
         }
+        const ticketType = params.ticketType;
         const findResult = this.data.seatReservationAuthorization.object.acceptedOffer.find((offer: any) => {
-            return (offer.ticketInfo.mvtkNum !== '');
+            if (ticketType === ExternalTicketType.MovieTicket) {
+                return (offer.ticketInfo.mvtkNum !== '');
+            }
+            if (ticketType === ExternalTicketType.MGTicket) {
+                return (offer.ticketInfo.mvtkNum !== '');
+            }
+            return false;
         });
         return (findResult !== undefined);
     }
@@ -538,58 +569,61 @@ export class PurchaseService {
     }
 
     /**
-     * ムビチケ着券情報取得
-     * @method getMvtkSeatInfoSync
+     * 外部チケット着券情報取得
+     * @method getExternalTicketSeatInfoSync
      */
-    public getMvtkSeatInfoSync(options?: {
+    public getExternalTicketSeatInfoSync(params: {
+        ticketType: ExternalTicketType;
         deleteFlag?: string
         reservedDeviceType?: string
     }) {
         if (this.data.seatReservationAuthorization === undefined
             || this.data.seatReservationAuthorization.result === undefined
-            || this.data.screeningEvent === undefined
-            || this.data.mvtkTickets === undefined) {
+            || this.data.screeningEvent === undefined) {
             throw new Error('status is different');
         }
-        const mvtkPurchaseNoInfoList: mvtkReserve.services.seat.seatInfoSync.IKnyknrNoInfo[] = [];
-        const mvtkseat: { zskCd: string; }[] = [];
+        const externalTickets = (params.ticketType === ExternalTicketType.MovieTicket)
+            ? this.data.mvtkTickets
+            : this.data.mgTickets;
+        const purchaseNoInfoList: mvtkReserve.services.seat.seatInfoSync.IKnyknrNoInfo[] = [];
+        const seats: { zskCd: string; }[] = [];
 
         for (const offer of this.data.seatReservationAuthorization.object.acceptedOffer) {
-            const mvtkTicket = this.data.mvtkTickets.find((ticket) => {
-                return (ticket.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
-                    && ticket.mvtkTicketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
+            const findResult = externalTickets.find((t) => {
+                return (t.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
+                    && t.ticketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
             });
-            if (mvtkTicket === undefined || mvtkTicket.input === undefined) {
+            if (findResult === undefined || findResult.input === undefined) {
                 continue;
             }
-            const mvtkPurchaseNoInfo = mvtkPurchaseNoInfoList.find((info) => {
-                return (info.knyknrNo === mvtkTicket.knyknrNoInfo.knyknrNo);
+            const purchaseNoInfo = purchaseNoInfoList.find((info) => {
+                return (info.knyknrNo === findResult.knyknrNoInfo.knyknrNo);
             });
-            if (mvtkPurchaseNoInfo !== undefined) {
-                const knshInfo = mvtkPurchaseNoInfo.knshInfo.find((info) => {
-                    return (info.knshTyp === mvtkTicket.ykknInfo.ykknshTyp);
+            if (purchaseNoInfo !== undefined) {
+                const knshInfo = purchaseNoInfo.knshInfo.find((info) => {
+                    return (info.knshTyp === findResult.ykknInfo.ykknshTyp);
                 });
                 if (knshInfo !== undefined) {
                     knshInfo.miNum += 1;
                 } else {
-                    mvtkPurchaseNoInfo.knshInfo.push({
-                        knshTyp: mvtkTicket.ykknInfo.ykknshTyp,
+                    purchaseNoInfo.knshInfo.push({
+                        knshTyp: findResult.ykknInfo.ykknshTyp,
                         miNum: 1
                     });
                 }
             } else {
-                mvtkPurchaseNoInfoList.push({
-                    knyknrNo: mvtkTicket.knyknrNoInfo.knyknrNo,
-                    pinCd: mvtkTicket.input.pinCd,
+                purchaseNoInfoList.push({
+                    knyknrNo: findResult.knyknrNoInfo.knyknrNo,
+                    pinCd: findResult.input.pinCd,
                     knshInfo: [{
-                        knshTyp: mvtkTicket.ykknInfo.ykknshTyp,
+                        knshTyp: findResult.ykknInfo.ykknshTyp,
                         miNum: 1
                     }]
                 });
             }
-            mvtkseat.push({ zskCd: offer.seatNumber });
+            seats.push({ zskCd: offer.seatNumber });
         }
-        if (mvtkPurchaseNoInfoList.length === 0 || mvtkseat.length === 0) {
+        if (purchaseNoInfoList.length === 0 || seats.length === 0) {
             throw new Error('status is different');
         }
         const DIGITS = -2;
@@ -602,12 +636,14 @@ export class PurchaseService {
         const tmpReserveNum = (<any>this.data.seatReservationAuthorization.result.responseBody).tmpReserveNum;
         const systemReservationNumber = `${coaInfo.dateJouei}${tmpReserveNum}`;
         const siteCode = String(Number(`00${coaInfo.theaterCode}`.slice(DIGITS)));
-        const deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '' : options.deleteFlag;
-        const reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
+        const deleteFlag = (params.deleteFlag === undefined) ? '' : params.deleteFlag;
+        const reservedDeviceType = (params.reservedDeviceType === undefined) ? '02' : params.reservedDeviceType;
         const skhnCd = `${coaInfo.titleCode}${`00${coaInfo.titleBranchNum}`.slice(DIGITS)}`;
 
         return {
-            kgygishCd: environment.MVTK_COMPANY_CODE,
+            kgygishCd: (params.ticketType === ExternalTicketType.MovieTicket)
+                ? environment.MVTK_COMPANY_CODE
+                : environment.MG_COMPANY_CODE,
             yykDvcTyp: reservedDeviceType,
             trkshFlg: deleteFlag,
             kgygishSstmZskyykNo: systemReservationNumber,
@@ -616,8 +652,8 @@ export class PurchaseService {
             kijYmd: day,
             stCd: siteCode,
             screnCd: coaInfo.screenCode,
-            knyknrNoInfo: mvtkPurchaseNoInfoList,
-            zskInfo: mvtkseat,
+            knyknrNoInfo: purchaseNoInfoList,
+            zskInfo: seats,
             skhnCd: skhnCd
         };
     }
@@ -839,30 +875,6 @@ export class PurchaseService {
         this.save();
     }
 
-    // /**
-    //  * オーダーID生成
-    //  * @method createOrderId
-    //  */
-    // private createOrderId() {
-    //     if (this.data.seatReservationAuthorization === undefined
-    //         || this.data.seatReservationAuthorization.result === undefined
-    //         || this.data.screeningEvent === undefined) {
-    //         throw new Error('status is different');
-    //     }
-    //     const DIGITS = {
-    //         '02': -2,
-    //         '8': -8
-    //     };
-    //     const orderCount = `00${this.data.orderCount}`.slice(DIGITS['02']);
-    //     const tmpReserveNum =
-    //         `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['8']);
-    //     const theaterCode = this.data.screeningEvent.coaInfo.theaterCode;
-    //     const reserveDate = moment().format('YYYYMMDD');
-    //     this.data.orderCount += 1;
-    //     // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)
-    //     return `${reserveDate}${theaterCode}${tmpReserveNum}${orderCount}`;
-    // }
-
     /**
      * インセンティブ処理
      */
@@ -879,8 +891,8 @@ export class PurchaseService {
                     typeOf: this.data.transaction.typeOf
                 },
                 object: {
-                    amount: Incentive.WatchingMovies,
-                    toAccountNumber: this.userService.data.account.typeOfGood.accountNumber,
+                    amount: Incentive.WatchingMovies, // Todo
+                    toAccountNumber: this.userService.data.account.typeOfGood.accountNumber, // Todo
                     notes: '鑑賞'
                 }
             });
@@ -944,14 +956,21 @@ export class PurchaseService {
             throw new Error('status is different');
         }
         await this.cinerinoService.getServices();
-        if (this.isReserveMvtk()) {
+        if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })) {
             // ムビチケ使用
-            const mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync();
-            await this.cinerinoService.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
+            const ticketType = ExternalTicketType.MovieTicket;
+            const body = this.getExternalTicketSeatInfoSync({ ticketType });
+            await this.cinerinoService.externalTicketSatInfoSync({ ticketType, body });
+        }
+        if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MGTicket })) {
+            // MGチケット使用
+            const ticketType = ExternalTicketType.MGTicket;
+            const body = this.getExternalTicketSeatInfoSync({ ticketType });
+            await this.cinerinoService.externalTicketSatInfoSync({ ticketType, body });
         }
         let order: factory.order.IOrder;
         try {
-            if (this.isReserveMvtk()) {
+            if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })) {
                 // 決済方法として、ムビチケを追加する
                 this.data.mvtkAuthorization =
                     await this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
@@ -960,7 +979,22 @@ export class PurchaseService {
                             typeOf: transaction.typeOf
                         },
                         object: {
-                            seatInfoSyncIn: this.getMvtkSeatInfoSync()
+                            // typeOf: factory.paymentMethodType.MovieTicket,
+                            seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: ExternalTicketType.MovieTicket })
+                        }
+                    });
+            }
+            if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MGTicket })) {
+                // 決済方法として、MGチケットを追加する
+                this.data.mgAuthorization =
+                    await this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
+                        purpose: {
+                            id: transaction.id,
+                            typeOf: transaction.typeOf
+                        },
+                        object: {
+                            // typeOf: factory.paymentMethodType.MovieTicket,
+                            seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: ExternalTicketType.MGTicket })
                         }
                     });
             }
@@ -979,8 +1013,17 @@ export class PurchaseService {
             });
             order = confirmResult.order;
         } catch (err) {
-            if (this.isReserveMvtk()) {
-                await this.cancelMvtksSatInfoSync(0);
+            if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })) {
+                await this.cancelExternalTicketSatInfoSync({
+                    ticketType: ExternalTicketType.MovieTicket,
+                    count: 0
+                });
+            }
+            if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MGTicket })) {
+                await this.cancelExternalTicketSatInfoSync({
+                    ticketType: ExternalTicketType.MGTicket,
+                    count: 0
+                });
             }
             throw err;
         }
@@ -1044,14 +1087,20 @@ export class PurchaseService {
                     throw new Error('itemOffered.typeOf is not EventReservation');
                 }
                 const reservationFor = itemOffered.reservationFor;
+                const theaterName = (reservationFor.superEvent.location.name === undefined
+                    || reservationFor.superEvent.location.name.ja === undefined)
+                    ? '' : reservationFor.superEvent.location.name.ja;
+                const screenName = (reservationFor.location.name === undefined
+                    || reservationFor.location.name.ja === undefined)
+                    ? '' : reservationFor.location.name.ja;
                 const localNotificationArgs = {
                     id: Number(order.orderNumber.replace(/\-/g, '')), // ID
                     title: '鑑賞時間が近づいています。', // タイトル
-                    text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
-                        '作品名: ' + reservationFor.name.ja + '\n' +
-                        '上映開始: ' + moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm'), // テキスト
+                    text: `劇場 / スクリーン: ${theaterName}/${screenName}
+                    作品名: ${reservationFor.name.ja}
+                    上映開始: ${moment(reservationFor.startDate).format('YYYY/MM/DD HH:mm')}`, // テキスト
                     trigger: {
-                        at: moment(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                        at: moment(reservationFor.startDate).add(-30, 'minutes').toISOString() // 通知を送る時間（ISO）
                     },
                     foreground: true // 前面表示（デフォルトは前面表示しない）
                 };
@@ -1066,34 +1115,40 @@ export class PurchaseService {
     }
 
     /**
-     * ムビチケ着券取り消し
+     * 外部チケット着券取り消し
      */
-    public async cancelMvtksSatInfoSync(count: number) {
-        // console.log('cancelMvtksSatInfoSync', count);
+    public async cancelExternalTicketSatInfoSync(params: {
+        ticketType: ExternalTicketType;
+        count: number;
+    }) {
+        const ticketType = params.ticketType;
+        const count = params.count;
         try {
-            // ムビチケ使用なら削除
             const deleteFlag = '1';
-            const mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync({
-                deleteFlag: deleteFlag
-            });
-            await this.cinerinoService.mvtksSatInfoSync(mvtksSatInfoSyncArgs);
+            const body = this.getExternalTicketSeatInfoSync({ ticketType, deleteFlag });
+            await this.cinerinoService.externalTicketSatInfoSync({ ticketType, body });
         } catch (err) {
             const limit = 3;
             if (count > limit) {
                 throw err;
             }
-            await this.cancelMvtksSatInfoSync(count + 1);
+            await this.cancelExternalTicketSatInfoSync({ ticketType, count: count + 1 });
         }
 
     }
 
     /**
-     * ムビチケ認証処理
+     * 外部チケット認証処理
      */
-    public async mvtkAuthenticationProcess(mvtkInputDataList: {
-        knyknrNo: string;
-        pinCd: string;
-    }[]) {
+    public async externalTicketAuthenticationProcess(params: {
+        ticketType: ExternalTicketType;
+        inputDataList: {
+            knyknrNo: string;
+            pinCd: string;
+        }[];
+    }) {
+        const ticketType = params.ticketType;
+        const inputDataList = params.inputDataList;
         if (this.data.screeningEvent === undefined
             || this.data.screeningEvent.coaInfo === undefined) {
             throw new Error('status is different');
@@ -1102,29 +1157,31 @@ export class PurchaseService {
         const DIGITS = -2;
         const coaInfo = this.data.screeningEvent.coaInfo;
         const valid = '1';
-        const purchaseNumberAuthArgs = {
-            kgygishCd: environment.MVTK_COMPANY_CODE,
+        const body = {
+            kgygishCd: (ticketType === ExternalTicketType.MovieTicket)
+                ? environment.MVTK_COMPANY_CODE
+                : environment.MG_COMPANY_CODE,
             jhshbtsCd: <any>valid,
-            knyknrNoInfoIn: mvtkInputDataList,
+            knyknrNoInfoIn: inputDataList,
             skhnCd: coaInfo.titleCode + `00${coaInfo.titleBranchNum}`.slice(DIGITS),
             stCd: Number(coaInfo.theaterCode.slice(DIGITS)).toString(),
             jeiYmd: moment(coaInfo.dateJouei).format('YYYY/MM/DD')
         };
-        const mvtkPurchaseNumberAuthResult = await this.cinerinoService.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs);
+        const purchaseNumberAuthResult = await this.cinerinoService.externalTicketPurchaseNumberAuth({ ticketType, body });
         const success = 'N000';
-        if (mvtkPurchaseNumberAuthResult.resultInfo.status !== success
-            || mvtkPurchaseNumberAuthResult.ykknmiNumSum === null
-            || mvtkPurchaseNumberAuthResult.ykknmiNumSum === 0
-            || mvtkPurchaseNumberAuthResult.knyknrNoInfoOut === null) {
-            throw new Error('mvtkPurchaseNumberAuth error');
+        if (purchaseNumberAuthResult.resultInfo.status !== success
+            || purchaseNumberAuthResult.ykknmiNumSum === null
+            || purchaseNumberAuthResult.ykknmiNumSum === 0
+            || purchaseNumberAuthResult.knyknrNoInfoOut === null) {
+            throw new Error('purchaseNumberAuth error');
         }
         const results = [];
-        for (const knyknrNoInfo of mvtkPurchaseNumberAuthResult.knyknrNoInfoOut) {
+        for (const knyknrNoInfo of purchaseNumberAuthResult.knyknrNoInfoOut) {
             if (knyknrNoInfo.ykknInfo === null) {
                 continue;
             }
             for (const ykknInfo of knyknrNoInfo.ykknInfo) {
-                const mvtkTicketcodeArgs = {
+                const ticketcodeParams = {
                     theaterCode: coaInfo.theaterCode,
                     kbnDenshiken: knyknrNoInfo.dnshKmTyp,
                     kbnMaeuriken: knyknrNoInfo.znkkkytsknGkjknTyp,
@@ -1136,20 +1193,22 @@ export class PurchaseService {
                     titleBranchNum: coaInfo.titleBranchNum,
                     dateJouei: coaInfo.dateJouei
                 };
-                const mvtkTicketcodeResult = await this.cinerinoService.mvtkTicketcode(mvtkTicketcodeArgs);
-                // console.log('mvtkTicketcodeResult', mvtkTicketcodeResult);
+                const ticketcodeResult = await this.cinerinoService.mvtkTicketcode(ticketcodeParams);
                 const data = {
-                    mvtkTicketcodeResult: mvtkTicketcodeResult,
-                    knyknrNoInfo: knyknrNoInfo,
-                    ykknInfo: ykknInfo,
-                    input: mvtkInputDataList.find((mvtkInputData) => {
-                        return (mvtkInputData.knyknrNo === knyknrNoInfo.knyknrNo);
-                    })
+                    ticketcodeResult,
+                    knyknrNoInfo,
+                    ykknInfo,
+                    input: inputDataList.find(d => d.knyknrNo === knyknrNoInfo.knyknrNo)
                 };
                 results.push(data);
             }
         }
-        this.data.mvtkTickets = results;
+        if (ticketType === ExternalTicketType.MovieTicket) {
+            this.data.mvtkTickets = results;
+        }
+        if (ticketType === ExternalTicketType.MGTicket) {
+            this.data.mgTickets = results;
+        }
         this.save();
     }
 }

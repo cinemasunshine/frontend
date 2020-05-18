@@ -8,6 +8,7 @@ export const environment = {
     FRONTEND_ENDPOINT: 'https://sskts-frontend-test.azurewebsites.net',
     ENTRANCE_SERVER_URL: 'https://d24x7394fq3aqi.cloudfront.net',
     MVTK_COMPANY_CODE: 'SSK000',
+    MG_COMPANY_CODE: 'SSK000',
 
     COGNITO_REGION: 'ap-northeast-1', // identity poolのリージョンを指定する
     COGNITO_IDENTITY_POOL_ID: 'ap-northeast-1:b153d3f1-5e67-468e-8c69-ab938cf3d21e', // identity poolのID(AWS consoleで確認)

@@ -5,6 +5,8 @@ import { PurchaseBaseComponent } from './components/pages/purchase-base/purchase
 import { PurchaseCompleteComponent } from './components/pages/purchase-complete/purchase-complete.component';
 import { PurchaseConfirmComponent } from './components/pages/purchase-confirm/purchase-confirm.component';
 import { PurchaseInputComponent } from './components/pages/purchase-input/purchase-input.component';
+import { PurchaseMgConfirmComponent } from './components/pages/purchase-mg-confirm/purchase-mg-confirm.component';
+import { PurchaseMgInputComponent } from './components/pages/purchase-mg-input/purchase-mg-input.component';
 import { PurchaseMvtkConfirmComponent } from './components/pages/purchase-mvtk-confirm/purchase-mvtk-confirm.component';
 import { PurchaseMvtkInputComponent } from './components/pages/purchase-mvtk-input/purchase-mvtk-input.component';
 import { PurchaseOverlapComponent } from './components/pages/purchase-overlap/purchase-overlap.component';
@@ -41,7 +43,9 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     PurchaseNoteComponent,
     PurchaseStepComponent,
     PurchaseTermComponent,
-    SeatInfoComponent
+    SeatInfoComponent,
+    PurchaseMgInputComponent,
+    PurchaseMgConfirmComponent
   ],
   entryComponents: [],
   imports: [

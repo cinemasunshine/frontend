@@ -1084,11 +1084,30 @@ var TestGuardService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./app/models/externalTicket.ts":
+/*!**************************************!*\
+  !*** ./app/models/externalTicket.ts ***!
+  \**************************************/
+/*! exports provided: ExternalTicketType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExternalTicketType", function() { return ExternalTicketType; });
+var ExternalTicketType;
+(function (ExternalTicketType) {
+    ExternalTicketType["MovieTicket"] = "MovieTicket";
+    ExternalTicketType["MGTicket"] = "MGTicket";
+})(ExternalTicketType || (ExternalTicketType = {}));
+
+
+/***/ }),
+
 /***/ "./app/models/index.ts":
 /*!*****************************!*\
   !*** ./app/models/index.ts ***!
   \*****************************/
-/*! exports provided: Performance, SeatStatus */
+/*! exports provided: Performance, SeatStatus, ExternalTicketType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1098,6 +1117,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _screen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./screen */ "./app/models/screen.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SeatStatus", function() { return _screen__WEBPACK_IMPORTED_MODULE_1__["SeatStatus"]; });
+
+/* harmony import */ var _externalTicket__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./externalTicket */ "./app/models/externalTicket.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ExternalTicketType", function() { return _externalTicket__WEBPACK_IMPORTED_MODULE_2__["ExternalTicketType"]; });
+
 
 
 
@@ -3040,9 +3063,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
-/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models */ "./app/models/index.ts");
+/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -3079,6 +3103,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+
 
 
 
@@ -3155,8 +3180,8 @@ var CinerinoService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
-                        purchase = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_5__["SaveType"].Session);
+                        purchase = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_5__["SaveType"].Session);
                         clientId = (user === null) ? undefined : user.clientId;
                         member = (user === null) ? undefined : user.memberType;
                         url = '/api/authorize/getCredentials';
@@ -3210,7 +3235,7 @@ var CinerinoService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         url = '/api/authorize/signIn';
-                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_4__["SaveType"].Session);
+                        user = this.storage.load('user', _storage_service__WEBPACK_IMPORTED_MODULE_5__["SaveType"].Session);
                         clientId = user.clientId;
                         body = { clientId: clientId };
                         return [4 /*yield*/, this.http.post(url, body).toPromise()];
@@ -3224,28 +3249,34 @@ var CinerinoService = /** @class */ (function () {
         });
     };
     /**
-     * ムビチケ照会
-     * @param {mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn} args
+     * 外部チケット認証
      */
-    CinerinoService.prototype.mvtkPurchaseNumberAuth = function (args) {
+    CinerinoService.prototype.externalTicketPurchaseNumberAuth = function (prams) {
         return __awaiter(this, void 0, void 0, function () {
-            var url;
+            var ticketType, body, url;
             return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtkPurchaseNumberAuth";
-                return [2 /*return*/, this.http.post(url, args).toPromise()];
+                ticketType = prams.ticketType;
+                body = prams.body;
+                url = (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket)
+                    ? _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtk/purchaseNumberAuth"
+                    : _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mg/purchaseNumberAuth";
+                return [2 /*return*/, this.http.post(url, body).toPromise()];
             });
         });
     };
     /**
-     * ムビチケ座席指定情報連携
-     * @param {mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn} args
+     * 外部チケット座席指定情報連携
      */
-    CinerinoService.prototype.mvtksSatInfoSync = function (args) {
+    CinerinoService.prototype.externalTicketSatInfoSync = function (prams) {
         return __awaiter(this, void 0, void 0, function () {
-            var url;
+            var ticketType, body, url;
             return __generator(this, function (_a) {
-                url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtksSatInfoSync";
-                return [2 /*return*/, this.http.post(url, args).toPromise()];
+                ticketType = prams.ticketType;
+                body = prams.body;
+                url = (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket)
+                    ? _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtk/satInfoSync"
+                    : _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mg/satInfoSync";
+                return [2 /*return*/, this.http.post(url, body).toPromise()];
             });
         });
     };
@@ -3281,7 +3312,6 @@ var CinerinoService = /** @class */ (function () {
     };
     /**
      * ムビチケチケットコード取得
-     * @param {COA.services.master.IMvtkTicketcodeArgs} args
      */
     CinerinoService.prototype.mvtkTicketcode = function (args) {
         return __awaiter(this, void 0, void 0, function () {
@@ -3289,7 +3319,29 @@ var CinerinoService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtkTicketcode";
+                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mvtk/ticketcode";
+                        return [4 /*yield*/, this.http.post(url, args).toPromise()];
+                    case 1:
+                        result = _a.sent();
+                        // 暫定的に対応
+                        if (result.name === 'COAServiceError') {
+                            throw new Error('COAServiceError');
+                        }
+                        return [2 /*return*/, result];
+                }
+            });
+        });
+    };
+    /**
+     * MGチケットコード取得
+     */
+    CinerinoService.prototype.mgTicketcode = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mg/ticketcode";
                         return [4 /*yield*/, this.http.post(url, args).toPromise()];
                     case 1:
                         result = _a.sent();
@@ -3334,7 +3386,7 @@ var CinerinoService = /** @class */ (function () {
             });
         });
     };
-    CinerinoService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({ factory: function CinerinoService_Factory() { return new CinerinoService(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_4__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_5__["UtilService"])); }, token: CinerinoService, providedIn: "root" });
+    CinerinoService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineInjectable"]({ factory: function CinerinoService_Factory() { return new CinerinoService(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_5__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_6__["UtilService"])); }, token: CinerinoService, providedIn: "root" });
     return CinerinoService;
 }());
 
@@ -3580,14 +3632,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions */ "./app/functions/index.ts");
-/* harmony import */ var _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modules/shared/pipes */ "./app/modules/shared/pipes/index.ts");
-/* harmony import */ var _aws_cognito_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./aws-cognito.service */ "./app/services/aws-cognito.service.ts");
-/* harmony import */ var _call_native_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./call-native.service */ "./app/services/call-native.service.ts");
-/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
-/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
-/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./user.service */ "./app/services/user.service.ts");
-/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models */ "./app/models/index.ts");
+/* harmony import */ var _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modules/shared/pipes */ "./app/modules/shared/pipes/index.ts");
+/* harmony import */ var _aws_cognito_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./aws-cognito.service */ "./app/services/aws-cognito.service.ts");
+/* harmony import */ var _call_native_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./call-native.service */ "./app/services/call-native.service.ts");
+/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
+/* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
+/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./user.service */ "./app/services/user.service.ts");
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -3642,6 +3695,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 /**
  * インセンティブ
  */
@@ -3664,11 +3718,12 @@ var PurchaseService = /** @class */ (function () {
      * @method load
      */
     PurchaseService.prototype.load = function () {
-        var data = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_8__["SaveType"].Session);
+        var data = this.storage.load('purchase', _storage_service__WEBPACK_IMPORTED_MODULE_9__["SaveType"].Session);
         if (data === null) {
             this.data = {
                 salesTickets: [],
                 mvtkTickets: [],
+                mgTickets: [],
                 pointTickets: [],
                 orderCount: 0,
                 incentive: 0,
@@ -3683,7 +3738,7 @@ var PurchaseService = /** @class */ (function () {
      * @method save
      */
     PurchaseService.prototype.save = function () {
-        this.storage.save('purchase', this.data, _storage_service__WEBPACK_IMPORTED_MODULE_8__["SaveType"].Session);
+        this.storage.save('purchase', this.data, _storage_service__WEBPACK_IMPORTED_MODULE_9__["SaveType"].Session);
     };
     /**
      * リセット
@@ -3693,6 +3748,7 @@ var PurchaseService = /** @class */ (function () {
         this.data = {
             salesTickets: [],
             mvtkTickets: [],
+            mgTickets: [],
             pointTickets: [],
             orderCount: 0,
             incentive: 0,
@@ -3800,10 +3856,12 @@ var PurchaseService = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseService.prototype.getTheaterName = function () {
-        if (this.data.screeningEvent === undefined) {
+        var screeningEvent = this.data.screeningEvent;
+        if (screeningEvent === undefined
+            || screeningEvent.superEvent.location.name === undefined
+            || screeningEvent.superEvent.location.name.ja === undefined) {
             return '';
         }
-        var screeningEvent = this.data.screeningEvent;
         return screeningEvent.superEvent.location.name.ja;
     };
     /**
@@ -3812,10 +3870,12 @@ var PurchaseService = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseService.prototype.getScreenName = function () {
-        if (this.data.screeningEvent === undefined) {
+        var screeningEvent = this.data.screeningEvent;
+        if (screeningEvent === undefined
+            || screeningEvent.location.name === undefined
+            || screeningEvent.location.name.ja === undefined) {
             return '';
         }
-        var screeningEvent = this.data.screeningEvent;
         return screeningEvent.location.name.ja;
     };
     /**
@@ -3824,10 +3884,11 @@ var PurchaseService = /** @class */ (function () {
      * @returns {string}
      */
     PurchaseService.prototype.getTitle = function () {
-        if (this.data.screeningEvent === undefined) {
+        var screeningEvent = this.data.screeningEvent;
+        if (screeningEvent === undefined
+            || screeningEvent.name.ja === undefined) {
             return '';
         }
-        var screeningEvent = this.data.screeningEvent;
         return screeningEvent.name.ja;
     };
     /**
@@ -3855,7 +3916,7 @@ var PurchaseService = /** @class */ (function () {
             || screeningEvent.coaInfo === undefined) {
             return '';
         }
-        var timeFormat = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]();
+        var timeFormat = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__["TimeFormatPipe"]();
         return timeFormat.transform(screeningEvent.startDate, screeningEvent.coaInfo.dateJouei);
     };
     /**
@@ -3869,7 +3930,7 @@ var PurchaseService = /** @class */ (function () {
             || screeningEvent.coaInfo === undefined) {
             return '';
         }
-        var timeFormat = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]();
+        var timeFormat = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__["TimeFormatPipe"]();
         return timeFormat.transform(screeningEvent.endDate, screeningEvent.coaInfo.dateJouei);
     };
     /**
@@ -3890,16 +3951,22 @@ var PurchaseService = /** @class */ (function () {
         return result;
     };
     /**
-     * ムビチケ合計金額計算
+     * 外部チケット合計金額計算
      * @method getTotalPrice
      */
-    PurchaseService.prototype.getMvtkTotalPrice = function () {
+    PurchaseService.prototype.getExternalTicketTotalPrice = function (params) {
         var result = 0;
         if (this.data.seatReservationAuthorization === undefined) {
             return result;
         }
+        var ticketType = params.ticketType;
         this.data.seatReservationAuthorization.object.acceptedOffer.forEach(function (offer) {
-            result += offer.ticketInfo.mvtkSalesPrice;
+            if (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket) {
+                result += offer.ticketInfo.mvtkSalesPrice;
+            }
+            else if (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket) {
+                result += offer.ticketInfo.mvtkSalesPrice;
+            }
         });
         return result;
     };
@@ -3921,20 +3988,30 @@ var PurchaseService = /** @class */ (function () {
         return memberTicket.TICKET_CODE;
     };
     /**
-     * ムビチケ対応作品判定
-     * @method isUsedMvtk
+     * 外部チケット対応作品判定
+     * @method isUsedExternalTicket
      * @returns {boolean}
      */
-    PurchaseService.prototype.isUsedMvtk = function () {
+    PurchaseService.prototype.isUsedExternalTicket = function (params) {
         if (this.data.screeningEvent === undefined) {
             return false;
         }
+        var ticketType = params.ticketType;
         var today = moment__WEBPACK_IMPORTED_MODULE_1__().format('YYYYMMDD');
         var coaInfo = this.data.screeningEvent.superEvent.coaInfo;
-        return (coaInfo !== undefined
-            && coaInfo.flgMvtkUse === '1'
-            && coaInfo.dateMvtkBegin !== undefined
-            && Number(coaInfo.dateMvtkBegin) <= Number(today));
+        if (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket) {
+            return (coaInfo !== undefined
+                && coaInfo.flgMvtkUse === '1'
+                && coaInfo.dateMvtkBegin !== undefined
+                && Number(coaInfo.dateMvtkBegin) <= Number(today));
+        }
+        if (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket) {
+            return (coaInfo !== undefined
+                && coaInfo.flgMvtkUse === '1'
+                && coaInfo.dateMvtkBegin !== undefined
+                && Number(coaInfo.dateMvtkBegin) <= Number(today));
+        }
+        return false;
     };
     /**
      * ポイント対応作品判定
@@ -3964,16 +4041,23 @@ var PurchaseService = /** @class */ (function () {
         return pointTickets.length > 0;
     };
     /**
-     * ポイントでの予約判定
-     * @method isReserveMvtk
+     * 外部チケットでの予約判定
+     * @method isReserveExternalTicket
      * @returns {boolean}
      */
-    PurchaseService.prototype.isReserveMvtk = function () {
+    PurchaseService.prototype.isReserveExternalTicket = function (params) {
         if (this.data.seatReservationAuthorization === undefined) {
             return false;
         }
+        var ticketType = params.ticketType;
         var findResult = this.data.seatReservationAuthorization.object.acceptedOffer.find(function (offer) {
-            return (offer.ticketInfo.mvtkNum !== '');
+            if (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket) {
+                return (offer.ticketInfo.mvtkNum !== '');
+            }
+            if (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket) {
+                return (offer.ticketInfo.mvtkNum !== '');
+            }
+            return false;
         });
         return (findResult !== undefined);
     };
@@ -4028,61 +4112,62 @@ var PurchaseService = /** @class */ (function () {
         return result;
     };
     /**
-     * ムビチケ着券情報取得
-     * @method getMvtkSeatInfoSync
+     * 外部チケット着券情報取得
+     * @method getExternalTicketSeatInfoSync
      */
-    PurchaseService.prototype.getMvtkSeatInfoSync = function (options) {
+    PurchaseService.prototype.getExternalTicketSeatInfoSync = function (params) {
         if (this.data.seatReservationAuthorization === undefined
             || this.data.seatReservationAuthorization.result === undefined
-            || this.data.screeningEvent === undefined
-            || this.data.mvtkTickets === undefined) {
+            || this.data.screeningEvent === undefined) {
             throw new Error('status is different');
         }
-        var mvtkPurchaseNoInfoList = [];
-        var mvtkseat = [];
+        var externalTickets = (params.ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket)
+            ? this.data.mvtkTickets
+            : this.data.mgTickets;
+        var purchaseNoInfoList = [];
+        var seats = [];
         var _loop_2 = function (offer) {
-            var mvtkTicket = this_2.data.mvtkTickets.find(function (ticket) {
-                return (ticket.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
-                    && ticket.mvtkTicketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
+            var findResult = externalTickets.find(function (t) {
+                return (t.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
+                    && t.ticketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
             });
-            if (mvtkTicket === undefined || mvtkTicket.input === undefined) {
+            if (findResult === undefined || findResult.input === undefined) {
                 return "continue";
             }
-            var mvtkPurchaseNoInfo = mvtkPurchaseNoInfoList.find(function (info) {
-                return (info.knyknrNo === mvtkTicket.knyknrNoInfo.knyknrNo);
+            var purchaseNoInfo = purchaseNoInfoList.find(function (info) {
+                return (info.knyknrNo === findResult.knyknrNoInfo.knyknrNo);
             });
-            if (mvtkPurchaseNoInfo !== undefined) {
-                var knshInfo = mvtkPurchaseNoInfo.knshInfo.find(function (info) {
-                    return (info.knshTyp === mvtkTicket.ykknInfo.ykknshTyp);
+            if (purchaseNoInfo !== undefined) {
+                var knshInfo = purchaseNoInfo.knshInfo.find(function (info) {
+                    return (info.knshTyp === findResult.ykknInfo.ykknshTyp);
                 });
                 if (knshInfo !== undefined) {
                     knshInfo.miNum += 1;
                 }
                 else {
-                    mvtkPurchaseNoInfo.knshInfo.push({
-                        knshTyp: mvtkTicket.ykknInfo.ykknshTyp,
+                    purchaseNoInfo.knshInfo.push({
+                        knshTyp: findResult.ykknInfo.ykknshTyp,
                         miNum: 1
                     });
                 }
             }
             else {
-                mvtkPurchaseNoInfoList.push({
-                    knyknrNo: mvtkTicket.knyknrNoInfo.knyknrNo,
-                    pinCd: mvtkTicket.input.pinCd,
+                purchaseNoInfoList.push({
+                    knyknrNo: findResult.knyknrNoInfo.knyknrNo,
+                    pinCd: findResult.input.pinCd,
                     knshInfo: [{
-                            knshTyp: mvtkTicket.ykknInfo.ykknshTyp,
+                            knshTyp: findResult.ykknInfo.ykknshTyp,
                             miNum: 1
                         }]
                 });
             }
-            mvtkseat.push({ zskCd: offer.seatNumber });
+            seats.push({ zskCd: offer.seatNumber });
         };
-        var this_2 = this;
         for (var _i = 0, _a = this.data.seatReservationAuthorization.object.acceptedOffer; _i < _a.length; _i++) {
             var offer = _a[_i];
             _loop_2(offer);
         }
-        if (mvtkPurchaseNoInfoList.length === 0 || mvtkseat.length === 0) {
+        if (purchaseNoInfoList.length === 0 || seats.length === 0) {
             throw new Error('status is different');
         }
         var DIGITS = -2;
@@ -4091,15 +4176,17 @@ var PurchaseService = /** @class */ (function () {
             throw new Error('coaInfo is undefined');
         }
         var day = moment__WEBPACK_IMPORTED_MODULE_1__(coaInfo.dateJouei).format('YYYY/MM/DD');
-        var time = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]().transform(this.data.screeningEvent.startDate, coaInfo.dateJouei) + ":00";
+        var time = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_5__["TimeFormatPipe"]().transform(this.data.screeningEvent.startDate, coaInfo.dateJouei) + ":00";
         var tmpReserveNum = this.data.seatReservationAuthorization.result.responseBody.tmpReserveNum;
         var systemReservationNumber = "" + coaInfo.dateJouei + tmpReserveNum;
         var siteCode = String(Number(("00" + coaInfo.theaterCode).slice(DIGITS)));
-        var deleteFlag = (options === undefined || options.deleteFlag === undefined) ? '' : options.deleteFlag;
-        var reservedDeviceType = (options === undefined || options.reservedDeviceType === undefined) ? '02' : options.reservedDeviceType;
+        var deleteFlag = (params.deleteFlag === undefined) ? '' : params.deleteFlag;
+        var reservedDeviceType = (params.reservedDeviceType === undefined) ? '02' : params.reservedDeviceType;
         var skhnCd = "" + coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS);
         return {
-            kgygishCd: _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MVTK_COMPANY_CODE,
+            kgygishCd: (params.ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket)
+                ? _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MVTK_COMPANY_CODE
+                : _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MG_COMPANY_CODE,
             yykDvcTyp: reservedDeviceType,
             trkshFlg: deleteFlag,
             kgygishSstmZskyykNo: systemReservationNumber,
@@ -4108,8 +4195,8 @@ var PurchaseService = /** @class */ (function () {
             kijYmd: day,
             stCd: siteCode,
             screnCd: coaInfo.screenCode,
-            knyknrNoInfo: mvtkPurchaseNoInfoList,
-            zskInfo: mvtkseat,
+            knyknrNoInfo: purchaseNoInfoList,
+            zskInfo: seats,
             skhnCd: skhnCd
         };
     };
@@ -4425,29 +4512,6 @@ var PurchaseService = /** @class */ (function () {
             });
         });
     };
-    // /**
-    //  * オーダーID生成
-    //  * @method createOrderId
-    //  */
-    // private createOrderId() {
-    //     if (this.data.seatReservationAuthorization === undefined
-    //         || this.data.seatReservationAuthorization.result === undefined
-    //         || this.data.screeningEvent === undefined) {
-    //         throw new Error('status is different');
-    //     }
-    //     const DIGITS = {
-    //         '02': -2,
-    //         '8': -8
-    //     };
-    //     const orderCount = `00${this.data.orderCount}`.slice(DIGITS['02']);
-    //     const tmpReserveNum =
-    //         `00000000${this.data.seatReservationAuthorization.result.updTmpReserveSeatResult.tmpReserveNum}`.slice(DIGITS['8']);
-    //     const theaterCode = this.data.screeningEvent.coaInfo.theaterCode;
-    //     const reserveDate = moment().format('YYYYMMDD');
-    //     this.data.orderCount += 1;
-    //     // オーダーID 予約日 + 劇場ID(3桁) + 予約番号(8桁) + オーソリカウント(2桁)
-    //     return `${reserveDate}${theaterCode}${tmpReserveNum}${orderCount}`;
-    // }
     /**
      * インセンティブ処理
      */
@@ -4490,7 +4554,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.pointPaymentProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var ticketNames, usePoint, _loop_3, this_3, _i, _a, offer, notes;
+            var ticketNames, usePoint, _loop_3, this_2, _i, _a, offer, notes;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4505,7 +4569,7 @@ var PurchaseService = /** @class */ (function () {
                         ticketNames = [];
                         usePoint = 0;
                         _loop_3 = function (offer) {
-                            var pointTicket = this_3.data.pointTickets.find(function (ticket) {
+                            var pointTicket = this_2.data.pointTickets.find(function (ticket) {
                                 return (ticket.ticketCode === offer.ticketInfo.ticketCode);
                             });
                             if (pointTicket === undefined) {
@@ -4514,7 +4578,7 @@ var PurchaseService = /** @class */ (function () {
                             ticketNames.push(offer.ticketInfo.ticketName + " \u5F15\u63DB");
                             usePoint += pointTicket.usePoint;
                         };
-                        this_3 = this;
+                        this_2 = this;
                         for (_i = 0, _a = this.data.seatReservationAuthorization.object.acceptedOffer; _i < _a.length; _i++) {
                             offer = _a[_i];
                             _loop_3(offer);
@@ -4544,9 +4608,9 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.purchaseRegistrationProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var transaction, screeningEvent, seller, seatReservationAuthorization, customerContact, userName, mvtksSatInfoSyncArgs, order, _a, confirmResult, err_2, complete, sendData, reservationRecord_1, updateRecordsArgs, err_3, itemOffered, reservationFor, localNotificationArgs;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var transaction, screeningEvent, seller, seatReservationAuthorization, customerContact, userName, ticketType, body, ticketType, body, order, _a, _b, confirmResult, err_2, complete, sendData, reservationRecord_1, updateRecordsArgs, err_3, itemOffered, reservationFor, theaterName, screenName, localNotificationArgs;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         transaction = this.data.transaction;
                         screeningEvent = this.data.screeningEvent;
@@ -4563,16 +4627,25 @@ var PurchaseService = /** @class */ (function () {
                         }
                         return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
-                        _b.sent();
-                        if (!this.isReserveMvtk()) return [3 /*break*/, 3];
-                        mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync();
-                        return [4 /*yield*/, this.cinerinoService.mvtksSatInfoSync(mvtksSatInfoSyncArgs)];
+                        _c.sent();
+                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket })) return [3 /*break*/, 3];
+                        ticketType = _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket;
+                        body = this.getExternalTicketSeatInfoSync({ ticketType: ticketType });
+                        return [4 /*yield*/, this.cinerinoService.externalTicketSatInfoSync({ ticketType: ticketType, body: body })];
                     case 2:
-                        _b.sent();
-                        _b.label = 3;
+                        _c.sent();
+                        _c.label = 3;
                     case 3:
-                        _b.trys.push([3, 7, , 10]);
-                        if (!this.isReserveMvtk()) return [3 /*break*/, 5];
+                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })) return [3 /*break*/, 5];
+                        ticketType = _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket;
+                        body = this.getExternalTicketSeatInfoSync({ ticketType: ticketType });
+                        return [4 /*yield*/, this.cinerinoService.externalTicketSatInfoSync({ ticketType: ticketType, body: body })];
+                    case 4:
+                        _c.sent();
+                        _c.label = 5;
+                    case 5:
+                        _c.trys.push([5, 11, , 16]);
+                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket })) return [3 /*break*/, 7];
                         // 決済方法として、ムビチケを追加する
                         _a = this.data;
                         return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
@@ -4581,15 +4654,35 @@ var PurchaseService = /** @class */ (function () {
                                     typeOf: transaction.typeOf
                                 },
                                 object: {
-                                    seatInfoSyncIn: this.getMvtkSeatInfoSync()
+                                    // typeOf: factory.paymentMethodType.MovieTicket,
+                                    seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket })
                                 }
                             })];
-                    case 4:
+                    case 6:
                         // 決済方法として、ムビチケを追加する
                         _a.mvtkAuthorization =
-                            _b.sent();
-                        _b.label = 5;
-                    case 5: return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.confirm({
+                            _c.sent();
+                        _c.label = 7;
+                    case 7:
+                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })) return [3 /*break*/, 9];
+                        // 決済方法として、MGチケットを追加する
+                        _b = this.data;
+                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
+                                purpose: {
+                                    id: transaction.id,
+                                    typeOf: transaction.typeOf
+                                },
+                                object: {
+                                    // typeOf: factory.paymentMethodType.MovieTicket,
+                                    seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })
+                                }
+                            })];
+                    case 8:
+                        // 決済方法として、MGチケットを追加する
+                        _b.mgAuthorization =
+                            _c.sent();
+                        _c.label = 9;
+                    case 9: return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.confirm({
                             id: transaction.id,
                             sendEmailMessage: true,
                             email: {
@@ -4601,26 +4694,38 @@ var PurchaseService = /** @class */ (function () {
                                     : Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
                             }
                         })];
-                    case 6:
-                        confirmResult = _b.sent();
-                        order = confirmResult.order;
-                        return [3 /*break*/, 10];
-                    case 7:
-                        err_2 = _b.sent();
-                        if (!this.isReserveMvtk()) return [3 /*break*/, 9];
-                        return [4 /*yield*/, this.cancelMvtksSatInfoSync(0)];
-                    case 8:
-                        _b.sent();
-                        _b.label = 9;
-                    case 9: throw err_2;
                     case 10:
+                        confirmResult = _c.sent();
+                        order = confirmResult.order;
+                        return [3 /*break*/, 16];
+                    case 11:
+                        err_2 = _c.sent();
+                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket })) return [3 /*break*/, 13];
+                        return [4 /*yield*/, this.cancelExternalTicketSatInfoSync({
+                                ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket,
+                                count: 0
+                            })];
+                    case 12:
+                        _c.sent();
+                        _c.label = 13;
+                    case 13:
+                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })) return [3 /*break*/, 15];
+                        return [4 /*yield*/, this.cancelExternalTicketSatInfoSync({
+                                ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket,
+                                count: 0
+                            })];
+                    case 14:
+                        _c.sent();
+                        _c.label = 15;
+                    case 15: throw err_2;
+                    case 16:
                         complete = {
                             order: order,
                             transaction: this.data.transaction,
                             seller: this.data.seller,
                             incentive: this.data.incentive
                         };
-                        this.storage.save('complete', complete, _storage_service__WEBPACK_IMPORTED_MODULE_8__["SaveType"].Session);
+                        this.storage.save('complete', complete, _storage_service__WEBPACK_IMPORTED_MODULE_9__["SaveType"].Session);
                         try {
                             sendData = {
                                 hitType: 'event',
@@ -4633,15 +4738,15 @@ var PurchaseService = /** @class */ (function () {
                         catch (err) {
                             console.error(err);
                         }
-                        if (!(this.userService.isNative() && !this.userService.isMember())) return [3 /*break*/, 15];
-                        _b.label = 11;
-                    case 11:
-                        _b.trys.push([11, 14, , 15]);
+                        if (!(this.userService.isNative() && !this.userService.isMember())) return [3 /*break*/, 21];
+                        _c.label = 17;
+                    case 17:
+                        _c.trys.push([17, 20, , 21]);
                         return [4 /*yield*/, this.awsCognito.getRecords({
                                 datasetName: 'reservation'
                             })];
-                    case 12:
-                        reservationRecord_1 = _b.sent();
+                    case 18:
+                        reservationRecord_1 = _c.sent();
                         if (reservationRecord_1.orders === undefined) {
                             reservationRecord_1.orders = [];
                         }
@@ -4662,14 +4767,14 @@ var PurchaseService = /** @class */ (function () {
                             value: reservationRecord_1
                         };
                         return [4 /*yield*/, this.awsCognito.updateRecords(updateRecordsArgs)];
-                    case 13:
-                        _b.sent();
-                        return [3 /*break*/, 15];
-                    case 14:
-                        err_3 = _b.sent();
+                    case 19:
+                        _c.sent();
+                        return [3 /*break*/, 21];
+                    case 20:
+                        err_3 = _c.sent();
                         console.error('awsCognito: updateRecords', err_3);
-                        return [3 /*break*/, 15];
-                    case 15:
+                        return [3 /*break*/, 21];
+                    case 21:
                         // プッシュ通知登録
                         if (this.userService.isNative()) {
                             try {
@@ -4678,14 +4783,18 @@ var PurchaseService = /** @class */ (function () {
                                     throw new Error('itemOffered.typeOf is not EventReservation');
                                 }
                                 reservationFor = itemOffered.reservationFor;
+                                theaterName = (reservationFor.superEvent.location.name === undefined
+                                    || reservationFor.superEvent.location.name.ja === undefined)
+                                    ? '' : reservationFor.superEvent.location.name.ja;
+                                screenName = (reservationFor.location.name === undefined
+                                    || reservationFor.location.name.ja === undefined)
+                                    ? '' : reservationFor.location.name.ja;
                                 localNotificationArgs = {
                                     id: Number(order.orderNumber.replace(/\-/g, '')),
                                     title: '鑑賞時間が近づいています。',
-                                    text: '劇場 / スクリーン: ' + reservationFor.superEvent.location.name.ja + '/' + reservationFor.location.name.ja + '\n' +
-                                        '作品名: ' + reservationFor.name.ja + '\n' +
-                                        '上映開始: ' + moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).format('YYYY/MM/DD HH:mm'),
+                                    text: "\u5287\u5834 / \u30B9\u30AF\u30EA\u30FC\u30F3: " + theaterName + "/" + screenName + "\n                    \u4F5C\u54C1\u540D: " + reservationFor.name.ja + "\n                    \u4E0A\u6620\u958B\u59CB: " + moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).format('YYYY/MM/DD HH:mm'),
                                     trigger: {
-                                        at: moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).subtract(30, 'minutes').toISOString() // 通知を送る時間（ISO）
+                                        at: moment__WEBPACK_IMPORTED_MODULE_1__(reservationFor.startDate).add(-30, 'minutes').toISOString() // 通知を送る時間（ISO）
                                     },
                                     foreground: true // 前面表示（デフォルトは前面表示しない）
                                 };
@@ -4703,47 +4812,51 @@ var PurchaseService = /** @class */ (function () {
         });
     };
     /**
-     * ムビチケ着券取り消し
+     * 外部チケット着券取り消し
      */
-    PurchaseService.prototype.cancelMvtksSatInfoSync = function (count) {
+    PurchaseService.prototype.cancelExternalTicketSatInfoSync = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var deleteFlag, mvtksSatInfoSyncArgs, err_4, limit;
+            var ticketType, count, deleteFlag, body, err_4, limit;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 4]);
-                        deleteFlag = '1';
-                        mvtksSatInfoSyncArgs = this.getMvtkSeatInfoSync({
-                            deleteFlag: deleteFlag
-                        });
-                        return [4 /*yield*/, this.cinerinoService.mvtksSatInfoSync(mvtksSatInfoSyncArgs)];
+                        ticketType = params.ticketType;
+                        count = params.count;
+                        _a.label = 1;
                     case 1:
-                        _a.sent();
-                        return [3 /*break*/, 4];
+                        _a.trys.push([1, 3, , 5]);
+                        deleteFlag = '1';
+                        body = this.getExternalTicketSeatInfoSync({ ticketType: ticketType, deleteFlag: deleteFlag });
+                        return [4 /*yield*/, this.cinerinoService.externalTicketSatInfoSync({ ticketType: ticketType, body: body })];
                     case 2:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 3:
                         err_4 = _a.sent();
                         limit = 3;
                         if (count > limit) {
                             throw err_4;
                         }
-                        return [4 /*yield*/, this.cancelMvtksSatInfoSync(count + 1)];
-                    case 3:
+                        return [4 /*yield*/, this.cancelExternalTicketSatInfoSync({ ticketType: ticketType, count: count + 1 })];
+                    case 4:
                         _a.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
     };
     /**
-     * ムビチケ認証処理
+     * 外部チケット認証処理
      */
-    PurchaseService.prototype.mvtkAuthenticationProcess = function (mvtkInputDataList) {
+    PurchaseService.prototype.externalTicketAuthenticationProcess = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var DIGITS, coaInfo, valid, purchaseNumberAuthArgs, mvtkPurchaseNumberAuthResult, success, results, _loop_4, this_4, _i, _a, knyknrNoInfo;
+            var ticketType, inputDataList, DIGITS, coaInfo, valid, body, purchaseNumberAuthResult, success, results, _loop_4, this_3, _i, _a, knyknrNoInfo;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
+                        ticketType = params.ticketType;
+                        inputDataList = params.inputDataList;
                         if (this.data.screeningEvent === undefined
                             || this.data.screeningEvent.coaInfo === undefined) {
                             throw new Error('status is different');
@@ -4754,27 +4867,29 @@ var PurchaseService = /** @class */ (function () {
                         DIGITS = -2;
                         coaInfo = this.data.screeningEvent.coaInfo;
                         valid = '1';
-                        purchaseNumberAuthArgs = {
-                            kgygishCd: _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MVTK_COMPANY_CODE,
+                        body = {
+                            kgygishCd: (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket)
+                                ? _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MVTK_COMPANY_CODE
+                                : _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MG_COMPANY_CODE,
                             jhshbtsCd: valid,
-                            knyknrNoInfoIn: mvtkInputDataList,
+                            knyknrNoInfoIn: inputDataList,
                             skhnCd: coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS),
                             stCd: Number(coaInfo.theaterCode.slice(DIGITS)).toString(),
                             jeiYmd: moment__WEBPACK_IMPORTED_MODULE_1__(coaInfo.dateJouei).format('YYYY/MM/DD')
                         };
-                        return [4 /*yield*/, this.cinerinoService.mvtkPurchaseNumberAuth(purchaseNumberAuthArgs)];
+                        return [4 /*yield*/, this.cinerinoService.externalTicketPurchaseNumberAuth({ ticketType: ticketType, body: body })];
                     case 2:
-                        mvtkPurchaseNumberAuthResult = _b.sent();
+                        purchaseNumberAuthResult = _b.sent();
                         success = 'N000';
-                        if (mvtkPurchaseNumberAuthResult.resultInfo.status !== success
-                            || mvtkPurchaseNumberAuthResult.ykknmiNumSum === null
-                            || mvtkPurchaseNumberAuthResult.ykknmiNumSum === 0
-                            || mvtkPurchaseNumberAuthResult.knyknrNoInfoOut === null) {
-                            throw new Error('mvtkPurchaseNumberAuth error');
+                        if (purchaseNumberAuthResult.resultInfo.status !== success
+                            || purchaseNumberAuthResult.ykknmiNumSum === null
+                            || purchaseNumberAuthResult.ykknmiNumSum === 0
+                            || purchaseNumberAuthResult.knyknrNoInfoOut === null) {
+                            throw new Error('purchaseNumberAuth error');
                         }
                         results = [];
                         _loop_4 = function (knyknrNoInfo) {
-                            var _i, _a, ykknInfo, mvtkTicketcodeArgs, mvtkTicketcodeResult, data;
+                            var _i, _a, ykknInfo, ticketcodeParams, ticketcodeResult, data;
                             return __generator(this, function (_b) {
                                 switch (_b.label) {
                                     case 0:
@@ -4786,7 +4901,7 @@ var PurchaseService = /** @class */ (function () {
                                     case 1:
                                         if (!(_i < _a.length)) return [3 /*break*/, 4];
                                         ykknInfo = _a[_i];
-                                        mvtkTicketcodeArgs = {
+                                        ticketcodeParams = {
                                             theaterCode: coaInfo.theaterCode,
                                             kbnDenshiken: knyknrNoInfo.dnshKmTyp,
                                             kbnMaeuriken: knyknrNoInfo.znkkkytsknGkjknTyp,
@@ -4798,16 +4913,14 @@ var PurchaseService = /** @class */ (function () {
                                             titleBranchNum: coaInfo.titleBranchNum,
                                             dateJouei: coaInfo.dateJouei
                                         };
-                                        return [4 /*yield*/, this_4.cinerinoService.mvtkTicketcode(mvtkTicketcodeArgs)];
+                                        return [4 /*yield*/, this_3.cinerinoService.mvtkTicketcode(ticketcodeParams)];
                                     case 2:
-                                        mvtkTicketcodeResult = _b.sent();
+                                        ticketcodeResult = _b.sent();
                                         data = {
-                                            mvtkTicketcodeResult: mvtkTicketcodeResult,
+                                            ticketcodeResult: ticketcodeResult,
                                             knyknrNoInfo: knyknrNoInfo,
                                             ykknInfo: ykknInfo,
-                                            input: mvtkInputDataList.find(function (mvtkInputData) {
-                                                return (mvtkInputData.knyknrNo === knyknrNoInfo.knyknrNo);
-                                            })
+                                            input: inputDataList.find(function (d) { return d.knyknrNo === knyknrNoInfo.knyknrNo; })
                                         };
                                         results.push(data);
                                         _b.label = 3;
@@ -4818,8 +4931,8 @@ var PurchaseService = /** @class */ (function () {
                                 }
                             });
                         };
-                        this_4 = this;
-                        _i = 0, _a = mvtkPurchaseNumberAuthResult.knyknrNoInfoOut;
+                        this_3 = this;
+                        _i = 0, _a = purchaseNumberAuthResult.knyknrNoInfoOut;
                         _b.label = 3;
                     case 3:
                         if (!(_i < _a.length)) return [3 /*break*/, 6];
@@ -4832,14 +4945,19 @@ var PurchaseService = /** @class */ (function () {
                         _i++;
                         return [3 /*break*/, 3];
                     case 6:
-                        this.data.mvtkTickets = results;
+                        if (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket) {
+                            this.data.mvtkTickets = results;
+                        }
+                        if (ticketType === _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket) {
+                            this.data.mgTickets = results;
+                        }
                         this.save();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    PurchaseService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdefineInjectable"]({ factory: function PurchaseService_Factory() { return new PurchaseService(_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_8__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_7__["CinerinoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_aws_cognito_service__WEBPACK_IMPORTED_MODULE_5__["AwsCognitoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_call_native_service__WEBPACK_IMPORTED_MODULE_6__["CallNativeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_user_service__WEBPACK_IMPORTED_MODULE_9__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_10__["UtilService"])); }, token: PurchaseService, providedIn: "root" });
+    PurchaseService.ngInjectableDef = _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdefineInjectable"]({ factory: function PurchaseService_Factory() { return new PurchaseService(_angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_storage_service__WEBPACK_IMPORTED_MODULE_9__["StorageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_8__["CinerinoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_aws_cognito_service__WEBPACK_IMPORTED_MODULE_6__["AwsCognitoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_call_native_service__WEBPACK_IMPORTED_MODULE_7__["CallNativeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_user_service__WEBPACK_IMPORTED_MODULE_10__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_11__["UtilService"])); }, token: PurchaseService, providedIn: "root" });
     return PurchaseService;
 }());
 
@@ -5308,6 +5426,7 @@ var environment = {
     FRONTEND_ENDPOINT: 'https://sskts-frontend-test.azurewebsites.net',
     ENTRANCE_SERVER_URL: 'https://d24x7394fq3aqi.cloudfront.net',
     MVTK_COMPANY_CODE: 'SSK000',
+    MG_COMPANY_CODE: 'SSK000',
     COGNITO_REGION: 'ap-northeast-1',
     COGNITO_IDENTITY_POOL_ID: 'ap-northeast-1:b153d3f1-5e67-468e-8c69-ab938cf3d21e',
     COGNITO_USER_POOL_ID: '',

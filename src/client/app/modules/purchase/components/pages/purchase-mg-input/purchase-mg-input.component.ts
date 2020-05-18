@@ -5,11 +5,11 @@ import { ExternalTicketType } from '../../../../../models';
 import { PurchaseService } from '../../../../../services';
 
 @Component({
-    selector: 'app-purchase-mvtk-input',
-    templateUrl: './purchase-mvtk-input.component.html',
-    styleUrls: ['./purchase-mvtk-input.component.scss']
+    selector: 'app-purchase-mg-input',
+    templateUrl: './purchase-mg-input.component.html',
+    styleUrls: ['./purchase-mg-input.component.scss']
 })
-export class PurchaseMvtkInputComponent implements OnInit {
+export class PurchaseMgInputComponent implements OnInit {
     public forms: FormGroup[];
     public inputForm: FormGroup;
     public inputValidationModal: boolean;
@@ -103,7 +103,7 @@ export class PurchaseMvtkInputComponent implements OnInit {
                 };
             });
             await this.purchase.externalTicketAuthenticationProcess({ ticketType, inputDataList });
-            this.router.navigate(['purchase/mvtk/confirm']);
+            this.router.navigate(['purchase/mg/confirm']);
         } catch (err) {
             console.error(err);
             this.isLoading = false;

@@ -69,7 +69,49 @@ export async function mvtkPurchaseNumberAuth(req: Request, res: Response): Promi
  * @param {Response} res
  * @returns {Promise<void>}
  */
-export async function mvtksSatInfoSync(req: Request, res: Response): Promise<void> {
+export async function mvtkSatInfoSync(req: Request, res: Response): Promise<void> {
+    log('mvtkSatInfoSync');
+    try {
+        const args = req.body;
+        const result = await mvtkReserve.services.seat.seatInfoSync.seatInfoSync(args);
+        res.json(result);
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}
+
+/**
+ * MGチケットチケットコード取得
+ */
+export async function mgTicketcode(req: Request, res: Response): Promise<void> {
+    log('mgTicketcode');
+    try {
+        const args = req.body;
+        const result = await COA.services.master.mvtkTicketcode(args);
+        res.json(result);
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}
+
+/**
+ * MGチケット認証
+ */
+export async function mgPurchaseNumberAuth(req: Request, res: Response): Promise<void> {
+    log('mgPurchaseNumberAuth');
+    try {
+        const args = req.body;
+        const result = await mvtkReserve.services.auth.purchaseNumberAuth.purchaseNumberAuth(args);
+        res.json(result);
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}
+
+/**
+ * MGチケット座席指定情報連携
+ */
+export async function mgSatInfoSync(req: Request, res: Response): Promise<void> {
     log('mvtksSatInfoSync');
     try {
         const args = req.body;
