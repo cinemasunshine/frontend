@@ -17,7 +17,7 @@ export class PurchaseMgConfirmComponent implements OnInit {
 
     public ngOnInit() {
         window.scrollTo(0, 0);
-        if (this.purchase.data.mvtkTickets === undefined) {
+        if (this.purchase.data.mgTickets === undefined) {
             this.error.redirect(new Error('status is different'));
         }
         // console.log(this.purchase.data.mvtkTickets);

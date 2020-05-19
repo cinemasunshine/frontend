@@ -95,7 +95,7 @@ export class PurchaseMvtkInputComponent implements OnInit {
             return;
         }
         try {
-            const ticketType = ExternalTicketType.MGTicket;
+            const ticketType = ExternalTicketType.MovieTicket;
             const inputDataList = forms.map((mvtkForm) => {
                 return {
                     knyknrNo: mvtkForm.controls.code.value,

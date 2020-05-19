@@ -515,7 +515,7 @@ export class PurchaseService {
                 return (offer.ticketInfo.mvtkNum !== '');
             }
             if (ticketType === ExternalTicketType.MGTicket) {
-                return (offer.ticketInfo.mvtkNum !== '');
+                return false;
             }
             return false;
         });

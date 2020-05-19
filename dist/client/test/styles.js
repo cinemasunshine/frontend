@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["styles"],{
 
 /***/ "../../node_modules/@angular-devkit/build-angular/src/angular-cli-files/plugins/raw-css-loader.js!../../node_modules/postcss-loader/src/index.js?!../../node_modules/sass-loader/lib/loader.js?!./styles.scss":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** C:/Users/hataguchi/Desktop/workspace/Cinema Sunshine/frontend/node_modules/@angular-devkit/build-angular/src/angular-cli-files/plugins/raw-css-loader.js!C:/Users/hataguchi/Desktop/workspace/Cinema Sunshine/frontend/node_modules/postcss-loader/src??embedded!C:/Users/hataguchi/Desktop/workspace/Cinema Sunshine/frontend/node_modules/sass-loader/lib/loader.js??ref--15-3!./styles.scss ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** C:/Users/akito/Desktop/workspace/cinemasunshine/frontend/node_modules/@angular-devkit/build-angular/src/angular-cli-files/plugins/raw-css-loader.js!C:/Users/akito/Desktop/workspace/cinemasunshine/frontend/node_modules/postcss-loader/src??embedded!C:/Users/akito/Desktop/workspace/cinemasunshine/frontend/node_modules/sass-loader/lib/loader.js??ref--15-3!./styles.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -12,9 +12,9 @@ module.exports = [[module.i, "@charset \"UTF-8\";\nhtml, body, div, span, object
 /***/ }),
 
 /***/ "../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
-/*!****************************************************************************************************************************************!*\
-  !*** C:/Users/hataguchi/Desktop/workspace/Cinema Sunshine/frontend/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
-  \****************************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** C:/Users/akito/Desktop/workspace/cinemasunshine/frontend/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -338,7 +338,7 @@ if (content.locals) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\hataguchi\Desktop\workspace\Cinema Sunshine\frontend\src\client\styles.scss */"./styles.scss");
+module.exports = __webpack_require__(/*! C:\Users\akito\Desktop\workspace\cinemasunshine\frontend\src\client\styles.scss */"./styles.scss");
 
 
 /***/ })
