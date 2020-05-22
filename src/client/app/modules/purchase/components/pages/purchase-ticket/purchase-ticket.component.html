@@ -15,7 +15,7 @@
             </dd>
         </dl>
     </div>
-    <div *ngIf="purchase.isUsedExternalTicket({ ticketType: externalTicketType.MGTicket }) && purchase.data.mgTickets.length === 0"
+    <!-- <div *ngIf="purchase.isUsedExternalTicket({ ticketType: externalTicketType.MGTicket }) && purchase.data.mgTickets.length === 0"
         class="box radius bg-ultra-light-gray mb-middle mg">
         <dl class="d-table">
             <dt class="d-td">MGチケットを利用される方</dt>
@@ -23,12 +23,11 @@
                 <div class="ghost-button mg-button">
                     <a routerLink="/purchase/mg/input">
                         MGチケットを利用する
-                        <!-- <img src="/assets/images/common/mg_logo.svg" alt="MGチケット">を利用する -->
                     </a>
                 </div>
             </dd>
         </dl>
-    </div>
+    </div> -->
 
     <div *ngIf="user.isMember() && purchase.isUsedPoint() && purchase.data.pointTickets.length === 0"
         class="box radius bg-ultra-light-gray mb-middle point">
