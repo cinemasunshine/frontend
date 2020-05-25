@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.5 - 2020-05-25
+### Changed
+ - ムビチケを外部チケットへ変更（MGチケット連携準備）
+
 ## 6.4.4 - 2020-05-13
 ### Added
  - コロナ対策文言追加
