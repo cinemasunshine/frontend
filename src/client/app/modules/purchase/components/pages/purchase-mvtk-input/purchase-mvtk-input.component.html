@@ -3,24 +3,24 @@
     <p class="read">ご利用になるムビチケ券の購入番号と、暗証番号を入力してください。
         <br>複数枚ご利用になる場合は「ムビチケ券を追加」ボタンを押して追加してください。</p>
 
-    <div *ngFor="let mvtkForm of mvtkForms; let index = index" class="ticket-list mb-middle">
+    <div *ngFor="let mvtkForm of forms; let index = index" class="ticket-list mb-middle">
         <form [formGroup]="mvtkForm">
             <div class="mvtk-box">
-                <div *ngIf="mvtkForms.length > 1" class="button light-gray-button remove-button">
-                    <a (click)="removeMvtk(index)">削除</a>
+                <div *ngIf="forms.length > 1" class="button light-gray-button remove-button">
+                    <a (click)="removeTicket(index)">削除</a>
                 </div>
                 <ul class="box radius bg-light-gray mb-small form-layout">
                     <li>
                         <dl>
                             <dt>ムビチケ購入番号</dt>
                             <dd>
-                                <input class="mvtk-code" [class.validation]="mvtkForm.controls['code'].invalid && mvtkForm.controls['code'].touched" type="text" formControlName="code"
+                                <input class="mvtk-code" [class.validation]="mvtkForm.controls.code.invalid && mvtkForm.controls.code.touched" type="text" formControlName="code"
                                     autocomplete="off" placeholder="(例)012345789" maxlength="10">
-                                <div *ngIf="mvtkForm.controls['code'].invalid && mvtkForm.controls['code'].touched">
-                                    <div *ngIf="mvtkForm.controls['code'].errors.required" class="validation-text">ムビチケ購入番号が未入力です</div>
-                                    <div *ngIf="mvtkForm.controls['code'].errors.maxlength" class="validation-text">ムビチケ購入番号は{{ mvtkForm.controls['code'].errors.maxlength.requiredLength }}文字で入力してください</div>
-                                    <div *ngIf="mvtkForm.controls['code'].errors.minlength" class="validation-text">ムビチケ購入番号は{{ mvtkForm.controls['code'].errors.minlength.requiredLength }}文字で入力してください</div>
-                                    <div *ngIf="mvtkForm.controls['code'].errors.pattern" class="validation-text">ムビチケ購入番号は数字で入力してください</div>
+                                <div *ngIf="mvtkForm.controls.code.invalid && mvtkForm.controls.code.touched">
+                                    <div *ngIf="mvtkForm.controls.code.errors?.required" class="validation-text">ムビチケ購入番号が未入力です</div>
+                                    <div *ngIf="mvtkForm.controls.code.errors?.maxlength" class="validation-text">ムビチケ購入番号は{{ mvtkForm.controls.code.errors?.maxlength.requiredLength }}文字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.code.errors?.minlength" class="validation-text">ムビチケ購入番号は{{ mvtkForm.controls.code.errors?.minlength.requiredLength }}文字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.code.errors?.pattern" class="validation-text">ムビチケ購入番号は数字で入力してください</div>
                                 </div>
                             </dd>
                         </dl>
@@ -29,13 +29,13 @@
                         <dl>
                             <dt>ムビチケ暗証番号</dt>
                             <dd>
-                                <input [class.validation]="mvtkForm.controls['password'].invalid && mvtkForm.controls['password'].touched" type="password"
+                                <input [class.validation]="mvtkForm.controls.password.invalid && mvtkForm.controls.password.touched" type="password"
                                     formControlName="password" autocomplete="off" placeholder="(例)0123" maxlength="4">
-                                <div *ngIf="mvtkForm.controls['password'].invalid && mvtkForm.controls['password'].touched">
-                                    <div *ngIf="mvtkForm.controls['password'].errors.required" class="validation-text">ムビチケ暗証番号が未入力です</div>
-                                    <div *ngIf="mvtkForm.controls['password'].errors.maxlength" class="validation-text">ムビチケ暗証番号は{{ mvtkForm.controls['password'].errors.maxlength.requiredLength }}文字で入力してください</div>
-                                    <div *ngIf="mvtkForm.controls['password'].errors.minlength" class="validation-text">ムビチケ暗証番号は{{ mvtkForm.controls['password'].errors.minlength.requiredLength }}文字で入力してください</div>
-                                    <div *ngIf="mvtkForm.controls['password'].errors.pattern" class="validation-text">ムビチケ暗証番号は数字で入力してください</div>
+                                <div *ngIf="mvtkForm.controls.password.invalid && mvtkForm.controls.password.touched">
+                                    <div *ngIf="mvtkForm.controls.password.errors?.required" class="validation-text">ムビチケ暗証番号が未入力です</div>
+                                    <div *ngIf="mvtkForm.controls.password.errors?.maxlength" class="validation-text">ムビチケ暗証番号は{{ mvtkForm.controls.password.errors?.maxlength.requiredLength }}文字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.password.errors?.minlength" class="validation-text">ムビチケ暗証番号は{{ mvtkForm.controls.password.errors?.minlength.requiredLength }}文字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.password.errors?.pattern" class="validation-text">ムビチケ暗証番号は数字で入力してください</div>
                                 </div>
                             </dd>
                         </dl>
@@ -45,8 +45,8 @@
         </form>
     </div>
 
-    <div *ngIf="purchase.data.tmpSeatReservationAuthorization?.object.acceptedOffer.length > mvtkForms.length" class="button dark-blue-button add-button mb-middle center-button">
-        <a class="icon-add-white" (click)="addMvtk()">ムビチケ券を追加</a>
+    <div *ngIf="purchase.data.tmpSeatReservationAuthorization?.object.acceptedOffer.length > forms.length" class="button dark-blue-button add-button mb-middle center-button">
+        <a class="icon-add-white" (click)="addTicket()">ムビチケ券を追加</a>
     </div>
 
     <div class="box radius bg-light-gray mb-small">

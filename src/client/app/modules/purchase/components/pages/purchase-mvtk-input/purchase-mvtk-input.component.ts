@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ExternalTicketType } from '../../../../../models';
 import { PurchaseService } from '../../../../../services';
 
 @Component({
@@ -9,8 +10,8 @@ import { PurchaseService } from '../../../../../services';
     styleUrls: ['./purchase-mvtk-input.component.scss']
 })
 export class PurchaseMvtkInputComponent implements OnInit {
-    public mvtkForms: FormGroup[];
-    public mvtkInputForm: FormGroup;
+    public forms: FormGroup[];
+    public inputForm: FormGroup;
     public inputValidationModal: boolean;
     public authErrorModal: boolean;
     public isLoading: boolean;
@@ -26,9 +27,9 @@ export class PurchaseMvtkInputComponent implements OnInit {
         this.isLoading = false;
         this.inputValidationModal = false;
         this.authErrorModal = false;
-        this.mvtkForms = [];
-        this.mvtkForms.push(this.createForm());
-        this.mvtkInputForm = this.formBuilder.group({});
+        this.forms = [];
+        this.forms.push(this.createForm());
+        this.inputForm = this.formBuilder.group({});
     }
 
     /**
@@ -55,34 +56,34 @@ export class PurchaseMvtkInputComponent implements OnInit {
     }
 
     /**
-     * ムビチケ券追加
-     * @method addMvtk
+     * 外部チケット追加
+     * @method addTicket
      */
-    public addMvtk() {
-        this.mvtkForms.push(this.createForm());
+    public addTicket() {
+        this.forms.push(this.createForm());
     }
 
     /**
-     * ムビチケ券削除
-     * @method removeMvtk
+     * 外部チケット削除
+     * @method removeTicket
      */
-    public removeMvtk(index: number) {
-        this.mvtkForms.splice(index, 1);
+    public removeTicket(index: number) {
+        this.forms.splice(index, 1);
     }
 
     /**
-     * ムビチケ認証
+     * 外部チケット認証
      */
     public async onSubmit() {
-        this.mvtkForms.forEach((mvtkForm, index) => {
+        this.forms.forEach((mvtkForm, index) => {
             const mvtkCodeList = document.querySelectorAll('.mvtk-code');
             const value = (<HTMLInputElement>mvtkCodeList[index]).value;
             mvtkForm.controls.code.setValue(value);
         });
-        const mvtkForms = this.mvtkForms.filter((group) => {
+        const forms = this.forms.filter((group) => {
             return (!group.invalid);
         });
-        if (mvtkForms.length !== this.mvtkForms.length) {
+        if (forms.length !== this.forms.length) {
             this.inputValidationModal = true;
 
             return;
@@ -94,13 +95,14 @@ export class PurchaseMvtkInputComponent implements OnInit {
             return;
         }
         try {
-            const mvtkData = mvtkForms.map((mvtkForm) => {
+            const ticketType = ExternalTicketType.MovieTicket;
+            const inputDataList = forms.map((mvtkForm) => {
                 return {
                     knyknrNo: mvtkForm.controls.code.value,
                     pinCd: mvtkForm.controls.password.value
                 };
             });
-            await this.purchase.mvtkAuthenticationProcess(mvtkData);
+            await this.purchase.externalTicketAuthenticationProcess({ ticketType, inputDataList });
             this.router.navigate(['purchase/mvtk/confirm']);
         } catch (err) {
             console.error(err);

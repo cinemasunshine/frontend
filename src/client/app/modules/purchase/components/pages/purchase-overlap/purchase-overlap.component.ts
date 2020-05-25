@@ -66,7 +66,12 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getTheaterName() {
-        return this.screeningEvent.superEvent.location.name.ja;
+        const location = this.screeningEvent.superEvent.location;
+        if (location.name === undefined
+            || location.name.ja === undefined) {
+            return '';
+        }
+        return location.name.ja;
     }
 
     /**
@@ -75,7 +80,12 @@ export class PurchaseOverlapComponent implements OnInit {
      * @returns {string}
      */
     public getScreenName() {
-        return this.screeningEvent.location.name.ja;
+        const location = this.screeningEvent.location;
+        if (location.name === undefined
+            || location.name.ja === undefined) {
+            return '';
+        }
+        return location.name.ja;
     }
 
     /**
