@@ -55,7 +55,9 @@ export class InquiryConfirmComponent implements OnInit {
             return '';
         }
         const itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
+            || itemOffered.reservationFor.location.name === undefined
+            || itemOffered.reservationFor.location.name.ja === undefined) {
             return '';
         }
         return itemOffered.reservationFor.location.name.ja;
@@ -71,7 +73,8 @@ export class InquiryConfirmComponent implements OnInit {
             return '';
         }
         const itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
+            || itemOffered.reservationFor.name.ja === undefined) {
             return '';
         }
         return itemOffered.reservationFor.name.ja;

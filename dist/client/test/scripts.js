@@ -35,4 +35,3 @@ function getParameter() {
 })();
 
 ;
-//# sourceMappingURL=scripts.js.map

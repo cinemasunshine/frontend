@@ -21,7 +21,7 @@ export class PurchaseFilmOrderComponent implements OnInit {
 
     public ngOnInit() {
         const film = this.data.films[0];
-        this.title = film.name.ja;
+        this.title = (film.name.ja === undefined) ? '' : film.name.ja;
         this.duration = (film.workPerformed === undefined
             || film.workPerformed.duration === undefined
             || film.workPerformed.duration === null)

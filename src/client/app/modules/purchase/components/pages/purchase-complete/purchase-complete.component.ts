@@ -16,6 +16,7 @@ export class PurchaseCompleteComponent implements OnInit {
         order: factory.order.IOrder;
         transaction: factory.transaction.placeOrder.ITransaction;
         seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+        incentive: number;
     };
     public environment = environment;
     public getOrderTicketPrice = getOrderTicketPrice;
@@ -49,7 +50,9 @@ export class PurchaseCompleteComponent implements OnInit {
      */
     public getTheaterName() {
         const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
+            || itemOffered.reservationFor.superEvent.location.name === undefined
+            || itemOffered.reservationFor.superEvent.location.name.ja === undefined) {
             return '';
         }
 
@@ -63,7 +66,9 @@ export class PurchaseCompleteComponent implements OnInit {
      */
     public getScreenName() {
         const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
+            || itemOffered.reservationFor.location.name === undefined
+            || itemOffered.reservationFor.location.name.ja === undefined) {
             return '';
         }
 

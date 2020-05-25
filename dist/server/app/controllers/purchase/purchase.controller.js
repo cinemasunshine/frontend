@@ -87,7 +87,58 @@ exports.mvtkPurchaseNumberAuth = mvtkPurchaseNumberAuth;
  * @param {Response} res
  * @returns {Promise<void>}
  */
-function mvtksSatInfoSync(req, res) {
+function mvtkSatInfoSync(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mvtkSatInfoSync');
+        try {
+            const args = req.body;
+            const result = yield mvtkReserve.services.seat.seatInfoSync.seatInfoSync(args);
+            res.json(result);
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.mvtkSatInfoSync = mvtkSatInfoSync;
+/**
+ * MGチケットチケットコード取得
+ */
+function mgTicketcode(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mgTicketcode');
+        try {
+            const args = req.body;
+            const result = yield COA.services.master.mvtkTicketcode(args);
+            res.json(result);
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.mgTicketcode = mgTicketcode;
+/**
+ * MGチケット認証
+ */
+function mgPurchaseNumberAuth(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mgPurchaseNumberAuth');
+        try {
+            const args = req.body;
+            const result = yield mvtkReserve.services.auth.purchaseNumberAuth.purchaseNumberAuth(args);
+            res.json(result);
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.mgPurchaseNumberAuth = mgPurchaseNumberAuth;
+/**
+ * MGチケット座席指定情報連携
+ */
+function mgSatInfoSync(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         log('mvtksSatInfoSync');
         try {
@@ -100,4 +151,4 @@ function mvtksSatInfoSync(req, res) {
         }
     });
 }
-exports.mvtksSatInfoSync = mvtksSatInfoSync;
+exports.mgSatInfoSync = mgSatInfoSync;

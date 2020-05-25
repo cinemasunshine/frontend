@@ -5,6 +5,7 @@ import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
+import { ExternalTicketType } from '../models';
 import { IPurchaseData } from './purchase.service';
 import { SaveType, StorageService } from './storage.service';
 import { IUserData } from './user.service';
@@ -130,28 +131,34 @@ export class CinerinoService {
     }
 
     /**
-     * ムビチケ照会
-     * @param {mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn} args
+     * 外部チケット認証
      */
-    public async mvtkPurchaseNumberAuth(
-        args: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn
-    ) {
-        const url = `${environment.API_ENDPOINT}/api/purchase/mvtkPurchaseNumberAuth`;
+    public async externalTicketPurchaseNumberAuth(prams: {
+        ticketType: ExternalTicketType;
+        body: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn
+    }) {
+        const ticketType = prams.ticketType;
+        const body = prams.body;
+        const url = (ticketType === ExternalTicketType.MovieTicket)
+            ? `${environment.API_ENDPOINT}/api/purchase/mvtk/purchaseNumberAuth`
+            : `${environment.API_ENDPOINT}/api/purchase/mg/purchaseNumberAuth`;
 
-        return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, args).toPromise();
+        return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, body).toPromise();
     }
 
     /**
-     * ムビチケ座席指定情報連携
-     * @param {mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn} args
+     * 外部チケット座席指定情報連携
      */
-    public async mvtksSatInfoSync(
-        args: mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn
-    ) {
-        const url = `${environment.API_ENDPOINT}/api/purchase/mvtksSatInfoSync`;
-
-
-        return this.http.post<mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncResult>(url, args).toPromise();
+    public async externalTicketSatInfoSync(prams: {
+        ticketType: ExternalTicketType;
+        body: mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn
+    }) {
+        const ticketType = prams.ticketType;
+        const body = prams.body;
+        const url = (ticketType === ExternalTicketType.MovieTicket)
+            ? `${environment.API_ENDPOINT}/api/purchase/mvtk/satInfoSync`
+            : `${environment.API_ENDPOINT}/api/purchase/mg/satInfoSync`;
+        return this.http.post<mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncResult>(url, body).toPromise();
     }
 
     /**
@@ -184,12 +191,27 @@ export class CinerinoService {
 
     /**
      * ムビチケチケットコード取得
-     * @param {COA.services.master.IMvtkTicketcodeArgs} args
      */
     public async mvtkTicketcode(
         args: COA.services.master.IMvtkTicketcodeArgs
     ) {
-        const url = `${environment.API_ENDPOINT}/api/purchase/mvtkTicketcode`;
+        const url = `${environment.API_ENDPOINT}/api/purchase/mvtk/ticketcode`;
+        const result = await this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
+        // 暫定的に対応
+        if ((<any>result).name === 'COAServiceError') {
+            throw new Error('COAServiceError');
+        }
+
+        return result;
+    }
+
+    /**
+     * MGチケットコード取得
+     */
+    public async mgTicketcode(
+        args: COA.services.master.IMvtkTicketcodeArgs
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/purchase/mg/ticketcode`;
         const result = await this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
         // 暫定的に対応
         if ((<any>result).name === 'COAServiceError') {

@@ -10,9 +10,9 @@
                         maxlength="8" autocomplete="off" placeholder="(例)12345678" [class.validation]="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched">
                     <div
                         *ngIf="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched">
-                        <p *ngIf="inquiryForm.controls.confirmationNumber.errors.required" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.required" class="validation-text">
                             予約番号が未入力です</p>
-                        <p *ngIf="inquiryForm.controls.confirmationNumber.errors.pattern" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.pattern" class="validation-text">
                             予約番号は数字で入力してください</p>
                     </div>
                 </dd>
@@ -22,17 +22,17 @@
                         placeholder="(例)08000000000" [class.validation]="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched">
                     <div *ngIf="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched"
                         class="mt-2">
-                        <p *ngIf="inquiryForm.controls.telephone.errors.required" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.telephone.errors?.required" class="validation-text">
                             電話番号が未入力です</p>
-                        <p *ngIf="inquiryForm.controls.telephone.errors.minlength" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.telephone.errors?.minlength" class="validation-text">
                             電話番号は9文字以上で入力してください
                         </p>
-                        <p *ngIf="inquiryForm.controls.telephone.errors.maxlength" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.telephone.errors?.maxlength" class="validation-text">
                             電話番号は15文字以内で入力してください
                         </p>
-                        <!-- <p *ngIf="inquiryForm.controls.telephone.errors.pattern" class="validation-text">
+                        <!-- <p *ngIf="inquiryForm.controls.telephone.errors?.pattern" class="validation-text">
               電話番号は数字で入力してください</p> -->
-                        <p *ngIf="inquiryForm.controls.telephone.errors.telephone" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.telephone.errors?.telephone" class="validation-text">
                             電話番号が正しくありません</p>
                     </div>
                 </dd>
