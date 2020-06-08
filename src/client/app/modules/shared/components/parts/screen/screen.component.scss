@@ -32,6 +32,11 @@ $mobile: 767px;
                 cursor: default;
             }
         }
+        &.space {
+            .disabled {
+                background-image: url(/images/theater/seat/normal_space.svg);
+            }
+        }
     }
     .seat-hc {
         a {
@@ -57,6 +62,11 @@ $mobile: 767px;
                 cursor: default;
             }
         }
+        &.space {
+            .disabled {
+                background-image: url(/images/theater/seat/parent-and-child-pair_space.svg);
+            }
+        }
     }
     .seat-parent-and-child-pair-right {
         a {
@@ -75,6 +85,11 @@ $mobile: 767px;
                 cursor: default;
             }
         }
+        &.space {
+            .disabled {
+                background-image: url(/images/theater/seat/parent-and-child-pair_space.svg);
+            }
+        }
     }
     .seat-premium-class {
         a {
@@ -87,8 +102,13 @@ $mobile: 767px;
             }
             &.disabled {
                 color: #FFF;
-                background-image: url(/images/theater/seat/premium-class_disabled.svg);
+                background-image: url(/images/theater/seat/premium-class_space.svg);
                 cursor: default;
+            }
+        }
+        &.space {
+            .disabled {
+                background-image: url(/images/theater/seat/premium-class_space.svg);
             }
         }
     }
@@ -107,6 +127,11 @@ $mobile: 767px;
                 cursor: default;
             }
         }
+        &.space {
+            .disabled {
+                background-image: url(/images/theater/seat/grand-class_space.svg);
+            }
+        }
     }
     .seat-comfort {
         a {
@@ -122,6 +147,11 @@ $mobile: 767px;
                 cursor: default;
             }
         }
+        &.space {
+            .disabled {
+                background-image: url(/images/theater/seat/comfort_space.svg);
+            }
+        }
     }
     .seat-ottoman {
         a {
@@ -135,6 +165,11 @@ $mobile: 767px;
                 color: #FFF;
                 background-image: url(/images/theater/seat/ottoman_disabled.svg);
                 cursor: default;
+            }
+        }
+        &.space {
+            .disabled {
+                background-image: url(/images/theater/seat/ottoman_space.svg);
             }
         }
     }
@@ -198,6 +233,12 @@ $mobile: 767px;
             }
         }
     }
+    &.space {
+        .disabled {
+            background-image: url(/images/theater/seat/4dx_space.svg);
+        }
+    }
+    
 }
 
 .zoom {
