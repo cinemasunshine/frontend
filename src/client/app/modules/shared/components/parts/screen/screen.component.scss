@@ -40,7 +40,7 @@ $mobile: 767px;
     }
     .seat-hc {
         a {
-            background-image: url(/images/theater/seat/hc_disabled.svg) !important;
+            background-image: url(/images/theater/seat/hc_space.svg) !important;
             span {
                 display: none !important;
             }
@@ -102,7 +102,7 @@ $mobile: 767px;
             }
             &.disabled {
                 color: #FFF;
-                background-image: url(/images/theater/seat/premium-class_space.svg);
+                background-image: url(/images/theater/seat/premium-class_disabled.svg);
                 cursor: default;
             }
         }
@@ -185,39 +185,7 @@ $mobile: 767px;
         font-weight: bold;
     }   
 }
-.seat-info {
-    .seat {
-        margin: 0 10px;
-        position: relative;
-        padding-left: 24px;
-        @media screen and (max-width: $mobile) {
-            margin: 0 5px;
-            font-size: 12px;
-        }
-        &:before {
-            width: 16px;
-            height: 20px;
-            content: '';
-            display: block;
-            background-image: url(/images/theater/seat/normal.svg);
-            background-size: 16px 20px;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            margin-top: -10px;
-        } 
-    }
-    .active {
-        &:before {
-            background-image: url(/images/theater/seat/normal_active.svg);
-        }
-    }
-    .disabled {
-        &:before {
-            background-image: url(/images/theater/seat/normal_disabled.svg);
-        }
-    } 
-} 
+
 .screen-4dx {
     .seat {
         a {
