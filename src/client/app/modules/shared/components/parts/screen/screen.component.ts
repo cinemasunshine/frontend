@@ -16,7 +16,7 @@ export class ScreenComponent implements OnInit, AfterViewInit {
     public static ZOOM_SCALE = 1;
     @Input() public screenConfig: IScreenConfig;
     @Input() public status: IStateReserveSeatResult;
-    @Input() public screen?: IScreenResult;
+    @Input() public screen: IScreenResult;
     @Output() public select = new EventEmitter<ISeat[]>();
     @Output() public alert = new EventEmitter();
     public data: IData;
@@ -219,14 +219,12 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                 || isLowerCase(screen.listSeat[screen.listSeat.length - 1].seatNum[0])));
         const labels = lowerCase
             ? 'abcdefghijklmnopqrstuvwxyz'.split('') : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
         // 行ラベル
         const lineLabels: ILabel[] = [];
         // 列ラベル
         const columnLabels: ILabel[] = [];
         // 座席リスト
         const seats: ISeat[] = [];
-
         const pos = { x: 0, y: 0 };
         let labelCount = 0;
         for (let y = 0; y < screenConfig.map.length; y++) {
@@ -242,12 +240,10 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                 labelCount++;
                 pos.y += screenConfig.seatSize.h + screenConfig.seatMargin.h;
             }
-
             for (let x = 0; x < screenConfig.map[y].length; x++) {
                 if (x === 0) {
                     pos.x = screenConfig.seatStart.x;
                 }
-
                 // 座席ラベルHTML生成
                 if (x === 0) {
                     lineLabels.push({
@@ -259,7 +255,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         label: labels[labelCount]
                     });
                 }
-
                 if (screenConfig.map[y][x] === 8) {
                     pos.x += screenConfig.aisle.middle.w;
                 } else if (screenConfig.map[y][x] === 9) {
@@ -269,10 +264,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                 } else if (screenConfig.map[y][x] === 11) {
                     pos.x += (screenConfig.seatSize.w / 2) + screenConfig.seatMargin.w;
                 }
-
                 // 座席番号HTML生成
                 if (y === 0) {
-
                     const label = (screenConfig.seatNumberAlign === 'left')
                         ? String(x + 1)
                         : String(screenConfig.map[0].length - x);
@@ -284,7 +277,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         x: pos.x,
                         label: label
                     });
-
                 }
                 if (screenConfig.map[y][x] === 1
                     || screenConfig.map[y][x] === 4
@@ -310,10 +302,8 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                     const spseatAdd2 = 0;
                     const spseatKbn = '000';
                     for (const listSeat of seatStatus.listSeat) {
-                        const targetSeat = listSeat.listFreeSeat.find((freeSeat) => {
-                            return (freeSeat.seatNum === code);
-                        });
-                        if (targetSeat !== undefined) {
+                        const freeSeat = listSeat.listFreeSeat.find(s => s.seatNum === code);
+                        if (freeSeat !== undefined) {
                             section = listSeat.seatSection;
                             status = SeatStatus.Default;
                             break;
@@ -329,7 +319,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                             status = SeatStatus.Active;
                         }
                     }
-
                     if (screenConfig.hc.indexOf(upperCaseLabel) !== -1) {
                         // 車椅子
                         className += ' seat-hc';
@@ -350,7 +339,11 @@ export class ScreenComponent implements OnInit, AfterViewInit {
                         seatSize.h = config.size.h;
                         seatPosition.y = pos.y - (config.size.h - screenConfig.seatSize.h);
                     });
-
+                    const isBlock = (this.screen.listSeat.find(s => s.seatNum === code) === undefined);
+                    if (isBlock) {
+                        className += ' space';
+                        status = SeatStatus.Disabled;
+                    }
                     const seat = {
                         className,
                         w: seatSize.w,
@@ -404,7 +397,6 @@ export class ScreenComponent implements OnInit, AfterViewInit {
         const screenType = (screenConfig.type === 1)
             ? 'screen-imax' : (screenConfig.type === 2)
                 ? 'screen-4dx' : '';
-
         return {
             screenConfig: screenConfig,
             objects: screenConfig.objects,

@@ -1257,7 +1257,7 @@ var SeatStatus;
      */
     SeatStatus["Active"] = "active";
     /**
-     * 選択不可
+     * 予約不可
      */
     SeatStatus["Disabled"] = "disabled";
 })(SeatStatus || (SeatStatus = {}));
@@ -2340,10 +2340,8 @@ var ScreenComponent = /** @class */ (function () {
                     var spseatKbn = '000';
                     for (var _i = 0, _a = seatStatus.listSeat; _i < _a.length; _i++) {
                         var listSeat = _a[_i];
-                        var targetSeat = listSeat.listFreeSeat.find(function (freeSeat) {
-                            return (freeSeat.seatNum === code_1);
-                        });
-                        if (targetSeat !== undefined) {
+                        var freeSeat = listSeat.listFreeSeat.find(function (s) { return s.seatNum === code_1; });
+                        if (freeSeat !== undefined) {
                             section = listSeat.seatSection;
                             status_1 = _models__WEBPACK_IMPORTED_MODULE_2__["SeatStatus"].Default;
                             break;
@@ -2379,6 +2377,11 @@ var ScreenComponent = /** @class */ (function () {
                         seatSize_1.h = config.size.h;
                         seatPosition_1.y = pos.y - (config.size.h - screenConfig.seatSize.h);
                     });
+                    var isBlock = (this_1.screen.listSeat.find(function (s) { return s.seatNum === code_1; }) === undefined);
+                    if (isBlock) {
+                        className_1 += ' space';
+                        status_1 = _models__WEBPACK_IMPORTED_MODULE_2__["SeatStatus"].Disabled;
+                    }
                     var seat = {
                         className: className_1,
                         w: seatSize_1.w,

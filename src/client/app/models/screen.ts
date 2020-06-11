@@ -134,7 +134,7 @@ export enum SeatStatus {
      */
     Active = 'active',
     /**
-     * 選択不可
+     * 予約不可
      */
-    Disabled = 'disabled'
+    Disabled = 'disabled',
 }
