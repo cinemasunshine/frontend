@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.6 - 2020-06-11
+### Added
+ -  ブロック席対応
+
 ## 6.4.5 - 2020-05-25
 ### Changed
  - ムビチケを外部チケットへ変更（MGチケット連携準備）
