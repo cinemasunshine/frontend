@@ -8,14 +8,19 @@ $mobile: 767px;
     .box {
         display: flex;
         justify-content: center;
+        @media screen and (max-width: $mobile) {
+            flex-wrap: wrap;
+            padding: 10px 20px;
+        }
     }
     .seat {
         margin: 0 10px;
         position: relative;
         padding-left: 24px;
         @media screen and (max-width: $mobile) {
-            margin: 0 5px;
+            width: 50%;
             font-size: 12px;
+            margin: 10px 0;
         }
         &:before {
             width: 16px;
@@ -35,11 +40,16 @@ $mobile: 767px;
             background-image: url(/images/theater/seat/normal_active.svg);
         }
     }
+    .space {
+        &:before {
+            background-image: url(/images/theater/seat/normal_space.svg);
+        }
+    } 
     .disabled {
         &:before {
             background-image: url(/images/theater/seat/normal_disabled.svg);
         }
-    } 
+    }
 } 
 .screen-4dx {
     .seat {
@@ -64,6 +74,11 @@ $mobile: 767px;
     .disabled {
         &:before {
             background-image: url(/images/theater/seat/4dx_disabled.svg);
+        }
+    }
+    .space {
+        &:before {
+            background-image: url(/images/theater/seat/4dx_space.svg);
         }
     } 
 }

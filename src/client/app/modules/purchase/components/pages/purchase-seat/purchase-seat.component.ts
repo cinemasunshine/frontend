@@ -115,6 +115,7 @@ export class PurchaseSeatComponent implements OnInit {
             theaterCode: params.theaterCode
         });
         const screen = screens.find(s => s.screenCode === params.screenCode);
+
         if (screen === undefined) {
             throw new Error('screen notfound');
         }
