@@ -200,13 +200,12 @@ $mobile: 767px;
                 cursor: default;
             }
         }
-    }
-    &.space {
-        .disabled {
-            background-image: url(/images/theater/seat/4dx_space.svg);
+        &.space {
+            .disabled {
+                background-image: url(/images/theater/seat/4dx_space.svg);
+            }
         }
     }
-    
 }
 
 .zoom {
