@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.8 - 2020-06-30
+### Changed
+ - ムビチケロゴ変更
+
 ## 6.4.7 - 2020-06-11
 ### Added
  -  4dxブロック席対応修正
