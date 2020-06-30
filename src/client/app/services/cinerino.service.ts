@@ -27,6 +27,7 @@ export class CinerinoService {
         placeOrder4sskts: cinerino.service.transaction.PlaceOrder4sskts;
     };
     private endpoint: string;
+    private projectId: string;
     public userName: string;
 
     constructor(
@@ -64,7 +65,8 @@ export class CinerinoService {
         await this.authorize();
         return {
             endpoint: this.endpoint,
-            auth: this.auth
+            auth: this.auth,
+            project: { id: this.projectId }
         };
     }
 
@@ -98,6 +100,7 @@ export class CinerinoService {
             clientId: string;
             endpoint: string;
             userName: string;
+            projectId: string;
         }>(url, body).toPromise();
 
         const option = {
@@ -115,6 +118,7 @@ export class CinerinoService {
         this.auth.setCredentials(result.credentials);
         this.endpoint = result.endpoint;
         this.userName = result.userName;
+        this.projectId = result.projectId;
     }
 
     /**

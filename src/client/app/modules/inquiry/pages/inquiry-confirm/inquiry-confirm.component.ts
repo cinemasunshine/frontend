@@ -45,6 +45,13 @@ export class InquiryConfirmComponent implements OnInit {
         this.isLoading = false;
     }
 
+    public getReservationNumber() {
+        const itemOffered = this.order.acceptedOffers[0].itemOffered;
+
+        return (itemOffered.typeOf === factory.chevre.reservationType.EventReservation)
+            ? itemOffered.reservationNumber : '';
+    }
+
     /**
      * スクリーン名取得
      * @method getScreenName
