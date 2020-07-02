@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.9 - 2020-07-02
+### Added
+ -  グランドシネマサンシャインIMAXフルスクリーン追加追加
+
 ## 6.4.8 - 2020-06-30
 ### Changed
  - ムビチケロゴ変更
