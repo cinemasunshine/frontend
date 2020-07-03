@@ -43,6 +43,13 @@ export class PurchaseCompleteComponent implements OnInit {
         print();
     }
 
+    public getReservationNumber() {
+        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+
+        return (itemOffered.typeOf === factory.chevre.reservationType.EventReservation)
+            ? itemOffered.reservationNumber : '';
+    }
+
     /**
      * 劇場名取得
      * @method getTheaterName
