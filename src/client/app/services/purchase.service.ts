@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { environment } from '../../environments/environment';
 import {
     convertToKatakana,
+    formatTelephone,
     getPurchaseCompletionEmail,
     getPurchaseCompletionMemberEmail,
     schedule2Performance
@@ -809,10 +810,14 @@ export class PurchaseService {
         }
         await this.cinerinoService.getServices();
         // 入力情報を登録
-        this.data.customerContact = await this.cinerinoService.transaction.placeOrder.setCustomerContact({
+        await this.cinerinoService.transaction.placeOrder.setProfile({
             id: this.data.transaction.id,
-            object: { customerContact }
+            agent: {
+                ...customerContact,
+                telephone: formatTelephone((<string>customerContact.telephone), 'E.164')
+            }
         });
+        this.data.customerContact = customerContact;
         if (this.userService.isNative() && !this.userService.isMember()) {
             try {
                 const updateRecordsArgs = {

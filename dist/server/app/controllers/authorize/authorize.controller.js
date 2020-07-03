@@ -66,11 +66,13 @@ function getCredentials(req, res) {
             if (req.body.member === reserve_1.FlgMember.Member) {
                 userName = options.auth.verifyIdToken({}).getUsername();
             }
+            const projectId = process.env.PROJECT_ID;
             res.json({
                 credentials: { accessToken: accessToken, expiryDate: options.auth.credentials.expiry_date },
                 clientId: options.auth.options.clientId,
                 endpoint,
-                userName
+                userName,
+                projectId
             });
         }
         catch (err) {

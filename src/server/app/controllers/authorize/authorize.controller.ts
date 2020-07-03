@@ -58,12 +58,14 @@ export async function getCredentials(req: Request, res: Response) {
         if (req.body.member === FlgMember.Member) {
             userName = options.auth.verifyIdToken(<any>{}).getUsername();
         }
+        const projectId = <string>process.env.PROJECT_ID;
 
         res.json({
             credentials: { accessToken: accessToken, expiryDate: options.auth.credentials.expiry_date },
             clientId: options.auth.options.clientId,
             endpoint,
-            userName
+            userName,
+            projectId
         });
     } catch (err) {
         errorProsess(res, err);
