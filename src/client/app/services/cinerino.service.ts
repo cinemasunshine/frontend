@@ -2,10 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as cinerino from '@cinerino/api-javascript-client';
 import * as COA from '@motionpicture/coa-service';
-import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
-import { ExternalTicketType } from '../models';
 import { IPurchaseData } from './purchase.service';
 import { SaveType, StorageService } from './storage.service';
 import { IUserData } from './user.service';
@@ -132,37 +130,6 @@ export class CinerinoService {
         const result = await this.http.post<{ url: string; }>(url, body).toPromise();
         // console.log(result.url);
         location.href = result.url;
-    }
-
-    /**
-     * 外部チケット認証
-     */
-    public async externalTicketPurchaseNumberAuth(prams: {
-        ticketType: ExternalTicketType;
-        body: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthIn
-    }) {
-        const ticketType = prams.ticketType;
-        const body = prams.body;
-        const url = (ticketType === ExternalTicketType.MovieTicket)
-            ? `${environment.API_ENDPOINT}/api/purchase/mvtk/purchaseNumberAuth`
-            : `${environment.API_ENDPOINT}/api/purchase/mg/purchaseNumberAuth`;
-
-        return this.http.post<mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberAuthResult>(url, body).toPromise();
-    }
-
-    /**
-     * 外部チケット座席指定情報連携
-     */
-    public async externalTicketSatInfoSync(prams: {
-        ticketType: ExternalTicketType;
-        body: mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncIn
-    }) {
-        const ticketType = prams.ticketType;
-        const body = prams.body;
-        const url = (ticketType === ExternalTicketType.MovieTicket)
-            ? `${environment.API_ENDPOINT}/api/purchase/mvtk/satInfoSync`
-            : `${environment.API_ENDPOINT}/api/purchase/mg/satInfoSync`;
-        return this.http.post<mvtkReserve.services.seat.seatInfoSync.ISeatInfoSyncResult>(url, body).toPromise();
     }
 
     /**

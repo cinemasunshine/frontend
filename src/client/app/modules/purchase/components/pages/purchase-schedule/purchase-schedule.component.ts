@@ -107,11 +107,16 @@ export class PurchaseScheduleComponent implements OnInit {
             await this.cinerinoService.getServices();
             const searchScreeningEventsResult = await this.cinerinoService.event.search({
                 typeOf: factory.chevre.eventType.ScreeningEvent,
+                eventStatuses: [factory.chevre.eventStatusType.EventScheduled],
                 superEvent: {
                     locationBranchCodes: [this.conditions.theater]
                 },
                 startFrom: moment(this.conditions.date).toDate(),
-                startThrough: moment(this.conditions.date).add(1, 'day').toDate()
+                startThrough: moment(this.conditions.date).add(1, 'day').toDate(),
+                // offers: {
+                //     availableFrom: now,
+                //     availableThrough: now
+                // }
             });
             this.schedules = searchScreeningEventsResult.data;
             this.filmOrder = this.getEventFilmOrder();

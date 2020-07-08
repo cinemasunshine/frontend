@@ -60,3 +60,49 @@ export function filterPerformancebyMovie(
     });
     return sortResult;
 }
+
+/**
+ *  予約情報からムビチケ情報作成
+ */
+export function createMovieTicketsFromAuthorizeSeatReservation(params: {
+    authorizeSeatReservation: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>;
+    checkMovieTicketAction: factory.action.check.paymentMethod.movieTicket.IAction;
+    seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+}) {
+    const results: factory.paymentMethod.paymentCard.movieTicket.IMovieTicket[] = [];
+    const authorizeSeatReservation = params.authorizeSeatReservation;
+    const checkMovieTicketAction = params.checkMovieTicketAction;
+    const seller = params.seller;
+    if (checkMovieTicketAction.result === undefined) {
+        return [];
+    }
+    const movieTickets = checkMovieTicketAction.result.movieTickets;
+
+    authorizeSeatReservation.object.acceptedOffer.forEach((o) => {
+        const findReservation =
+            movieTickets.find(m => m.identifier === o.ticketInfo.mvtkNum && m.serviceType === o.ticketInfo.mvtkKbnKensyu);
+        if (findReservation === undefined) {
+            return;
+        }
+        results.push({
+            typeOf: factory.paymentMethodType.MovieTicket,
+            identifier: findReservation.identifier,
+            accessCode: findReservation.accessCode,
+            serviceType: findReservation.serviceType,
+            serviceOutput: {
+                ...findReservation.serviceOutput,
+                reservedTicket: {
+                    ...findReservation.serviceOutput.reservedTicket,
+                    ticketedSeat: {
+                        ...findReservation.serviceOutput.reservedTicket.ticketedSeat,
+                        seatNumber: o.seatNumber,
+                        seatSection: o.seatSection,
+                    }
+                }
+            },
+            project: seller.project
+        });
+    });
+
+    return results;
+}
