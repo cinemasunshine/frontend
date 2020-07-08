@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.11 - 2020-07-08
+### Changed
+ - 窓口変更時間を上映開始時間へ変更
+ 
 ## 6.4.10 - 2020-07-03
 ### Changed
  - confirmationNumber参照を予約番号に変更
