@@ -4641,7 +4641,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.purchaseRegistrationProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var transaction, screeningEvent, seller, seatReservationAuthorization, customerContact, userName, order, checkMovieTicketAction, confirmResult, complete, sendData, reservationRecord_1, updateRecordsArgs, err_2, itemOffered, reservationFor, theaterName, screenName, localNotificationArgs;
+            var transaction, screeningEvent, seller, seatReservationAuthorization, customerContact, userName, order, checkMovieTicketAction, movieTickets, identifiers_2, _loop_4, this_3, _i, identifiers_1, identifier, confirmResult, complete, sendData, reservationRecord_1, updateRecordsArgs, err_2, itemOffered, reservationFor, theaterName, screenName, localNotificationArgs;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -4662,25 +4662,53 @@ var PurchaseService = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         if (!(this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MovieTicket })
-                            && this.data.checkMovieTicketAction !== undefined)) return [3 /*break*/, 3];
+                            && this.data.checkMovieTicketAction !== undefined)) return [3 /*break*/, 5];
                         checkMovieTicketAction = this.data.checkMovieTicketAction;
-                        return [4 /*yield*/, this.cinerinoService.payment.authorizeMovieTicket({
-                                object: {
-                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
-                                    amount: 0,
-                                    movieTickets: Object(_functions__WEBPACK_IMPORTED_MODULE_3__["createMovieTicketsFromAuthorizeSeatReservation"])({
-                                        authorizeSeatReservation: seatReservationAuthorization,
-                                        seller: seller,
-                                        checkMovieTicketAction: checkMovieTicketAction
-                                    })
-                                },
-                                purpose: transaction
-                            })];
+                        movieTickets = Object(_functions__WEBPACK_IMPORTED_MODULE_3__["createMovieTicketsFromAuthorizeSeatReservation"])({
+                            authorizeSeatReservation: seatReservationAuthorization,
+                            seller: seller,
+                            checkMovieTicketAction: checkMovieTicketAction
+                        });
+                        identifiers_2 = [];
+                        movieTickets.forEach(function (m) {
+                            var findResult = identifiers_2.find(function (i) { return i === m.identifier; });
+                            if (findResult !== undefined) {
+                                return;
+                            }
+                            identifiers_2.push(m.identifier);
+                        });
+                        _loop_4 = function (identifier) {
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, this_3.cinerinoService.payment.authorizeMovieTicket({
+                                            object: {
+                                                typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
+                                                amount: 0,
+                                                movieTickets: movieTickets.filter(function (m) { return m.identifier === identifier; })
+                                            },
+                                            purpose: transaction
+                                        })];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        };
+                        this_3 = this;
+                        _i = 0, identifiers_1 = identifiers_2;
+                        _a.label = 2;
                     case 2:
-                        _a.sent();
-                        _a.label = 3;
+                        if (!(_i < identifiers_1.length)) return [3 /*break*/, 5];
+                        identifier = identifiers_1[_i];
+                        return [5 /*yield**/, _loop_4(identifier)];
                     case 3:
-                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })) return [3 /*break*/, 5];
+                        _a.sent();
+                        _a.label = 4;
+                    case 4:
+                        _i++;
+                        return [3 /*break*/, 2];
+                    case 5:
+                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })) return [3 /*break*/, 7];
                         // 決済方法として、MGチケットを追加する
                         return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
                                 purpose: {
@@ -4692,11 +4720,11 @@ var PurchaseService = /** @class */ (function () {
                                     seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })
                                 }
                             })];
-                    case 4:
+                    case 6:
                         // 決済方法として、MGチケットを追加する
                         _a.sent();
-                        _a.label = 5;
-                    case 5: return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.confirm({
+                        _a.label = 7;
+                    case 7: return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.confirm({
                             id: transaction.id,
                             sendEmailMessage: true,
                             email: {
@@ -4708,7 +4736,7 @@ var PurchaseService = /** @class */ (function () {
                                     : Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
                             }
                         })];
-                    case 6:
+                    case 8:
                         confirmResult = _a.sent();
                         order = confirmResult.order;
                         complete = {
@@ -4730,14 +4758,14 @@ var PurchaseService = /** @class */ (function () {
                         catch (err) {
                             console.error(err);
                         }
-                        if (!(this.userService.isNative() && !this.userService.isMember())) return [3 /*break*/, 11];
-                        _a.label = 7;
-                    case 7:
-                        _a.trys.push([7, 10, , 11]);
+                        if (!(this.userService.isNative() && !this.userService.isMember())) return [3 /*break*/, 13];
+                        _a.label = 9;
+                    case 9:
+                        _a.trys.push([9, 12, , 13]);
                         return [4 /*yield*/, this.awsCognito.getRecords({
                                 datasetName: 'reservation'
                             })];
-                    case 8:
+                    case 10:
                         reservationRecord_1 = _a.sent();
                         if (reservationRecord_1.orders === undefined) {
                             reservationRecord_1.orders = [];
@@ -4759,14 +4787,14 @@ var PurchaseService = /** @class */ (function () {
                             value: reservationRecord_1
                         };
                         return [4 /*yield*/, this.awsCognito.updateRecords(updateRecordsArgs)];
-                    case 9:
+                    case 11:
                         _a.sent();
-                        return [3 /*break*/, 11];
-                    case 10:
+                        return [3 /*break*/, 13];
+                    case 12:
                         err_2 = _a.sent();
                         console.error('awsCognito: updateRecords', err_2);
-                        return [3 /*break*/, 11];
-                    case 11:
+                        return [3 /*break*/, 13];
+                    case 13:
                         // プッシュ通知登録
                         if (this.userService.isNative()) {
                             try {
@@ -4808,7 +4836,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.externalTicketAuthenticationProcess = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var ticketType, inputDataList, transaction, seller, screeningEvent, coaInfo, movieTickets, checkMovieTicketAction, success, purchaseNumberAuthResult, results, _loop_4, this_3, _i, _a, knyknrNoInfo;
+            var ticketType, inputDataList, transaction, seller, screeningEvent, coaInfo, movieTickets, checkMovieTicketAction, success, purchaseNumberAuthResult, results, _loop_5, this_4, _i, _a, knyknrNoInfo;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4873,7 +4901,7 @@ var PurchaseService = /** @class */ (function () {
                             throw new Error('purchaseNumberAuth error');
                         }
                         results = [];
-                        _loop_4 = function (knyknrNoInfo) {
+                        _loop_5 = function (knyknrNoInfo) {
                             var _i, _a, ykknInfo, ticketcodeParams, ticketcodeResult, data;
                             return __generator(this, function (_b) {
                                 switch (_b.label) {
@@ -4898,7 +4926,7 @@ var PurchaseService = /** @class */ (function () {
                                             titleBranchNum: coaInfo.titleBranchNum,
                                             dateJouei: coaInfo.dateJouei
                                         };
-                                        return [4 /*yield*/, this_3.cinerinoService.mvtkTicketcode(ticketcodeParams)];
+                                        return [4 /*yield*/, this_4.cinerinoService.mvtkTicketcode(ticketcodeParams)];
                                     case 2:
                                         ticketcodeResult = _b.sent();
                                         data = {
@@ -4916,13 +4944,13 @@ var PurchaseService = /** @class */ (function () {
                                 }
                             });
                         };
-                        this_3 = this;
+                        this_4 = this;
                         _i = 0, _a = purchaseNumberAuthResult.knyknrNoInfoOut;
                         _b.label = 3;
                     case 3:
                         if (!(_i < _a.length)) return [3 /*break*/, 6];
                         knyknrNoInfo = _a[_i];
-                        return [5 /*yield**/, _loop_4(knyknrNoInfo)];
+                        return [5 /*yield**/, _loop_5(knyknrNoInfo)];
                     case 4:
                         _b.sent();
                         _b.label = 5;

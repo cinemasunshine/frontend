@@ -966,18 +966,29 @@ export class PurchaseService {
         if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })
             && this.data.checkMovieTicketAction !== undefined) {
             const checkMovieTicketAction = this.data.checkMovieTicketAction;
-            await this.cinerinoService.payment.authorizeMovieTicket({
-                object: {
-                    typeOf: factory.paymentMethodType.MovieTicket,
-                    amount: 0,
-                    movieTickets: createMovieTicketsFromAuthorizeSeatReservation({
-                        authorizeSeatReservation: seatReservationAuthorization,
-                        seller,
-                        checkMovieTicketAction
-                    })
-                },
-                purpose: transaction
+            const movieTickets = createMovieTicketsFromAuthorizeSeatReservation({
+                authorizeSeatReservation: seatReservationAuthorization,
+                seller,
+                checkMovieTicketAction
             });
+            const identifiers: string[] = [];
+            movieTickets.forEach((m) => {
+                const findResult = identifiers.find(i => i === m.identifier);
+                if (findResult !== undefined) {
+                    return;
+                }
+                identifiers.push(m.identifier);
+            });
+            for (const identifier of identifiers) {
+                await this.cinerinoService.payment.authorizeMovieTicket({
+                    object: {
+                        typeOf: factory.paymentMethodType.MovieTicket,
+                        amount: 0,
+                        movieTickets: movieTickets.filter(m => m.identifier === identifier)
+                    },
+                    purpose: transaction
+                });
+            }
         }
         if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MGTicket })) {
             // 決済方法として、MGチケットを追加する
