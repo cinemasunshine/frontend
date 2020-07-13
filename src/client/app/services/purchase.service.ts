@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { environment } from '../../environments/environment';
 import {
     convertToKatakana,
+    createMovieTicketsFromAuthorizeSeatReservation,
     formatTelephone,
     getPurchaseCompletionEmail,
     getPurchaseCompletionMemberEmail,
@@ -82,7 +83,7 @@ export interface IPurchaseData {
     /**
      * ムビチケ使用情報
      */
-    mvtkAuthorization?: { id: string; };
+    checkMovieTicketAction?: factory.action.check.paymentMethod.movieTicket.IAction;
     /**
      * MGチケット券種種情報
      */
@@ -90,7 +91,7 @@ export interface IPurchaseData {
     /**
      * MGチケット使用情報
      */
-    mgAuthorization?: { id: string; };
+    checkMgTicketAction?: factory.action.check.paymentMethod.movieTicket.IAction;
     /**
      * インセンティブ情報
      */
@@ -961,77 +962,61 @@ export class PurchaseService {
             throw new Error('status is different');
         }
         await this.cinerinoService.getServices();
-        if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })) {
-            // ムビチケ使用
-            const ticketType = ExternalTicketType.MovieTicket;
-            const body = this.getExternalTicketSeatInfoSync({ ticketType });
-            await this.cinerinoService.externalTicketSatInfoSync({ ticketType, body });
+        let order: factory.order.IOrder;
+        if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })
+            && this.data.checkMovieTicketAction !== undefined) {
+            const checkMovieTicketAction = this.data.checkMovieTicketAction;
+            const movieTickets = createMovieTicketsFromAuthorizeSeatReservation({
+                authorizeSeatReservation: seatReservationAuthorization,
+                seller,
+                checkMovieTicketAction
+            });
+            const identifiers: string[] = [];
+            movieTickets.forEach((m) => {
+                const findResult = identifiers.find(i => i === m.identifier);
+                if (findResult !== undefined) {
+                    return;
+                }
+                identifiers.push(m.identifier);
+            });
+            for (const identifier of identifiers) {
+                await this.cinerinoService.payment.authorizeMovieTicket({
+                    object: {
+                        typeOf: factory.paymentMethodType.MovieTicket,
+                        amount: 0,
+                        movieTickets: movieTickets.filter(m => m.identifier === identifier)
+                    },
+                    purpose: transaction
+                });
+            }
         }
         if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MGTicket })) {
-            // MGチケット使用
-            const ticketType = ExternalTicketType.MGTicket;
-            const body = this.getExternalTicketSeatInfoSync({ ticketType });
-            await this.cinerinoService.externalTicketSatInfoSync({ ticketType, body });
-        }
-        let order: factory.order.IOrder;
-        try {
-            if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })) {
-                // 決済方法として、ムビチケを追加する
-                this.data.mvtkAuthorization =
-                    await this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
-                        purpose: {
-                            id: transaction.id,
-                            typeOf: transaction.typeOf
-                        },
-                        object: {
-                            // typeOf: factory.paymentMethodType.MovieTicket,
-                            seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: ExternalTicketType.MovieTicket })
-                        }
-                    });
-            }
-            if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MGTicket })) {
-                // 決済方法として、MGチケットを追加する
-                this.data.mgAuthorization =
-                    await this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
-                        purpose: {
-                            id: transaction.id,
-                            typeOf: transaction.typeOf
-                        },
-                        object: {
-                            // typeOf: factory.paymentMethodType.MovieTicket,
-                            seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: ExternalTicketType.MGTicket })
-                        }
-                    });
-            }
-            // 取引確定
-            const confirmResult = await this.cinerinoService.transaction.placeOrder4sskts.confirm({
-                id: transaction.id,
-                sendEmailMessage: true,
-                email: {
-                    sender: { email: 'noreply@ticket-cinemasunshine.com' },
-                    template: (this.userService.isMember())
-                        ? getPurchaseCompletionMemberEmail({
-                            seller, screeningEvent, customerContact, seatReservationAuthorization, userName
-                        })
-                        : getPurchaseCompletionEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization })
+            // 決済方法として、MGチケットを追加する
+            await this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
+                purpose: {
+                    id: transaction.id,
+                    typeOf: transaction.typeOf
+                },
+                object: {
+                    // typeOf: factory.paymentMethodType.MovieTicket,
+                    seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: ExternalTicketType.MGTicket })
                 }
             });
-            order = confirmResult.order;
-        } catch (err) {
-            if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })) {
-                await this.cancelExternalTicketSatInfoSync({
-                    ticketType: ExternalTicketType.MovieTicket,
-                    count: 0
-                });
-            }
-            if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MGTicket })) {
-                await this.cancelExternalTicketSatInfoSync({
-                    ticketType: ExternalTicketType.MGTicket,
-                    count: 0
-                });
-            }
-            throw err;
         }
+        // 取引確定
+        const confirmResult = await this.cinerinoService.transaction.placeOrder4sskts.confirm({
+            id: transaction.id,
+            sendEmailMessage: true,
+            email: {
+                sender: { email: 'noreply@ticket-cinemasunshine.com' },
+                template: (this.userService.isMember())
+                    ? getPurchaseCompletionMemberEmail({
+                        seller, screeningEvent, customerContact, seatReservationAuthorization, userName
+                    })
+                    : getPurchaseCompletionEmail({ seller, screeningEvent, customerContact, seatReservationAuthorization })
+            }
+        });
+        order = confirmResult.order;
 
         const complete = {
             order: order,
@@ -1120,29 +1105,6 @@ export class PurchaseService {
     }
 
     /**
-     * 外部チケット着券取り消し
-     */
-    public async cancelExternalTicketSatInfoSync(params: {
-        ticketType: ExternalTicketType;
-        count: number;
-    }) {
-        const ticketType = params.ticketType;
-        const count = params.count;
-        try {
-            const deleteFlag = '1';
-            const body = this.getExternalTicketSeatInfoSync({ ticketType, deleteFlag });
-            await this.cinerinoService.externalTicketSatInfoSync({ ticketType, body });
-        } catch (err) {
-            const limit = 3;
-            if (count > limit) {
-                throw err;
-            }
-            await this.cancelExternalTicketSatInfoSync({ ticketType, count: count + 1 });
-        }
-
-    }
-
-    /**
      * 外部チケット認証処理
      */
     public async externalTicketAuthenticationProcess(params: {
@@ -1154,26 +1116,58 @@ export class PurchaseService {
     }) {
         const ticketType = params.ticketType;
         const inputDataList = params.inputDataList;
-        if (this.data.screeningEvent === undefined
-            || this.data.screeningEvent.coaInfo === undefined) {
+        const transaction = this.data.transaction;
+        const seller = this.data.seller;
+        const screeningEvent = this.data.screeningEvent;
+        if (transaction === undefined
+            || seller === undefined
+            || screeningEvent === undefined
+            || screeningEvent.coaInfo === undefined) {
             throw new Error('status is different');
         }
         await this.cinerinoService.getServices();
-        const DIGITS = -2;
-        const coaInfo = this.data.screeningEvent.coaInfo;
-        const valid = '1';
-        const body = {
-            kgygishCd: (ticketType === ExternalTicketType.MovieTicket)
-                ? environment.MVTK_COMPANY_CODE
-                : environment.MG_COMPANY_CODE,
-            jhshbtsCd: <any>valid,
-            knyknrNoInfoIn: inputDataList,
-            skhnCd: coaInfo.titleCode + `00${coaInfo.titleBranchNum}`.slice(DIGITS),
-            stCd: Number(coaInfo.theaterCode.slice(DIGITS)).toString(),
-            jeiYmd: moment(coaInfo.dateJouei).format('YYYY/MM/DD')
-        };
-        const purchaseNumberAuthResult = await this.cinerinoService.externalTicketPurchaseNumberAuth({ ticketType, body });
+        const coaInfo = screeningEvent.coaInfo;
+        const movieTickets = inputDataList.map((i) => {
+            return {
+                typeOf: <factory.paymentMethodType.MovieTicket>factory.paymentMethodType.MovieTicket,
+                project: seller.project,
+                identifier: i.knyknrNo, // 購入管理番号
+                accessCode: i.pinCd // PINコード
+            };
+        });
+        const checkMovieTicketAction = await this.cinerinoService.payment.checkMovieTicket({
+            typeOf: factory.paymentMethodType.MovieTicket,
+            movieTickets: movieTickets.map((movieTicket) => {
+                return {
+                    ...movieTicket,
+                    serviceType: '', // 情報空でよし
+                    serviceOutput: {
+                        reservationFor: {
+                            typeOf: screeningEvent.typeOf,
+                            id: screeningEvent.id
+                        },
+                        reservedTicket: {
+                            ticketedSeat: {
+                                typeOf: factory.chevre.placeType.Seat,
+                                seatingType: <any>'', // 情報空でよし
+                                seatNumber: '', // 情報空でよし
+                                seatRow: '', // 情報空でよし
+                                seatSection: '' // 情報空でよし
+                            }
+                        }
+                    }
+                };
+            }),
+            seller: {
+                typeOf: transaction.seller.typeOf,
+                id: transaction.seller.id
+            }
+        });
+        if (checkMovieTicketAction.result === undefined) {
+            throw new Error('checkMovieTicketAction error');
+        }
         const success = 'N000';
+        const purchaseNumberAuthResult = checkMovieTicketAction.result.purchaseNumberAuthResult;
         if (purchaseNumberAuthResult.resultInfo.status !== success
             || purchaseNumberAuthResult.ykknmiNumSum === null
             || purchaseNumberAuthResult.ykknmiNumSum === 0
@@ -1210,9 +1204,11 @@ export class PurchaseService {
         }
         if (ticketType === ExternalTicketType.MovieTicket) {
             this.data.mvtkTickets = results;
+            this.data.checkMovieTicketAction = checkMovieTicketAction;
         }
         if (ticketType === ExternalTicketType.MGTicket) {
             this.data.mgTickets = results;
+            this.data.checkMgTicketAction = checkMovieTicketAction;
         }
         this.save();
     }

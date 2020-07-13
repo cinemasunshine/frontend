@@ -3114,11 +3114,12 @@ var PurchaseScheduleComponent = /** @class */ (function () {
                         _a.sent();
                         return [4 /*yield*/, this.cinerinoService.event.search({
                                 typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.eventType.ScreeningEvent,
+                                eventStatuses: [_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.eventStatusType.EventScheduled],
                                 superEvent: {
                                     locationBranchCodes: [this.conditions.theater]
                                 },
                                 startFrom: moment__WEBPACK_IMPORTED_MODULE_2__(this.conditions.date).toDate(),
-                                startThrough: moment__WEBPACK_IMPORTED_MODULE_2__(this.conditions.date).add(1, 'day').toDate()
+                                startThrough: moment__WEBPACK_IMPORTED_MODULE_2__(this.conditions.date).add(1, 'day').toDate(),
                             })];
                     case 3:
                         searchScreeningEventsResult = _a.sent();
