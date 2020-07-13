@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.12 - 2020-07-13
+### Changed
+ - ムビチケ決済処理をサービス側へ変更
+
+
 ## 6.4.11 - 2020-07-08
 ### Changed
  - 窓口変更時間を上映開始時間へ変更
