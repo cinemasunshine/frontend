@@ -1,6 +1,6 @@
 {
   "name": "sskts-frontend",
-  "version": "6.4.11",
+  "version": "6.4.12",
   "scripts": {
     "ng": "ng",
     "build-client": "npm run build-client-development && npm run build-client-test && npm run build-client-production && node bin/rename dist/client/production/index.production.html dist/client/production/index.html",
