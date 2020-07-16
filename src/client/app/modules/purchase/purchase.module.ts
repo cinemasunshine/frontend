@@ -21,6 +21,7 @@ import { PurchaseNoteComponent } from './components/parts/purchase-note/purchase
 import { PurchaseStepComponent } from './components/parts/purchase-step/purchase-step.component';
 import { PurchaseTermComponent } from './components/parts/purchase-term/purchase-term.component';
 import { SeatInfoComponent } from './components/parts/seat-info/seat-info.component';
+import { TransactionRemainingTimeComponent } from './components/parts/transaction-remaining-time/transaction-remaining-time.component';
 import { PurchaseRoutingModule } from './purchase-routing.module';
 
 
@@ -45,7 +46,8 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     PurchaseTermComponent,
     SeatInfoComponent,
     PurchaseMgInputComponent,
-    PurchaseMgConfirmComponent
+    PurchaseMgConfirmComponent,
+    TransactionRemainingTimeComponent
   ],
   entryComponents: [],
   imports: [
