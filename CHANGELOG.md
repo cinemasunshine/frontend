@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.13 - 2020-08-06
+### Added
+ - IMAX（通常上映版）スクリーン追加
+
 ## 6.4.12 - 2020-07-13
 ### Changed
  - ムビチケ決済処理をサービス側へ変更
