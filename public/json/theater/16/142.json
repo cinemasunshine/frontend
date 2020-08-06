@@ -1,11 +1,12 @@
 {
+    
     "type": 0,
     "size": { "w": 1600, "h": 1500 },
     "objects": [
         {
             "w": 1376, "h": 151,
             "x": 112, "y": 108,
-            "image": "/images/theater/16/screen/004.svg"
+            "image": "/images/theater/16/screen/142.svg"
         },
         {
             "w": 128, "h": 540,
