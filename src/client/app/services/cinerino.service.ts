@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as cinerino from '@cinerino/api-javascript-client';
+import * as cinerino from '@cinerino/sdk';
 import * as COA from '@motionpicture/coa-service';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
@@ -13,7 +13,7 @@ import { UtilService } from './util.service';
     providedIn: 'root'
 })
 export class CinerinoService {
-    public auth: cinerino.IImplicitGrantClient;
+    public auth: cinerino.auth.ClientCredentials | cinerino.auth.OAuth2;
     public event: cinerino.service.Event;
     public order: cinerino.service.Order;
     public seller: cinerino.service.Seller;

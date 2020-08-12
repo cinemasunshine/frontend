@@ -1,4 +1,4 @@
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { IMovie, ISchedule, Performance } from '../models';
 
 /**
@@ -67,9 +67,9 @@ export function filterPerformancebyMovie(
 export function createMovieTicketsFromAuthorizeSeatReservation(params: {
     authorizeSeatReservation: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>;
     checkMovieTicketAction: factory.action.check.paymentMethod.movieTicket.IAction;
-    seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    seller: factory.chevre.seller.ISeller;
 }) {
-    const results: factory.paymentMethod.paymentCard.movieTicket.IMovieTicket[] = [];
+    const results: factory.chevre.paymentMethod.paymentCard.movieTicket.IMovieTicket[] = [];
     const authorizeSeatReservation = params.authorizeSeatReservation;
     const checkMovieTicketAction = params.checkMovieTicketAction;
     const seller = params.seller;

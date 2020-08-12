@@ -1,4 +1,4 @@
-import { factory } from '@cinerino/api-nodejs-client';
+import { factory } from '@cinerino/sdk';
 
 /**
  * 照会セッション
@@ -7,7 +7,7 @@ import { factory } from '@cinerino/api-nodejs-client';
 export interface IInquiryModel {
     order?: factory.order.IOrder;
     input?: IInput;
-    seller?: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    seller?: factory.chevre.seller.ISeller;
 }
 
 interface IInput {
@@ -31,7 +31,7 @@ export class InquiryModel {
     /**
      * 劇場
      */
-    public seller?: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    public seller?: factory.chevre.seller.ISeller;
 
     /**
      * @constructor

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import * as libphonenumber from 'libphonenumber-js';
 import { ErrorService, InquiryService } from '../../../../services';
 
@@ -14,7 +14,7 @@ export class InquiryLoginComponent implements OnInit {
     public isLoading: boolean;
     public inquiryForm: FormGroup;
     public theaterCode: string;
-    public seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    public seller: factory.chevre.seller.ISeller;
     public inquiryErrorModal: boolean;
     constructor(
         private formBuilder: FormBuilder,
