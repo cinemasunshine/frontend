@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.4.14 - 2020-08-17
+### Changed
+ - 「利用規約」文言変更
+
 ## 6.4.13 - 2020-08-06
 ### Added
  - IMAX（通常上映版）スクリーン追加
