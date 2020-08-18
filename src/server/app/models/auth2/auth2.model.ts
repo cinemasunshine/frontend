@@ -1,4 +1,4 @@
-import * as cinerino from '@cinerino/api-nodejs-client';
+import * as cinerino from '@cinerino/sdk';
 /**
  * 認証セッション
  * @interface IAuth2Session

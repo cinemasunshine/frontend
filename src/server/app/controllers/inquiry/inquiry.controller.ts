@@ -1,7 +1,7 @@
 /**
  * 照会
  */
-import * as cinerino from '@cinerino/api-nodejs-client';
+import * as cinerino from '@cinerino/sdk';
 import * as debug from 'debug';
 import { Request, Response } from 'express';
 import { NOT_FOUND } from 'http-status';
