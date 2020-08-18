@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { CinerinoService, ErrorService, PurchaseService } from '../../../../../services';
 
-type IMovieTheater = factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+type IMovieTheater = factory.chevre.seller.ISeller;
 interface IFilmOrder {
     id: string;
     films: factory.chevre.event.screeningEvent.IEvent[];

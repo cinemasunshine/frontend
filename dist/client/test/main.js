@@ -752,8 +752,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "schedule2Performance", function() { return schedule2Performance; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterPerformancebyMovie", function() { return filterPerformancebyMovie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMovieTicketsFromAuthorizeSeatReservation", function() { return createMovieTicketsFromAuthorizeSeatReservation; });
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models */ "./app/models/index.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
@@ -840,7 +840,7 @@ function createMovieTicketsFromAuthorizeSeatReservation(params) {
             return;
         }
         results.push({
-            typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
+            typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
             identifier: findReservation.identifier,
             accessCode: findReservation.accessCode,
             serviceType: findReservation.serviceType,
@@ -3112,8 +3112,8 @@ var InAppBrowserTarget;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CinerinoService", function() { return CinerinoService; });
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
@@ -3185,15 +3185,15 @@ var CinerinoService = /** @class */ (function () {
                         return [4 /*yield*/, this.createOption()];
                     case 1:
                         option = _a.sent();
-                        this.event = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Event(option);
-                        this.order = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Order(option);
-                        this.seller = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Seller(option);
-                        this.person = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Person(option);
-                        this.payment = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].Payment(option);
-                        this.ownershipInfo = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].person.OwnershipInfo(option);
+                        this.event = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["service"].Event(option);
+                        this.order = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["service"].Order(option);
+                        this.seller = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["service"].Seller(option);
+                        this.person = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["service"].Person(option);
+                        this.payment = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["service"].Payment(option);
+                        this.ownershipInfo = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["service"].person.OwnershipInfo(option);
                         this.transaction = {
-                            placeOrder: new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].transaction.PlaceOrder(option),
-                            placeOrder4sskts: new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["service"].transaction.PlaceOrder4sskts(option)
+                            placeOrder: new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["service"].transaction.PlaceOrder(option),
+                            placeOrder4sskts: new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["service"].transaction.PlaceOrder4sskts(option)
                         };
                         return [3 /*break*/, 3];
                     case 2:
@@ -3269,7 +3269,7 @@ var CinerinoService = /** @class */ (function () {
                             nonce: null,
                             tokenIssuer: ''
                         };
-                        this.auth = _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["createAuthInstance"](option);
+                        this.auth = _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["createAuthInstance"](option);
                         this.auth.setCredentials(result.credentials);
                         this.endpoint = result.endpoint;
                         this.userName = result.userName;
@@ -3648,8 +3648,8 @@ var InquiryService = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseService", function() { return PurchaseService; });
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
@@ -4260,6 +4260,9 @@ var PurchaseService = /** @class */ (function () {
                     case 2:
                         searchResult = _b.sent();
                         this.data.seller = searchResult.data[0];
+                        if (this.data.seller.id === undefined) {
+                            throw new Error('seller.id is undefined');
+                        }
                         this.save();
                         return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 3:
@@ -4414,7 +4417,7 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.cinerinoService.payment.voidTransaction({
                                 id: this.data.creditCardAuthorization.id,
                                 object: {
-                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.CreditCard
+                                    typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.CreditCard
                                 },
                                 purpose: {
                                     id: this.data.transaction.id,
@@ -4508,7 +4511,7 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.cinerinoService.payment.voidTransaction({
                                 id: this.data.creditCardAuthorization.id,
                                 object: {
-                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.CreditCard
+                                    typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.CreditCard
                                 },
                                 purpose: {
                                     id: this.data.transaction.id,
@@ -4526,7 +4529,7 @@ var PurchaseService = /** @class */ (function () {
                         _a = this.data;
                         return [4 /*yield*/, this.cinerinoService.payment.authorizeCreditCard({
                                 object: {
-                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.CreditCard,
+                                    typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.CreditCard,
                                     // orderId: this.createOrderId(),
                                     method: METHOD_LUMP,
                                     creditCard: this.data.paymentCreditCard,
@@ -4567,11 +4570,7 @@ var PurchaseService = /** @class */ (function () {
                                     id: this.data.transaction.id,
                                     typeOf: this.data.transaction.typeOf
                                 },
-                                object: {
-                                    amount: Incentive.WatchingMovies,
-                                    toAccountNumber: this.userService.data.account.typeOfGood.accountNumber,
-                                    notes: '鑑賞'
-                                }
+                                object: { notes: '鑑賞' }
                             })];
                     case 2:
                         _a.pecorinoAwardAuthorization =
@@ -4619,7 +4618,7 @@ var PurchaseService = /** @class */ (function () {
                         notes = ticketNames.join(',');
                         return [4 /*yield*/, this.cinerinoService.payment.authorizeAccount({
                                 object: {
-                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.Account,
+                                    typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.Account,
                                     amount: usePoint,
                                     fromAccount: this.userService.data.account.typeOfGood,
                                     notes: notes
@@ -4682,7 +4681,7 @@ var PurchaseService = /** @class */ (function () {
                                 switch (_a.label) {
                                     case 0: return [4 /*yield*/, this_3.cinerinoService.payment.authorizeMovieTicket({
                                             object: {
-                                                typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
+                                                typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
                                                 amount: 0,
                                                 movieTickets: movieTickets.filter(function (m) { return m.identifier === identifier; })
                                             },
@@ -4707,24 +4706,7 @@ var PurchaseService = /** @class */ (function () {
                     case 4:
                         _i++;
                         return [3 /*break*/, 2];
-                    case 5:
-                        if (!this.isReserveExternalTicket({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })) return [3 /*break*/, 7];
-                        // 決済方法として、MGチケットを追加する
-                        return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
-                                purpose: {
-                                    id: transaction.id,
-                                    typeOf: transaction.typeOf
-                                },
-                                object: {
-                                    // typeOf: factory.paymentMethodType.MovieTicket,
-                                    seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: _models__WEBPACK_IMPORTED_MODULE_4__["ExternalTicketType"].MGTicket })
-                                }
-                            })];
-                    case 6:
-                        // 決済方法として、MGチケットを追加する
-                        _a.sent();
-                        _a.label = 7;
-                    case 7: return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.confirm({
+                    case 5: return [4 /*yield*/, this.cinerinoService.transaction.placeOrder4sskts.confirm({
                             id: transaction.id,
                             sendEmailMessage: true,
                             email: {
@@ -4736,7 +4718,7 @@ var PurchaseService = /** @class */ (function () {
                                     : Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionEmail"])({ seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization })
                             }
                         })];
-                    case 8:
+                    case 6:
                         confirmResult = _a.sent();
                         order = confirmResult.order;
                         complete = {
@@ -4758,26 +4740,26 @@ var PurchaseService = /** @class */ (function () {
                         catch (err) {
                             console.error(err);
                         }
-                        if (!(this.userService.isNative() && !this.userService.isMember())) return [3 /*break*/, 13];
-                        _a.label = 9;
-                    case 9:
-                        _a.trys.push([9, 12, , 13]);
+                        if (!(this.userService.isNative() && !this.userService.isMember())) return [3 /*break*/, 11];
+                        _a.label = 7;
+                    case 7:
+                        _a.trys.push([7, 10, , 11]);
                         return [4 /*yield*/, this.awsCognito.getRecords({
                                 datasetName: 'reservation'
                             })];
-                    case 10:
+                    case 8:
                         reservationRecord_1 = _a.sent();
                         if (reservationRecord_1.orders === undefined) {
                             reservationRecord_1.orders = [];
                         }
                         reservationRecord_1.orders.push(order);
                         reservationRecord_1.orders.forEach(function (recordOrder, index) {
-                            var itemOffered = recordOrder.acceptedOffers[0].itemOffered;
-                            if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
+                            if (recordOrder.acceptedOffers[0].itemOffered.typeOf !== _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
                                 return;
                             }
+                            var itemOffered = recordOrder.acceptedOffers[0].itemOffered;
                             var endDate = moment__WEBPACK_IMPORTED_MODULE_1__(itemOffered.reservationFor.endDate).unix();
-                            var limitDate = moment__WEBPACK_IMPORTED_MODULE_1__().subtract(1, 'month').unix();
+                            var limitDate = moment__WEBPACK_IMPORTED_MODULE_1__().add(-1, 'month').unix();
                             if (endDate < limitDate) {
                                 reservationRecord_1.orders.splice(index, 1);
                             }
@@ -4787,21 +4769,21 @@ var PurchaseService = /** @class */ (function () {
                             value: reservationRecord_1
                         };
                         return [4 /*yield*/, this.awsCognito.updateRecords(updateRecordsArgs)];
-                    case 11:
+                    case 9:
                         _a.sent();
-                        return [3 /*break*/, 13];
-                    case 12:
+                        return [3 /*break*/, 11];
+                    case 10:
                         err_2 = _a.sent();
                         console.error('awsCognito: updateRecords', err_2);
-                        return [3 /*break*/, 13];
-                    case 13:
+                        return [3 /*break*/, 11];
+                    case 11:
                         // プッシュ通知登録
                         if (this.userService.isNative()) {
                             try {
-                                itemOffered = order.acceptedOffers[0].itemOffered;
-                                if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
+                                if (order.acceptedOffers[0].itemOffered.typeOf !== _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.reservationType.EventReservation) {
                                     throw new Error('itemOffered.typeOf is not EventReservation');
                                 }
+                                itemOffered = order.acceptedOffers[0].itemOffered;
                                 reservationFor = itemOffered.reservationFor;
                                 theaterName = (reservationFor.superEvent.location.name === undefined
                                     || reservationFor.superEvent.location.name.ja === undefined)
@@ -4847,6 +4829,7 @@ var PurchaseService = /** @class */ (function () {
                         screeningEvent = this.data.screeningEvent;
                         if (transaction === undefined
                             || seller === undefined
+                            || seller.id === undefined
                             || screeningEvent === undefined
                             || screeningEvent.coaInfo === undefined) {
                             throw new Error('status is different');
@@ -4857,14 +4840,14 @@ var PurchaseService = /** @class */ (function () {
                         coaInfo = screeningEvent.coaInfo;
                         movieTickets = inputDataList.map(function (i) {
                             return {
-                                typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
+                                typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
                                 project: seller.project,
                                 identifier: i.knyknrNo,
                                 accessCode: i.pinCd // PINコード
                             };
                         });
                         return [4 /*yield*/, this.cinerinoService.payment.checkMovieTicket({
-                                typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
+                                typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
                                 movieTickets: movieTickets.map(function (movieTicket) {
                                     return __assign(__assign({}, movieTicket), { serviceType: '', serviceOutput: {
                                             reservationFor: {
@@ -4873,7 +4856,7 @@ var PurchaseService = /** @class */ (function () {
                                             },
                                             reservedTicket: {
                                                 ticketedSeat: {
-                                                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.placeType.Seat,
+                                                    typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.placeType.Seat,
                                                     seatingType: '',
                                                     seatNumber: '',
                                                     seatRow: '',
@@ -4883,8 +4866,8 @@ var PurchaseService = /** @class */ (function () {
                                         } });
                                 }),
                                 seller: {
-                                    typeOf: transaction.seller.typeOf,
-                                    id: transaction.seller.id
+                                    typeOf: seller.typeOf,
+                                    id: seller.id
                                 }
                             })];
                     case 2:
@@ -5048,8 +5031,8 @@ var StorageService = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FlgMember", function() { return FlgMember; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
 /* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
@@ -5170,69 +5153,91 @@ var UserService = /** @class */ (function () {
      */
     UserService.prototype.initMember = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var profile, creditCards, err_1, searchResult, accounts, openResult;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var profile, creditCards, err_1, accounts, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         this.data.memberType = FlgMember.Member;
                         this.save();
                         return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
-                        _a.sent();
+                        _b.sent();
                         return [4 /*yield*/, this.cinerinoService.person.getProfile({
                                 id: 'me'
                             })];
                     case 2:
-                        profile = _a.sent();
+                        profile = _b.sent();
                         if (profile === undefined) {
                             throw new Error('profile is undefined');
                         }
                         this.data.profile = profile;
-                        _a.label = 3;
+                        _b.label = 3;
                     case 3:
-                        _a.trys.push([3, 5, , 6]);
+                        _b.trys.push([3, 5, , 6]);
                         return [4 /*yield*/, this.cinerinoService.ownershipInfo.searchCreditCards({
                                 id: 'me'
                             })];
                     case 4:
-                        creditCards = _a.sent();
+                        creditCards = _b.sent();
                         this.data.creditCards = creditCards;
                         return [3 /*break*/, 6];
                     case 5:
-                        err_1 = _a.sent();
+                        err_1 = _b.sent();
                         console.error(err_1);
                         this.data.creditCards = [];
                         return [3 /*break*/, 6];
-                    case 6: return [4 /*yield*/, this.cinerinoService.ownershipInfo.search({
-                            sort: {
-                                ownedFrom: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].sortType.Ascending
-                            },
-                            typeOfGood: {
-                                typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].ownershipInfo.AccountGoodType.Account,
-                                accountType: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].accountType.Point
-                            }
-                        })];
+                    case 6: return [4 /*yield*/, this.searchPointAccount()];
                     case 7:
-                        searchResult = _a.sent();
-                        accounts = searchResult.data.filter(function (a) {
-                            return (a.typeOfGood.status === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].pecorino.accountStatusType.Opened);
-                        });
-                        if (!(accounts.length === 0)) return [3 /*break*/, 9];
+                        accounts = _b.sent();
+                        if (!(accounts.length === 0)) return [3 /*break*/, 10];
+                        // 口座開設
                         return [4 /*yield*/, this.cinerinoService.ownershipInfo.openAccount({
                                 name: this.data.profile.familyName + " " + this.data.profile.givenName,
-                                accountType: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].accountType.Point
+                                accountType: 'Point'
                             })];
                     case 8:
-                        openResult = _a.sent();
-                        this.data.account = openResult;
-                        return [3 /*break*/, 10];
+                        // 口座開設
+                        _b.sent();
+                        _a = this.data;
+                        return [4 /*yield*/, this.searchPointAccount()];
                     case 9:
-                        this.data.account = accounts[0];
-                        _a.label = 10;
+                        _a.account = (_b.sent())[0];
+                        return [3 /*break*/, 11];
                     case 10:
+                        this.data.account = accounts[0];
+                        _b.label = 11;
+                    case 11:
                         // console.log('口座番号', this.data.account.accountNumber);
                         this.save();
                         return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+    * ポイントアカウントを検索する
+    * @method searchPointAccount
+    */
+    UserService.prototype.searchPointAccount = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var searchResult, accounts;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.cinerinoService.ownershipInfo.search({
+                            sort: {
+                                ownedFrom: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].sortType.Ascending
+                            },
+                            typeOfGood: {
+                                typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].ownershipInfo.AccountGoodType.Account,
+                                accountType: 'Point'
+                            }
+                        })];
+                    case 1:
+                        searchResult = _a.sent();
+                        accounts = searchResult.data.filter(function (a) {
+                            return (a.typeOfGood.status === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].pecorino.accountStatusType.Opened);
+                        });
+                        return [2 /*return*/, accounts];
                 }
             });
         });
@@ -5632,6 +5637,17 @@ module.exports = __webpack_require__(/*! C:\Users\hataguchi\Desktop\workspace\Ci
 /*!********************!*\
   !*** fs (ignored) ***!
   \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 2:
+/*!************************!*\
+  !*** crypto (ignored) ***!
+  \************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

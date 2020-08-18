@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { CinerinoService } from './cinerino.service';
 import { SaveType, StorageService } from './storage.service';
 
-type IAccount = factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount<factory.accountType>>;
+type IAccount = factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>;
 
 /**
  * ネイティブアプリフラグ
@@ -37,7 +37,7 @@ export interface IUserData {
     native: NativeAppFlg;
     memberType: FlgMember;
     profile?: factory.person.IProfile;
-    creditCards: factory.paymentMethod.paymentCard.creditCard.ICheckedCard[];
+    creditCards: factory.chevre.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
     account?: IAccount;
     clientId?: string;
@@ -124,27 +124,14 @@ export class UserService {
         }
 
         // 口座検索
-        const searchResult =
-            await this.cinerinoService.ownershipInfo.search<factory.ownershipInfo.AccountGoodType.Account>({
-                sort: {
-                    ownedFrom: factory.sortType.Ascending
-                },
-                typeOfGood: {
-                    typeOf: factory.ownershipInfo.AccountGoodType.Account,
-                    accountType: factory.accountType.Point
-                }
-            });
-        const accounts =
-            searchResult.data.filter((a) => {
-                return (a.typeOfGood.status === factory.pecorino.accountStatusType.Opened);
-            });
+        const accounts = await this.searchPointAccount();
         if (accounts.length === 0) {
             // 口座開設
-            const openResult = await this.cinerinoService.ownershipInfo.openAccount({
+            await this.cinerinoService.ownershipInfo.openAccount({
                 name: `${this.data.profile.familyName} ${this.data.profile.givenName}`,
-                accountType: factory.accountType.Point
+                accountType: 'Point'
             });
-            this.data.account = openResult;
+            this.data.account = (await this.searchPointAccount())[0];
         } else {
             this.data.account = accounts[0];
         }
@@ -152,6 +139,28 @@ export class UserService {
 
         this.save();
     }
+
+    /**
+    * ポイントアカウントを検索する
+    * @method searchPointAccount
+    */
+   private async searchPointAccount() {
+    // 口座検索
+    const searchResult = await this.cinerinoService.ownershipInfo.search<factory.ownershipInfo.AccountGoodType.Account>({
+        sort: {
+            ownedFrom: factory.sortType.Ascending
+        },
+        typeOfGood: {
+            typeOf: factory.ownershipInfo.AccountGoodType.Account,
+            accountType: 'Point'
+        }
+    });
+    const accounts =
+        searchResult.data.filter((a) => {
+            return (a.typeOfGood.status === factory.pecorino.accountStatusType.Opened);
+        });
+    return accounts;
+}
 
     /**
      * クレジットカード登録判定

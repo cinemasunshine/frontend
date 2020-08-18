@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import * as COA from '@motionpicture/coa-service';
 import * as mvtkReserve from '@motionpicture/mvtk-reserve-service';
 import * as moment from 'moment';
@@ -24,8 +24,8 @@ import { UtilService } from './util.service';
 declare const ga: Function;
 
 export type ISalesTicketResult = COA.services.reserve.ISalesTicketResult;
-type IUnauthorizedCardOfMember = factory.paymentMethod.paymentCard.creditCard.IUnauthorizedCardOfMember;
-type IUncheckedCardTokenized = factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
+type IUnauthorizedCardOfMember = factory.chevre.paymentMethod.paymentCard.creditCard.IUnauthorizedCardOfMember;
+type IUncheckedCardTokenized = factory.chevre.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
 
 export interface IPurchaseData {
     /**
@@ -39,7 +39,7 @@ export interface IPurchaseData {
     /**
      * 劇場ショップ
      */
-    seller?: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    seller?: factory.chevre.seller.ISeller;
     /**
      * 販売可能チケット情報
      */
@@ -682,6 +682,9 @@ export class PurchaseService {
             location: { branchCodes: [branchCode] }
         });
         this.data.seller = searchResult.data[0];
+        if (this.data.seller.id === undefined) {
+            throw new Error('seller.id is undefined');
+        }
         this.save();
         await this.cinerinoService.getServices();
         const now = (await this.utilService.getServerTime()).date;
@@ -896,11 +899,7 @@ export class PurchaseService {
                     id: this.data.transaction.id,
                     typeOf: this.data.transaction.typeOf
                 },
-                object: {
-                    amount: Incentive.WatchingMovies, // Todo
-                    toAccountNumber: this.userService.data.account.typeOfGood.accountNumber, // Todo
-                    notes: '鑑賞'
-                }
+                object: { notes: '鑑賞' }
             });
         this.data.incentive = Incentive.WatchingMovies;
     }
@@ -965,6 +964,7 @@ export class PurchaseService {
         let order: factory.order.IOrder;
         if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })
             && this.data.checkMovieTicketAction !== undefined) {
+            // ムビチケ利用
             const checkMovieTicketAction = this.data.checkMovieTicketAction;
             const movieTickets = createMovieTicketsFromAuthorizeSeatReservation({
                 authorizeSeatReservation: seatReservationAuthorization,
@@ -989,19 +989,6 @@ export class PurchaseService {
                     purpose: transaction
                 });
             }
-        }
-        if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MGTicket })) {
-            // 決済方法として、MGチケットを追加する
-            await this.cinerinoService.transaction.placeOrder4sskts.createMvtkAuthorization({
-                purpose: {
-                    id: transaction.id,
-                    typeOf: transaction.typeOf
-                },
-                object: {
-                    // typeOf: factory.paymentMethodType.MovieTicket,
-                    seatInfoSyncIn: this.getExternalTicketSeatInfoSync({ ticketType: ExternalTicketType.MGTicket })
-                }
-            });
         }
         // 取引確定
         const confirmResult = await this.cinerinoService.transaction.placeOrder4sskts.confirm({
@@ -1050,12 +1037,14 @@ export class PurchaseService {
                 }
                 reservationRecord.orders.push(order);
                 (<factory.order.IOrder[]>reservationRecord.orders).forEach((recordOrder, index) => {
-                    const itemOffered = recordOrder.acceptedOffers[0].itemOffered;
-                    if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+                    if (recordOrder.acceptedOffers[0].itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
                         return;
                     }
+                    const itemOffered = <factory.chevre.reservation.IReservation<
+                        factory.chevre.reservationType.EventReservation
+                    >>recordOrder.acceptedOffers[0].itemOffered;
                     const endDate = moment(itemOffered.reservationFor.endDate).unix();
-                    const limitDate = moment().subtract(1, 'month').unix();
+                    const limitDate = moment().add(-1, 'month').unix();
                     if (endDate < limitDate) {
                         reservationRecord.orders.splice(index, 1);
                     }
@@ -1072,10 +1061,12 @@ export class PurchaseService {
         // プッシュ通知登録
         if (this.userService.isNative()) {
             try {
-                const itemOffered = order.acceptedOffers[0].itemOffered;
-                if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+                if (order.acceptedOffers[0].itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
                     throw new Error('itemOffered.typeOf is not EventReservation');
                 }
+                const itemOffered = <factory.chevre.reservation.IReservation<
+                    factory.chevre.reservationType.EventReservation
+                >>order.acceptedOffers[0].itemOffered;
                 const reservationFor = itemOffered.reservationFor;
                 const theaterName = (reservationFor.superEvent.location.name === undefined
                     || reservationFor.superEvent.location.name.ja === undefined)
@@ -1121,6 +1112,7 @@ export class PurchaseService {
         const screeningEvent = this.data.screeningEvent;
         if (transaction === undefined
             || seller === undefined
+            || seller.id === undefined
             || screeningEvent === undefined
             || screeningEvent.coaInfo === undefined) {
             throw new Error('status is different');
@@ -1159,8 +1151,8 @@ export class PurchaseService {
                 };
             }),
             seller: {
-                typeOf: transaction.seller.typeOf,
-                id: transaction.seller.id
+                typeOf: seller.typeOf,
+                id: seller.id
             }
         });
         if (checkMovieTicketAction.result === undefined) {

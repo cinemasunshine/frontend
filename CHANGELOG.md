@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.5.0 - 2020-08-18
+### Changed
+ - @cinerino/sdkへ変更
+
 ## 6.4.14 - 2020-08-17
 ### Changed
  - 「利用規約」文言変更
