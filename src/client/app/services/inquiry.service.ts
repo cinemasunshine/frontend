@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { CinerinoService } from './cinerino.service';
 import { SaveType, StorageService } from './storage.service';
 
@@ -12,7 +12,7 @@ export interface IInquiryData {
     /**
      * 販売者
      */
-    seller?: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    seller?: factory.chevre.seller.ISeller;
 }
 
 

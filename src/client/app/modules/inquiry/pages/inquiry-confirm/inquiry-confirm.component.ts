@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import * as qrcode from 'qrcode';
 import { environment } from '../../../../../environments/environment';
@@ -15,7 +15,7 @@ export class InquiryConfirmComponent implements OnInit {
 
     public isLoading: boolean;
     public order: factory.order.IOrder;
-    public seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    public seller: factory.chevre.seller.ISeller;
     public moment = moment;
     public tokenList: string[];
     constructor(
@@ -34,11 +34,14 @@ export class InquiryConfirmComponent implements OnInit {
         this.seller = this.inquiryService.data.seller;
         this.tokenList = [];
         for (const acceptedOffer of this.order.acceptedOffers) {
-            if (acceptedOffer.itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-                || acceptedOffer.itemOffered.reservedTicket.ticketToken === undefined) {
+            const itemOffered = <factory.chevre.reservation.IReservation<
+                factory.chevre.reservationType.EventReservation
+            >>acceptedOffer.itemOffered;
+            if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
+                || itemOffered.reservedTicket.ticketToken === undefined) {
                 this.tokenList.push('');
             } else {
-                const url = await this.createQRCode(acceptedOffer.itemOffered.reservedTicket.ticketToken);
+                const url = await this.createQRCode(itemOffered.reservedTicket.ticketToken);
                 this.tokenList.push(url);
             }
         }
@@ -46,10 +49,9 @@ export class InquiryConfirmComponent implements OnInit {
     }
 
     public getReservationNumber() {
-        const itemOffered = this.order.acceptedOffers[0].itemOffered;
+        const itemOffered = this.getItemOffered();
 
-        return (itemOffered.typeOf === factory.chevre.reservationType.EventReservation)
-            ? itemOffered.reservationNumber : '';
+        return (itemOffered === undefined) ? '' : itemOffered.reservationNumber;
     }
 
     /**
@@ -58,16 +60,13 @@ export class InquiryConfirmComponent implements OnInit {
      * @returns {string}
      */
     public getScreenName(): string {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        const itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
+        const itemOffered = this.getItemOffered();
+
+        return (itemOffered === undefined
             || itemOffered.reservationFor.location.name === undefined
-            || itemOffered.reservationFor.location.name.ja === undefined) {
-            return '';
-        }
-        return itemOffered.reservationFor.location.name.ja;
+            || itemOffered.reservationFor.location.name.ja === undefined)
+            ? ''
+            : itemOffered.reservationFor.location.name.ja;
     }
 
     /**
@@ -76,15 +75,12 @@ export class InquiryConfirmComponent implements OnInit {
      * @returns {string}
      */
     public getTitle(): string {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        const itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.name.ja === undefined) {
-            return '';
-        }
-        return itemOffered.reservationFor.name.ja;
+        const itemOffered = this.getItemOffered();
+
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.name.ja === undefined)
+            ? ''
+            : itemOffered.reservationFor.name.ja;
     }
 
     /**
@@ -93,16 +89,12 @@ export class InquiryConfirmComponent implements OnInit {
      * @returns {string}
      */
     public getAppreciationDate(): string {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        const itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
+        const itemOffered = this.getItemOffered();
 
-        return moment(itemOffered.reservationFor.coaInfo.dateJouei).locale('ja').format('YYYY年MM月DD日(ddd)');
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : moment(itemOffered.reservationFor.coaInfo.dateJouei).locale('ja').format('YYYY年MM月DD日(ddd)');
     }
 
     /**
@@ -111,20 +103,15 @@ export class InquiryConfirmComponent implements OnInit {
      * @returns {string}
      */
     public getStartDate(): string {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        const itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
+        const itemOffered = this.getItemOffered();
         const timeFormat = new TimeFormatPipe();
-
-        return timeFormat.transform(
-            itemOffered.reservationFor.startDate,
-            itemOffered.reservationFor.coaInfo.dateJouei
-        );
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : timeFormat.transform(
+                itemOffered.reservationFor.startDate,
+                itemOffered.reservationFor.coaInfo.dateJouei
+            );
     }
 
     /**
@@ -133,34 +120,32 @@ export class InquiryConfirmComponent implements OnInit {
      * @returns {string}
      */
     public getEndDate(): string {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        const itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
+        const itemOffered = this.getItemOffered();
         const timeFormat = new TimeFormatPipe();
-
-        return timeFormat.transform(
-            itemOffered.reservationFor.endDate,
-            itemOffered.reservationFor.coaInfo.dateJouei
-        );
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : timeFormat.transform(
+                itemOffered.reservationFor.endDate,
+                itemOffered.reservationFor.coaInfo.dateJouei
+            );
     }
 
     /**
      * 特別席判定（グランドシネマサンシャイン）
      */
-    public isGrandSpecialSeat(itemOffered: factory.order.IItemOffered, specialSeat: '002' | '003') {
+    public isGrandSpecialSeat(
+        itemOffered: factory.chevre.reservation.IReservation<factory.chevre.reservationType.EventReservation>,
+        specialSeat: '002' | '003'
+    ) {
         if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
             return false;
         }
         const screenPrefix = (environment.production) ? '0' : '1';
         return (itemOffered.reservationFor.superEvent.location.branchCode === (screenPrefix + '20')
             && itemOffered.reservedTicket.coaTicketInfo !== undefined
-            && (<any>itemOffered.reservedTicket.coaTicketInfo).spseatKbn === specialSeat
-            && (<any>itemOffered.reservedTicket.coaTicketInfo).spseatAdd2 > 0);
+            && (itemOffered.reservedTicket.coaTicketInfo).spseatKbn === specialSeat
+            && (itemOffered.reservedTicket.coaTicketInfo).spseatAdd2 > 0);
     }
 
     /**
@@ -191,6 +176,18 @@ export class InquiryConfirmComponent implements OnInit {
             const top = rect.top + scrollTop - 50;
             window.scrollTo(0, top);
         }, 0);
+    }
+
+    private getItemOffered() {
+        if (this.order.acceptedOffers.length === 0
+            || this.order.acceptedOffers[0].itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+            return undefined;
+        }
+        const itemOffered = <factory.chevre.reservation.IReservation<
+            factory.chevre.reservationType.EventReservation
+        >>this.order.acceptedOffers[0].itemOffered;
+
+        return itemOffered;
     }
 
 }

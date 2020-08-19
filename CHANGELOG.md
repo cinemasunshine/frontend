@@ -14,6 +14,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.5.0 - 2020-08-18
+### Changed
+ - @cinerino/sdkへ変更
+
+## 6.4.14 - 2020-08-17
+### Changed
+ - 「利用規約」文言変更
+
+## 6.4.13 - 2020-08-06
+### Added
+ - IMAX（通常上映版）スクリーン追加
+
 ## 6.4.12 - 2020-07-13
 ### Changed
  - ムビチケ決済処理をサービス側へ変更

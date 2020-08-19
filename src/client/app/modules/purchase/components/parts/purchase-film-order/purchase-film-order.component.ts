@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 
 interface IFilmOrder {
     id: string;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { getOrderTicketPrice } from '../../../../../functions';
@@ -15,7 +15,7 @@ export class PurchaseCompleteComponent implements OnInit {
     public data: {
         order: factory.order.IOrder;
         transaction: factory.transaction.placeOrder.ITransaction;
-        seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+        seller: factory.chevre.seller.ISeller;
         incentive: number;
     };
     public environment = environment;
@@ -44,10 +44,9 @@ export class PurchaseCompleteComponent implements OnInit {
     }
 
     public getReservationNumber() {
-        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
+        const itemOffered = this.getItemOffered();
 
-        return (itemOffered.typeOf === factory.chevre.reservationType.EventReservation)
-            ? itemOffered.reservationNumber : '';
+        return (itemOffered === undefined) ? '' : itemOffered.reservationNumber;
     }
 
     /**
@@ -56,14 +55,13 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getTheaterName() {
-        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.superEvent.location.name === undefined
-            || itemOffered.reservationFor.superEvent.location.name.ja === undefined) {
-            return '';
-        }
+        const itemOffered = this.getItemOffered();
 
-        return itemOffered.reservationFor.superEvent.location.name.ja;
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.superEvent.location.name === undefined
+            || itemOffered.reservationFor.superEvent.location.name.ja === undefined)
+            ? ''
+            : itemOffered.reservationFor.superEvent.location.name.ja;
     }
 
     /**
@@ -72,14 +70,13 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getScreenName() {
-        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.location.name === undefined
-            || itemOffered.reservationFor.location.name.ja === undefined) {
-            return '';
-        }
+        const itemOffered = this.getItemOffered();
 
-        return itemOffered.reservationFor.location.name.ja;
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.location.name === undefined
+            || itemOffered.reservationFor.location.name.ja === undefined)
+            ? ''
+            : itemOffered.reservationFor.location.name.ja;
     }
 
     /**
@@ -88,12 +85,9 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getTitle() {
-        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
-            return '';
-        }
+        const itemOffered = this.getItemOffered();
 
-        return itemOffered.reservationFor.name.ja;
+        return (itemOffered === undefined) ? '' : itemOffered.reservationFor.name.ja;
     }
 
     /**
@@ -102,14 +96,12 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getAppreciationDate() {
-        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
-        moment.locale('ja');
+        const itemOffered = this.getItemOffered();
 
-        return moment(itemOffered.reservationFor.coaInfo.dateJouei).format('YYYY年MM月DD日(ddd)');
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : moment(itemOffered.reservationFor.coaInfo.dateJouei).locale('ja').format('YYYY年MM月DD日(ddd)');
     }
 
     /**
@@ -118,17 +110,16 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getStartDate() {
-        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
+        const itemOffered = this.getItemOffered();
         const timeFormat = new TimeFormatPipe();
 
-        return timeFormat.transform(
-            itemOffered.reservationFor.startDate,
-            itemOffered.reservationFor.coaInfo.dateJouei
-        );
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : timeFormat.transform(
+                itemOffered.reservationFor.startDate,
+                itemOffered.reservationFor.coaInfo.dateJouei
+            );
     }
 
     /**
@@ -137,17 +128,28 @@ export class PurchaseCompleteComponent implements OnInit {
      * @returns {string}
      */
     public getEndDate() {
-        const itemOffered = this.data.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
+        const itemOffered = this.getItemOffered();
         const timeFormat = new TimeFormatPipe();
 
-        return timeFormat.transform(
-            itemOffered.reservationFor.endDate,
-            itemOffered.reservationFor.coaInfo.dateJouei
-        );
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : timeFormat.transform(
+                itemOffered.reservationFor.endDate,
+                itemOffered.reservationFor.coaInfo.dateJouei
+            );
+    }
+
+    private getItemOffered() {
+        if (this.data.order.acceptedOffers.length === 0
+            || this.data.order.acceptedOffers[0].itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+            return undefined;
+        }
+        const itemOffered = <factory.chevre.reservation.IReservation<
+            factory.chevre.reservationType.EventReservation
+        >>this.data.order.acceptedOffers[0].itemOffered;
+
+        return itemOffered;
     }
 
 }

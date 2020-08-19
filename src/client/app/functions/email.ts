@@ -1,4 +1,4 @@
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
 import { TimeFormatPipe } from '../modules/shared/pipes';
@@ -10,7 +10,7 @@ import { convertToKatakana, formatTelephone } from './util';
  */
 export function getPurchaseCompletionEmail(params: {
     screeningEvent: factory.chevre.event.screeningEvent.IEvent;
-    seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    seller: factory.chevre.seller.ISeller;
     seatReservationAuthorization: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>;
     customerContact: factory.person.IProfile;
 }) {
@@ -69,7 +69,7 @@ export function getPurchaseCompletionEmail(params: {
  */
 export function getPurchaseCompletionMemberEmail(params: {
     screeningEvent: factory.chevre.event.screeningEvent.IEvent;
-    seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    seller: factory.chevre.seller.ISeller;
     seatReservationAuthorization: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>;
     customerContact: factory.person.IProfile;
     userName: string;
@@ -131,7 +131,7 @@ export function getPurchaseCompletionMemberEmail(params: {
  */
 function getInfo(params: {
     screeningEvent: factory.chevre.event.screeningEvent.IEvent;
-    seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    seller: factory.chevre.seller.ISeller;
     customerContact: factory.person.IProfile;
 }) {
     const plofile = params.customerContact;

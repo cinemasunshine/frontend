@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 照会
  */
-const cinerino = require("@cinerino/api-nodejs-client");
+const cinerino = require("@cinerino/sdk");
 const debug = require("debug");
 const http_status_1 = require("http-status");
 const moment = require("moment");

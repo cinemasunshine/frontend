@@ -3943,8 +3943,8 @@ var styles = [".button-area[_ngcontent-%COMP%] {\n  margin: 30px auto 0; }\n  @m
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InquiryConfirmComponent", function() { return InquiryConfirmComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var qrcode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! qrcode */ "../../node_modules/qrcode/lib/browser.js");
@@ -4003,7 +4003,7 @@ var InquiryConfirmComponent = /** @class */ (function () {
     }
     InquiryConfirmComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _i, _a, acceptedOffer, url;
+            var _i, _a, acceptedOffer, itemOffered, url;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4021,11 +4021,12 @@ var InquiryConfirmComponent = /** @class */ (function () {
                     case 1:
                         if (!(_i < _a.length)) return [3 /*break*/, 5];
                         acceptedOffer = _a[_i];
-                        if (!(acceptedOffer.itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
-                            || acceptedOffer.itemOffered.reservedTicket.ticketToken === undefined)) return [3 /*break*/, 2];
+                        itemOffered = acceptedOffer.itemOffered;
+                        if (!(itemOffered.typeOf !== _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+                            || itemOffered.reservedTicket.ticketToken === undefined)) return [3 /*break*/, 2];
                         this.tokenList.push('');
                         return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, this.createQRCode(acceptedOffer.itemOffered.reservedTicket.ticketToken)];
+                    case 2: return [4 /*yield*/, this.createQRCode(itemOffered.reservedTicket.ticketToken)];
                     case 3:
                         url = _b.sent();
                         this.tokenList.push(url);
@@ -4041,9 +4042,8 @@ var InquiryConfirmComponent = /** @class */ (function () {
         });
     };
     InquiryConfirmComponent.prototype.getReservationNumber = function () {
-        var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        return (itemOffered.typeOf === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation)
-            ? itemOffered.reservationNumber : '';
+        var itemOffered = this.getItemOffered();
+        return (itemOffered === undefined) ? '' : itemOffered.reservationNumber;
     };
     /**
      * スクリーン名取得
@@ -4051,16 +4051,12 @@ var InquiryConfirmComponent = /** @class */ (function () {
      * @returns {string}
      */
     InquiryConfirmComponent.prototype.getScreenName = function () {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
+        var itemOffered = this.getItemOffered();
+        return (itemOffered === undefined
             || itemOffered.reservationFor.location.name === undefined
-            || itemOffered.reservationFor.location.name.ja === undefined) {
-            return '';
-        }
-        return itemOffered.reservationFor.location.name.ja;
+            || itemOffered.reservationFor.location.name.ja === undefined)
+            ? ''
+            : itemOffered.reservationFor.location.name.ja;
     };
     /**
      * 作品名取得
@@ -4068,15 +4064,11 @@ var InquiryConfirmComponent = /** @class */ (function () {
      * @returns {string}
      */
     InquiryConfirmComponent.prototype.getTitle = function () {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.name.ja === undefined) {
-            return '';
-        }
-        return itemOffered.reservationFor.name.ja;
+        var itemOffered = this.getItemOffered();
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.name.ja === undefined)
+            ? ''
+            : itemOffered.reservationFor.name.ja;
     };
     /**
      * 鑑賞日取得
@@ -4084,15 +4076,11 @@ var InquiryConfirmComponent = /** @class */ (function () {
      * @returns {string}
      */
     InquiryConfirmComponent.prototype.getAppreciationDate = function () {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
-        return moment__WEBPACK_IMPORTED_MODULE_2__(itemOffered.reservationFor.coaInfo.dateJouei).locale('ja').format('YYYY年MM月DD日(ddd)');
+        var itemOffered = this.getItemOffered();
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : moment__WEBPACK_IMPORTED_MODULE_2__(itemOffered.reservationFor.coaInfo.dateJouei).locale('ja').format('YYYY年MM月DD日(ddd)');
     };
     /**
      * 上映開始時間取得
@@ -4100,16 +4088,12 @@ var InquiryConfirmComponent = /** @class */ (function () {
      * @returns {string}
      */
     InquiryConfirmComponent.prototype.getStartDate = function () {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
+        var itemOffered = this.getItemOffered();
         var timeFormat = new _shared_pipes__WEBPACK_IMPORTED_MODULE_6__["TimeFormatPipe"]();
-        return timeFormat.transform(itemOffered.reservationFor.startDate, itemOffered.reservationFor.coaInfo.dateJouei);
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : timeFormat.transform(itemOffered.reservationFor.startDate, itemOffered.reservationFor.coaInfo.dateJouei);
     };
     /**
      * 上映終了取得
@@ -4117,29 +4101,25 @@ var InquiryConfirmComponent = /** @class */ (function () {
      * @returns {string}
      */
     InquiryConfirmComponent.prototype.getEndDate = function () {
-        if (this.order.acceptedOffers.length === 0) {
-            return '';
-        }
-        var itemOffered = this.order.acceptedOffers[0].itemOffered;
-        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation
-            || itemOffered.reservationFor.coaInfo === undefined) {
-            return '';
-        }
+        var itemOffered = this.getItemOffered();
         var timeFormat = new _shared_pipes__WEBPACK_IMPORTED_MODULE_6__["TimeFormatPipe"]();
-        return timeFormat.transform(itemOffered.reservationFor.endDate, itemOffered.reservationFor.coaInfo.dateJouei);
+        return (itemOffered === undefined
+            || itemOffered.reservationFor.coaInfo === undefined)
+            ? ''
+            : timeFormat.transform(itemOffered.reservationFor.endDate, itemOffered.reservationFor.coaInfo.dateJouei);
     };
     /**
      * 特別席判定（グランドシネマサンシャイン）
      */
     InquiryConfirmComponent.prototype.isGrandSpecialSeat = function (itemOffered, specialSeat) {
-        if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+        if (itemOffered.typeOf !== _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
             return false;
         }
         var screenPrefix = (_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].production) ? '0' : '1';
         return (itemOffered.reservationFor.superEvent.location.branchCode === (screenPrefix + '20')
             && itemOffered.reservedTicket.coaTicketInfo !== undefined
-            && itemOffered.reservedTicket.coaTicketInfo.spseatKbn === specialSeat
-            && itemOffered.reservedTicket.coaTicketInfo.spseatAdd2 > 0);
+            && (itemOffered.reservedTicket.coaTicketInfo).spseatKbn === specialSeat
+            && (itemOffered.reservedTicket.coaTicketInfo).spseatAdd2 > 0);
     };
     /**
      * QRコード生成
@@ -4178,6 +4158,14 @@ var InquiryConfirmComponent = /** @class */ (function () {
             var top = rect.top + scrollTop - 50;
             window.scrollTo(0, top);
         }, 0);
+    };
+    InquiryConfirmComponent.prototype.getItemOffered = function () {
+        if (this.order.acceptedOffers.length === 0
+            || this.order.acceptedOffers[0].itemOffered.typeOf !== _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+            return undefined;
+        }
+        var itemOffered = this.order.acceptedOffers[0].itemOffered;
+        return itemOffered;
     };
     return InquiryConfirmComponent;
 }());
