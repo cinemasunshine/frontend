@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.5.1 - 2020-08-18
+### Added
+ - 残り取引時間による自動遷移機能（非表示）追加
+
 ## 6.5.0 - 2020-08-18
 ### Changed
  - @cinerino/sdkへ変更
