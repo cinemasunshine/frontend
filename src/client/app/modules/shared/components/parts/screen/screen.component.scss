@@ -211,6 +211,7 @@ $mobile: 767px;
 .zoom {
     .screen-scroll {
         overflow: auto;
+        will-change: transform;
         transition: transform 0.2s;
         -webkit-overflow-scrolling: touch;
     }
