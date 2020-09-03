@@ -5,6 +5,7 @@ $mobile: 767px;
 }
 .term {
     overflow-y: auto;
+    will-change: transform;
     -webkit-overflow-scrolling: touch;
     resize: vertical;
     height: 150px;
