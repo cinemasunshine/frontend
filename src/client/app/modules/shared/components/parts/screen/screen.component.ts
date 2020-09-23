@@ -4,8 +4,8 @@ import { isLowerCase, toFullWidth } from '../../../../../functions';
 import { ILabel, IObject, IScreenConfig, ISeat, SeatStatus } from '../../../../../models';
 import { PurchaseService } from '../../../../../services';
 
-type IStateReserveSeatResult = COA.services.reserve.IStateReserveSeatResult;
-type IScreenResult = COA.services.master.IScreenResult;
+type IStateReserveSeatResult = COA.factory.reserve.IStateReserveSeatResult;
+type IScreenResult = COA.factory.master.IScreenResult;
 
 @Component({
     selector: 'app-screen',

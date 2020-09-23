@@ -12,7 +12,7 @@ import {
     getPurchaseCompletionMemberEmail,
     schedule2Performance
 } from '../functions';
-import { ExternalTicketType, ISchedule } from '../models';
+import { ISchedule } from '../models';
 import { TimeFormatPipe } from '../modules/shared/pipes';
 import { AwsCognitoService } from './aws-cognito.service';
 import { CallNativeService } from './call-native.service';
@@ -23,7 +23,7 @@ import { UtilService } from './util.service';
 
 declare const ga: Function;
 
-export type ISalesTicketResult = COA.services.reserve.ISalesTicketResult;
+export type ISalesTicketResult = COA.factory.reserve.ISalesTicketResult;
 type IUnauthorizedCardOfMember = factory.chevre.paymentMethod.paymentCard.creditCard.IUnauthorizedCardOfMember;
 type IUncheckedCardTokenized = factory.chevre.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
 
@@ -79,7 +79,7 @@ export interface IPurchaseData {
     /**
      * ムビチケ券種情報
      */
-    mvtkTickets: IExternalTicket[];
+    mvtkTickets: IMovieTicket[];
     /**
      * ムビチケ使用情報
      */
@@ -87,7 +87,7 @@ export interface IPurchaseData {
     /**
      * MGチケット券種種情報
      */
-    mgTickets: IExternalTicket[];
+    mgTickets: IMovieTicket[];
     /**
      * MGチケット使用情報
      */
@@ -103,7 +103,7 @@ export interface IPurchaseData {
     /**
      * ポイント券種情報
      */
-    pointTickets: COA.services.master.ITicketResult[];
+    pointTickets: COA.factory.master.ITicketResult[];
 }
 
 export interface IGmoTokenObject {
@@ -113,14 +113,14 @@ export interface IGmoTokenObject {
     isSecurityCodeSet: boolean;
 }
 
-export interface IExternalTicket {
+export interface IMovieTicket {
     knyknrNoInfo: mvtkReserve.services.auth.purchaseNumberAuth.IPurchaseNumberInfo;
     ykknInfo: mvtkReserve.services.auth.purchaseNumberAuth.IValidTicket;
     input?: {
         knyknrNo: string;
         pinCd: string;
     };
-    ticketcodeResult: COA.services.master.IMvtkTicketcodeResult;
+    ticketcodeResult: COA.factory.master.IMvtkTicketcodeResult;
 }
 
 /**
@@ -404,16 +404,18 @@ export class PurchaseService {
      * 外部チケット合計金額計算
      * @method getTotalPrice
      */
-    public getExternalTicketTotalPrice(params: { ticketType: ExternalTicketType }): number {
+    public getMovieTicketTotalPrice(params: {
+        paymentMethodType: factory.chevre.paymentMethodType
+    }): number {
         let result = 0;
         if (this.data.seatReservationAuthorization === undefined) {
             return result;
         }
-        const ticketType = params.ticketType;
+        const paymentMethodType = params.paymentMethodType;
         this.data.seatReservationAuthorization.object.acceptedOffer.forEach((offer: any) => {
-            if (ticketType === ExternalTicketType.MovieTicket) {
+            if (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket) {
                 result += offer.ticketInfo.mvtkSalesPrice;
-            } else if (ticketType === ExternalTicketType.MGTicket) {
+            } else if (paymentMethodType === factory.chevre.paymentMethodType.MGTicket) {
                 result += offer.ticketInfo.mvtkSalesPrice;
             }
         });
@@ -441,23 +443,23 @@ export class PurchaseService {
 
     /**
      * 外部チケット対応作品判定
-     * @method isUsedExternalTicket
+     * @method isUsedMovieTicket
      * @returns {boolean}
      */
-    public isUsedExternalTicket(params: { ticketType: ExternalTicketType }): boolean {
+    public isUsedMovieTicket(params: { paymentMethodType: factory.chevre.paymentMethodType }): boolean {
         if (this.data.screeningEvent === undefined) {
             return false;
         }
-        const ticketType = params.ticketType;
+        const paymentMethodType = params.paymentMethodType;
         const today = moment().format('YYYYMMDD');
         const coaInfo = this.data.screeningEvent.superEvent.coaInfo;
-        if (ticketType === ExternalTicketType.MovieTicket) {
+        if (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket) {
             return (coaInfo !== undefined
                 && coaInfo.flgMvtkUse === '1'
                 && coaInfo.dateMvtkBegin !== undefined
                 && Number(coaInfo.dateMvtkBegin) <= Number(today));
         }
-        if (ticketType === ExternalTicketType.MGTicket) {
+        if (paymentMethodType === factory.chevre.paymentMethodType.MGTicket) {
             return (coaInfo !== undefined
                 && coaInfo.flgMvtkUse === '1'
                 && coaInfo.dateMvtkBegin !== undefined
@@ -504,19 +506,19 @@ export class PurchaseService {
 
     /**
      * 外部チケットでの予約判定
-     * @method isReserveExternalTicket
+     * @method isReserveMovieTicket
      * @returns {boolean}
      */
-    public isReserveExternalTicket(params: { ticketType: ExternalTicketType }): boolean {
+    public isReserveMovieTicket(params: { paymentMethodType: factory.chevre.paymentMethodType }): boolean {
         if (this.data.seatReservationAuthorization === undefined) {
             return false;
         }
-        const ticketType = params.ticketType;
+        const paymentMethodType = params.paymentMethodType;
         const findResult = this.data.seatReservationAuthorization.object.acceptedOffer.find((offer: any) => {
-            if (ticketType === ExternalTicketType.MovieTicket) {
+            if (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket) {
                 return (offer.ticketInfo.mvtkNum !== '');
             }
-            if (ticketType === ExternalTicketType.MGTicket) {
+            if (paymentMethodType === factory.chevre.paymentMethodType.MGTicket) {
                 return false;
             }
             return false;
@@ -533,7 +535,7 @@ export class PurchaseService {
         if (this.data.seatReservationAuthorization === undefined) {
             return false;
         }
-        const pointTickets: COA.services.master.ITicketResult[] = [];
+        const pointTickets: COA.factory.master.ITicketResult[] = [];
         this.data.seatReservationAuthorization.object.acceptedOffer.forEach((offer: any) => {
             const pointTicket = this.data.pointTickets.find((ticket) => {
                 return (ticket.ticketCode === offer.ticketInfo.ticketCode);
@@ -572,10 +574,10 @@ export class PurchaseService {
 
     /**
      * 外部チケット着券情報取得
-     * @method getExternalTicketSeatInfoSync
+     * @method getMovieTicketSeatInfoSync
      */
-    public getExternalTicketSeatInfoSync(params: {
-        ticketType: ExternalTicketType;
+    public getMovieTicketSeatInfoSync(params: {
+        paymentMethodType: factory.chevre.paymentMethodType;
         deleteFlag?: string
         reservedDeviceType?: string
     }) {
@@ -584,14 +586,14 @@ export class PurchaseService {
             || this.data.screeningEvent === undefined) {
             throw new Error('status is different');
         }
-        const externalTickets = (params.ticketType === ExternalTicketType.MovieTicket)
+        const targetTickets = (params.paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
             ? this.data.mvtkTickets
             : this.data.mgTickets;
         const purchaseNoInfoList: mvtkReserve.services.seat.seatInfoSync.IKnyknrNoInfo[] = [];
         const seats: { zskCd: string; }[] = [];
 
         for (const offer of this.data.seatReservationAuthorization.object.acceptedOffer) {
-            const findResult = externalTickets.find((t) => {
+            const findResult = targetTickets.find((t) => {
                 return (t.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
                     && t.ticketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
             });
@@ -643,7 +645,7 @@ export class PurchaseService {
         const skhnCd = `${coaInfo.titleCode}${`00${coaInfo.titleBranchNum}`.slice(DIGITS)}`;
 
         return {
-            kgygishCd: (params.ticketType === ExternalTicketType.MovieTicket)
+            kgygishCd: (params.paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
                 ? environment.MVTK_COMPANY_CODE
                 : environment.MG_COMPANY_CODE,
             yykDvcTyp: reservedDeviceType,
@@ -870,11 +872,11 @@ export class PurchaseService {
         const METHOD_LUMP: any = '1';
         this.data.creditCardAuthorization = await this.cinerinoService.payment.authorizeCreditCard({
             object: {
-                typeOf: factory.paymentMethodType.CreditCard,
-                // orderId: this.createOrderId(),
+                typeOf: factory.action.authorize.paymentMethod.any.ResultType.Payment,
                 method: METHOD_LUMP,
                 creditCard: this.data.paymentCreditCard,
-                amount: this.getTotalPrice()
+                amount: this.getTotalPrice(),
+                paymentMethod: factory.chevre.paymentMethodType.CreditCard
             },
             purpose: {
                 id: this.data.transaction.id,
@@ -931,10 +933,10 @@ export class PurchaseService {
 
         await this.cinerinoService.payment.authorizeAccount({
             object: {
-                typeOf: factory.paymentMethodType.Account,
+                typeOf: factory.action.authorize.paymentMethod.any.ResultType.Payment,
                 amount: usePoint,
-                fromAccount: this.userService.data.account.typeOfGood,
-                notes
+                notes,
+                paymentMethod: factory.chevre.paymentMethodType.Account
             },
             purpose: {
                 id: this.data.transaction.id,
@@ -962,7 +964,7 @@ export class PurchaseService {
         }
         await this.cinerinoService.getServices();
         let order: factory.order.IOrder;
-        if (this.isReserveExternalTicket({ ticketType: ExternalTicketType.MovieTicket })
+        if (this.isReserveMovieTicket({ paymentMethodType: factory.chevre.paymentMethodType.MovieTicket })
             && this.data.checkMovieTicketAction !== undefined) {
             // ムビチケ利用
             const checkMovieTicketAction = this.data.checkMovieTicketAction;
@@ -980,11 +982,13 @@ export class PurchaseService {
                 identifiers.push(m.identifier);
             });
             for (const identifier of identifiers) {
+                const movieTicketIdentifier = movieTickets.filter(m => m.identifier === identifier);
                 await this.cinerinoService.payment.authorizeMovieTicket({
                     object: {
-                        typeOf: factory.paymentMethodType.MovieTicket,
+                        typeOf: factory.action.authorize.paymentMethod.any.ResultType.Payment,
                         amount: 0,
-                        movieTickets: movieTickets.filter(m => m.identifier === identifier)
+                        movieTickets: movieTicketIdentifier,
+                        paymentMethod: movieTicketIdentifier[0].typeOf
                     },
                     purpose: transaction
                 });
@@ -1098,14 +1102,14 @@ export class PurchaseService {
     /**
      * 外部チケット認証処理
      */
-    public async externalTicketAuthenticationProcess(params: {
-        ticketType: ExternalTicketType;
+    public async movieTicketAuthenticationProcess(params: {
+        paymentMethodType: factory.chevre.paymentMethodType;
         inputDataList: {
             knyknrNo: string;
             pinCd: string;
         }[];
     }) {
-        const ticketType = params.ticketType;
+        const paymentMethodType = params.paymentMethodType;
         const inputDataList = params.inputDataList;
         const transaction = this.data.transaction;
         const seller = this.data.seller;
@@ -1121,14 +1125,14 @@ export class PurchaseService {
         const coaInfo = screeningEvent.coaInfo;
         const movieTickets = inputDataList.map((i) => {
             return {
-                typeOf: <factory.paymentMethodType.MovieTicket>factory.paymentMethodType.MovieTicket,
+                typeOf: paymentMethodType,
                 project: seller.project,
                 identifier: i.knyknrNo, // 購入管理番号
                 accessCode: i.pinCd // PINコード
             };
         });
         const checkMovieTicketAction = await this.cinerinoService.payment.checkMovieTicket({
-            typeOf: factory.paymentMethodType.MovieTicket,
+            typeOf: paymentMethodType,
             movieTickets: movieTickets.map((movieTicket) => {
                 return {
                     ...movieTicket,
@@ -1194,11 +1198,11 @@ export class PurchaseService {
                 results.push(data);
             }
         }
-        if (ticketType === ExternalTicketType.MovieTicket) {
+        if (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket) {
             this.data.mvtkTickets = results;
             this.data.checkMovieTicketAction = checkMovieTicketAction;
         }
-        if (ticketType === ExternalTicketType.MGTicket) {
+        if (paymentMethodType === factory.chevre.paymentMethodType.MGTicket) {
             this.data.mgTickets = results;
             this.data.checkMgTicketAction = checkMovieTicketAction;
         }

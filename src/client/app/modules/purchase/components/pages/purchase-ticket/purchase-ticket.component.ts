@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { factory } from '@cinerino/sdk';
 import { environment } from '../../../../../../environments/environment';
 import { getTicketPrice, is4DX } from '../../../../../functions';
-import { ExternalTicketType } from '../../../../../models';
 import {
     ErrorService,
-    IExternalTicket,
+    IMovieTicket,
     ISalesTicketResult,
     PurchaseService,
     UserService
@@ -47,7 +47,7 @@ interface Ioffer {
     };
 }
 
-interface ISalesExternalTicket extends IExternalTicket {
+interface ISalesMovieTicket extends IMovieTicket {
     id: string;
     selected: boolean;
     addGlasses: number;
@@ -76,13 +76,13 @@ export class PurchaseTicketComponent implements OnInit {
     public discountConditionsModal: boolean;
     public notSelectModal: boolean;
     public salesTickets: ISalesTicketResult[];
-    public salesMvtkTickets: ISalesExternalTicket[];
-    public salesMGTickets: ISalesExternalTicket[];
+    public salesMvtkTickets: ISalesMovieTicket[];
+    public salesMGTickets: ISalesMovieTicket[];
     public salesPointTickets: ISalesPointTicket[];
     public ticketForm: FormGroup;
     public getTicketPrice = getTicketPrice;
     public is4DX = is4DX;
-    public externalTicketType = ExternalTicketType;
+    public movieTicketType = factory.chevre.paymentMethodType;
 
     constructor(
         public purchase: PurchaseService,
@@ -102,8 +102,8 @@ export class PurchaseTicketComponent implements OnInit {
         this.ticketForm = this.formBuilder.group({});
         try {
             this.salesTickets = this.createSalseTickets();
-            this.salesMvtkTickets = this.createSalseExternalTickets({ ticketType: ExternalTicketType.MovieTicket });
-            this.salesMGTickets = this.createSalseExternalTickets({ ticketType: ExternalTicketType.MGTicket });
+            this.salesMvtkTickets = this.createSalseMovieTickets({ paymentMethodType: factory.chevre.paymentMethodType.MovieTicket });
+            this.salesMGTickets = this.createSalseMovieTickets({ paymentMethodType: factory.chevre.paymentMethodType.MGTicket });
             this.salesPointTickets = this.createSalsePointTickets();
             this.setOffers();
             this.totalPrice = this.getTotalPrice();
@@ -160,10 +160,10 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 外部チケットリスト生成
      */
-    private createSalseExternalTickets(params: { ticketType: ExternalTicketType }) {
+    private createSalseMovieTickets(params: { paymentMethodType: factory.chevre.paymentMethodType }) {
         const results = [];
-        const ticketType = params.ticketType;
-        const tickets = (ticketType === ExternalTicketType.MovieTicket)
+        const paymentMethodType = params.paymentMethodType;
+        const tickets = (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
             ? this.purchase.data.mvtkTickets
             : this.purchase.data.mgTickets;
         for (const ticket of tickets) {
@@ -251,9 +251,9 @@ export class PurchaseTicketComponent implements OnInit {
      */
     public updateSalseTickets() {
         // ムビチケ
-        this.updateSalseExternalTickets({ ticketType: ExternalTicketType.MovieTicket });
+        this.updateSalseMovieTickets({ paymentMethodType: factory.chevre.paymentMethodType.MovieTicket });
         // MGチケット
-        this.updateSalseExternalTickets({ ticketType: ExternalTicketType.MGTicket });
+        this.updateSalseMovieTickets({ paymentMethodType: factory.chevre.paymentMethodType.MGTicket });
         // ポイント券種
         for (const ticket of this.salesPointTickets) {
             ticket.selected = false;
@@ -282,9 +282,9 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 外部チケット券種リスト更新
      */
-    public updateSalseExternalTickets(params: { ticketType: ExternalTicketType }) {
-        const ticketType = params.ticketType;
-        const tickets = (ticketType === ExternalTicketType.MovieTicket)
+    public updateSalseMovieTickets(params: { paymentMethodType: factory.chevre.paymentMethodType }) {
+        const paymentMethodType = params.paymentMethodType;
+        const tickets = (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
             ? this.salesMvtkTickets
             : this.salesMGTickets;
         for (const ticket of tickets) {
@@ -561,7 +561,7 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 外部チケット券種選択
      */
-    public selectExternalTicket(ticket: ISalesExternalTicket) {
+    public selectMovieTicket(ticket: ISalesMovieTicket) {
         const target = this.offers.find((offer) => {
             return (offer.seatNumber === this.selectOffer.seatNumber);
         });
@@ -612,7 +612,7 @@ export class PurchaseTicketComponent implements OnInit {
      * 販売券種金額取得
      */
     public getSalseTicketPrice(
-        offer: ISalesTicketResult | ISalesExternalTicket | ISalesPointTicket
+        offer: ISalesTicketResult | ISalesMovieTicket | ISalesPointTicket
     ) {
         if (this.selectOffer === undefined) {
             return offer.salePrice;

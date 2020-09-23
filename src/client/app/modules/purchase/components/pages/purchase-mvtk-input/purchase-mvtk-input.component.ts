@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ExternalTicketType } from '../../../../../models';
+import { factory } from '@cinerino/sdk';
 import { PurchaseService } from '../../../../../services';
 
 @Component({
@@ -95,14 +95,14 @@ export class PurchaseMvtkInputComponent implements OnInit {
             return;
         }
         try {
-            const ticketType = ExternalTicketType.MovieTicket;
+            const paymentMethodType = factory.chevre.paymentMethodType.MovieTicket;
             const inputDataList = forms.map((mvtkForm) => {
                 return {
                     knyknrNo: mvtkForm.controls.code.value,
                     pinCd: mvtkForm.controls.password.value
                 };
             });
-            await this.purchase.externalTicketAuthenticationProcess({ ticketType, inputDataList });
+            await this.purchase.movieTicketAuthenticationProcess({ paymentMethodType, inputDataList });
             this.router.navigate(['purchase/mvtk/confirm']);
         } catch (err) {
             console.error(err);

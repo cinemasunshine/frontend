@@ -27,8 +27,8 @@ export class PurchaseSeatComponent implements OnInit {
     public seats: ISeat[];
     public screenData: {
         screenConfig: IScreenConfig;
-        status: COA.services.reserve.IStateReserveSeatResult;
-        screen: COA.services.master.IScreenResult;
+        status: COA.factory.reserve.IStateReserveSeatResult;
+        screen: COA.factory.master.IScreenResult;
     };
     public environment = environment;
     public seatRegistrationErrorModal: boolean;
@@ -93,8 +93,8 @@ export class PurchaseSeatComponent implements OnInit {
         screenCode: string;
     }): Promise<{
         screenConfig: IScreenConfig,
-        status: COA.services.reserve.IStateReserveSeatResult
-        screen: COA.services.master.IScreenResult
+        status: COA.factory.reserve.IStateReserveSeatResult
+        screen: COA.factory.master.IScreenResult
     }> {
         const DIGITS = { '02': -2, '03': -3 };
         const theaterCode = `00${params.theaterCode}`.slice(DIGITS['02']);

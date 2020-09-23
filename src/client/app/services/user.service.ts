@@ -3,8 +3,6 @@ import { factory } from '@cinerino/sdk';
 import { CinerinoService } from './cinerino.service';
 import { SaveType, StorageService } from './storage.service';
 
-type IAccount = factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>;
-
 /**
  * ネイティブアプリフラグ
  */
@@ -39,7 +37,7 @@ export interface IUserData {
     profile?: factory.person.IProfile;
     creditCards: factory.chevre.paymentMethod.paymentCard.creditCard.ICheckedCard[];
     accessToken?: string;
-    account?: IAccount;
+    account?: factory.ownershipInfo.IOwnershipInfo<factory.ownershipInfo.IGoodWithDetail>;
     clientId?: string;
 }
 
@@ -146,12 +144,12 @@ export class UserService {
     */
    private async searchPointAccount() {
     // 口座検索
-    const searchResult = await this.cinerinoService.ownershipInfo.search<factory.ownershipInfo.AccountGoodType.Account>({
+    const searchResult = await this.cinerinoService.ownershipInfo.search({
         sort: {
             ownedFrom: factory.sortType.Ascending
         },
         typeOfGood: {
-            typeOf: factory.ownershipInfo.AccountGoodType.Account,
+            typeOf: 'Account',
             accountType: 'Point'
         }
     });

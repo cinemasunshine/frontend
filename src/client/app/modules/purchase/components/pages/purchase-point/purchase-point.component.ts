@@ -18,7 +18,7 @@ import {
 export class PurchasePointComponent implements OnInit {
 
     public isLoading: boolean;
-    public pointTickets: COA.services.master.ITicketResult[];
+    public pointTickets: COA.factory.master.ITicketResult[];
     public ticketValueList: number[];
     public selectTickets: {
         [key: string]: number;

@@ -2,7 +2,7 @@
     <h1 class="page-ttl">券種選択</h1>
     <p class="read">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
 
-    <div *ngIf="purchase.isUsedExternalTicket({ ticketType: externalTicketType.MovieTicket }) && purchase.data.mvtkTickets.length === 0"
+    <div *ngIf="purchase.isUsedMovieTicket({ ticketType: movieTicketType.MovieTicket }) && purchase.data.mvtkTickets.length === 0"
         class="box radius bg-ultra-light-gray mb-middle mvtk">
         <dl class="d-table">
             <dt class="d-td">ムビチケ券を利用される方</dt>
@@ -15,7 +15,7 @@
             </dd>
         </dl>
     </div>
-    <!-- <div *ngIf="purchase.isUsedExternalTicket({ ticketType: externalTicketType.MGTicket }) && purchase.data.mgTickets.length === 0"
+    <!-- <div *ngIf="purchase.isUsedMovieTicket({ ticketType: movieTicketType.MGTicket }) && purchase.data.mgTickets.length === 0"
         class="box radius bg-ultra-light-gray mb-middle mg">
         <dl class="d-table">
             <dt class="d-td">MGチケットを利用される方</dt>
@@ -104,7 +104,7 @@
                 </dt>
                 <dd class="d-td width-small">
                     <div class="button blue-button ticket-type-select">
-                        <button type="button" (click)="selectExternalTicket(ticket)">選択</button>
+                        <button type="button" (click)="selectMovieTicket(ticket)">選択</button>
                     </div>
                 </dd>
             </dl>
@@ -121,7 +121,7 @@
                 </dt>
                 <dd class="d-td width-small">
                     <div class="button blue-button ticket-type-select">
-                        <button type="button" (click)="selectExternalTicket(ticket)">選択</button>
+                        <button type="button" (click)="selectMovieTicket(ticket)">選択</button>
                     </div>
                 </dd>
             </dl>
