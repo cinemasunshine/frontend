@@ -1133,22 +1133,11 @@ var TestGuardService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./app/models/externalTicket.ts":
-/*!**************************************!*\
-  !*** ./app/models/externalTicket.ts ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
 /***/ "./app/models/index.ts":
 /*!*****************************!*\
   !*** ./app/models/index.ts ***!
   \*****************************/
-/*! no static exports found */
+/*! exports provided: Performance, SeatStatus */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1158,10 +1147,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _screen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./screen */ "./app/models/screen.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SeatStatus", function() { return _screen__WEBPACK_IMPORTED_MODULE_1__["SeatStatus"]; });
-
-/* harmony import */ var _externalTicket__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./externalTicket */ "./app/models/externalTicket.ts");
-/* harmony import */ var _externalTicket__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_externalTicket__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _externalTicket__WEBPACK_IMPORTED_MODULE_2__) if(["Performance","SeatStatus","default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _externalTicket__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
 
 
@@ -3347,28 +3332,6 @@ var CinerinoService = /** @class */ (function () {
         });
     };
     /**
-     * MGチケットコード取得
-     */
-    CinerinoService.prototype.mgTicketcode = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mg/ticketcode";
-                        return [4 /*yield*/, this.http.post(url, args).toPromise()];
-                    case 1:
-                        result = _a.sent();
-                        // 暫定的に対応
-                        if (result.name === 'COAServiceError') {
-                            throw new Error('COAServiceError');
-                        }
-                        return [2 /*return*/, result];
-                }
-            });
-        });
-    };
-    /**
      * 券種取得
      * @method getSalesTickets
      * @param {COA.factory.reserve.ISalesTicketArgs} args
@@ -3444,7 +3407,7 @@ var ErrorService = /** @class */ (function () {
 /*!*******************************!*\
   !*** ./app/services/index.ts ***!
   \*******************************/
-/*! exports provided: AwsCognitoService, CallNativeService, InAppBrowserTarget, ErrorService, PurchaseService, CinerinoService, SaveType, StorageService, FlgMember, UserService, UtilService, InquiryService */
+/*! exports provided: ErrorService, PurchaseService, FlgMember, UserService, AwsCognitoService, CallNativeService, InAppBrowserTarget, CinerinoService, SaveType, StorageService, UtilService, InquiryService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3745,8 +3708,7 @@ var PurchaseService = /** @class */ (function () {
         if (data === null) {
             this.data = {
                 salesTickets: [],
-                mvtkTickets: [],
-                mgTickets: [],
+                movieTickets: [],
                 pointTickets: [],
                 orderCount: 0,
                 incentive: 0,
@@ -3770,8 +3732,7 @@ var PurchaseService = /** @class */ (function () {
     PurchaseService.prototype.reset = function () {
         this.data = {
             salesTickets: [],
-            mvtkTickets: [],
-            mgTickets: [],
+            movieTickets: [],
             pointTickets: [],
             orderCount: 0,
             incentive: 0,
@@ -4144,13 +4105,11 @@ var PurchaseService = /** @class */ (function () {
             || this.data.screeningEvent === undefined) {
             throw new Error('status is different');
         }
-        var targetTickets = (params.paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MovieTicket)
-            ? this.data.mvtkTickets
-            : this.data.mgTickets;
+        var tickets = this.data.movieTickets;
         var purchaseNoInfoList = [];
         var seats = [];
         var _loop_2 = function (offer) {
-            var findResult = targetTickets.find(function (t) {
+            var findResult = tickets.find(function (t) {
                 return (t.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
                     && t.ticketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
             });
@@ -4935,14 +4894,8 @@ var PurchaseService = /** @class */ (function () {
                         _i++;
                         return [3 /*break*/, 3];
                     case 6:
-                        if (paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MovieTicket) {
-                            this.data.mvtkTickets = results;
-                            this.data.checkMovieTicketAction = checkMovieTicketAction;
-                        }
-                        if (paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MGTicket) {
-                            this.data.mgTickets = results;
-                            this.data.checkMgTicketAction = checkMovieTicketAction;
-                        }
+                        this.data.movieTickets = results;
+                        this.data.checkMovieTicketAction = checkMovieTicketAction;
                         this.save();
                         return [2 /*return*/];
                 }
@@ -5434,9 +5387,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var environment = {
     production: false,
-    PORTAL_SITE_URL: '/#/purchase/schedule',
-    APP_SITE_URL: 'https://localhost:3333',
-    API_ENDPOINT: 'https://localhost',
+    PORTAL_SITE_URL: 'https://ssk-portal2018-frontend-win-dev.azurewebsites.net/',
+    APP_SITE_URL: 'https://sskts-ticket-development.azurewebsites.net',
+    API_ENDPOINT: '',
     FRONTEND_ENDPOINT: 'https://sskts-frontend-development.azurewebsites.net',
     ENTRANCE_SERVER_URL: 'https://d2n1h4enbzumbc.cloudfront.net',
     MVTK_COMPANY_CODE: 'SSK000',
@@ -5449,7 +5402,7 @@ var environment = {
     POINT_TICKET: _ticket__WEBPACK_IMPORTED_MODULE_0__["DEVELOPMENT_POINT_TICKET"],
     ANALYTICS_ID: 'UA-99018492-2',
     MEMBER_TICKET: _ticket__WEBPACK_IMPORTED_MODULE_0__["DEVELOPMENT_MEMBER_TICKET"],
-    TRANSACTION_TIME: '120',
+    TRANSACTION_TIME: '10',
     SALES_END_TIME_VALUE: '10',
     SALES_END_TIME_UNIT: 'minutes',
     WINDOW_TIME_FROM_VALUE: '0',

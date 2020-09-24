@@ -79,19 +79,11 @@ export interface IPurchaseData {
     /**
      * ムビチケ券種情報
      */
-    mvtkTickets: IMovieTicket[];
+    movieTickets: IMovieTicket[];
     /**
      * ムビチケ使用情報
      */
     checkMovieTicketAction?: factory.action.check.paymentMethod.movieTicket.IAction;
-    /**
-     * MGチケット券種種情報
-     */
-    mgTickets: IMovieTicket[];
-    /**
-     * MGチケット使用情報
-     */
-    checkMgTicketAction?: factory.action.check.paymentMethod.movieTicket.IAction;
     /**
      * インセンティブ情報
      */
@@ -158,8 +150,7 @@ export class PurchaseService {
         if (data === null) {
             this.data = {
                 salesTickets: [],
-                mvtkTickets: [],
-                mgTickets: [],
+                movieTickets: [],
                 pointTickets: [],
                 orderCount: 0,
                 incentive: 0,
@@ -186,8 +177,7 @@ export class PurchaseService {
     public reset() {
         this.data = {
             salesTickets: [],
-            mvtkTickets: [],
-            mgTickets: [],
+            movieTickets: [],
             pointTickets: [],
             orderCount: 0,
             incentive: 0,
@@ -586,14 +576,12 @@ export class PurchaseService {
             || this.data.screeningEvent === undefined) {
             throw new Error('status is different');
         }
-        const targetTickets = (params.paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
-            ? this.data.mvtkTickets
-            : this.data.mgTickets;
+        const tickets = this.data.movieTickets;
         const purchaseNoInfoList: mvtkReserve.services.seat.seatInfoSync.IKnyknrNoInfo[] = [];
         const seats: { zskCd: string; }[] = [];
 
         for (const offer of this.data.seatReservationAuthorization.object.acceptedOffer) {
-            const findResult = targetTickets.find((t) => {
+            const findResult = tickets.find((t) => {
                 return (t.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
                     && t.ticketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
             });
@@ -1198,14 +1186,8 @@ export class PurchaseService {
                 results.push(data);
             }
         }
-        if (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket) {
-            this.data.mvtkTickets = results;
-            this.data.checkMovieTicketAction = checkMovieTicketAction;
-        }
-        if (paymentMethodType === factory.chevre.paymentMethodType.MGTicket) {
-            this.data.mgTickets = results;
-            this.data.checkMgTicketAction = checkMovieTicketAction;
-        }
+        this.data.movieTickets = results;
+        this.data.checkMovieTicketAction = checkMovieTicketAction;
         this.save();
     }
 }

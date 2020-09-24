@@ -8,5 +8,4 @@ const purchase = require("../controllers/purchase/purchase.controller");
 const router = express.Router();
 router.get('/getSeatState', purchase.getSeatState);
 router.post('/mvtk/ticketcode', purchase.mvtkTicketcode);
-router.post('/mg/ticketcode', purchase.mgTicketcode);
 exports.default = router;

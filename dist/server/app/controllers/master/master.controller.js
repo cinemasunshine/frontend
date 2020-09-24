@@ -28,7 +28,14 @@ function getSalesTickets(req, res) {
         try {
             log('getSalesTickets');
             const args = req.query;
-            const result = yield COA.services.reserve.salesTicket(args);
+            const service = new COA.service.Reserve({
+                endpoint: process.env.COA_ENDPOINT,
+                auth: new COA.auth.RefreshToken({
+                    endpoint: process.env.COA_ENDPOINT,
+                    refreshToken: process.env.COA_REFRESH_TOKEN
+                })
+            });
+            const result = yield service.salesTicket(args);
             res.json(result);
         }
         catch (err) {
@@ -49,7 +56,14 @@ function getTickets(req, res) {
         try {
             log('getTickets');
             const args = req.query;
-            const result = yield COA.services.master.ticket(args);
+            const service = new COA.service.Master({
+                endpoint: process.env.COA_ENDPOINT,
+                auth: new COA.auth.RefreshToken({
+                    endpoint: process.env.COA_ENDPOINT,
+                    refreshToken: process.env.COA_REFRESH_TOKEN
+                })
+            });
+            const result = yield service.ticket(args);
             res.json(result);
         }
         catch (err) {
@@ -70,7 +84,14 @@ function getScreens(req, res) {
         try {
             log('getScreens');
             const args = req.query;
-            const result = yield COA.services.master.screen(args);
+            const service = new COA.service.Master({
+                endpoint: process.env.COA_ENDPOINT,
+                auth: new COA.auth.RefreshToken({
+                    endpoint: process.env.COA_ENDPOINT,
+                    refreshToken: process.env.COA_REFRESH_TOKEN
+                })
+            });
+            const result = yield service.screen(args);
             res.json(result);
         }
         catch (err) {

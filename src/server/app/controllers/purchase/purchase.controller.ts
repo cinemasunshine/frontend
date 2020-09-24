@@ -18,7 +18,14 @@ export async function getSeatState(req: Request, res: Response): Promise<void> {
     log('getSeatState');
     try {
         const args = req.query;
-        const result = await COA.services.reserve.stateReserveSeat(args);
+        const service = new COA.service.Reserve({
+            endpoint: <string>process.env.COA_ENDPOINT,
+            auth: new COA.auth.RefreshToken({
+                endpoint: <string>process.env.COA_ENDPOINT,
+                refreshToken: process.env.COA_REFRESH_TOKEN
+            })
+        });
+        const result = await service.stateReserveSeat(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -36,24 +43,18 @@ export async function mvtkTicketcode(req: Request, res: Response): Promise<void>
     log('mvtkTicketcode');
     try {
         const args = req.body;
-        const result = await COA.services.master.mvtkTicketcode(args);
+        const service = new COA.service.Master({
+            endpoint: <string>process.env.COA_ENDPOINT,
+            auth: new COA.auth.RefreshToken({
+                endpoint: <string>process.env.COA_ENDPOINT,
+                refreshToken: process.env.COA_REFRESH_TOKEN
+            })
+        });
+        const result = await service.mvtkTicketcode(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
     }
 }
 
-/**
- * MGチケットチケットコード取得
- */
-export async function mgTicketcode(req: Request, res: Response): Promise<void> {
-    log('mgTicketcode');
-    try {
-        const args = req.body;
-        const result = await COA.services.master.mvtkTicketcode(args);
-        res.json(result);
-    } catch (err) {
-        errorProsess(res, err);
-    }
-}
 

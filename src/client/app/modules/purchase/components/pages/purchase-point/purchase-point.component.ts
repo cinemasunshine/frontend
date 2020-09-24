@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { factory } from '@cinerino/sdk';
 import * as COA from '@motionpicture/coa-service';
 import {
     CinerinoService,
@@ -25,6 +26,7 @@ export class PurchasePointComponent implements OnInit {
     };
     public pointAhortageAlertModal: boolean;
     public notSelectAlertModal: boolean;
+    public availableBalance: number;
 
     constructor(
         public user: UserService,
@@ -44,9 +46,13 @@ export class PurchasePointComponent implements OnInit {
             const tmpSeatReservationAuthorization = this.purchase.data.tmpSeatReservationAuthorization;
             if (screeningEvent === undefined
                 || screeningEvent.coaInfo === undefined
-                || tmpSeatReservationAuthorization === undefined) {
+                || tmpSeatReservationAuthorization === undefined
+                || this.user.data.account === undefined) {
                 throw new Error('status is different');
             }
+            this.availableBalance = (<
+                factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>
+                >this.user.data.account).typeOfGood.availableBalance;
             const reserveLength = tmpSeatReservationAuthorization.object.acceptedOffer.length;
             this.ticketValueList = [];
             for (let i = 0; i < (reserveLength + 1); i++) {
@@ -88,7 +94,10 @@ export class PurchasePointComponent implements OnInit {
 
             return;
         }
-        if (this.user.data.account.typeOfGood.availableBalance < usePoint) {
+        const account = <
+            factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>
+            >this.user.data.account;
+        if (account.typeOfGood.availableBalance < usePoint) {
             this.pointAhortageAlertModal = true;
 
             return;

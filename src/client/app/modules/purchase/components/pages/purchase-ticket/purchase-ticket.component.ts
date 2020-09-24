@@ -76,8 +76,7 @@ export class PurchaseTicketComponent implements OnInit {
     public discountConditionsModal: boolean;
     public notSelectModal: boolean;
     public salesTickets: ISalesTicketResult[];
-    public salesMvtkTickets: ISalesMovieTicket[];
-    public salesMGTickets: ISalesMovieTicket[];
+    public salesMovieTickets: ISalesMovieTicket[];
     public salesPointTickets: ISalesPointTicket[];
     public ticketForm: FormGroup;
     public getTicketPrice = getTicketPrice;
@@ -102,8 +101,7 @@ export class PurchaseTicketComponent implements OnInit {
         this.ticketForm = this.formBuilder.group({});
         try {
             this.salesTickets = this.createSalseTickets();
-            this.salesMvtkTickets = this.createSalseMovieTickets({ paymentMethodType: factory.chevre.paymentMethodType.MovieTicket });
-            this.salesMGTickets = this.createSalseMovieTickets({ paymentMethodType: factory.chevre.paymentMethodType.MGTicket });
+            this.salesMovieTickets = this.createSalseMovieTickets();
             this.salesPointTickets = this.createSalsePointTickets();
             this.setOffers();
             this.totalPrice = this.getTotalPrice();
@@ -160,12 +158,9 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 外部チケットリスト生成
      */
-    private createSalseMovieTickets(params: { paymentMethodType: factory.chevre.paymentMethodType }) {
+    private createSalseMovieTickets() {
         const results = [];
-        const paymentMethodType = params.paymentMethodType;
-        const tickets = (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
-            ? this.purchase.data.mvtkTickets
-            : this.purchase.data.mgTickets;
+        const tickets =  this.purchase.data.movieTickets;
         for (const ticket of tickets) {
             for (let i = 0; i < Number(ticket.ykknInfo.ykknKnshbtsmiNum); i++) {
                 const DIGITS = -2;
@@ -251,9 +246,7 @@ export class PurchaseTicketComponent implements OnInit {
      */
     public updateSalseTickets() {
         // ムビチケ
-        this.updateSalseMovieTickets({ paymentMethodType: factory.chevre.paymentMethodType.MovieTicket });
-        // MGチケット
-        this.updateSalseMovieTickets({ paymentMethodType: factory.chevre.paymentMethodType.MGTicket });
+        this.updateSalseMovieTickets();
         // ポイント券種
         for (const ticket of this.salesPointTickets) {
             ticket.selected = false;
@@ -282,11 +275,8 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 外部チケット券種リスト更新
      */
-    public updateSalseMovieTickets(params: { paymentMethodType: factory.chevre.paymentMethodType }) {
-        const paymentMethodType = params.paymentMethodType;
-        const tickets = (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
-            ? this.salesMvtkTickets
-            : this.salesMGTickets;
+    public updateSalseMovieTickets() {
+        const tickets = this.salesMovieTickets;
         for (const ticket of tickets) {
             ticket.selected = false;
         }
