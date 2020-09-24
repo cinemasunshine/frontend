@@ -224,7 +224,8 @@ export class PurchaseSeatComponent implements OnInit {
                         mvtkKbnDenshiken: '00',
                         mvtkKbnMaeuriken: '00',
                         mvtkKbnKensyu: '00',
-                        mvtkSalesPrice: 0
+                        mvtkSalesPrice: 0,
+                        kbnMgtk: ''
                     }
                 };
             });

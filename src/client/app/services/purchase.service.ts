@@ -83,7 +83,7 @@ export interface IPurchaseData {
     /**
      * ムビチケ使用情報
      */
-    checkMovieTicketAction?: factory.action.check.paymentMethod.movieTicket.IAction;
+    checkMovieTicketActions: factory.action.check.paymentMethod.movieTicket.IAction[];
     /**
      * インセンティブ情報
      */
@@ -112,7 +112,8 @@ export interface IMovieTicket {
         knyknrNo: string;
         pinCd: string;
     };
-    ticketcodeResult: COA.factory.master.IMvtkTicketcodeResult;
+    ticketcodeResult: COA.factory.master.IMvtkTicketcodeResult | COA.factory.master.IMgtkTicketcodeResult;
+    paymentMethodType: factory.chevre.paymentMethodType;
 }
 
 /**
@@ -154,7 +155,8 @@ export class PurchaseService {
                 pointTickets: [],
                 orderCount: 0,
                 incentive: 0,
-                isCreditCardError: false
+                isCreditCardError: false,
+                checkMovieTicketActions: []
             };
 
             return;
@@ -181,7 +183,8 @@ export class PurchaseService {
             pointTickets: [],
             orderCount: 0,
             incentive: 0,
-            isCreditCardError: false
+            isCreditCardError: false,
+            checkMovieTicketActions: []
         };
         this.save();
     }
@@ -444,16 +447,19 @@ export class PurchaseService {
         const today = moment().format('YYYYMMDD');
         const coaInfo = this.data.screeningEvent.superEvent.coaInfo;
         if (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket) {
-            return (coaInfo !== undefined
+            const movieTickets =
+                this.data.movieTickets.filter(m => m.paymentMethodType === factory.chevre.paymentMethodType.MovieTicket);
+            return (movieTickets.length === 0
+                && coaInfo !== undefined
                 && coaInfo.flgMvtkUse === '1'
                 && coaInfo.dateMvtkBegin !== undefined
                 && Number(coaInfo.dateMvtkBegin) <= Number(today));
         }
         if (paymentMethodType === factory.chevre.paymentMethodType.MGTicket) {
-            return (coaInfo !== undefined
-                && coaInfo.flgMvtkUse === '1'
-                && coaInfo.dateMvtkBegin !== undefined
-                && Number(coaInfo.dateMvtkBegin) <= Number(today));
+            const movieTickets =
+                this.data.movieTickets.filter(m => m.paymentMethodType === factory.chevre.paymentMethodType.MGTicket);
+            return (movieTickets.length === 0
+                && environment.USE_MG_TICKET);
         }
 
         return false;
@@ -499,19 +505,12 @@ export class PurchaseService {
      * @method isReserveMovieTicket
      * @returns {boolean}
      */
-    public isReserveMovieTicket(params: { paymentMethodType: factory.chevre.paymentMethodType }): boolean {
+    public isReserveMovieTicket(): boolean {
         if (this.data.seatReservationAuthorization === undefined) {
             return false;
         }
-        const paymentMethodType = params.paymentMethodType;
-        const findResult = this.data.seatReservationAuthorization.object.acceptedOffer.find((offer: any) => {
-            if (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket) {
-                return (offer.ticketInfo.mvtkNum !== '');
-            }
-            if (paymentMethodType === factory.chevre.paymentMethodType.MGTicket) {
-                return false;
-            }
-            return false;
+        const findResult = this.data.seatReservationAuthorization.object.acceptedOffer.find((offer) => {
+            return (offer.ticketInfo.mvtkNum !== '');
         });
         return (findResult !== undefined);
     }
@@ -560,94 +559,6 @@ export class PurchaseService {
         }
 
         return result;
-    }
-
-    /**
-     * 外部チケット着券情報取得
-     * @method getMovieTicketSeatInfoSync
-     */
-    public getMovieTicketSeatInfoSync(params: {
-        paymentMethodType: factory.chevre.paymentMethodType;
-        deleteFlag?: string
-        reservedDeviceType?: string
-    }) {
-        if (this.data.seatReservationAuthorization === undefined
-            || this.data.seatReservationAuthorization.result === undefined
-            || this.data.screeningEvent === undefined) {
-            throw new Error('status is different');
-        }
-        const tickets = this.data.movieTickets;
-        const purchaseNoInfoList: mvtkReserve.services.seat.seatInfoSync.IKnyknrNoInfo[] = [];
-        const seats: { zskCd: string; }[] = [];
-
-        for (const offer of this.data.seatReservationAuthorization.object.acceptedOffer) {
-            const findResult = tickets.find((t) => {
-                return (t.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
-                    && t.ticketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
-            });
-            if (findResult === undefined || findResult.input === undefined) {
-                continue;
-            }
-            const purchaseNoInfo = purchaseNoInfoList.find((info) => {
-                return (info.knyknrNo === findResult.knyknrNoInfo.knyknrNo);
-            });
-            if (purchaseNoInfo !== undefined) {
-                const knshInfo = purchaseNoInfo.knshInfo.find((info) => {
-                    return (info.knshTyp === findResult.ykknInfo.ykknshTyp);
-                });
-                if (knshInfo !== undefined) {
-                    knshInfo.miNum += 1;
-                } else {
-                    purchaseNoInfo.knshInfo.push({
-                        knshTyp: findResult.ykknInfo.ykknshTyp,
-                        miNum: 1
-                    });
-                }
-            } else {
-                purchaseNoInfoList.push({
-                    knyknrNo: findResult.knyknrNoInfo.knyknrNo,
-                    pinCd: findResult.input.pinCd,
-                    knshInfo: [{
-                        knshTyp: findResult.ykknInfo.ykknshTyp,
-                        miNum: 1
-                    }]
-                });
-            }
-            seats.push({ zskCd: offer.seatNumber });
-        }
-        if (purchaseNoInfoList.length === 0 || seats.length === 0) {
-            throw new Error('status is different');
-        }
-        const DIGITS = -2;
-        const coaInfo = this.data.screeningEvent.coaInfo;
-        if (coaInfo === undefined) {
-            throw new Error('coaInfo is undefined');
-        }
-        const day = moment(coaInfo.dateJouei).format('YYYY/MM/DD');
-        const time = `${new TimeFormatPipe().transform(this.data.screeningEvent.startDate, coaInfo.dateJouei)}:00`;
-        const tmpReserveNum = (<any>this.data.seatReservationAuthorization.result.responseBody).tmpReserveNum;
-        const systemReservationNumber = `${coaInfo.dateJouei}${tmpReserveNum}`;
-        const siteCode = String(Number(`00${coaInfo.theaterCode}`.slice(DIGITS)));
-        const deleteFlag = (params.deleteFlag === undefined) ? '' : params.deleteFlag;
-        const reservedDeviceType = (params.reservedDeviceType === undefined) ? '02' : params.reservedDeviceType;
-        const skhnCd = `${coaInfo.titleCode}${`00${coaInfo.titleBranchNum}`.slice(DIGITS)}`;
-
-        return {
-            kgygishCd: (params.paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
-                ? environment.MVTK_COMPANY_CODE
-                : environment.MG_COMPANY_CODE,
-            yykDvcTyp: reservedDeviceType,
-            trkshFlg: deleteFlag,
-            kgygishSstmZskyykNo: systemReservationNumber,
-            kgygishUsrZskyykNo: String(tmpReserveNum),
-            jeiDt: `${day} ${time}`,
-            kijYmd: day,
-            stCd: siteCode,
-            screnCd: coaInfo.screenCode,
-            knyknrNoInfo: purchaseNoInfoList,
-            zskInfo: seats,
-            skhnCd: skhnCd
-        };
     }
 
     /**
@@ -952,34 +863,36 @@ export class PurchaseService {
         }
         await this.cinerinoService.getServices();
         let order: factory.order.IOrder;
-        if (this.isReserveMovieTicket({ paymentMethodType: factory.chevre.paymentMethodType.MovieTicket })
-            && this.data.checkMovieTicketAction !== undefined) {
-            // ムビチケ利用
-            const checkMovieTicketAction = this.data.checkMovieTicketAction;
-            const movieTickets = createMovieTicketsFromAuthorizeSeatReservation({
-                authorizeSeatReservation: seatReservationAuthorization,
-                seller,
-                checkMovieTicketAction
-            });
-            const identifiers: string[] = [];
-            movieTickets.forEach((m) => {
-                const findResult = identifiers.find(i => i === m.identifier);
-                if (findResult !== undefined) {
-                    return;
-                }
-                identifiers.push(m.identifier);
-            });
-            for (const identifier of identifiers) {
-                const movieTicketIdentifier = movieTickets.filter(m => m.identifier === identifier);
-                await this.cinerinoService.payment.authorizeMovieTicket({
-                    object: {
-                        typeOf: factory.action.authorize.paymentMethod.any.ResultType.Payment,
-                        amount: 0,
-                        movieTickets: movieTicketIdentifier,
-                        paymentMethod: movieTicketIdentifier[0].typeOf
-                    },
-                    purpose: transaction
+        if (this.isReserveMovieTicket()
+            && this.data.checkMovieTicketActions.length > 0) {
+            // ムビチケ・MG利用
+            const checkMovieTicketActions = this.data.checkMovieTicketActions;
+            for (const checkMovieTicketAction of checkMovieTicketActions) {
+                const movieTickets = createMovieTicketsFromAuthorizeSeatReservation({
+                    authorizeSeatReservation: seatReservationAuthorization,
+                    seller,
+                    checkMovieTicketAction
                 });
+                const identifiers: string[] = [];
+                movieTickets.forEach((m) => {
+                    const findResult = identifiers.find(i => i === m.identifier);
+                    if (findResult !== undefined) {
+                        return;
+                    }
+                    identifiers.push(m.identifier);
+                });
+                for (const identifier of identifiers) {
+                    const movieTicketIdentifier = movieTickets.filter(m => m.identifier === identifier);
+                    await this.cinerinoService.payment.authorizeMovieTicket({
+                        object: {
+                            typeOf: factory.action.authorize.paymentMethod.any.ResultType.Payment,
+                            amount: 0,
+                            movieTickets: movieTicketIdentifier,
+                            paymentMethod: movieTicketIdentifier[0].typeOf
+                        },
+                        purpose: transaction
+                    });
+                }
             }
         }
         // 取引確定
@@ -1158,36 +1071,44 @@ export class PurchaseService {
             || purchaseNumberAuthResult.knyknrNoInfoOut === null) {
             throw new Error('purchaseNumberAuth error');
         }
-        const results = [];
+        const results: IMovieTicket[] = [];
         for (const knyknrNoInfo of purchaseNumberAuthResult.knyknrNoInfoOut) {
             if (knyknrNoInfo.ykknInfo === null) {
                 continue;
             }
             for (const ykknInfo of knyknrNoInfo.ykknInfo) {
-                const ticketcodeParams = {
-                    theaterCode: coaInfo.theaterCode,
-                    kbnDenshiken: knyknrNoInfo.dnshKmTyp,
-                    kbnMaeuriken: knyknrNoInfo.znkkkytsknGkjknTyp,
-                    kbnKensyu: ykknInfo.ykknshTyp,
-                    salesPrice: Number(ykknInfo.knshknhmbiUnip),
-                    appPrice: Number(ykknInfo.kijUnip),
-                    kbnEisyahousiki: ykknInfo.eishhshkTyp,
-                    titleCode: coaInfo.titleCode,
-                    titleBranchNum: coaInfo.titleBranchNum,
-                    dateJouei: coaInfo.dateJouei
-                };
-                const ticketcodeResult = await this.cinerinoService.mvtkTicketcode(ticketcodeParams);
+                const ticketcodeResult = (paymentMethodType === factory.chevre.paymentMethodType.MovieTicket)
+                    ? await this.cinerinoService.mvtkTicketcode({
+                        theaterCode: coaInfo.theaterCode,
+                        kbnDenshiken: knyknrNoInfo.dnshKmTyp,
+                        kbnMaeuriken: knyknrNoInfo.znkkkytsknGkjknTyp,
+                        kbnKensyu: ykknInfo.ykknshTyp,
+                        salesPrice: Number(ykknInfo.knshknhmbiUnip),
+                        appPrice: Number(ykknInfo.kijUnip),
+                        kbnEisyahousiki: ykknInfo.eishhshkTyp,
+                        titleCode: coaInfo.titleCode,
+                        titleBranchNum: coaInfo.titleBranchNum,
+                        dateJouei: coaInfo.dateJouei
+                    })
+                    : await this.cinerinoService.mgTicketcode({
+                        theaterCode: coaInfo.theaterCode,
+                        mgtkTicketcode: ykknInfo.ykknshTyp,
+                        titleCode: coaInfo.titleCode,
+                        titleBranchNum: coaInfo.titleBranchNum,
+                        dateJouei: coaInfo.dateJouei
+                    });
                 const data = {
                     ticketcodeResult,
                     knyknrNoInfo,
                     ykknInfo,
-                    input: inputDataList.find(d => d.knyknrNo === knyknrNoInfo.knyknrNo)
+                    input: inputDataList.find(d => d.knyknrNo === knyknrNoInfo.knyknrNo),
+                    paymentMethodType
                 };
                 results.push(data);
             }
         }
-        this.data.movieTickets = results;
-        this.data.checkMovieTicketAction = checkMovieTicketAction;
+        this.data.movieTickets = [...this.data.movieTickets, ...results];
+        this.data.checkMovieTicketActions = [...this.data.checkMovieTicketActions, checkMovieTicketAction];
         this.save();
     }
 }

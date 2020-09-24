@@ -177,6 +177,22 @@ export class CinerinoService {
     }
 
     /**
+     * MGチケットコード取得
+     */
+    public async mgTicketcode(
+        args: COA.factory.master.IMgtkTicketcodeArgs
+    ) {
+        const url = `${environment.API_ENDPOINT}/api/purchase/mg/ticketcode`;
+        const result = await this.http.post<COA.factory.master.IMgtkTicketcodeResult>(url, args).toPromise();
+        // 暫定的に対応
+        if ((<any>result).name === 'COAServiceError') {
+            throw new Error('COAServiceError');
+        }
+
+        return result;
+    }
+
+    /**
      * 券種取得
      * @method getSalesTickets
      * @param {COA.factory.reserve.ISalesTicketArgs} args

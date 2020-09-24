@@ -57,4 +57,24 @@ export async function mvtkTicketcode(req: Request, res: Response): Promise<void>
     }
 }
 
+/**
+ * MGチケットチケットコード取得
+ */
+export async function mgTicketcode(req: Request, res: Response): Promise<void> {
+    log('mgTicketcode');
+    try {
+        const args = req.body;
+        const service = new COA.service.Master({
+            endpoint: <string>process.env.COA_ENDPOINT,
+            auth: new COA.auth.RefreshToken({
+                endpoint: <string>process.env.COA_ENDPOINT,
+                refreshToken: process.env.COA_REFRESH_TOKEN
+            })
+        });
+        const result = await service.mgtkTicketcode(args);
+        res.json(result);
+    } catch (err) {
+        errorProsess(res, err);
+    }
+}
 

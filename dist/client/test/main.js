@@ -752,9 +752,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "schedule2Performance", function() { return schedule2Performance; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterPerformancebyMovie", function() { return filterPerformancebyMovie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMovieTicketsFromAuthorizeSeatReservation", function() { return createMovieTicketsFromAuthorizeSeatReservation; });
-/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
-/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models */ "./app/models/index.ts");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models */ "./app/models/index.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -766,7 +764,6 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
 
 /**
  * 券種金額取得
@@ -798,7 +795,7 @@ function schedule2Performance(schedule, member) {
     schedule.movie.forEach(function (movie) {
         movie.screen.forEach(function (screen) {
             screen.time.forEach(function (time) {
-                performances.push(new _models__WEBPACK_IMPORTED_MODULE_1__["Performance"]({ date: date, movie: movie, screen: screen, time: time, member: member }));
+                performances.push(new _models__WEBPACK_IMPORTED_MODULE_0__["Performance"]({ date: date, movie: movie, screen: screen, time: time, member: member }));
             });
         });
     });
@@ -840,7 +837,7 @@ function createMovieTicketsFromAuthorizeSeatReservation(params) {
             return;
         }
         results.push({
-            typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].paymentMethodType.MovieTicket,
+            typeOf: findReservation.typeOf,
             identifier: findReservation.identifier,
             accessCode: findReservation.accessCode,
             serviceType: findReservation.serviceType,
@@ -3332,6 +3329,28 @@ var CinerinoService = /** @class */ (function () {
         });
     };
     /**
+     * MGチケットコード取得
+     */
+    CinerinoService.prototype.mgTicketcode = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].API_ENDPOINT + "/api/purchase/mg/ticketcode";
+                        return [4 /*yield*/, this.http.post(url, args).toPromise()];
+                    case 1:
+                        result = _a.sent();
+                        // 暫定的に対応
+                        if (result.name === 'COAServiceError') {
+                            throw new Error('COAServiceError');
+                        }
+                        return [2 /*return*/, result];
+                }
+            });
+        });
+    };
+    /**
      * 券種取得
      * @method getSalesTickets
      * @param {COA.factory.reserve.ISalesTicketArgs} args
@@ -3664,6 +3683,13 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 
 
 
@@ -3712,7 +3738,8 @@ var PurchaseService = /** @class */ (function () {
                 pointTickets: [],
                 orderCount: 0,
                 incentive: 0,
-                isCreditCardError: false
+                isCreditCardError: false,
+                checkMovieTicketActions: []
             };
             return;
         }
@@ -3736,7 +3763,8 @@ var PurchaseService = /** @class */ (function () {
             pointTickets: [],
             orderCount: 0,
             incentive: 0,
-            isCreditCardError: false
+            isCreditCardError: false,
+            checkMovieTicketActions: []
         };
         this.save();
     };
@@ -3984,16 +4012,17 @@ var PurchaseService = /** @class */ (function () {
         var today = moment__WEBPACK_IMPORTED_MODULE_1__().format('YYYYMMDD');
         var coaInfo = this.data.screeningEvent.superEvent.coaInfo;
         if (paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MovieTicket) {
-            return (coaInfo !== undefined
+            var movieTickets = this.data.movieTickets.filter(function (m) { return m.paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MovieTicket; });
+            return (movieTickets.length === 0
+                && coaInfo !== undefined
                 && coaInfo.flgMvtkUse === '1'
                 && coaInfo.dateMvtkBegin !== undefined
                 && Number(coaInfo.dateMvtkBegin) <= Number(today));
         }
         if (paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MGTicket) {
-            return (coaInfo !== undefined
-                && coaInfo.flgMvtkUse === '1'
-                && coaInfo.dateMvtkBegin !== undefined
-                && Number(coaInfo.dateMvtkBegin) <= Number(today));
+            var movieTickets = this.data.movieTickets.filter(function (m) { return m.paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MGTicket; });
+            return (movieTickets.length === 0
+                && _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].USE_MG_TICKET);
         }
         return false;
     };
@@ -4029,19 +4058,12 @@ var PurchaseService = /** @class */ (function () {
      * @method isReserveMovieTicket
      * @returns {boolean}
      */
-    PurchaseService.prototype.isReserveMovieTicket = function (params) {
+    PurchaseService.prototype.isReserveMovieTicket = function () {
         if (this.data.seatReservationAuthorization === undefined) {
             return false;
         }
-        var paymentMethodType = params.paymentMethodType;
         var findResult = this.data.seatReservationAuthorization.object.acceptedOffer.find(function (offer) {
-            if (paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MovieTicket) {
-                return (offer.ticketInfo.mvtkNum !== '');
-            }
-            if (paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MGTicket) {
-                return false;
-            }
-            return false;
+            return (offer.ticketInfo.mvtkNum !== '');
         });
         return (findResult !== undefined);
     };
@@ -4094,93 +4116,6 @@ var PurchaseService = /** @class */ (function () {
                 break;
         }
         return result;
-    };
-    /**
-     * 外部チケット着券情報取得
-     * @method getMovieTicketSeatInfoSync
-     */
-    PurchaseService.prototype.getMovieTicketSeatInfoSync = function (params) {
-        if (this.data.seatReservationAuthorization === undefined
-            || this.data.seatReservationAuthorization.result === undefined
-            || this.data.screeningEvent === undefined) {
-            throw new Error('status is different');
-        }
-        var tickets = this.data.movieTickets;
-        var purchaseNoInfoList = [];
-        var seats = [];
-        var _loop_2 = function (offer) {
-            var findResult = tickets.find(function (t) {
-                return (t.knyknrNoInfo.knyknrNo === offer.ticketInfo.mvtkNum
-                    && t.ticketcodeResult.ticketCode === offer.ticketInfo.ticketCode);
-            });
-            if (findResult === undefined || findResult.input === undefined) {
-                return "continue";
-            }
-            var purchaseNoInfo = purchaseNoInfoList.find(function (info) {
-                return (info.knyknrNo === findResult.knyknrNoInfo.knyknrNo);
-            });
-            if (purchaseNoInfo !== undefined) {
-                var knshInfo = purchaseNoInfo.knshInfo.find(function (info) {
-                    return (info.knshTyp === findResult.ykknInfo.ykknshTyp);
-                });
-                if (knshInfo !== undefined) {
-                    knshInfo.miNum += 1;
-                }
-                else {
-                    purchaseNoInfo.knshInfo.push({
-                        knshTyp: findResult.ykknInfo.ykknshTyp,
-                        miNum: 1
-                    });
-                }
-            }
-            else {
-                purchaseNoInfoList.push({
-                    knyknrNo: findResult.knyknrNoInfo.knyknrNo,
-                    pinCd: findResult.input.pinCd,
-                    knshInfo: [{
-                            knshTyp: findResult.ykknInfo.ykknshTyp,
-                            miNum: 1
-                        }]
-                });
-            }
-            seats.push({ zskCd: offer.seatNumber });
-        };
-        for (var _i = 0, _a = this.data.seatReservationAuthorization.object.acceptedOffer; _i < _a.length; _i++) {
-            var offer = _a[_i];
-            _loop_2(offer);
-        }
-        if (purchaseNoInfoList.length === 0 || seats.length === 0) {
-            throw new Error('status is different');
-        }
-        var DIGITS = -2;
-        var coaInfo = this.data.screeningEvent.coaInfo;
-        if (coaInfo === undefined) {
-            throw new Error('coaInfo is undefined');
-        }
-        var day = moment__WEBPACK_IMPORTED_MODULE_1__(coaInfo.dateJouei).format('YYYY/MM/DD');
-        var time = new _modules_shared_pipes__WEBPACK_IMPORTED_MODULE_4__["TimeFormatPipe"]().transform(this.data.screeningEvent.startDate, coaInfo.dateJouei) + ":00";
-        var tmpReserveNum = this.data.seatReservationAuthorization.result.responseBody.tmpReserveNum;
-        var systemReservationNumber = "" + coaInfo.dateJouei + tmpReserveNum;
-        var siteCode = String(Number(("00" + coaInfo.theaterCode).slice(DIGITS)));
-        var deleteFlag = (params.deleteFlag === undefined) ? '' : params.deleteFlag;
-        var reservedDeviceType = (params.reservedDeviceType === undefined) ? '02' : params.reservedDeviceType;
-        var skhnCd = "" + coaInfo.titleCode + ("00" + coaInfo.titleBranchNum).slice(DIGITS);
-        return {
-            kgygishCd: (params.paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MovieTicket)
-                ? _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MVTK_COMPANY_CODE
-                : _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].MG_COMPANY_CODE,
-            yykDvcTyp: reservedDeviceType,
-            trkshFlg: deleteFlag,
-            kgygishSstmZskyykNo: systemReservationNumber,
-            kgygishUsrZskyykNo: String(tmpReserveNum),
-            jeiDt: day + " " + time,
-            kijYmd: day,
-            stCd: siteCode,
-            screnCd: coaInfo.screenCode,
-            knyknrNoInfo: purchaseNoInfoList,
-            zskInfo: seats,
-            skhnCd: skhnCd
-        };
     };
     /**
      * 取引開始処理
@@ -4535,7 +4470,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.pointPaymentProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var ticketNames, usePoint, _loop_3, this_2, _i, _a, offer, notes;
+            var ticketNames, usePoint, _loop_2, this_2, _i, _a, offer, notes;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4549,7 +4484,7 @@ var PurchaseService = /** @class */ (function () {
                         _b.sent();
                         ticketNames = [];
                         usePoint = 0;
-                        _loop_3 = function (offer) {
+                        _loop_2 = function (offer) {
                             var pointTicket = this_2.data.pointTickets.find(function (ticket) {
                                 return (ticket.ticketCode === offer.ticketInfo.ticketCode);
                             });
@@ -4562,7 +4497,7 @@ var PurchaseService = /** @class */ (function () {
                         this_2 = this;
                         for (_i = 0, _a = this.data.seatReservationAuthorization.object.acceptedOffer; _i < _a.length; _i++) {
                             offer = _a[_i];
-                            _loop_3(offer);
+                            _loop_2(offer);
                         }
                         notes = ticketNames.join(',');
                         return [4 /*yield*/, this.cinerinoService.payment.authorizeAccount({
@@ -4589,7 +4524,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.purchaseRegistrationProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var transaction, screeningEvent, seller, seatReservationAuthorization, customerContact, userName, order, checkMovieTicketAction, movieTickets, identifiers_2, _loop_4, this_3, _i, identifiers_1, identifier, confirmResult, complete, sendData, reservationRecord_1, updateRecordsArgs, err_2, itemOffered, reservationFor, theaterName, screenName, localNotificationArgs;
+            var transaction, screeningEvent, seller, seatReservationAuthorization, customerContact, userName, order, checkMovieTicketActions, _loop_3, this_3, _i, checkMovieTicketActions_1, checkMovieTicketAction, confirmResult, complete, sendData, reservationRecord_1, updateRecordsArgs, err_2, itemOffered, reservationFor, theaterName, screenName, localNotificationArgs;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -4609,50 +4544,71 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.cinerinoService.getServices()];
                     case 1:
                         _a.sent();
-                        if (!(this.isReserveMovieTicket({ paymentMethodType: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MovieTicket })
-                            && this.data.checkMovieTicketAction !== undefined)) return [3 /*break*/, 5];
-                        checkMovieTicketAction = this.data.checkMovieTicketAction;
-                        movieTickets = Object(_functions__WEBPACK_IMPORTED_MODULE_3__["createMovieTicketsFromAuthorizeSeatReservation"])({
-                            authorizeSeatReservation: seatReservationAuthorization,
-                            seller: seller,
-                            checkMovieTicketAction: checkMovieTicketAction
-                        });
-                        identifiers_2 = [];
-                        movieTickets.forEach(function (m) {
-                            var findResult = identifiers_2.find(function (i) { return i === m.identifier; });
-                            if (findResult !== undefined) {
-                                return;
-                            }
-                            identifiers_2.push(m.identifier);
-                        });
-                        _loop_4 = function (identifier) {
-                            var movieTicketIdentifier;
+                        if (!(this.isReserveMovieTicket()
+                            && this.data.checkMovieTicketActions.length > 0)) return [3 /*break*/, 5];
+                        checkMovieTicketActions = this.data.checkMovieTicketActions;
+                        _loop_3 = function (checkMovieTicketAction) {
+                            var movieTickets, identifiers, _loop_4, _i, identifiers_1, identifier;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
                                     case 0:
-                                        movieTicketIdentifier = movieTickets.filter(function (m) { return m.identifier === identifier; });
-                                        return [4 /*yield*/, this_3.cinerinoService.payment.authorizeMovieTicket({
-                                                object: {
-                                                    typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].action.authorize.paymentMethod.any.ResultType.Payment,
-                                                    amount: 0,
-                                                    movieTickets: movieTicketIdentifier,
-                                                    paymentMethod: movieTicketIdentifier[0].typeOf
-                                                },
-                                                purpose: transaction
-                                            })];
+                                        movieTickets = Object(_functions__WEBPACK_IMPORTED_MODULE_3__["createMovieTicketsFromAuthorizeSeatReservation"])({
+                                            authorizeSeatReservation: seatReservationAuthorization,
+                                            seller: seller,
+                                            checkMovieTicketAction: checkMovieTicketAction
+                                        });
+                                        identifiers = [];
+                                        movieTickets.forEach(function (m) {
+                                            var findResult = identifiers.find(function (i) { return i === m.identifier; });
+                                            if (findResult !== undefined) {
+                                                return;
+                                            }
+                                            identifiers.push(m.identifier);
+                                        });
+                                        _loop_4 = function (identifier) {
+                                            var movieTicketIdentifier;
+                                            return __generator(this, function (_a) {
+                                                switch (_a.label) {
+                                                    case 0:
+                                                        movieTicketIdentifier = movieTickets.filter(function (m) { return m.identifier === identifier; });
+                                                        return [4 /*yield*/, this_3.cinerinoService.payment.authorizeMovieTicket({
+                                                                object: {
+                                                                    typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].action.authorize.paymentMethod.any.ResultType.Payment,
+                                                                    amount: 0,
+                                                                    movieTickets: movieTicketIdentifier,
+                                                                    paymentMethod: movieTicketIdentifier[0].typeOf
+                                                                },
+                                                                purpose: transaction
+                                                            })];
+                                                    case 1:
+                                                        _a.sent();
+                                                        return [2 /*return*/];
+                                                }
+                                            });
+                                        };
+                                        _i = 0, identifiers_1 = identifiers;
+                                        _a.label = 1;
                                     case 1:
+                                        if (!(_i < identifiers_1.length)) return [3 /*break*/, 4];
+                                        identifier = identifiers_1[_i];
+                                        return [5 /*yield**/, _loop_4(identifier)];
+                                    case 2:
                                         _a.sent();
-                                        return [2 /*return*/];
+                                        _a.label = 3;
+                                    case 3:
+                                        _i++;
+                                        return [3 /*break*/, 1];
+                                    case 4: return [2 /*return*/];
                                 }
                             });
                         };
                         this_3 = this;
-                        _i = 0, identifiers_1 = identifiers_2;
+                        _i = 0, checkMovieTicketActions_1 = checkMovieTicketActions;
                         _a.label = 2;
                     case 2:
-                        if (!(_i < identifiers_1.length)) return [3 /*break*/, 5];
-                        identifier = identifiers_1[_i];
-                        return [5 /*yield**/, _loop_4(identifier)];
+                        if (!(_i < checkMovieTicketActions_1.length)) return [3 /*break*/, 5];
+                        checkMovieTicketAction = checkMovieTicketActions_1[_i];
+                        return [5 /*yield**/, _loop_3(checkMovieTicketAction)];
                     case 3:
                         _a.sent();
                         _a.label = 4;
@@ -4838,45 +4794,59 @@ var PurchaseService = /** @class */ (function () {
                         }
                         results = [];
                         _loop_5 = function (knyknrNoInfo) {
-                            var _i, _a, ykknInfo, ticketcodeParams, ticketcodeResult, data;
-                            return __generator(this, function (_b) {
-                                switch (_b.label) {
+                            var _i, _a, ykknInfo, ticketcodeResult, _b, data;
+                            return __generator(this, function (_c) {
+                                switch (_c.label) {
                                     case 0:
                                         if (knyknrNoInfo.ykknInfo === null) {
                                             return [2 /*return*/, "continue"];
                                         }
                                         _i = 0, _a = knyknrNoInfo.ykknInfo;
-                                        _b.label = 1;
+                                        _c.label = 1;
                                     case 1:
-                                        if (!(_i < _a.length)) return [3 /*break*/, 4];
+                                        if (!(_i < _a.length)) return [3 /*break*/, 7];
                                         ykknInfo = _a[_i];
-                                        ticketcodeParams = {
+                                        if (!(paymentMethodType === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.MovieTicket)) return [3 /*break*/, 3];
+                                        return [4 /*yield*/, this_4.cinerinoService.mvtkTicketcode({
+                                                theaterCode: coaInfo.theaterCode,
+                                                kbnDenshiken: knyknrNoInfo.dnshKmTyp,
+                                                kbnMaeuriken: knyknrNoInfo.znkkkytsknGkjknTyp,
+                                                kbnKensyu: ykknInfo.ykknshTyp,
+                                                salesPrice: Number(ykknInfo.knshknhmbiUnip),
+                                                appPrice: Number(ykknInfo.kijUnip),
+                                                kbnEisyahousiki: ykknInfo.eishhshkTyp,
+                                                titleCode: coaInfo.titleCode,
+                                                titleBranchNum: coaInfo.titleBranchNum,
+                                                dateJouei: coaInfo.dateJouei
+                                            })];
+                                    case 2:
+                                        _b = _c.sent();
+                                        return [3 /*break*/, 5];
+                                    case 3: return [4 /*yield*/, this_4.cinerinoService.mgTicketcode({
                                             theaterCode: coaInfo.theaterCode,
-                                            kbnDenshiken: knyknrNoInfo.dnshKmTyp,
-                                            kbnMaeuriken: knyknrNoInfo.znkkkytsknGkjknTyp,
-                                            kbnKensyu: ykknInfo.ykknshTyp,
-                                            salesPrice: Number(ykknInfo.knshknhmbiUnip),
-                                            appPrice: Number(ykknInfo.kijUnip),
-                                            kbnEisyahousiki: ykknInfo.eishhshkTyp,
+                                            mgtkTicketcode: ykknInfo.ykknshTyp,
                                             titleCode: coaInfo.titleCode,
                                             titleBranchNum: coaInfo.titleBranchNum,
                                             dateJouei: coaInfo.dateJouei
-                                        };
-                                        return [4 /*yield*/, this_4.cinerinoService.mvtkTicketcode(ticketcodeParams)];
-                                    case 2:
-                                        ticketcodeResult = _b.sent();
+                                        })];
+                                    case 4:
+                                        _b = _c.sent();
+                                        _c.label = 5;
+                                    case 5:
+                                        ticketcodeResult = _b;
                                         data = {
                                             ticketcodeResult: ticketcodeResult,
                                             knyknrNoInfo: knyknrNoInfo,
                                             ykknInfo: ykknInfo,
-                                            input: inputDataList.find(function (d) { return d.knyknrNo === knyknrNoInfo.knyknrNo; })
+                                            input: inputDataList.find(function (d) { return d.knyknrNo === knyknrNoInfo.knyknrNo; }),
+                                            paymentMethodType: paymentMethodType
                                         };
                                         results.push(data);
-                                        _b.label = 3;
-                                    case 3:
+                                        _c.label = 6;
+                                    case 6:
                                         _i++;
                                         return [3 /*break*/, 1];
-                                    case 4: return [2 /*return*/];
+                                    case 7: return [2 /*return*/];
                                 }
                             });
                         };
@@ -4894,8 +4864,8 @@ var PurchaseService = /** @class */ (function () {
                         _i++;
                         return [3 /*break*/, 3];
                     case 6:
-                        this.data.movieTickets = results;
-                        this.data.checkMovieTicketAction = checkMovieTicketAction;
+                        this.data.movieTickets = __spreadArrays(this.data.movieTickets, results);
+                        this.data.checkMovieTicketActions = __spreadArrays(this.data.checkMovieTicketActions, [checkMovieTicketAction]);
                         this.save();
                         return [2 /*return*/];
                 }
@@ -5392,14 +5362,13 @@ var environment = {
     API_ENDPOINT: '',
     FRONTEND_ENDPOINT: 'https://sskts-frontend-test.azurewebsites.net',
     ENTRANCE_SERVER_URL: 'https://d24x7394fq3aqi.cloudfront.net',
-    MVTK_COMPANY_CODE: 'SSK000',
-    MG_COMPANY_CODE: 'SSK000',
     COGNITO_REGION: 'ap-northeast-1',
     COGNITO_IDENTITY_POOL_ID: 'ap-northeast-1:b153d3f1-5e67-468e-8c69-ab938cf3d21e',
     COGNITO_USER_POOL_ID: '',
     COGNITO_CLIENT_ID: '',
     TOKEN_ISSUER: '',
     POINT_TICKET: _ticket__WEBPACK_IMPORTED_MODULE_0__["DEVELOPMENT_POINT_TICKET"],
+    USE_MG_TICKET: true,
     ANALYTICS_ID: 'UA-99018492-2',
     MEMBER_TICKET: _ticket__WEBPACK_IMPORTED_MODULE_0__["DEVELOPMENT_MEMBER_TICKET"],
     TRANSACTION_TIME: '10',

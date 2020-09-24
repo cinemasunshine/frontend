@@ -44,6 +44,7 @@ interface Ioffer {
         spseatAdd1: number;
         spseatAdd2: number;
         spseatKbn: string;
+        kbnMgtk?: string;
     };
 }
 
@@ -81,7 +82,7 @@ export class PurchaseTicketComponent implements OnInit {
     public ticketForm: FormGroup;
     public getTicketPrice = getTicketPrice;
     public is4DX = is4DX;
-    public movieTicketType = factory.chevre.paymentMethodType;
+    public paymentMethodType = factory.chevre.paymentMethodType;
 
     constructor(
         public purchase: PurchaseService,
@@ -361,13 +362,13 @@ export class PurchaseTicketComponent implements OnInit {
                     limitCount: 0,
                     limitUnit: '',
                     validation: false,
-                    ticketInfo: (<any>offer.ticketInfo)
+                    ticketInfo: offer.ticketInfo
                 };
             });
         } else if (this.purchase.data.seatReservationAuthorization !== undefined) {
             this.offers = this.purchase.data.seatReservationAuthorization.object.acceptedOffer.map((offer) => {
                 if (offer.ticketInfo.mvtkNum !== '') {
-                    // ムビチケ
+                    // ムビチケ・MG
                     return {
                         price: offer.price,
                         priceCurrency: offer.priceCurrency,
@@ -378,7 +379,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: 1,
                         limitUnit: '001',
                         validation: false,
-                        ticketInfo: (<any>offer.ticketInfo)
+                        ticketInfo: offer.ticketInfo
                     };
                 } else if (offer.ticketInfo.usePoint > 0) {
                     // ポイント
@@ -401,7 +402,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: ticket.limitCount,
                         limitUnit: ticket.limitUnit,
                         validation: false,
-                        ticketInfo: (<any>offer.ticketInfo)
+                        ticketInfo: offer.ticketInfo
                     };
                 } else {
                     // 通常
@@ -424,7 +425,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: ticket.limitCount,
                         limitUnit: ticket.limitUnit,
                         validation: false,
-                        ticketInfo: (<any>offer.ticketInfo)
+                        ticketInfo: offer.ticketInfo
                     };
                 }
             });
@@ -541,7 +542,8 @@ export class PurchaseTicketComponent implements OnInit {
             usePoint: usePoint,
             spseatAdd1: target.ticketInfo.spseatAdd1,
             spseatAdd2: target.ticketInfo.spseatAdd2,
-            spseatKbn: target.ticketInfo.spseatKbn
+            spseatKbn: target.ticketInfo.spseatKbn,
+            kbnMgtk: ''
         };
         this.totalPrice = this.getTotalPrice();
         this.updateSalseTickets();
@@ -591,7 +593,8 @@ export class PurchaseTicketComponent implements OnInit {
             ticketNameKana: ticket.ticketcodeResult.ticketNameKana,
             spseatAdd1: target.ticketInfo.spseatAdd1,
             spseatAdd2: target.ticketInfo.spseatAdd2,
-            spseatKbn: target.ticketInfo.spseatKbn
+            spseatKbn: target.ticketInfo.spseatKbn,
+            kbnMgtk: (ticket.paymentMethodType === this.paymentMethodType.MGTicket) ? 'MG' : ''
         };
         this.totalPrice = this.getTotalPrice();
         this.updateSalseTickets();

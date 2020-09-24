@@ -72,3 +72,27 @@ function mvtkTicketcode(req, res) {
     });
 }
 exports.mvtkTicketcode = mvtkTicketcode;
+/**
+ * MGチケットチケットコード取得
+ */
+function mgTicketcode(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        log('mgTicketcode');
+        try {
+            const args = req.body;
+            const service = new COA.service.Master({
+                endpoint: process.env.COA_ENDPOINT,
+                auth: new COA.auth.RefreshToken({
+                    endpoint: process.env.COA_ENDPOINT,
+                    refreshToken: process.env.COA_REFRESH_TOKEN
+                })
+            });
+            const result = yield service.mgtkTicketcode(args);
+            res.json(result);
+        }
+        catch (err) {
+            base_controller_1.errorProsess(res, err);
+        }
+    });
+}
+exports.mgTicketcode = mgTicketcode;
