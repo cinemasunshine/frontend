@@ -827,7 +827,9 @@ export class PurchaseService {
             ticketNames.push(`${offer.ticketInfo.ticketName} 引換`);
             usePoint += pointTicket.usePoint;
         }
-
+        const account = <
+            factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>
+            >this.userService.data.account;
         const notes = ticketNames.join(',');
 
         await this.cinerinoService.payment.authorizeAccount({
@@ -835,7 +837,11 @@ export class PurchaseService {
                 typeOf: factory.action.authorize.paymentMethod.any.ResultType.Payment,
                 amount: usePoint,
                 notes,
-                paymentMethod: factory.chevre.paymentMethodType.Account
+                paymentMethod: factory.chevre.paymentMethodType.Account,
+                fromAccount: {
+                    accountType: account.typeOfGood.accountType,
+                    accountNumber: account.typeOfGood.accountNumber
+                }
             },
             purpose: {
                 id: this.data.transaction.id,

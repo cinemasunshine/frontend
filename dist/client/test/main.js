@@ -4470,7 +4470,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.pointPaymentProcess = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var ticketNames, usePoint, _loop_2, this_2, _i, _a, offer, notes;
+            var ticketNames, usePoint, _loop_2, this_2, _i, _a, offer, account, notes;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4499,13 +4499,18 @@ var PurchaseService = /** @class */ (function () {
                             offer = _a[_i];
                             _loop_2(offer);
                         }
+                        account = this.userService.data.account;
                         notes = ticketNames.join(',');
                         return [4 /*yield*/, this.cinerinoService.payment.authorizeAccount({
                                 object: {
                                     typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].action.authorize.paymentMethod.any.ResultType.Payment,
                                     amount: usePoint,
                                     notes: notes,
-                                    paymentMethod: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.Account
+                                    paymentMethod: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.Account,
+                                    fromAccount: {
+                                        accountType: account.typeOfGood.accountType,
+                                        accountNumber: account.typeOfGood.accountNumber
+                                    }
                                 },
                                 purpose: {
                                     id: this.data.transaction.id,
