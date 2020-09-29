@@ -18,11 +18,11 @@
     <div *ngIf="purchase.isUsedMovieTicket({ paymentMethodType: paymentMethodType.MGTicket })"
         class="box radius bg-ultra-light-gray mb-middle mg">
         <dl class="d-table">
-            <dt class="d-td">MGチケットを利用される方</dt>
+            <dt class="d-td">CSチケットを利用される方</dt>
             <dd class="d-td width-medium">
                 <div class="ghost-button mg-button">
                     <a routerLink="/purchase/mg/input">
-                        MGチケットを利用する
+                        CSチケットを利用する
                     </a>
                 </div>
             </dd>
@@ -104,7 +104,7 @@
                         ムビチケ購入番号 {{ ticket.knyknrNoInfo.knyknrNo }}
                     </p>
                     <p *ngIf="ticket.paymentMethodType === paymentMethodType.MGTicket" class="small-x-text">
-                        MGチケット購入番号 {{ ticket.knyknrNoInfo.knyknrNo }}
+                        CSチケット購入番号 {{ ticket.knyknrNoInfo.knyknrNo }}
                     </p>
                 </dt>
                 <dd class="d-td width-small">

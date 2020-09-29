@@ -58,7 +58,7 @@ export async function mvtkTicketcode(req: Request, res: Response): Promise<void>
 }
 
 /**
- * MGチケットチケットコード取得
+ * CSチケットチケットコード取得
  */
 export async function mgTicketcode(req: Request, res: Response): Promise<void> {
     log('mgTicketcode');

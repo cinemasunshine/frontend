@@ -3329,7 +3329,7 @@ var CinerinoService = /** @class */ (function () {
         });
     };
     /**
-     * MGチケットコード取得
+     * CSチケットコード取得
      */
     CinerinoService.prototype.mgTicketcode = function (args) {
         return __awaiter(this, void 0, void 0, function () {

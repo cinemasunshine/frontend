@@ -177,7 +177,7 @@ export class CinerinoService {
     }
 
     /**
-     * MGチケットコード取得
+     * CSチケットコード取得
      */
     public async mgTicketcode(
         args: COA.factory.master.IMgtkTicketcodeArgs

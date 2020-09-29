@@ -1,7 +1,7 @@
 <div class="contents">
-    <h1 class="page-ttl">MGチケット認証</h1>
-    <p class="read">ご利用になるMGチケットの購入番号と、暗証番号を入力してください。
-        <br>複数枚ご利用になる場合は「MGチケットを追加」ボタンを押して追加してください。</p>
+    <h1 class="page-ttl">CSチケット認証</h1>
+    <p class="read">ご利用になるCSチケットの購入番号と、暗証番号を入力してください。
+        <br>複数枚ご利用になる場合は「CSチケットを追加」ボタンを押して追加してください。</p>
 
     <div *ngFor="let mvtkForm of forms; let index = index" class="ticket-list mb-middle">
         <form [formGroup]="mvtkForm">
@@ -12,30 +12,30 @@
                 <ul class="box radius bg-light-gray mb-small form-layout">
                     <li>
                         <dl>
-                            <dt>MGチケット購入番号</dt>
+                            <dt>CSチケット購入番号</dt>
                             <dd>
                                 <input class="mvtk-code" [class.validation]="mvtkForm.controls.code.invalid && mvtkForm.controls.code.touched" type="text" formControlName="code"
                                     autocomplete="off" placeholder="(例)012345789">
                                 <div *ngIf="mvtkForm.controls.code.invalid && mvtkForm.controls.code.touched">
-                                    <div *ngIf="mvtkForm.controls.code.errors?.required" class="validation-text">MGチケット購入番号が未入力です</div>
-                                    <div *ngIf="mvtkForm.controls.code.errors?.maxlength" class="validation-text">MGチケット購入番号は{{ mvtkForm.controls.code.errors?.maxlength.requiredLength }}文字で入力してください</div>
-                                    <div *ngIf="mvtkForm.controls.code.errors?.minlength" class="validation-text">MGチケット購入番号は{{ mvtkForm.controls.code.errors?.minlength.requiredLength }}文字で入力してください</div>
-                                    <div *ngIf="mvtkForm.controls.code.errors?.pattern" class="validation-text">MGチケット購入番号は英数字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.code.errors?.required" class="validation-text">CSチケット購入番号が未入力です</div>
+                                    <div *ngIf="mvtkForm.controls.code.errors?.maxlength" class="validation-text">CSチケット購入番号は{{ mvtkForm.controls.code.errors?.maxlength.requiredLength }}文字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.code.errors?.minlength" class="validation-text">CSチケット購入番号は{{ mvtkForm.controls.code.errors?.minlength.requiredLength }}文字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.code.errors?.pattern" class="validation-text">CSチケット購入番号は英数字で入力してください</div>
                                 </div>
                             </dd>
                         </dl>
                     </li>
                     <li>
                         <dl>
-                            <dt>MGチケット暗証番号</dt>
+                            <dt>CSチケット暗証番号</dt>
                             <dd>
                                 <input [class.validation]="mvtkForm.controls.password.invalid && mvtkForm.controls.password.touched" type="password"
                                     formControlName="password" autocomplete="off" placeholder="(例)0123" >
                                 <div *ngIf="mvtkForm.controls.password.invalid && mvtkForm.controls.password.touched">
-                                    <div *ngIf="mvtkForm.controls.password.errors?.required" class="validation-text">MGチケット暗証番号が未入力です</div>
-                                    <div *ngIf="mvtkForm.controls.password.errors?.maxlength" class="validation-text">MGチケット暗証番号は{{ mvtkForm.controls.password.errors?.maxlength.requiredLength }}文字で入力してください</div>
-                                    <div *ngIf="mvtkForm.controls.password.errors?.minlength" class="validation-text">MGチケット暗証番号は{{ mvtkForm.controls.password.errors?.minlength.requiredLength }}文字で入力してください</div>
-                                    <div *ngIf="mvtkForm.controls.password.errors?.pattern" class="validation-text">MGチケット暗証番号は数字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.password.errors?.required" class="validation-text">CSチケット暗証番号が未入力です</div>
+                                    <div *ngIf="mvtkForm.controls.password.errors?.maxlength" class="validation-text">CSチケット暗証番号は{{ mvtkForm.controls.password.errors?.maxlength.requiredLength }}文字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.password.errors?.minlength" class="validation-text">CSチケット暗証番号は{{ mvtkForm.controls.password.errors?.minlength.requiredLength }}文字で入力してください</div>
+                                    <div *ngIf="mvtkForm.controls.password.errors?.pattern" class="validation-text">CSチケット暗証番号は数字で入力してください</div>
                                 </div>
                             </dd>
                         </dl>
@@ -46,7 +46,7 @@
     </div>
 
     <div *ngIf="purchase.data.tmpSeatReservationAuthorization?.object.acceptedOffer.length > forms.length" class="button dark-blue-button add-button mb-middle center-button">
-        <a class="icon-add-white" (click)="addTicket()">MGチケットを追加</a>
+        <a class="icon-add-white" (click)="addTicket()">CSチケットを追加</a>
     </div>
 
     <div class="box radius bg-light-gray mb-small">
@@ -75,7 +75,7 @@
     <div class="modal-title large-text text-center mb-middle">
         <strong>認証に失敗しました</strong>
     </div>
-    <p class="text-center">購入番号と暗証番号、もしくはMGチケットの対象作品を再度ご確認ください。</p>
+    <p class="text-center">購入番号と暗証番号、もしくはCSチケットの対象作品を再度ご確認ください。</p>
 </app-modal>
 
 <app-loading [show]="isLoading"></app-loading>

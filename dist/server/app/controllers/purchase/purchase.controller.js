@@ -73,7 +73,7 @@ function mvtkTicketcode(req, res) {
 }
 exports.mvtkTicketcode = mvtkTicketcode;
 /**
- * MGチケットチケットコード取得
+ * CSチケットチケットコード取得
  */
 function mgTicketcode(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
