@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.5.3 - 2020-09-30
+### Added
+ - ミールクーポンに関する文言追加
+
 ## 6.5.2 - 2020-09-09
 ### Changed
  - GMOトークン決済用のjs変更
