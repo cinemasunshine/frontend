@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ExternalTicketType } from '../../../../../models';
+import { factory } from '@cinerino/sdk';
 import { PurchaseService } from '../../../../../services';
 
 @Component({
@@ -37,19 +37,19 @@ export class PurchaseMgInputComponent implements OnInit {
      * @method createForm
      */
     private createForm() {
-        const CODE_LENGTH = 10;
-        const PASSWORD_LENGTH = 4;
+        // const CODE_LENGTH = 10;
+        // const PASSWORD_LENGTH = 4;
         return this.formBuilder.group({
             code: ['', [
                 Validators.required,
-                Validators.maxLength(CODE_LENGTH),
-                Validators.minLength(CODE_LENGTH),
-                Validators.pattern(/^[0-9]+$/)
+                // Validators.maxLength(CODE_LENGTH),
+                // Validators.minLength(CODE_LENGTH),
+                Validators.pattern(/^[0-9a-zA-Z]+$/)
             ]],
             password: ['', [
                 Validators.required,
-                Validators.maxLength(PASSWORD_LENGTH),
-                Validators.minLength(PASSWORD_LENGTH),
+                // Validators.maxLength(PASSWORD_LENGTH),
+                // Validators.minLength(PASSWORD_LENGTH),
                 Validators.pattern(/^[0-9]+$/)
             ]]
         });
@@ -95,14 +95,14 @@ export class PurchaseMgInputComponent implements OnInit {
             return;
         }
         try {
-            const ticketType = ExternalTicketType.MGTicket;
+            const paymentMethodType = factory.chevre.paymentMethodType.MGTicket;
             const inputDataList = forms.map((mvtkForm) => {
                 return {
                     knyknrNo: mvtkForm.controls.code.value,
                     pinCd: mvtkForm.controls.password.value
                 };
             });
-            await this.purchase.externalTicketAuthenticationProcess({ ticketType, inputDataList });
+            await this.purchase.movieTicketAuthenticationProcess({ paymentMethodType, inputDataList });
             this.router.navigate(['purchase/mg/confirm']);
         } catch (err) {
             console.error(err);

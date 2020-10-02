@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { factory } from '@cinerino/sdk';
 import { environment } from '../../../../../../environments/environment';
 import { getTicketPrice, is4DX } from '../../../../../functions';
-import { ExternalTicketType } from '../../../../../models';
 import {
     ErrorService,
-    IExternalTicket,
+    IMovieTicket,
     ISalesTicketResult,
     PurchaseService,
     UserService
@@ -44,10 +44,11 @@ interface Ioffer {
         spseatAdd1: number;
         spseatAdd2: number;
         spseatKbn: string;
+        kbnMgtk?: string;
     };
 }
 
-interface ISalesExternalTicket extends IExternalTicket {
+interface ISalesMovieTicket extends IMovieTicket {
     id: string;
     selected: boolean;
     addGlasses: number;
@@ -76,13 +77,12 @@ export class PurchaseTicketComponent implements OnInit {
     public discountConditionsModal: boolean;
     public notSelectModal: boolean;
     public salesTickets: ISalesTicketResult[];
-    public salesMvtkTickets: ISalesExternalTicket[];
-    public salesMGTickets: ISalesExternalTicket[];
+    public salesMovieTickets: ISalesMovieTicket[];
     public salesPointTickets: ISalesPointTicket[];
     public ticketForm: FormGroup;
     public getTicketPrice = getTicketPrice;
     public is4DX = is4DX;
-    public externalTicketType = ExternalTicketType;
+    public paymentMethodType = factory.chevre.paymentMethodType;
 
     constructor(
         public purchase: PurchaseService,
@@ -102,8 +102,7 @@ export class PurchaseTicketComponent implements OnInit {
         this.ticketForm = this.formBuilder.group({});
         try {
             this.salesTickets = this.createSalseTickets();
-            this.salesMvtkTickets = this.createSalseExternalTickets({ ticketType: ExternalTicketType.MovieTicket });
-            this.salesMGTickets = this.createSalseExternalTickets({ ticketType: ExternalTicketType.MGTicket });
+            this.salesMovieTickets = this.createSalseMovieTickets();
             this.salesPointTickets = this.createSalsePointTickets();
             this.setOffers();
             this.totalPrice = this.getTotalPrice();
@@ -160,12 +159,9 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 外部チケットリスト生成
      */
-    private createSalseExternalTickets(params: { ticketType: ExternalTicketType }) {
+    private createSalseMovieTickets() {
         const results = [];
-        const ticketType = params.ticketType;
-        const tickets = (ticketType === ExternalTicketType.MovieTicket)
-            ? this.purchase.data.mvtkTickets
-            : this.purchase.data.mgTickets;
+        const tickets =  this.purchase.data.movieTickets;
         for (const ticket of tickets) {
             for (let i = 0; i < Number(ticket.ykknInfo.ykknKnshbtsmiNum); i++) {
                 const DIGITS = -2;
@@ -251,9 +247,7 @@ export class PurchaseTicketComponent implements OnInit {
      */
     public updateSalseTickets() {
         // ムビチケ
-        this.updateSalseExternalTickets({ ticketType: ExternalTicketType.MovieTicket });
-        // MGチケット
-        this.updateSalseExternalTickets({ ticketType: ExternalTicketType.MGTicket });
+        this.updateSalseMovieTickets();
         // ポイント券種
         for (const ticket of this.salesPointTickets) {
             ticket.selected = false;
@@ -282,11 +276,8 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 外部チケット券種リスト更新
      */
-    public updateSalseExternalTickets(params: { ticketType: ExternalTicketType }) {
-        const ticketType = params.ticketType;
-        const tickets = (ticketType === ExternalTicketType.MovieTicket)
-            ? this.salesMvtkTickets
-            : this.salesMGTickets;
+    public updateSalseMovieTickets() {
+        const tickets = this.salesMovieTickets;
         for (const ticket of tickets) {
             ticket.selected = false;
         }
@@ -371,13 +362,13 @@ export class PurchaseTicketComponent implements OnInit {
                     limitCount: 0,
                     limitUnit: '',
                     validation: false,
-                    ticketInfo: (<any>offer.ticketInfo)
+                    ticketInfo: offer.ticketInfo
                 };
             });
         } else if (this.purchase.data.seatReservationAuthorization !== undefined) {
             this.offers = this.purchase.data.seatReservationAuthorization.object.acceptedOffer.map((offer) => {
                 if (offer.ticketInfo.mvtkNum !== '') {
-                    // ムビチケ
+                    // ムビチケ・MG
                     return {
                         price: offer.price,
                         priceCurrency: offer.priceCurrency,
@@ -388,7 +379,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: 1,
                         limitUnit: '001',
                         validation: false,
-                        ticketInfo: (<any>offer.ticketInfo)
+                        ticketInfo: offer.ticketInfo
                     };
                 } else if (offer.ticketInfo.usePoint > 0) {
                     // ポイント
@@ -411,7 +402,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: ticket.limitCount,
                         limitUnit: ticket.limitUnit,
                         validation: false,
-                        ticketInfo: (<any>offer.ticketInfo)
+                        ticketInfo: offer.ticketInfo
                     };
                 } else {
                     // 通常
@@ -434,7 +425,7 @@ export class PurchaseTicketComponent implements OnInit {
                         limitCount: ticket.limitCount,
                         limitUnit: ticket.limitUnit,
                         validation: false,
-                        ticketInfo: (<any>offer.ticketInfo)
+                        ticketInfo: offer.ticketInfo
                     };
                 }
             });
@@ -551,7 +542,8 @@ export class PurchaseTicketComponent implements OnInit {
             usePoint: usePoint,
             spseatAdd1: target.ticketInfo.spseatAdd1,
             spseatAdd2: target.ticketInfo.spseatAdd2,
-            spseatKbn: target.ticketInfo.spseatKbn
+            spseatKbn: target.ticketInfo.spseatKbn,
+            kbnMgtk: ''
         };
         this.totalPrice = this.getTotalPrice();
         this.updateSalseTickets();
@@ -561,7 +553,7 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * 外部チケット券種選択
      */
-    public selectExternalTicket(ticket: ISalesExternalTicket) {
+    public selectMovieTicket(ticket: ISalesMovieTicket) {
         const target = this.offers.find((offer) => {
             return (offer.seatNumber === this.selectOffer.seatNumber);
         });
@@ -601,7 +593,8 @@ export class PurchaseTicketComponent implements OnInit {
             ticketNameKana: ticket.ticketcodeResult.ticketNameKana,
             spseatAdd1: target.ticketInfo.spseatAdd1,
             spseatAdd2: target.ticketInfo.spseatAdd2,
-            spseatKbn: target.ticketInfo.spseatKbn
+            spseatKbn: target.ticketInfo.spseatKbn,
+            kbnMgtk: (ticket.paymentMethodType === this.paymentMethodType.MGTicket) ? 'MG' : ''
         };
         this.totalPrice = this.getTotalPrice();
         this.updateSalseTickets();
@@ -612,7 +605,7 @@ export class PurchaseTicketComponent implements OnInit {
      * 販売券種金額取得
      */
     public getSalseTicketPrice(
-        offer: ISalesTicketResult | ISalesExternalTicket | ISalesPointTicket
+        offer: ISalesTicketResult | ISalesMovieTicket | ISalesPointTicket
     ) {
         if (this.selectOffer === undefined) {
             return offer.salePrice;

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * authorize
  */
-const reserve_1 = require("@motionpicture/coa-service/lib/services/reserve");
+const master_1 = require("@motionpicture/coa-service/lib/factory/master");
 const debug = require("debug");
 const moment = require("moment-timezone");
 const auth_model_1 = require("../../models/auth/auth.model");
@@ -49,10 +49,10 @@ function getCredentials(req, res) {
             let userName;
             const endpoint = getEndpoint(req);
             const clientId = req.body.clientId;
-            if (req.body.member === reserve_1.FlgMember.NonMember) {
+            if (req.body.member === master_1.FlgMember.NonMember) {
                 authModel = new auth_model_1.AuthModel(clientId);
             }
-            else if (req.body.member === reserve_1.FlgMember.Member) {
+            else if (req.body.member === master_1.FlgMember.Member) {
                 authModel = new auth2_model_1.Auth2Model({ clientId, session: req.session.auth });
             }
             else {
@@ -63,7 +63,7 @@ function getCredentials(req, res) {
                 auth: authModel.create()
             };
             const accessToken = yield options.auth.getAccessToken();
-            if (req.body.member === reserve_1.FlgMember.Member) {
+            if (req.body.member === master_1.FlgMember.Member) {
                 userName = options.auth.verifyIdToken({}).getUsername();
             }
             const projectId = process.env.PROJECT_ID;

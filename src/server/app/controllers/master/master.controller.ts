@@ -19,7 +19,14 @@ export async function getSalesTickets(req: Request, res: Response): Promise<void
     try {
         log('getSalesTickets');
         const args = req.query;
-        const result = await COA.services.reserve.salesTicket(args);
+        const service = new COA.service.Reserve({
+            endpoint: <string>process.env.COA_ENDPOINT,
+            auth: new COA.auth.RefreshToken({
+                endpoint: <string>process.env.COA_ENDPOINT,
+                refreshToken: process.env.COA_REFRESH_TOKEN
+            })
+        });
+        const result = await service.salesTicket(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -37,7 +44,14 @@ export async function getTickets(req: Request, res: Response): Promise<void> {
     try {
         log('getTickets');
         const args = req.query;
-        const result = await COA.services.master.ticket(args);
+        const service = new COA.service.Master({
+            endpoint: <string>process.env.COA_ENDPOINT,
+            auth: new COA.auth.RefreshToken({
+                endpoint: <string>process.env.COA_ENDPOINT,
+                refreshToken: process.env.COA_REFRESH_TOKEN
+            })
+        });
+        const result = await service.ticket(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);
@@ -55,7 +69,14 @@ export async function getScreens(req: Request, res: Response): Promise<void> {
     try {
         log('getScreens');
         const args = req.query;
-        const result = await COA.services.master.screen(args);
+        const service = new COA.service.Master({
+            endpoint: <string>process.env.COA_ENDPOINT,
+            auth: new COA.auth.RefreshToken({
+                endpoint: <string>process.env.COA_ENDPOINT,
+                refreshToken: process.env.COA_REFRESH_TOKEN
+            })
+        });
+        const result = await service.screen(args);
         res.json(result);
     } catch (err) {
         errorProsess(res, err);

@@ -84,8 +84,9 @@ export function createMovieTicketsFromAuthorizeSeatReservation(params: {
         if (findReservation === undefined) {
             return;
         }
+
         results.push({
-            typeOf: factory.paymentMethodType.MovieTicket,
+            typeOf: findReservation.typeOf,
             identifier: findReservation.identifier,
             accessCode: findReservation.accessCode,
             serviceType: findReservation.serviceType,
