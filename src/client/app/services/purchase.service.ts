@@ -453,12 +453,16 @@ export class PurchaseService {
                 && coaInfo !== undefined
                 && coaInfo.flgMvtkUse === '1'
                 && coaInfo.dateMvtkBegin !== undefined
-                && Number(coaInfo.dateMvtkBegin) <= Number(today));
+                && moment(coaInfo.dateMvtkBegin, 'YYYYMMDDD').unix() <= moment(today).unix());
         }
         if (paymentMethodType === factory.chevre.paymentMethodType.MGTicket) {
             const movieTickets =
                 this.data.movieTickets.filter(m => m.paymentMethodType === factory.chevre.paymentMethodType.MGTicket);
             return (movieTickets.length === 0
+                && coaInfo !== undefined
+                && coaInfo.flgMvtkUse === '1'
+                && coaInfo.dateMvtkBegin !== undefined
+                && moment(coaInfo.dateMvtkBegin, 'YYYYMMDDD').unix() <= moment(today).unix()
                 && environment.USE_MG_TICKET);
         }
 
