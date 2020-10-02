@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.6.0 - 2020-10-02
+### Added
+ - MGチケット決済追加
+
 ## 6.5.3 - 2020-09-30
 ### Added
  - ミールクーポンに関する文言追加

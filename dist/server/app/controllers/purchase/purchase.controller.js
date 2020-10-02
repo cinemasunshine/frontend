@@ -28,7 +28,14 @@ function getSeatState(req, res) {
         log('getSeatState');
         try {
             const args = req.query;
-            const result = yield COA.services.reserve.stateReserveSeat(args);
+            const service = new COA.service.Reserve({
+                endpoint: process.env.COA_ENDPOINT,
+                auth: new COA.auth.RefreshToken({
+                    endpoint: process.env.COA_ENDPOINT,
+                    refreshToken: process.env.COA_REFRESH_TOKEN
+                })
+            });
+            const result = yield service.stateReserveSeat(args);
             res.json(result);
         }
         catch (err) {
@@ -49,7 +56,14 @@ function mvtkTicketcode(req, res) {
         log('mvtkTicketcode');
         try {
             const args = req.body;
-            const result = yield COA.services.master.mvtkTicketcode(args);
+            const service = new COA.service.Master({
+                endpoint: process.env.COA_ENDPOINT,
+                auth: new COA.auth.RefreshToken({
+                    endpoint: process.env.COA_ENDPOINT,
+                    refreshToken: process.env.COA_REFRESH_TOKEN
+                })
+            });
+            const result = yield service.mvtkTicketcode(args);
             res.json(result);
         }
         catch (err) {
@@ -59,14 +73,21 @@ function mvtkTicketcode(req, res) {
 }
 exports.mvtkTicketcode = mvtkTicketcode;
 /**
- * MGチケットチケットコード取得
+ * CSチケットチケットコード取得
  */
 function mgTicketcode(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         log('mgTicketcode');
         try {
             const args = req.body;
-            const result = yield COA.services.master.mvtkTicketcode(args);
+            const service = new COA.service.Master({
+                endpoint: process.env.COA_ENDPOINT,
+                auth: new COA.auth.RefreshToken({
+                    endpoint: process.env.COA_ENDPOINT,
+                    refreshToken: process.env.COA_REFRESH_TOKEN
+                })
+            });
+            const result = yield service.mgtkTicketcode(args);
             res.json(result);
         }
         catch (err) {

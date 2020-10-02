@@ -1,7 +1,7 @@
 /**
  * authorize
  */
-import { FlgMember } from '@motionpicture/coa-service/lib/services/reserve';
+import { FlgMember } from '@motionpicture/coa-service/lib/factory/master';
 import * as debug from 'debug';
 import { NextFunction, Request, Response } from 'express';
 import * as moment from 'moment-timezone';

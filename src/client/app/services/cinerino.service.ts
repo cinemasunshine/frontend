@@ -134,28 +134,28 @@ export class CinerinoService {
 
     /**
      * 座席ステータス取得
-     * @param {COA.services.reserve.IStateReserveSeatArgs} args
+     * @param {COA.factory.reserve.IStateReserveSeatArgs} args
      */
     public async getSeatState(
-        args: COA.services.reserve.IStateReserveSeatArgs
+        args: COA.factory.reserve.IStateReserveSeatArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/purchase/getSeatState`;
 
-        return this.http.get<COA.services.reserve.IStateReserveSeatResult>(url, {
+        return this.http.get<COA.factory.reserve.IStateReserveSeatResult>(url, {
             params: <any>args
         }).toPromise();
     }
 
     /**
      * スクリーンマスタ取得
-     * @param {COA.services.master.IScreenArgs} args
+     * @param {COA.factory.master.IScreenArgs} args
      */
     public async getScreens(
-        args: COA.services.master.IScreenArgs
+        args: COA.factory.master.IScreenArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/master/getScreens`;
 
-        return this.http.get<COA.services.master.IScreenResult[]>(url, {
+        return this.http.get<COA.factory.master.IScreenResult[]>(url, {
             params: <any>args
         }).toPromise();
     }
@@ -164,10 +164,10 @@ export class CinerinoService {
      * ムビチケチケットコード取得
      */
     public async mvtkTicketcode(
-        args: COA.services.master.IMvtkTicketcodeArgs
+        args: COA.factory.master.IMvtkTicketcodeArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/purchase/mvtk/ticketcode`;
-        const result = await this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
+        const result = await this.http.post<COA.factory.master.IMvtkTicketcodeResult>(url, args).toPromise();
         // 暫定的に対応
         if ((<any>result).name === 'COAServiceError') {
             throw new Error('COAServiceError');
@@ -177,13 +177,13 @@ export class CinerinoService {
     }
 
     /**
-     * MGチケットコード取得
+     * CSチケットコード取得
      */
     public async mgTicketcode(
-        args: COA.services.master.IMvtkTicketcodeArgs
+        args: COA.factory.master.IMgtkTicketcodeArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/purchase/mg/ticketcode`;
-        const result = await this.http.post<COA.services.master.IMvtkTicketcodeResult>(url, args).toPromise();
+        const result = await this.http.post<COA.factory.master.IMgtkTicketcodeResult>(url, args).toPromise();
         // 暫定的に対応
         if ((<any>result).name === 'COAServiceError') {
             throw new Error('COAServiceError');
@@ -195,13 +195,13 @@ export class CinerinoService {
     /**
      * 券種取得
      * @method getSalesTickets
-     * @param {COA.services.reserve.ISalesTicketArgs} args
+     * @param {COA.factory.reserve.ISalesTicketArgs} args
      */
     public async getSalesTickets(
-        args: COA.services.reserve.ISalesTicketArgs
+        args: COA.factory.reserve.ISalesTicketArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/master/getSalesTickets`;
-        return this.http.get<COA.services.reserve.ISalesTicketResult[]>(url, {
+        return this.http.get<COA.factory.reserve.ISalesTicketResult[]>(url, {
             params: <any>args
         }).toPromise();
     }
@@ -209,13 +209,13 @@ export class CinerinoService {
     /**
      * 券種マスター一覧取得
      * @method getTickets
-     * @param {COA.services.reserve.ITicketArgs} args
+     * @param {COA.factory.reserve.ITicketArgs} args
      */
     public async getTickets(
-        args: COA.services.master.ITicketArgs
+        args: COA.factory.master.ITicketArgs
     ) {
         const url = `${environment.API_ENDPOINT}/api/master/getTickets`;
-        return this.http.get<COA.services.master.ITicketResult[]>(url, {
+        return this.http.get<COA.factory.master.ITicketResult[]>(url, {
             params: <any>args
         }).toPromise();
     }

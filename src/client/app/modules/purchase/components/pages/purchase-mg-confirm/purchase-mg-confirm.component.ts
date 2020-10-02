@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ErrorService, PurchaseService } from '../../../../../services';
+import { factory } from '@cinerino/sdk';
+import { ErrorService, IMovieTicket, PurchaseService } from '../../../../../services';
 
 @Component({
     selector: 'app-purchase-mg-confirm',
@@ -8,7 +9,7 @@ import { ErrorService, PurchaseService } from '../../../../../services';
     styleUrls: ['./purchase-mg-confirm.component.scss']
 })
 export class PurchaseMgConfirmComponent implements OnInit {
-
+    public tickets: IMovieTicket[];
     constructor(
         public purchase: PurchaseService,
         private router: Router,
@@ -17,7 +18,10 @@ export class PurchaseMgConfirmComponent implements OnInit {
 
     public ngOnInit() {
         window.scrollTo(0, 0);
-        if (this.purchase.data.mgTickets === undefined) {
+        this.tickets = this.purchase.data.movieTickets.filter(m => {
+            return m.paymentMethodType === factory.chevre.paymentMethodType.MGTicket;
+        });
+        if (this.tickets.length === 0) {
             this.error.redirect(new Error('status is different'));
         }
         // console.log(this.purchase.data.mvtkTickets);
