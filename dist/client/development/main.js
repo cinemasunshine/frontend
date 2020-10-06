@@ -4078,19 +4078,22 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.isIncentive = function () {
         var _this = this;
-        if (this.data.seatReservationAuthorization === undefined) {
+        var seatReservationAuthorization = this.data.seatReservationAuthorization;
+        if (seatReservationAuthorization === undefined) {
             return false;
         }
-        var pointTickets = [];
-        this.data.seatReservationAuthorization.object.acceptedOffer.forEach(function (offer) {
-            var pointTicket = _this.data.pointTickets.find(function (ticket) {
-                return (ticket.ticketCode === offer.ticketInfo.ticketCode);
-            });
-            if (pointTicket !== undefined) {
-                pointTickets.push(pointTicket);
-            }
+        var filterResult = seatReservationAuthorization.object.acceptedOffer.filter(function (o) {
+            // ポイント券種を除外
+            var isPointTicket = _this.data.pointTickets.find(function (t) { return t.ticketCode === o.ticketInfo.ticketCode; }) !== undefined;
+            return !isPointTicket;
+        }).filter(function (o) {
+            // MGチケット計上単価が0を除外
+            var findresult = _this.data.movieTickets.find(function (m) { return m.input !== undefined && m.input.knyknrNo === o.ticketInfo.mvtkNum; });
+            return !(o.ticketInfo.kbnMgtk === 'MG'
+                && findresult !== undefined
+                && Number(findresult.ykknInfo.kijUnip) === 0);
         });
-        return (pointTickets.length !== this.data.seatReservationAuthorization.object.acceptedOffer.length);
+        return (filterResult.length > 0);
     };
     /**
      * ポイントでの予約判定

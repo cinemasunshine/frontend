@@ -525,20 +525,25 @@ export class PurchaseService {
      * @returns {boolean}
      */
     public isIncentive(): boolean {
-        if (this.data.seatReservationAuthorization === undefined) {
+        const seatReservationAuthorization = this.data.seatReservationAuthorization;
+        if (seatReservationAuthorization === undefined) {
             return false;
         }
-        const pointTickets: COA.factory.master.ITicketResult[] = [];
-        this.data.seatReservationAuthorization.object.acceptedOffer.forEach((offer: any) => {
-            const pointTicket = this.data.pointTickets.find((ticket) => {
-                return (ticket.ticketCode === offer.ticketInfo.ticketCode);
+        const filterResult =
+            seatReservationAuthorization.object.acceptedOffer.filter(o => {
+                // ポイント券種を除外
+                const isPointTicket =
+                    this.data.pointTickets.find(t => t.ticketCode === o.ticketInfo.ticketCode) !== undefined;
+                return !isPointTicket;
+            }).filter(o => {
+                // MGチケット計上単価が0を除外
+                const findresult =
+                    this.data.movieTickets.find(m => m.input !== undefined && m.input.knyknrNo === o.ticketInfo.mvtkNum);
+                return !(o.ticketInfo.kbnMgtk === 'MG'
+                && findresult !== undefined
+                && Number(findresult.ykknInfo.kijUnip) === 0);
             });
-            if (pointTicket !== undefined) {
-                pointTickets.push(pointTicket);
-            }
-        });
-
-        return (pointTickets.length !== this.data.seatReservationAuthorization.object.acceptedOffer.length);
+        return (filterResult.length > 0);
     }
 
     /**
