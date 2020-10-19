@@ -916,6 +916,7 @@ export class PurchaseService {
             sendEmailMessage: true,
             email: {
                 sender: { email: 'noreply@ticket-cinemasunshine.com' },
+                about: 'チケット予約完了のお知らせ',
                 template: (this.userService.isMember())
                     ? getPurchaseCompletionMemberEmail({
                         seller, screeningEvent, customerContact, seatReservationAuthorization, userName
