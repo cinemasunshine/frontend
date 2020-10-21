@@ -4632,6 +4632,7 @@ var PurchaseService = /** @class */ (function () {
                             sendEmailMessage: true,
                             email: {
                                 sender: { email: 'noreply@ticket-cinemasunshine.com' },
+                                about: 'チケット予約完了のお知らせ',
                                 template: (this.userService.isMember())
                                     ? Object(_functions__WEBPACK_IMPORTED_MODULE_3__["getPurchaseCompletionMemberEmail"])({
                                         seller: seller, screeningEvent: screeningEvent, customerContact: customerContact, seatReservationAuthorization: seatReservationAuthorization, userName: userName
