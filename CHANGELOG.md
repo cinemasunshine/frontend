@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.6.2 - 2020-10-21
+### Changed
+ - 購入完了メール件名変更
+
 ## 6.6.1 - 2020-10-07
 ### Changed
  - MGチケットのポイント付与条件変更
