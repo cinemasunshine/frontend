@@ -4740,7 +4740,7 @@ var PurchaseService = /** @class */ (function () {
      */
     PurchaseService.prototype.movieTicketAuthenticationProcess = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var paymentMethodType, inputDataList, transaction, seller, screeningEvent, coaInfo, movieTickets, checkMovieTicketAction, success, purchaseNumberAuthResult, results, _loop_5, this_4, _i, _a, knyknrNoInfo;
+            var paymentMethodType, inputDataList, transaction, seller, screeningEvent, coaInfo, movieTickets, checkMovieTicketAction, success, purchaseNumberAuthResult, results, _loop_5, this_4, _i, _a, knyknrNoInfo, filterMovieTickets, filterCheckMovieTicketActions;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -4877,8 +4877,11 @@ var PurchaseService = /** @class */ (function () {
                         _i++;
                         return [3 /*break*/, 3];
                     case 6:
-                        this.data.movieTickets = __spreadArrays(this.data.movieTickets, results);
-                        this.data.checkMovieTicketActions = __spreadArrays(this.data.checkMovieTicketActions, [checkMovieTicketAction]);
+                        filterMovieTickets = this.data.movieTickets.filter(function (m) { return m.paymentMethodType !== paymentMethodType; });
+                        this.data.movieTickets = __spreadArrays(filterMovieTickets, results);
+                        filterCheckMovieTicketActions = this.data.checkMovieTicketActions.filter(function (c) { return (c.result !== undefined
+                            && c.result.movieTickets.find(function (m) { return m.typeOf !== paymentMethodType; }) !== undefined); });
+                        this.data.checkMovieTicketActions = __spreadArrays(filterCheckMovieTicketActions, [checkMovieTicketAction]);
                         this.save();
                         return [2 /*return*/];
                 }
