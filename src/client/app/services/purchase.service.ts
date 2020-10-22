@@ -540,8 +540,8 @@ export class PurchaseService {
                 const findresult =
                     this.data.movieTickets.find(m => m.input !== undefined && m.input.knyknrNo === o.ticketInfo.mvtkNum);
                 return !(o.ticketInfo.kbnMgtk === 'MG'
-                && findresult !== undefined
-                && Number(findresult.ykknInfo.kijUnip) === 0);
+                    && findresult !== undefined
+                    && Number(findresult.ykknInfo.kijUnip) === 0);
             });
         return (filterResult.length > 0);
     }
@@ -1123,8 +1123,13 @@ export class PurchaseService {
                 results.push(data);
             }
         }
-        this.data.movieTickets = [...this.data.movieTickets, ...results];
-        this.data.checkMovieTicketActions = [...this.data.checkMovieTicketActions, checkMovieTicketAction];
+        const filterMovieTickets = this.data.movieTickets.filter(m => m.paymentMethodType !== paymentMethodType);
+        this.data.movieTickets = [...filterMovieTickets, ...results];
+        const filterCheckMovieTicketActions = this.data.checkMovieTicketActions.filter(
+            c => (c.result !== undefined
+                && c.result.movieTickets.find(m => m.typeOf !== paymentMethodType) !== undefined)
+        );
+        this.data.checkMovieTicketActions = [...filterCheckMovieTicketActions, checkMovieTicketAction];
         this.save();
     }
 }

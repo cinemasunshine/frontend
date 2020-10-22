@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.6.3 - 2020-10-22
+### Fixed
+ - ムビチケ重複不具合修正
+
 ## 6.6.2 - 2020-10-21
 ### Changed
  - 購入完了メール件名変更
