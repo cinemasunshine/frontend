@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.6.5 - 2020-10-28
+### Changed
+ - 本番環境でMGチケット使用可能へ変更
+
 ## 6.6.4 - 2020-10-28
 ### Changed
  - 不要なサーバーサイドレンダリングを廃止
