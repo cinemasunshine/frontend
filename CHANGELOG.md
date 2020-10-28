@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.6.4 - 2020-10-28
+### Changed
+ - 不要なサーバーサイドレンダリングを廃止
+ -  WEBSITE_TIME_ZONE、MVTK_RESERVE_ENDPOINT廃止
+
 ## 6.6.3 - 2020-10-22
 ### Fixed
  - ムビチケ重複不具合修正

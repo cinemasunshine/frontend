@@ -1,6 +1,6 @@
 {
   "name": "sskts-frontend",
-  "version": "6.6.3",
+  "version": "6.6.4",
   "scripts": {
     "ng": "ng",
     "build-client": "npm run build-client-development && npm run build-client-test && npm run build-client-production && node bin/rename dist/client/production/index.production.html dist/client/production/index.html",
@@ -106,7 +106,7 @@
     "karma-coverage-istanbul-reporter": "^2.1.0",
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.14.1",
     "nyc": "^14.1.1",
     "postcss": "^7.0.18",
     "postcss-cli": "^6.1.3",
