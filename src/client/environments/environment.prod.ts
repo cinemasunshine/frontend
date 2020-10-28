@@ -15,7 +15,7 @@ export const environment = {
     TOKEN_ISSUER: '',
 
     POINT_TICKET: PRODUCTION_POINT_TICKET,
-    USE_MG_TICKET: false,
+    USE_MG_TICKET: true,
 
     ANALYTICS_ID: 'UA-8383230-1',
 
