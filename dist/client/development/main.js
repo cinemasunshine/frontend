@@ -841,7 +841,7 @@ function createMovieTicketsFromAuthorizeSeatReservation(params) {
             identifier: findReservation.identifier,
             accessCode: findReservation.accessCode,
             serviceType: findReservation.serviceType,
-            serviceOutput: __assign(__assign({}, findReservation.serviceOutput), { reservedTicket: __assign(__assign({}, findReservation.serviceOutput.reservedTicket), { ticketedSeat: __assign(__assign({}, findReservation.serviceOutput.reservedTicket.ticketedSeat), { seatNumber: o.seatNumber, seatSection: o.seatSection }) }) }),
+            serviceOutput: __assign({}, findReservation.serviceOutput, { reservedTicket: __assign({}, findReservation.serviceOutput.reservedTicket, { ticketedSeat: __assign({}, findReservation.serviceOutput.reservedTicket.ticketedSeat, { seatNumber: o.seatNumber, seatSection: o.seatSection }) }) }),
             project: seller.project
         });
     });
@@ -977,11 +977,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/user.service */ "./app/services/user.service.ts");
 /* harmony import */ var _services_error_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/error.service */ "./app/services/error.service.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -2761,11 +2760,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -3095,11 +3093,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -3491,11 +3488,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -3576,7 +3572,7 @@ var InquiryService = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         return [4 /*yield*/, this.sasakiService.seller.search({
-                                location: { branchCodes: [branchCode] }
+                                branchCode: { $eq: branchCode }
                             })];
                     case 2:
                         result = _a.sent();
@@ -3590,7 +3586,7 @@ var InquiryService = /** @class */ (function () {
      */
     InquiryService.prototype.findByOrderInquiryKey = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var order;
+            var findResult, order;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.sasakiService.getServices()];
@@ -3598,7 +3594,8 @@ var InquiryService = /** @class */ (function () {
                         _a.sent();
                         return [4 /*yield*/, this.sasakiService.order.findByOrderInquiryKey4sskts(params)];
                     case 2:
-                        order = _a.sent();
+                        findResult = _a.sent();
+                        order = (Array.isArray(findResult)) ? findResult[0] : findResult;
                         return [2 /*return*/, order];
                 }
             });
@@ -3648,11 +3645,10 @@ var __assign = (undefined && undefined.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -3682,13 +3678,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-};
-var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
 };
 
 
@@ -4146,7 +4135,7 @@ var PurchaseService = /** @class */ (function () {
                         }
                         branchCode = this.data.screeningEvent.superEvent.location.branchCode;
                         return [4 /*yield*/, this.cinerinoService.seller.search({
-                                location: { branchCodes: [branchCode] }
+                                branchCode: { $eq: branchCode }
                             })];
                     case 2:
                         searchResult = _b.sent();
@@ -4347,7 +4336,7 @@ var PurchaseService = /** @class */ (function () {
                         // 入力情報を登録
                         return [4 /*yield*/, this.cinerinoService.transaction.placeOrder.setProfile({
                                 id: this.data.transaction.id,
-                                agent: __assign(__assign({}, customerContact), { telephone: Object(_functions__WEBPACK_IMPORTED_MODULE_3__["formatTelephone"])(customerContact.telephone, 'E.164') })
+                                agent: __assign({}, customerContact, { telephone: Object(_functions__WEBPACK_IMPORTED_MODULE_3__["formatTelephone"])(customerContact.telephone, 'E.164') })
                             })];
                     case 2:
                         // 入力情報を登録
@@ -4771,7 +4760,7 @@ var PurchaseService = /** @class */ (function () {
                         return [4 /*yield*/, this.cinerinoService.payment.checkMovieTicket({
                                 typeOf: paymentMethodType,
                                 movieTickets: movieTickets.map(function (movieTicket) {
-                                    return __assign(__assign({}, movieTicket), { serviceType: '', serviceOutput: {
+                                    return __assign({}, movieTicket, { serviceType: '', serviceOutput: {
                                             reservationFor: {
                                                 typeOf: screeningEvent.typeOf,
                                                 id: screeningEvent.id
@@ -4878,10 +4867,10 @@ var PurchaseService = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 6:
                         filterMovieTickets = this.data.movieTickets.filter(function (m) { return m.paymentMethodType !== paymentMethodType; });
-                        this.data.movieTickets = __spreadArrays(filterMovieTickets, results);
+                        this.data.movieTickets = filterMovieTickets.concat(results);
                         filterCheckMovieTicketActions = this.data.checkMovieTicketActions.filter(function (c) { return (c.result !== undefined
                             && c.result.movieTickets.find(function (m) { return m.typeOf !== paymentMethodType; }) !== undefined); });
-                        this.data.checkMovieTicketActions = __spreadArrays(filterCheckMovieTicketActions, [checkMovieTicketAction]);
+                        this.data.checkMovieTicketActions = filterCheckMovieTicketActions.concat([checkMovieTicketAction]);
                         this.save();
                         return [2 /*return*/];
                 }
@@ -4970,11 +4959,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storage.service */ "./app/services/storage.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -5242,11 +5230,10 @@ var __assign = (undefined && undefined.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -5325,7 +5312,7 @@ var UtilService = /** @class */ (function () {
             var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.http.get(url, __assign(__assign({}, options), { responseType: 'text' })).toPromise()];
+                    case 0: return [4 /*yield*/, this.http.get(url, __assign({}, options, { responseType: 'text' })).toPromise()];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result];
@@ -5412,13 +5399,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PRODUCTION_POINT_TICKET", function() { return PRODUCTION_POINT_TICKET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEVELOPMENT_MEMBER_TICKET", function() { return DEVELOPMENT_MEMBER_TICKET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PRODUCTION_MEMBER_TICKET", function() { return PRODUCTION_MEMBER_TICKET; });
-var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 var DEVELOPMENT_BASE_POINT_TICKET_CODE = [
     '3800001',
     '3800002',
@@ -5426,23 +5406,23 @@ var DEVELOPMENT_BASE_POINT_TICKET_CODE = [
     '3900002'
 ];
 var DEVELOPMENT_POINT_TICKET = [
-    { THEATER: '101', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '102', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '106', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '107', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '108', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '109', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '110', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '112', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '113', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '114', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '115', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '116', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '117', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '118', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '119', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '120', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) },
-    { THEATER: '121', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_POINT_TICKET_CODE) }
+    { THEATER: '101', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '102', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '106', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '107', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '108', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '109', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '110', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '112', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '113', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '114', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '115', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '116', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '117', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '118', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '119', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '120', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '121', TICKET_CODE: DEVELOPMENT_BASE_POINT_TICKET_CODE.slice() }
 ];
 var PRODUCTION_BASE_POINT_TICKET_CODE = [
     '4000011',
@@ -5453,23 +5433,23 @@ var PRODUCTION_BASE_POINT_TICKET_CODE = [
     '4000023'
 ];
 var PRODUCTION_POINT_TICKET = [
-    { THEATER: '001', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '002', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '006', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '007', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '008', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '009', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '010', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '012', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '013', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '014', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '015', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '016', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '017', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '018', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '019', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '020', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) },
-    { THEATER: '021', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_POINT_TICKET_CODE) }
+    { THEATER: '001', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '002', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '006', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '007', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '008', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '009', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '010', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '012', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '013', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '014', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '015', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '016', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '017', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '018', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '019', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '020', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() },
+    { THEATER: '021', TICKET_CODE: PRODUCTION_BASE_POINT_TICKET_CODE.slice() }
 ];
 var DEVELOPMENT_BASE_MEMBER_TICKET_CODE = [
     '3100011',
@@ -5477,23 +5457,23 @@ var DEVELOPMENT_BASE_MEMBER_TICKET_CODE = [
     '3100021' // メンバーズ大学生
 ];
 var DEVELOPMENT_MEMBER_TICKET = [
-    { THEATER: '101', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '102', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '106', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '107', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '108', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '109', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '110', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '112', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '113', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '114', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '115', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '116', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '117', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '118', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '119', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '120', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '121', TICKET_CODE: __spreadArrays(DEVELOPMENT_BASE_MEMBER_TICKET_CODE) }
+    { THEATER: '101', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '102', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '106', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '107', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '108', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '109', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '110', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '112', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '113', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '114', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '115', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '116', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '117', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '118', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '119', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '120', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '121', TICKET_CODE: DEVELOPMENT_BASE_MEMBER_TICKET_CODE.slice() }
 ];
 var PRODUCTION_BASE_MEMBER_TICKET_CODE = [
     '4000031',
@@ -5501,23 +5481,23 @@ var PRODUCTION_BASE_MEMBER_TICKET_CODE = [
     '4000033' // ｱﾌﾟﾘ会員ﾃﾞｰ★3D
 ];
 var PRODUCTION_MEMBER_TICKET = [
-    { THEATER: '001', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '002', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '006', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '007', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '008', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '009', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '010', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '012', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '013', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '014', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '015', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '016', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '017', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '018', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '019', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '020', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) },
-    { THEATER: '021', TICKET_CODE: __spreadArrays(PRODUCTION_BASE_MEMBER_TICKET_CODE) }
+    { THEATER: '001', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '002', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '006', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '007', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '008', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '009', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '010', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '012', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '013', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '014', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '015', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '016', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '017', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '018', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '019', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '020', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() },
+    { THEATER: '021', TICKET_CODE: PRODUCTION_BASE_MEMBER_TICKET_CODE.slice() }
 ];
 
 

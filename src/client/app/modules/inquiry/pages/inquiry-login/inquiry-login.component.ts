@@ -101,7 +101,7 @@ export class InquiryLoginComponent implements OnInit {
         if (this.inquiryForm.invalid) {
             return;
         }
-        const confirmationNumber = Number(this.inquiryForm.controls.confirmationNumber.value);
+        const confirmationNumber = this.inquiryForm.controls.confirmationNumber.value;
         const telephone = this.inquiryForm.controls.telephone.value;
         const theaterCode = (this.seller.location === undefined || this.seller.location.branchCode === undefined)
             ? '' : this.seller.location.branchCode;
