@@ -589,7 +589,7 @@ export class PurchaseService {
         const branchCode = this.data.screeningEvent.superEvent.location.branchCode;
         // 販売者を検索
         const searchResult = await this.cinerinoService.seller.search({
-            location: { branchCodes: [branchCode] }
+            branchCode: { $eq: branchCode }
         });
         this.data.seller = searchResult.data[0];
         if (this.data.seller.id === undefined) {

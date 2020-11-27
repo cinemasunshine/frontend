@@ -67,7 +67,7 @@ export class InquiryService {
     public async searchSeller(branchCode: string) {
         await this.sasakiService.getServices();
         const result = await this.sasakiService.seller.search({
-            location: { branchCodes: [branchCode] }
+            branchCode: { $eq: branchCode }
         });
         return result;
     }
@@ -77,12 +77,12 @@ export class InquiryService {
      */
     public async findByOrderInquiryKey(params: {
         theaterCode: string;
-        confirmationNumber: number;
+        confirmationNumber: string;
         telephone: string;
     }) {
         await this.sasakiService.getServices();
-        const order = await this.sasakiService.order.findByOrderInquiryKey4sskts(params);
-
+        const findResult = await this.sasakiService.order.findByOrderInquiryKey4sskts(params);
+        const order = (Array.isArray(findResult)) ? findResult[0] : findResult;
         return order;
     }
 
