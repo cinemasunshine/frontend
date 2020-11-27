@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.6.6 - 2020-11-27
+### Changed
+ - 確認番号での注文照会結果を新しい型に対応
+ - 利用規約変更
+
 ## 6.6.5 - 2020-10-28
 ### Changed
  - 本番環境でMGチケット使用可能へ変更
