@@ -1,17 +1,17 @@
-<div class="contents">
-    <h1 class="page-ttl">購入完了</h1>
-    <p class="read">ご購入ありがとうございました。
+<div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
+    <h1 class="text-center text-large font-weight-bold mb-3">購入完了</h1>
+    <p class="text-left text-md-center">ご購入ありがとうございました。
         <br>購入者情報入力画面で入力していただいたメールアドレス宛に購入完了メールを送信しました。
         <br>ご入場方法に関しましてはページ下部をご確認ください。
         <br>※購入完了メールの送信に時間がかかる事がありますのでご注意ください。</p>
 
-    <ul class="box radius bg-light-gray info mb-large form-layout">
+    <ul class="p-3 rounded bg-light-gray info mb-4 form-layout">
         <li class="purchase-number">
             <dl>
                 <dt>予約番号</dt>
                 <dd>
-                    <strong class="red-text large-x-text">{{ getReservationNumber() }}</strong>
-                    <p class="small-x-text">※チケットの発行等に必要な番号となりますので必ず忘れないようにしてください。</p>
+                    <strong class="text-danger large-x-text">{{ getReservationNumber() }}</strong>
+                    <p class="text-small">※チケットの発行等に必要な番号となりますので必ず忘れないようにしてください。</p>
                 </dd>
             </dl>
         </li>
@@ -62,15 +62,15 @@
             <dl>
                 <dt>獲得ポイント</dt>
                 <dd>
-                    <strong class="red-text">{{ data.incentive }}ポイント</strong>
+                    <strong class="text-danger">{{ data.incentive }}ポイント</strong>
                 </dd>
             </dl>
         </li>
     </ul>
 
     <div class="ticket-app-hide">
-        <div class="mb-x-large">
-            <p class="mb-middle small-x-text">
+        <div class="mb-4">
+            <p class="mb-3 text-small">
                 <strong>&lt;購入完了メールが届かない場合のご確認事項&gt;</strong>
                 <br>購入完了後、購入完了メールが届かない場合は下記2点をご確認ください。
                 <br>また、購入完了メールは自動送信のため再送信は致しかねます。
@@ -86,22 +86,22 @@
         </div>
 
         <div class="not-print">
-            <h2 class="page-ttl">入場方法</h2>
+            <h2 class="text-center text-large font-weight-bold mb-3">入場方法</h2>
 
             <ul class="entry-method">
                 <li>
-                    <dl class="box radius bg-light-gray">
+                    <dl class="p-3 rounded bg-light-gray">
                         <dt class="mb-x-small text-center">
                             <strong>QRコードでスマート入場</strong>
                         </dt>
                         <dd>
-                            <p class="mb-small">当日チケット発券不要！
+                            <p class="mb-2">当日チケット発券不要！
                                 <br>スマートフォンで入場用QRコードを提示するだけでスムーズに入場！
                                 <br>入場用QRコードの確認は下記「チケット情報確認」ボタンを押してください。</p>
                             <div class="image mb-x-small bg-white">
                                 <img src="/assets/images/purchase/complete/qr.svg" alt="">
                             </div>
-                            <div class="button blue-button inquiry-button mb-small center-button">
+                            <div class="button blue-button inquiry-button mb-2 center-button">
                                 <a class="icon-new-tab-white"
                                     [href]="environment.FRONTEND_ENDPOINT + '/inquiry/login?theater=' + data.seller.location?.branchCode + '&reserve=' + getReservationNumber()"
                                     target="_blank">チケット情報確認</a>
@@ -127,8 +127,8 @@
     </div>
 
     <div class="ticket-app-show">
-        <dl class="box radius bg-light-gray mb-middle">
-            <dt class="mb-small text-center">
+        <dl class="p-3 rounded bg-light-gray mb-3">
+            <dt class="mb-2 text-center">
                 <strong>チケットホルダーでスマート入場</strong>
             </dt>
             <dd>

@@ -1,0 +1,24 @@
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+$font-family: -apple-system, "Lucida Grande", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "游ゴシック", "メイリオ", Meiryo, Helvetica, Arial, sans-serif;
+
+$theme-colors: (
+    primary: #019fe8, 
+    secondary: $secondary, 
+    success: #036db7, 
+    info: $info, 
+    warning: #f0e205, 
+    danger: #C30D23, 
+    light: $gray-100, 
+    dark: $gray-800
+);
+$dark-gray: #3e3a39;
+$gray: #ced4da;
+$light-gray: #EEE;
+
+$body-bg: #E2E1E0;
+$body-color: #333;
+$body-font-size: 16px;
+

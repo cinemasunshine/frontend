@@ -1,18 +1,18 @@
-<div class="contents">
-    <h1 class="page-ttl">ポイント使用</h1>
-    <p class="read">
+<div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
+    <h1 class="text-center text-large font-weight-bold mb-3">ポイント使用</h1>
+    <p class="text-left text-md-center">
         貯まったポイントの使用方法を選択してください。
     </p>
-    <div class="mb-middle point text-center">
+    <div class="mb-3 point text-center">
         <div class="inner bg-gray">現在
-            <strong class="large-text">{{ availableBalance }}</strong> ポイント</div>
+            <strong class="text-large">{{ availableBalance }}</strong> ポイント</div>
     </div>
 
-    <ul *ngIf="!isLoading" class="box radius bg-light-gray mb-middle tickets">
+    <ul *ngIf="!isLoading" class="p-3 rounded bg-light-gray mb-3 tickets">
         <li *ngFor="let pointTicket of pointTickets">
             <dl>
                 <dt>
-                    <div class="small-x-text mb-x-small">{{ pointTicket.usePoint }}ポイントで引き換え</div>
+                    <div class="text-small mb-x-small">{{ pointTicket.usePoint }}ポイントで引き換え</div>
                     <div>
                         <strong>{{ pointTicket.ticketName }}</strong>
                     </div>
@@ -33,18 +33,18 @@
 </div>
 
 <app-modal [open]="pointAhortageAlertModal" [layout]="true" (close)="pointAhortageAlertModal = false">
-    <div class="modal-title large-text text-center mb-middle">
+    <div class="modal-title text-large text-center mb-3">
         <strong>ポイントが不足しています</strong>
     </div>
-    <p class="text-center">選択した券種の合計ポイントが所持ポイントを超えています。
+    <p class="text-left text-md-center">選択した券種の合計ポイントが所持ポイントを超えています。
     </p>
 </app-modal>
 
 <app-modal [open]="notSelectAlertModal" [layout]="true" (close)="notSelectAlertModal = false">
-    <div class="modal-title large-text text-center mb-middle">
+    <div class="modal-title text-large text-center mb-3">
         <strong>券種が選択されていません</strong>
     </div>
-    <p class="text-center">券種を選択してください。
+    <p class="text-left text-md-center">券種を選択してください。
     </p>
 </app-modal>
 

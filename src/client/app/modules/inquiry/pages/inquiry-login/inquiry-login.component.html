@@ -1,8 +1,8 @@
-<div class="contents">
-    <h1 class="page-ttl">チケット情報照会</h1>
-    <p class="read">下記にチケット購入時の予約番号と電話番号を入力して<br>「照会」ボタンを押してください。</p>
+<div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
+    <h1 class="text-center text-large font-weight-bold mb-3">チケット情報照会</h1>
+    <p class="text-left text-md-center">下記にチケット購入時の予約番号と電話番号を入力して<br>「照会」ボタンを押してください。</p>
     <form [formGroup]="inquiryForm" (ngSubmit)="onSubmit()">
-        <div class="box radius bg-light-gray">
+        <div class="p-3 rounded bg-light-gray">
             <dl>
                 <dt>予約番号</dt>
                 <dd>
@@ -10,9 +10,9 @@
                         maxlength="8" autocomplete="off" placeholder="(例)12345678" [class.validation]="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched">
                     <div
                         *ngIf="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched">
-                        <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.required" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.required" class="text-danger">
                             予約番号が未入力です</p>
-                        <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.pattern" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.pattern" class="text-danger">
                             予約番号は数字で入力してください</p>
                     </div>
                 </dd>
@@ -22,17 +22,17 @@
                         placeholder="(例)08000000000" [class.validation]="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched">
                     <div *ngIf="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched"
                         class="mt-2">
-                        <p *ngIf="inquiryForm.controls.telephone.errors?.required" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.telephone.errors?.required" class="text-danger">
                             電話番号が未入力です</p>
-                        <p *ngIf="inquiryForm.controls.telephone.errors?.minlength" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.telephone.errors?.minlength" class="text-danger">
                             電話番号は9文字以上で入力してください
                         </p>
-                        <p *ngIf="inquiryForm.controls.telephone.errors?.maxlength" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.telephone.errors?.maxlength" class="text-danger">
                             電話番号は15文字以内で入力してください
                         </p>
-                        <!-- <p *ngIf="inquiryForm.controls.telephone.errors?.pattern" class="validation-text">
+                        <!-- <p *ngIf="inquiryForm.controls.telephone.errors?.pattern" class="text-danger">
               電話番号は数字で入力してください</p> -->
-                        <p *ngIf="inquiryForm.controls.telephone.errors?.telephone" class="validation-text">
+                        <p *ngIf="inquiryForm.controls.telephone.errors?.telephone" class="text-danger">
                             電話番号が正しくありません</p>
                     </div>
                 </dd>
@@ -58,10 +58,10 @@
 </div>
 
 <app-modal [open]="inquiryErrorModal" [layout]="true" (close)="inquiryErrorModal = false">
-    <div class="modal-title large-text text-center mb-middle">
+    <div class="modal-title text-large text-center mb-3">
         <strong>エラーが発生しました</strong>
     </div>
-    <p class="text-center">
+    <p class="text-left text-md-center">
         予約番号、電話番号をご確認ください。
     </p>
 </app-modal>

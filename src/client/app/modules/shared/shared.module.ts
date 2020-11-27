@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { BaseComponent } from './components/pages/base/base.component';
 import { ButtonsComponent } from './components/parts/buttons/buttons.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
@@ -43,6 +44,7 @@ const pipes = [
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
+    ModalModule,
   ],
   exports: [
     ...components,
