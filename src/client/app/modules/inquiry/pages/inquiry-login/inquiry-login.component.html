@@ -1,13 +1,17 @@
 <div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
     <h1 class="text-center text-large font-weight-bold mb-3">チケット情報照会</h1>
-    <p class="text-left text-md-center">下記にチケット購入時の予約番号と電話番号を入力して<br>「照会」ボタンを押してください。</p>
+    <p class="text-left text-md-center mb-3">
+        下記にチケット購入時の予約番号と電話番号を入力して<br>
+        「照会」ボタンを押してください。
+    </p>
     <form [formGroup]="inquiryForm" (ngSubmit)="onSubmit()">
-        <div class="p-3 rounded bg-light-gray">
-            <dl>
-                <dt>予約番号</dt>
-                <dd>
-                    <input type="text" pattern="\d*" formControlName="confirmationNumber" id="confirmationNumber"
-                        maxlength="8" autocomplete="off" placeholder="(例)12345678" [class.validation]="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched">
+        <div class="p-3 rounded bg-light-gray mb-4 mx-md-5">
+            <dl class="form-group mb-0">
+                <dt class="mb-2 font-weight-normal">予約番号</dt>
+                <dd class="mb-3">
+                    <input class="form-control" type="text" pattern="\d*" formControlName="confirmationNumber"
+                        id="confirmationNumber" maxlength="8" autocomplete="off" placeholder="(例)12345678"
+                        [class.validation]="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched">
                     <div
                         *ngIf="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched">
                         <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.required" class="text-danger">
@@ -16,10 +20,11 @@
                             予約番号は数字で入力してください</p>
                     </div>
                 </dd>
-                <dt>電話番号</dt>
+                <dt class="mb-2 font-weight-normal">電話番号</dt>
                 <dd>
-                    <input type="text" pattern="\d*" formControlName="telephone" id="telephone" autocomplete="off"
-                        placeholder="(例)08000000000" [class.validation]="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched">
+                    <input class="form-control" type="text" pattern="\d*" formControlName="telephone" id="telephone"
+                        autocomplete="off" placeholder="(例)08000000000"
+                        [class.validation]="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched">
                     <div *ngIf="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched"
                         class="mt-2">
                         <p *ngIf="inquiryForm.controls.telephone.errors?.required" class="text-danger">
@@ -39,9 +44,9 @@
             </dl>
         </div>
 
-        <div class="button-area">
-            <div class="button next-button blue-button">
-                <button type="submit" [disabled]="isLoading">
+        <div class="buttons mx-auto mb-5">
+            <div class="mb-3">
+                <button class="btn btn-block btn-primary py-3 font-weight-bold" type="submit" [disabled]="isLoading">
                     <app-icon iconName="next-white" width="15" height="15"></app-icon>照会
                 </button>
             </div>

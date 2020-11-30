@@ -41,7 +41,7 @@ body {
         -webkit-touch-callout: none;
         user-select: none;
     }
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         font-size: 14px;
     }
 }
@@ -69,7 +69,7 @@ label {
     @media screen and (max-width: $tablet){
         font-weight: normal;
     }
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         font-size: 14px;
     }
 }
@@ -243,7 +243,7 @@ p {
 .device-type-sp {
     display: none;
 }
-@media screen and (max-width: $mobile) {
+@media screen and (max-width: 767px) {
     .device-type-sp {
         display: block;
     }
@@ -272,21 +272,21 @@ p {
 
 .small-text {
     font-size: 14px;
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         font-size: 14px;
     }
 }
 
 .small-x-text {
     font-size: 12px;
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         font-size: 12px;
     }
 }
 
 .large-text {
     font-size: 20px;
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         font-size: 18px;
     }
 }
@@ -329,7 +329,7 @@ p {
 
 .width-small {
     width: 108px;
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         width: 54px;
     }
 }
@@ -340,14 +340,14 @@ p {
 
 .width-medium {
     width: 380px;
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         width: 190px;
     }
 }
 
 .width-large {
     width: 600px;
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         width: 300px;
     }
 }
@@ -413,7 +413,7 @@ p {
 .box {
     overflow: hidden;
     padding: 20px;
-    @media screen and (max-width: $mobile) {
+    @media screen and (max-width: 767px) {
         padding: 20px 10px;
     }
     &:last-child {
@@ -474,7 +474,7 @@ p {
     dl {
         margin-bottom: 0;
         display: flex;
-        @media screen and (max-width: $mobile) {
+        @media screen and (max-width: 767px) {
             display: block;
             width: auto;
             max-width: 100%;
@@ -487,7 +487,7 @@ p {
             margin-bottom: 0;
             width: 180px;
             font-weight: bold;
-            @media screen and (max-width: $mobile) {
+            @media screen and (max-width: 767px) {
                 line-height: 1;
                 width: auto;
                 margin-bottom: 10px;
@@ -495,7 +495,7 @@ p {
         }
         dd {
             width: calc(100% - 180px);
-            @media screen and (max-width: $mobile){
+            @media screen and (max-width: 767px){
                 width: auto;      
             }
         }
@@ -526,7 +526,7 @@ p {
     margin-left: auto;
     margin-right: auto;
     width: 300px;
-    @media screen and (max-width: $mobile) {
+    @media screen and (max-width: 767px) {
         width: auto;
     }
 }
@@ -676,7 +676,7 @@ p {
 .read {
     margin-bottom: 20px;
     text-align: center;
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         text-align: left;
     }
 }
@@ -711,7 +711,7 @@ p {
         width: auto;
         padding: 15px;
     }
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         width: auto;
         padding: 10px;
     }
@@ -727,7 +727,7 @@ p {
     @media screen and (max-width: $tablet){
         padding: 40px 60px 60px;
     }
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         padding: 20px 15px 50px;
     }
 }

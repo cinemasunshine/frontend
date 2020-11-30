@@ -3,12 +3,12 @@ $mobile: 767px;
 .mvtk-lists {
     li {
         dt {
-            @media screen and (max-width: $mobile){
+            @media screen and (max-width: 767px){
                 display: block;
             }
         }
         dd {
-            @media screen and (max-width: $mobile){
+            @media screen and (max-width: 767px){
                 display: block;
                 width: 100%;
             }

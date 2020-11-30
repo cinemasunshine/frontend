@@ -19,7 +19,7 @@
 
     <div class="seat-types mb-3 continer px-0">
         <ul class="row align-items-center flex-wrap">
-            <li *ngIf="getSeatType('grandClass')" class="seat-grand-class col-12 col-md-6">
+            <li *ngIf="getSeatType('grandClass')" class="seat-grand-class col-12 col-md-6 mb-3">
                 <div class="d-flex align-items-center border border-gray px-3 py-2">
                     <div class="image text-center"><img src="/images/theater/seat/grand-class.svg"></div>
                     <div class="px-2">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </li>
-            <li *ngIf="getSeatType('premiumClass')" class="seat-premium-class col-12 col-md-6">
+            <li *ngIf="getSeatType('premiumClass')" class="seat-premium-class col-12 col-md-6 mb-3">
                 <div class="d-flex align-items-center border border-gray px-3 py-2">
                     <div class="image text-center"><img src="/images/theater/seat/premium-class.svg"></div>
                     <div class="px-2">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </li>
-            <li *ngIf="getSeatType('comfort')" class="seat-comfort col-12 col-md-6">
+            <li *ngIf="getSeatType('comfort')" class="seat-comfort col-12 col-md-6 mb-3">
                 <div class="d-flex align-items-center border border-gray px-3 py-2">
                     <div class="image text-center"><img src="/images/theater/seat/comfort.svg"></div>
                     <div class="px-2">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </li>
-            <li *ngIf="getSeatType('parentAndChildPairLeft') || getSeatType('parentAndChildPairRight')" class="seat-parent-and-child-pair col-12 col-md-6">
+            <li *ngIf="getSeatType('parentAndChildPairLeft') || getSeatType('parentAndChildPairRight')" class="seat-parent-and-child-pair col-12 col-md-6 mb-3">
                 <div class="d-flex align-items-center border border-gray px-3 py-2">
                     <div class="image text-center"><img src="/images/theater/seat/parent-and-child-pair.svg"></div>
                     <div class="px-2">
@@ -125,9 +125,9 @@
                 class="text-danger">利用規約に同意してください</div>
         </div>
 
-        <div class="buttons mx-auto">
-            <div class="button next-button blue-button">
-                <button class="btn btn-block btn-primary py-3" [disabled]="isLoading" type="submit">
+        <div class="buttons mx-auto mb-5">
+            <div class="mb-3">
+                <button class="btn btn-block btn-primary py-3 font-weight-bold" [disabled]="isLoading" type="submit">
                     <app-icon iconName="next-white" width="15" height="15"></app-icon>次へ
                 </button>
             </div>

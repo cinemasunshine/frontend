@@ -12,7 +12,7 @@
 
     <div class="mb-3">
         <dl>
-            <dt class="mb-x-small">劇場</dt>
+            <dt class="mb-1">劇場</dt>
             <dd class="mb-2">
                 <select [(ngModel)]="conditions.theater" (change)="changeConditions()">
                     <option *ngFor="let theater of theaters" value="{{ theater.location.branchCode }}">
@@ -21,7 +21,7 @@
             </dd>
         </dl>
         <dl>
-            <dt class="mb-x-small">会員ステータス</dt>
+            <dt class="mb-1">会員ステータス</dt>
             <dd class="mb-2">
                 <select [(ngModel)]="conditions.member" (change)="changeConditions()">
                     <option [value]="false">非会員</option>
@@ -30,7 +30,7 @@
             </dd>
         </dl>
         <dl>
-            <dt class="mb-x-small">鑑賞日</dt>
+            <dt class="mb-1">鑑賞日</dt>
             <dd class="mb-2">
                 <select [(ngModel)]="conditions.date" (change)="changeConditions()">
                     <option *ngFor="let date of dateList" value="{{ date.value }}">{{ date.label }}</option>

@@ -1,53 +1,57 @@
 <div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
     <h1 class="text-center text-large font-weight-bold mb-3">購入内容確認</h1>
-    <p class="text-left text-md-center">
-        <strong class="text-large text-danger">まだ購入は完了していません。</strong>
-        <br>ご購入内容をご確認頂き「購入完了」ボタンを押して購入を確定してください。</p>
+    <p class="text-left text-md-center mb-3">
+        <span class="text-large text-danger font-weight-bold">まだ購入は完了していません。</span>
+        <br>ご購入内容をご確認頂き「購入完了」ボタンを押して購入を確定してください。
+    </p>
 
     <div class="form-layout">
-        <h2 class="mb-2 font-weight-bold">
-            作品情報
+        <div class="position-relative mb-2">
+            <h2 class="font-weight-bold">作品情報</h2>
             <div class="right ticket-app-hide">
-                <div class="button light-gray-button change-button">
-                    <a href="{{ purchase.data.seller?.url }}">変更</a>
+                <div class="position-absolute" *ngIf="purchase.data.seller?.url">
+                    <a class="btn bg-dark-gray text-white text-small py-0 px-4"
+                        href="{{ purchase.data.seller?.url }}">変更</a>
                 </div>
             </div>
             <div class="right ticket-app-show">
-                <div class="button light-gray-button change-button">
-                    <a href="{{ environment.APP_SITE_URL }}/#/purchase">変更</a>
+                <div class="position-absolute">
+                    <a class="btn bg-dark-gray text-white text-small py-0 px-4"
+                        href="{{ environment.APP_SITE_URL }}/#/purchase">変更</a>
                 </div>
             </div>
-        </h2>
+        </div>
         <ul class="p-3 rounded bg-light-gray mb-4">
-            <li>
-                <dl>
-                    <dt>劇場 / スクリーン</dt>
-                    <dd>{{ purchase.getTheaterName() }} / {{ purchase.getScreenName() }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">劇場 / スクリーン</dt>
+                    <dd class="col-12 col-md-8">{{ purchase.getTheaterName() }} / {{ purchase.getScreenName() }}</dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>作品名</dt>
-                    <dd>{{ purchase.getTitle() }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">作品名</dt>
+                    <dd class="col-12 col-md-8">{{ purchase.getTitle() }}</dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>鑑賞日時</dt>
-                    <dd>
-                        <div class="mb-xx-small">
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">鑑賞日時</dt>
+                    <dd class="col-12 col-md-8">
+                        <div class="mb-1">
                             <strong class="text-danger">
-                                {{ purchase.getAppreciationDate() }} {{ purchase.getStartDate() }} - {{ purchase.getEndDate() }}
+                                {{ purchase.getAppreciationDate() }} {{ purchase.getStartDate() }} -
+                                {{ purchase.getEndDate() }}
                             </strong>
                         </div>
                         <p class="text-small text-danger">※鑑賞日時を必ずご確認ください。</p>
                     </dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>座席</dt>
-                    <dd>
+            <li class="container px-0">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">座席</dt>
+                    <dd class="col-12 col-md-8">
                         <p *ngFor="let offer of purchase.data.seatReservationAuthorization?.object.acceptedOffer">
                             {{ offer.seatNumber }} {{ offer.ticketInfo.ticketName }} ￥{{ getTicketPrice(offer) }}
                         </p>
@@ -55,48 +59,53 @@
                 </dl>
             </li>
             <!-- <li *ngIf="user.isMember()">
-                <dl>
-                    <dt>獲得ポイント</dt>
-                    <dd>
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">獲得ポイント</dt>
+                    <dd class="col-12 col-md-8">
                         <strong class="text-danger">0ポイント</strong>
                     </dd>
                 </dl>
             </li> -->
         </ul>
 
-        <h2 class="mb-2 font-weight-bold">
-            購入情報
+        <div class="position-relative mb-2">
+            <h2 class="font-weight-bold">購入情報</h2>
             <div class="right">
-                <div class="button light-gray-button change-button">
-                    <a routerLink="/purchase/input">変更</a>
+                <div class="position-absolute">
+                    <a class="btn bg-dark-gray text-white text-small py-0 px-4" href="javascript:void(0)"
+                        routerLink="/purchase/input">変更</a>
                 </div>
             </div>
-        </h2>
+        </div>
         <ul class="p-3 rounded bg-light-gray mb-4">
-            <li>
-                <dl>
-                    <dt>お名前（カタカナ）</dt>
-                    <dd>{{ purchase.getCustomerName() }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">お名前（カタカナ）</dt>
+                    <dd class="col-12 col-md-8">{{ purchase.getCustomerName() }}</dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>メールアドレス</dt>
-                    <dd>{{ purchase.data.customerContact?.email }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">メールアドレス</dt>
+                    <dd class="col-12 col-md-8">{{ purchase.data.customerContact?.email }}</dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>電話番号</dt>
-                    <dd>{{ (purchase.data.customerContact?.telephone | libphonenumberFormat) }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">電話番号</dt>
+                    <dd class="col-12 col-md-8">{{ (purchase.data.customerContact?.telephone | libphonenumberFormat) }}
+                    </dd>
                 </dl>
             </li>
 
-            <li *ngIf="purchase.getTotalPrice() > 0">
-                <dl>
-                    <dt>カード番号</dt>
-                    <dd *ngIf="purchase.data.gmoTokenObject !== undefined">{{ purchase.data.gmoTokenObject?.maskedCardNo }}</dd>
-                    <dd *ngIf="purchase.data.gmoTokenObject === undefined && user.data.creditCards !== undefined">{{ user.data.creditCards[0].cardNo }}</dd>
+            <li class="container px-0" *ngIf="purchase.getTotalPrice() > 0">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">カード番号</dt>
+                    <dd class="col-12 col-md-8" *ngIf="purchase.data.gmoTokenObject !== undefined">
+                        {{ purchase.data.gmoTokenObject?.maskedCardNo }}</dd>
+                    <dd class="col-12 col-md-8"
+                        *ngIf="purchase.data.gmoTokenObject === undefined && user.data.creditCards !== undefined">
+                        {{ user.data.creditCards[0].cardNo }}</dd>
                 </dl>
             </li>
 
@@ -104,24 +113,26 @@
 
         <h2 class="mb-2 font-weight-bold">注意事項(重要)</h2>
         <p class="mb-2">下記項目をご確認いただきチェックを入れて「購入完了」ボタンを押してください。</p>
-        
-        <app-purchase-note class="mb-3" [theaterCode]="purchase.data.screeningEvent?.superEvent.location.branchCode.slice(-2)"></app-purchase-note>
+
+        <app-purchase-note class="mb-3"
+            [theaterCode]="purchase.data.screeningEvent?.superEvent.location.branchCode.slice(-2)"></app-purchase-note>
 
 
-        <p class="mb-2 text-small text-white" style="background-color: red; padding: 10px;">
+        <p class="mb-3 text-small text-white p-3" style="background-color: red;">
             ※新型コロナウイルス感染症予防のため、全てのご来場のお客様にマスクの着用をお願いしております。<br>
             マスク未着用のお客様は入場をお断りさせていただきます。
         </p>
         <form [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
             <div class="mb-4 text-center">
                 <input type="checkbox" formControlName="notes" id="notes">
-                <label for="notes">
-                    <strong>上記内容に同意する</strong>
+                <label for="notes" class="font-weight-bold">
+                    上記内容に同意する
                 </label>
                 <div *ngIf="confirmForm.controls['notes'].invalid && (confirmForm.controls['notes'].dirty || confirmForm.controls['notes'].touched)"
                     class="text-danger">注意事項に同意してください</div>
             </div>
-            <app-buttons [disabled]="isLoading" nextLabel="購入完了" prevLabel="戻る" prevLink="/purchase/input"></app-buttons>
+            <app-buttons [disabled]="isLoading" nextLabel="購入完了" prevLabel="戻る" prevLink="/purchase/input">
+            </app-buttons>
         </form>
     </div>
     <app-site-seal></app-site-seal>

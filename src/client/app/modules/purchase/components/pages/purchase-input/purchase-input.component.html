@@ -1,176 +1,192 @@
 <div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
     <h1 class="text-center text-large font-weight-bold mb-3">購入者情報入力</h1>
-    <p class="text-left text-md-center">必須項目を入力し「次へ」ボタンを押してください。</p>
+    <p class="text-left text-md-center mb-3">必須項目を入力し「次へ」ボタンを押してください。</p>
 
     <form [formGroup]="inputForm" (ngSubmit)="onSubmit()">
         <h2 class="mb-2 font-weight-bold">お名前（カタカナ）
-            <span class="text-icon-red text-small">入力必須</span>
+            <span class="bg-danger p-1 align-middle text-white text-small">入力必須</span>
         </h2>
-        <div class="p-3 rounded bg-light-gray mb-4">
-            <div class="column-02">
-                <dl>
-                    <dt>セイ</dt>
+        <div class="container p-3 rounded bg-light-gray mb-4">
+            <div class="row">
+                <dl class="form-group col-12 col-md-6 mb-md-0">
+                    <dt class="mb-2"><label>セイ</label></dt>
                     <dd>
-                        <input
+                        <input class="form-control"
                             [class.validation]="inputForm.controls.familyName.invalid && inputForm.controls.familyName.touched"
                             type="text" formControlName="familyName" autocomplete="family-name" placeholder="(例)シネマ">
-                        <div
-                            *ngIf="inputForm.controls.familyName.invalid && inputForm.controls.familyName.touched">
-                            <div *ngIf="inputForm.controls.familyName.errors?.required" class="text-danger">
-                                セイが未入力です</div>
-                            <div *ngIf="inputForm.controls.familyName.errors?.maxlength" class="text-danger">
+                        <div *ngIf="inputForm.controls.familyName.invalid && inputForm.controls.familyName.touched">
+                            <p *ngIf="inputForm.controls.familyName.errors?.required" class="text-danger">
+                                セイが未入力です</p>
+                            <p *ngIf="inputForm.controls.familyName.errors?.maxlength" class="text-danger">
                                 セイは{{ inputForm.controls.familyName.errors?.maxlength.requiredLength }}文字以下で入力してください
-                            </div>
-                            <div *ngIf="inputForm.controls.familyName.errors?.pattern" class="text-danger">
-                                セイは全角カタカナで入力してください</div>
+                            </p>
+                            <p *ngIf="inputForm.controls.familyName.errors?.pattern" class="text-danger">
+                                セイは全角カタカナで入力してください
+                            </p>
                         </div>
                     </dd>
                 </dl>
-                <dl>
-                    <dt>メイ</dt>
+                <dl class="form-group col-12 col-md-6 mb-0">
+                    <dt class="mb-2">メイ</dt>
                     <dd>
-                        <input
+                        <input class="form-control"
                             [class.validation]="inputForm.controls.givenName.invalid && inputForm.controls.givenName.touched"
                             type="text" formControlName="givenName" autocomplete="given-name" placeholder="(例)タロウ">
                         <div *ngIf="inputForm.controls.givenName.invalid && inputForm.controls.givenName.touched">
-                            <div *ngIf="inputForm.controls.givenName.errors?.required" class="text-danger">
-                                メイが未入力です</div>
-                            <div *ngIf="inputForm.controls.givenName.errors?.maxlength" class="text-danger">
+                            <p *ngIf="inputForm.controls.givenName.errors?.required" class="text-danger">
+                                メイが未入力です
+                            </p>
+                            <p *ngIf="inputForm.controls.givenName.errors?.maxlength" class="text-danger">
                                 メイは{{ inputForm.controls.givenName.errors?.maxlength.requiredLength }}文字以下で入力してください
-                            </div>
-                            <div *ngIf="inputForm.controls.givenName.errors?.pattern" class="text-danger">
-                                メイは全角カタカナで入力してください</div>
+                            </p>
+                            <p *ngIf="inputForm.controls.givenName.errors?.pattern" class="text-danger">
+                                メイは全角カタカナで入力してください
+                            </p>
                         </div>
                     </dd>
                 </dl>
             </div>
         </div>
         <h2 class="mb-2 font-weight-bold">メールアドレス
-            <span class="text-icon-red text-small">入力必須</span>
+            <span class="bg-danger p-1 align-middle text-white text-small">入力必須</span>
         </h2>
         <div class="p-3 rounded bg-light-gray mb-4">
-            <dl>
+            <dl class="form-group">
                 <dd>
-                    <input
+                    <input class="form-control"
                         [class.validation]="inputForm.controls.email.invalid && inputForm.controls.email.touched"
                         type="email" formControlName="email" autocomplete="email"
                         placeholder="(例)cinema@cinemasunshine.co.jp">
                     <div *ngIf="inputForm.controls.email.invalid && inputForm.controls.email.touched">
-                        <div *ngIf="inputForm.controls.email.errors?.required" class="text-danger">メールアドレスが未入力です
-                        </div>
-                        <div *ngIf="inputForm.controls.email.errors?.maxlength" class="text-danger">
-                            メールアドレスは{{ inputForm.controls.email.errors?.maxlength.requiredLength }}文字以下で入力してください</div>
-                        <div *ngIf="inputForm.controls.email.errors?.email" class="text-danger">メールアドレスが正しくありません
-                        </div>
+                        <p *ngIf="inputForm.controls.email.errors?.required" class="text-danger">
+                            メールアドレスが未入力です
+                        </p>
+                        <p *ngIf="inputForm.controls.email.errors?.maxlength" class="text-danger">
+                            メールアドレスは{{ inputForm.controls.email.errors?.maxlength.requiredLength }}文字以下で入力してください
+                        </p>
+                        <p *ngIf="inputForm.controls.email.errors?.email" class="text-danger">
+                            メールアドレスが正しくありません
+                        </p>
                     </div>
                 </dd>
             </dl>
-            <dl>
-                <dt>メールアドレス確認</dt>
+            <dl class="form-group mb-0">
+                <dt class="mb-2">メールアドレス確認</dt>
                 <dd>
-                    <input
+                    <input class="form-control"
                         [class.validation]="(inputForm.controls.emailConfirm.invalid && inputForm.controls.emailConfirm.touched) || (inputForm.controls.email.touched && inputForm.controls.emailConfirm.touched && (inputForm.controls.email.value !== inputForm.controls.emailConfirm.value))"
                         type="email" formControlName="emailConfirm" placeholder="(例)cinema@cinemasunshine.co.jp">
-                    <div
-                        *ngIf="inputForm.controls.emailConfirm.invalid && inputForm.controls.emailConfirm.touched">
-                        <div *ngIf="inputForm.controls.emailConfirm.errors?.required" class="text-danger">
-                            メールアドレス確認が未入力です</div>
-                        <div *ngIf="inputForm.controls.emailConfirm.errors?.maxlength" class="text-danger">
+                    <div *ngIf="inputForm.controls.emailConfirm.invalid && inputForm.controls.emailConfirm.touched">
+                        <p *ngIf="inputForm.controls.emailConfirm.errors?.required" class="text-danger">
+                            メールアドレス確認が未入力です
+                        </p>
+                        <p *ngIf="inputForm.controls.emailConfirm.errors?.maxlength" class="text-danger">
                             メールアドレス確認は{{ inputForm.controls.emailConfirm.errors?.maxlength.requiredLength }}文字以下で入力してください
-                        </div>
-                        <div *ngIf="inputForm.controls.emailConfirm.errors?.email" class="text-danger">
-                            メールアドレス確認が正しくありません</div>
+                        </p>
+                        <p *ngIf="inputForm.controls.emailConfirm.errors?.email" class="text-danger">
+                            メールアドレス確認が正しくありません
+                        </p>
                     </div>
-                    <div *ngIf="inputForm.controls.email.touched && inputForm.controls.emailConfirm.touched && (inputForm.controls.email.value !== inputForm.controls.emailConfirm.value)"
+                    <p *ngIf="inputForm.controls.email.touched && inputForm.controls.emailConfirm.touched && (inputForm.controls.email.value !== inputForm.controls.emailConfirm.value)"
                         class="text-danger">
-                        メールアドレス確認が一致しません</div>
-                    <p class="text-small">
+                        メールアドレス確認が一致しません
+                    </p>
+                    <p class="text-small mt-2">
                         <strong>【ドメイン指定受信をご利用の場合について】</strong>
                         <br>※ 携帯電話のドメイン指定受信をされている場合、「@ticket-cinemasunshine.com」を追加設定してください。
-                        <br>※ au(@ezweb.ne.jp)をご利用の場合、上記に加え「なりすまし規制回避リスト」にも「@ticket-cinemasunshine.com」の追加設定をしてください。</p>
+                        <br>※ au(@ezweb.ne.jp)をご利用の場合、上記に加え「なりすまし規制回避リスト」にも「@ticket-cinemasunshine.com」の追加設定をしてください。
+                    </p>
                 </dd>
             </dl>
         </div>
 
         <h2 class="mb-2 font-weight-bold">電話番号
-            <span class="text-icon-red text-small">入力必須</span>
+            <span class="bg-danger p-1 align-middle text-white text-small">入力必須</span>
         </h2>
         <div class="p-3 rounded bg-light-gray mb-4">
-            <dl>
+            <dl class="form-group mb-0">
                 <dd>
-                    <input
+                    <input class="form-control"
                         [class.validation]="inputForm.controls.telephone.invalid && inputForm.controls.telephone.touched"
                         type="tel" formControlName="telephone" autocomplete="tel" placeholder="(例)08000000000">
                     <div *ngIf="inputForm.controls.telephone.invalid && inputForm.controls.telephone.touched">
-                        <div *ngIf="inputForm.controls.telephone.errors?.required" class="text-danger">電話番号が未入力です
-                        </div>
-                        <div *ngIf="inputForm.controls.telephone.errors?.minlength" class="text-danger">
+                        <p *ngIf="inputForm.controls.telephone.errors?.required" class="text-danger">電話番号が未入力です
+                        </p>
+                        <p *ngIf="inputForm.controls.telephone.errors?.minlength" class="text-danger">
                             電話番号は{{ inputForm.controls.telephone.errors?.minlength.requiredLength }}文字以上で入力してください
-                        </div>
-                        <div *ngIf="inputForm.controls.telephone.errors?.maxlength" class="text-danger">
+                        </p>
+                        <p *ngIf="inputForm.controls.telephone.errors?.maxlength" class="text-danger">
                             電話番号は{{ inputForm.controls.telephone.errors?.maxlength.requiredLength }}文字以下で入力してください
-                        </div>
-                        <div *ngIf="inputForm.controls.telephone.errors?.pattern" class="text-danger">
-                            電話番号は数字で入力してください</div>
-                        <div *ngIf="inputForm.controls.telephone.errors?.telephone" class="text-danger">
-                            電話番号が正しくありません</div>
+                        </p>
+                        <p *ngIf="inputForm.controls.telephone.errors?.pattern" class="text-danger">
+                            電話番号は数字で入力してください
+                        </p>
+                        <p *ngIf="inputForm.controls.telephone.errors?.telephone" class="text-danger">
+                            電話番号が正しくありません
+                        </p>
                     </div>
-                    <p class="text-small">※半角数字、ハイフン「-」なしで入力してください</p>
+                    <p class="text-small mt-2">※半角数字、ハイフン「-」なしで入力してください</p>
                 </dd>
             </dl>
         </div>
 
-        <div *ngIf="purchase.getTotalPrice() > 0">
-            <h2 class="mb-2 font-weight-bold">
-                お支払情報
-                <span class="text-icon-red text-small">入力必須</span>
-                <span class="image credit-image">
+        <div class="mb-4" *ngIf="purchase.getTotalPrice() > 0">
+            <div class="d-md-flex align-items-center mb-2">
+                <h2 class="font-weight-bold mb-2 mb-md-0">
+                    お支払情報
+                    <span class="bg-danger p-1 align-middle text-white text-small">入力必須</span>
+                </h2>
+                <div class="creditcard-image ml-md-3">
                     <img src="/assets/images/common/credit_card.png" alt="">
-                </span>
-            </h2>
+                </div>
+            </div>
+            
 
             <p class="mb-2">クレジットカード決済の必要事項を入力ください。</p>
             <div *ngIf="creditCardType === 'input'" class="credit-input mb-2">
                 <ul class="p-3 rounded bg-light-gray mb-4 credit form-layout">
-                    <li class="price">
-                        <dl>
-                            <dt>ご利用金額</dt>
-                            <dd class="text-large text-danger">
-                                <strong>￥{{ purchase.getTotalPrice() }}</strong>
+                    <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                        <dl class="row align-items-center">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">ご利用金額</dt>
+                            <dd class="col-12 col-md-8">
+                                <p class="text-large text-danger font-weight-bold">￥{{ purchase.getTotalPrice() }}</p>
                             </dd>
                         </dl>
                     </li>
-                    <li>
-                        <dl>
-                            <dt>カード番号</dt>
-                            <dd>
-                                <input
+                    <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                        <dl class="form-group row align-items-center mb-0">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">カード番号</dt>
+                            <dd class="col-12 col-md-8">
+                                <input class="form-control"
                                     [class.validation]="inputForm.controls.cardNumber.invalid && inputForm.controls.cardNumber.touched"
                                     type="text" pattern="\d*" formControlName="cardNumber" id="cardNumber"
                                     autocomplete="off" placeholder="(例)1234567890" maxlength="16">
                                 <div
                                     *ngIf="inputForm.controls.cardNumber.invalid && inputForm.controls.cardNumber.touched">
-                                    <div *ngIf="inputForm.controls.cardNumber.errors?.required"
-                                        class="text-danger">カード番号が未入力です</div>
-                                    <div *ngIf="inputForm.controls.cardNumber.errors?.pattern"
-                                        class="text-danger">カード番号は数字で入力してください</div>
+                                    <p *ngIf="inputForm.controls.cardNumber.errors?.required" class="text-danger">
+                                        カード番号が未入力です
+                                    </p>
+                                    <p *ngIf="inputForm.controls.cardNumber.errors?.pattern" class="text-danger">
+                                        カード番号は数字で入力してください
+                                    </p>
                                 </div>
-                                <p class="text-small">※半角数字、ハイフン「-」なしで入力してください</p>
+                                <p class="text-small mt-2">※半角数字、ハイフン「-」なしで入力してください</p>
                             </dd>
                         </dl>
                     </li>
-                    <li>
-                        <dl>
-                            <dt>有効期限</dt>
-                            <dd>
+                    <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                        <dl class="form-group row align-items-center mb-0">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">有効期限</dt>
+                            <dd class="col-12 col-md-8">
 
-                                <select formControlName="cardExpirationMonth" id="cardExpirationMonth">
+                                <select class="form-control d-inline-block w-auto" formControlName="cardExpirationMonth"
+                                    id="cardExpirationMonth">
 
                                     <option *ngFor="let month of cardExpiration.month" [value]="month">{{ month }}
                                     </option>
 
                                 </select> 月
-                                <select formControlName="cardExpirationYear" id="cardExpirationYear">
+                                <select class="form-control d-inline-block w-auto" formControlName="cardExpirationYear" id="cardExpirationYear">
 
                                     <option *ngFor="let year of cardExpiration.year" [value]="year">{{ year }}</option>
 
@@ -179,37 +195,39 @@
                             </dd>
                         </dl>
                     </li>
-                    <li>
-                        <dl>
-                            <dt>セキュリティーコード</dt>
-                            <dd>
-                                <input
+                    <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                        <dl class="form-group row align-items-center mb-0">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">セキュリティーコード</dt>
+                            <dd class="col-12 col-md-8">
+                                <input class="form-control"
                                     [class.validation]="inputForm.controls.securityCode.invalid && inputForm.controls.securityCode.touched"
                                     type="text" pattern="\d*" formControlName="securityCode" autocomplete="off"
                                     placeholder="(例)123" maxlength="4">
                                 <div
                                     *ngIf="inputForm.controls.securityCode.invalid && inputForm.controls.securityCode.touched">
-                                    <div *ngIf="inputForm.controls.securityCode.errors?.required"
-                                        class="text-danger">セキュリティーコードが未入力です</div>
+                                    <p *ngIf="inputForm.controls.securityCode.errors?.required" class="text-danger">
+                                        セキュリティーコードが未入力です
+                                    </p>
                                 </div>
-                                <p>
-                                    <a (click)="securityCodeModal = true">セキュリティーコードについて</a>
+                                <p class="mt-2">
+                                    <a href="javascript:void(0)" (click)="securityCodeModal = true">セキュリティーコードについて</a>
                                 </p>
                             </dd>
                         </dl>
                     </li>
-                    <li>
-                        <dl>
-                            <dt>カード名義人</dt>
-                            <dd>
-                                <input
+                    <li class="container px-0">
+                        <dl class="form-group row align-items-center mb-0">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">カード名義人</dt>
+                            <dd class="col-12 col-md-8">
+                                <input class="form-control"
                                     [class.validation]="inputForm.controls.holderName.invalid && inputForm.controls.holderName.touched"
                                     type="text" formControlName="holderName" autocomplete="off"
                                     placeholder="(例)TARO CINEMA">
                                 <div
                                     *ngIf="inputForm.controls.holderName.invalid && inputForm.controls.holderName.touched">
-                                    <div *ngIf="inputForm.controls.holderName.errors?.required"
-                                        class="text-danger">カード名義人が未入力です</div>
+                                    <p *ngIf="inputForm.controls.holderName.errors?.required" class="text-danger">
+                                        カード名義人が未入力です
+                                    </p>
                                 </div>
                             </dd>
                         </dl>
@@ -230,30 +248,30 @@
 
             <div *ngIf="creditCardType === 'registered'" class="credit-registered mb-2">
                 <ul class="p-3 rounded bg-light-gray mb-4 credit form-layout">
-                    <li class="price">
-                        <dl>
-                            <dt>ご利用金額</dt>
-                            <dd class="text-large text-danger">
-                                <strong>￥{{ purchase.getTotalPrice() }}</strong>
+                    <li class="container px-0">
+                        <dl class="row align-items-center border-bottom border-dot border-gray pb-3 mb-3">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">ご利用金額</dt>
+                            <dd class="col-12 col-md-8" class="">
+                                <p class="text-large text-danger font-weight-bold">￥{{ purchase.getTotalPrice() }}</p>
                             </dd>
                         </dl>
                     </li>
-                    <li>
-                        <dl>
-                            <dt>カード番号</dt>
-                            <dd>{{ user.data.creditCards[0]?.cardNo }}</dd>
+                    <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                        <dl class="row align-items-center">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">カード番号</dt>
+                            <dd class="col-12 col-md-8">{{ user.data.creditCards[0]?.cardNo }}</dd>
                         </dl>
                     </li>
-                    <li>
-                        <dl>
-                            <dt>有効期限</dt>
-                            <dd>{{ user.data.creditCards[0]?.expire }}</dd>
+                    <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                        <dl class="row align-items-center">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">有効期限</dt>
+                            <dd class="col-12 col-md-8">{{ user.data.creditCards[0]?.expire }}</dd>
                         </dl>
                     </li>
-                    <li>
-                        <dl>
-                            <dt>カード名義人</dt>
-                            <dd>{{ user.data.creditCards[0]?.holderName }}</dd>
+                    <li class="container px-0">
+                        <dl class="row align-items-center">
+                            <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">カード名義人</dt>
+                            <dd class="col-12 col-md-8">{{ user.data.creditCards[0]?.holderName }}</dd>
                         </dl>
                     </li>
                 </ul>
@@ -267,9 +285,9 @@
                 </div>
             </div>
             <div>
-                <div class="mb-x-small">
-                    <strong>ご注意事項</strong>
-                </div>
+                <h3 class="mb-2 font-weight-bold">
+                    ご注意事項
+                </h3>
                 <p class="text-small">
                     購入完了画面まで進まずにお取引を中断された場合でもご利用のカードによっては下記の事象が起こることがございますので、悪しからずご了承ください。
                     <br>
@@ -292,25 +310,25 @@
 
 <app-modal class="security-code-modal" [open]="securityCodeModal" [layout]="false" (close)="securityCodeModal = false">
     <div inner class="p-3 rounded bg-white">
-        <div class="modal-title mb-xx-small text-center">セキュリティーコードについて</div>
+        <p class="modal-title mb-2 text-center">セキュリティーコードについて</p>
         <p class="mb-3 text-small text-center">※カード会社により表示箇所および名称が異なります。</p>
         <div class="p-3 rounded bg-light-gray">
             <dl class="mb-3">
-                <dt>
-                    <strong>VISA / MASTER / DINERS / JCBの場合</strong>
+                <dt class="font-weight-bold mb-2">
+                    VISA / MASTER / DINERS / JCBの場合
                 </dt>
-                <dd>【カード裏面】セキュリティーコード(末尾3桁)</dd>
+                <dd class="mb-2">【カード裏面】セキュリティーコード(末尾3桁)</dd>
                 <dd>
-                    <img src="/assets/images/common/credit_back.svg" alt="">
+                    <img class="d-block mx-auto w-100" src="/assets/images/common/credit_back.svg" alt="">
                 </dd>
             </dl>
             <dl>
-                <dt>
-                    <strong>AMEXの場合</strong>
+                <dt class="font-weight-bold mb-2">
+                    AMEXの場合
                 </dt>
-                <dd>【カード表面】セキュリティーコード(4桁)</dd>
+                <dd class="mb-2">【カード表面】セキュリティーコード(4桁)</dd>
                 <dd>
-                    <img src="/assets/images/common/credit_front.svg" alt="">
+                    <img class="d-block mx-auto w-100" src="/assets/images/common/credit_front.svg" alt="">
                 </dd>
             </dl>
         </div>

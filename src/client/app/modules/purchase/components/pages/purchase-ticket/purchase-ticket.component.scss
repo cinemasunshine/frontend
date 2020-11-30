@@ -1,109 +1,19 @@
-$tablet: 1024px;
-$mobile: 767px;
+
 
 .validation {
-    .ghost-button {
-        button {
-            border-color: #C30D23;
-            color: #C30D23;
-            background-color: #ffe8eb;
-        } 
-    }
+    .btn.text-primary {
+        border-color: #C30D23 !important;
+        color: #C30D23 !important;
+        background-color: #ffe8eb !important;
+    } 
 }
 
-.mvtk {
-    dt {
-        @media screen and (max-width: $mobile){
-            display: block;
-        }
-    }
-    dd {
-        @media screen and (max-width: $mobile){
-            display: block;
-            width: 100%;
-        }
-    }
-    .mvtk-button {
-        label, a {
-            border: 1px solid #d82918;
-            background-color: #FFF;
-            color: #333;
-            &:before {
-                left: 15px;
-            }
-            &:after {
-                left: 15px;
-            }
-        }
-        img {
-            width: 100px;
-            height: 19px;
-            vertical-align: bottom;
-        }
-    }
+.btn-mvtk {
+    border-color: #d82918 !important;
 }
 
-.mg {
-    dt {
-        @media screen and (max-width: $mobile){
-            display: block;
-        }
-    }
-    dd {
-        @media screen and (max-width: $mobile){
-            display: block;
-            width: 100%;
-        }
-    }
-    .mg-button {
-        label, a {
-            border: 1px solid rgb(75, 24, 216);
-            background-color: #FFF;
-            color: #333;
-            &:before {
-                left: 15px;
-            }
-            &:after {
-                left: 15px;
-            }
-        }
-        img {
-            width: 100px;
-            height: 22px;
-            vertical-align: bottom;
-        }
-    }
-}
-
-.point {
-    dt {
-        @media screen and (max-width: $mobile){
-            display: block;
-        }
-    }
-    dd {
-        @media screen and (max-width: $mobile){
-            display: block;
-            width: 100%;
-        }
-    }
-    .point-button {
-        label, a {
-            border: 1px solid #d82918;
-            background-color: #FFF;
-            color: #333;
-            &:before {
-                left: 15px;
-            }
-            &:after {
-                left: 15px;
-            }
-            strong {
-                line-height: 22px;
-                vertical-align: middle;
-            }
-        }
-    }
+.border-bottom:last-child {
+    border: none !important;
 }
 
 .disabled {
