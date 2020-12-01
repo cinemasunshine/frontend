@@ -1,19 +1,20 @@
 <div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
     <h1 class="text-center text-large font-weight-bold mb-3">ムビチケ券適用内容確認</h1>
-    <p class="text-left text-md-center">内容に問題なければ「券種選択へ戻る」ボタンを押してください。
-        <br>
+    <p class="text-left text-md-center mb-3">
+        内容に問題なければ「券種選択へ戻る」ボタンを押してください。<br>
         <span class="text-small">※券種選択よりムビチケ券を選択してください。</span>
     </p>
-    <ul class="p-3 rounded bg-light-gray mb-3 mvtk-lists">
+    <ul class="p-3 rounded bg-light-gray mb-4 mvtk-lists">
 
-        <li *ngFor="let ticket of tickets">
-            <dl class="d-table">
-                <dt class="d-td">ムビチケ購入番号 {{ ticket.input.knyknrNo }}</dt>
-                <dd class="d-td width-medium">
-                    <strong>{{ ticket.ticketcodeResult.ticketName }} × {{ ticket.ykknInfo.ykknKnshbtsmiNum }}</strong>
+        <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3" *ngFor="let ticket of tickets">
+            <dl class="row align-items-center">
+                <dt class="col-12 col-md-4 font-weight-normal mb-2 mb-md-0">ムビチケ購入番号 {{ ticket.input.knyknrNo }}</dt>
+                <dd class="col-12 col-md-8 font-weight-bold">
+                    {{ ticket.ticketcodeResult.ticketName }} × {{ ticket.ykknInfo.ykknKnshbtsmiNum }}
                 </dd>
             </dl>
         </li>
+        
 
     </ul>
 

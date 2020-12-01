@@ -42,10 +42,12 @@
             <dl class="row align-items-center">
                 <dt class="col-12 col-md-6 mb-3 mb-md-0 font-weight-normal">{{ offer.seatNumber }}</dt>
                 <dd class="col-12 col-md-6" [class.validation]="offer.validation">
-                    <button *ngIf="!offer.selected" class="btn btn-block btn-primary py-3" type="button" (click)="ticketSelect(offer)">
+                    <button *ngIf="!offer.selected" class="btn btn-block btn-primary py-3" type="button"
+                        (click)="ticketSelect(offer)">
                         券種を選択してください
                     </button>
-                    <button *ngIf="offer.selected" class="btn btn-block border-primary text-primary bg-white py-3" type="button" (click)="ticketSelect(offer)">
+                    <button *ngIf="offer.selected" class="btn btn-block border-primary text-primary bg-white py-3"
+                        type="button" (click)="ticketSelect(offer)">
                         {{ offer.ticketInfo.ticketName }} ￥{{ getTicketPrice(offer) }}
                     </button>
                 </dd>
@@ -83,25 +85,30 @@
 
 <app-modal [open]="ticketsModal" [layout]="false" (close)="ticketsModal = false">
     <ul inner class="not-layout px-3 bg-light-gray">
-        <li class="container px-0" *ngFor="let ticket of salesMovieTickets" [class.disabled]="ticket.selected">
+        <li class="border-bottom border-dot border-gray py-3" *ngFor="let ticket of salesMovieTickets"
+            [class.disabled]="ticket.selected">
             <dl class="row align-items-center">
                 <dt class="col-7 col-md-8">
                     <p class="mb-1 font-weight-bold">
                         {{ ticket.ticketName }} ￥{{ getSalseTicketPrice(ticket) }}
                     </p>
-                    <p *ngIf="ticket.paymentMethodType === paymentMethodType.MovieTicket" class="text-small font-weight-normal">
+                    <p *ngIf="ticket.paymentMethodType === paymentMethodType.MovieTicket"
+                        class="text-small font-weight-normal">
                         ムビチケ購入番号 {{ ticket.knyknrNoInfo.knyknrNo }}
                     </p>
-                    <p *ngIf="ticket.paymentMethodType === paymentMethodType.MGTicket" class="text-small font-weight-normal">
+                    <p *ngIf="ticket.paymentMethodType === paymentMethodType.MGTicket"
+                        class="text-small font-weight-normal">
                         CSチケット購入番号 {{ ticket.knyknrNoInfo.knyknrNo }}
                     </p>
                 </dt>
                 <dd class="col-5 col-md-4 text-right">
-                    <button class="btn btn-primary py-2 px-4" type="button" (click)="selectMovieTicket(ticket)">選択</button>
+                    <button class="btn btn-primary py-2 px-4" type="button"
+                        (click)="selectMovieTicket(ticket)">選択</button>
                 </dd>
             </dl>
         </li>
-        <li *ngFor="let ticket of salesPointTickets" [class.disabled]="ticket.selected">
+        <li class="border-bottom border-dot border-gray py-3" *ngFor="let ticket of salesPointTickets"
+            [class.disabled]="ticket.selected">
             <dl class="row align-items-center">
                 <dt class="col-7 col-md-8">
                     <div class="mb-1 font-weight-bold">
@@ -110,7 +117,8 @@
                     <p class="text-small">{{ ticket.ticketNote }}</p>
                 </dt>
                 <dd class="col-5 col-md-4 text-right">
-                    <button class="btn btn-primary py-2 px-4" type="button" (click)="selectSalseTicket(ticket)">選択</button>
+                    <button class="btn btn-primary py-2 px-4" type="button"
+                        (click)="selectSalseTicket(ticket)">選択</button>
                 </dd>
             </dl>
         </li>
@@ -123,7 +131,8 @@
                     <p class="mt-1 text-small font-weight-normal">{{ ticket.ticketNote }}</p>
                 </dt>
                 <dd class="col-5 col-md-4 text-right">
-                    <button class="btn btn-primary py-2 px-4" type="button" (click)="selectSalseTicket(ticket)">選択</button>
+                    <button class="btn btn-primary py-2 px-4" type="button"
+                        (click)="selectSalseTicket(ticket)">選択</button>
                 </dd>
             </dl>
         </li>

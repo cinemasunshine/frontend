@@ -1,34 +1,36 @@
 <div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
     <h1 class="text-center text-large font-weight-bold mb-3 text-danger">仮予約の座席があります</h1>
-    <p class="text-left text-md-center">現在、仮予約の座席があります。
+    <p class="text-left text-md-center mb-3">
+        現在、仮予約の座席があります。
         <br>仮予約の座席の購入を進めるか、新しく選択した内容で購入を進めるか選択してください。
-        <br>仮予約の内容は下記になります。</p>
+        <br>仮予約の内容は下記になります。
+    </p>
 
     <div class="form-layout mb-4">
         <h2 class="mb-2 font-weight-bold">仮予約の上映スケジュール</h2>
         <ul class="p-3 rounded bg-light-gray mb-4">
-            <li>
-                <dl>
-                    <dt>劇場 / スクリーン</dt>
-                    <dd>{{ purchase.getTheaterName() }} / {{ purchase.getScreenName() }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">劇場 / スクリーン</dt>
+                    <dd class="col-12 col-md-8">{{ purchase.getTheaterName() }} / {{ purchase.getScreenName() }}</dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>作品名</dt>
-                    <dd>{{ purchase.getTitle() }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">作品名</dt>
+                    <dd class="col-12 col-md-8">{{ purchase.getTitle() }}</dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>鑑賞日時</dt>
-                    <dd>
+            <li class="container px-0">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">鑑賞日時</dt>
+                    <dd class="col-12 col-md-8">
                         {{ purchase.getAppreciationDate() }} {{ purchase.getStartDate() }} - {{ purchase.getEndDate() }}
                     </dd>
                 </dl>
             </li>
         </ul>
-        <p class="text-center mb-1">上記の仮予約内容で購入手続きへ戻ります。</p>
+        <p class="text-center mb-2">上記の仮予約内容で購入手続きへ戻ります。</p>
         <form (ngSubmit)="returnTransaction()">
             <div class="buttons mx-auto">
                 <div class="mb-3">
@@ -40,31 +42,31 @@
         </form>
     </div>
 
-    <div class="form-layout">
+    <div class="form-layout mb-5">
         <h2 class="mb-2 font-weight-bold">新しく選択した上映スケジュール</h2>
         <ul class="p-3 rounded bg-light-gray mb-4">
-            <li>
-                <dl>
-                    <dt>劇場 / スクリーン</dt>
-                    <dd>{{ getTheaterName() }} / {{ getScreenName() }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">劇場 / スクリーン</dt>
+                    <dd class="col-12 col-md-8">{{ getTheaterName() }} / {{ getScreenName() }}</dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>作品名</dt>
-                    <dd>{{ getTitle() }}</dd>
+            <li class="container px-0 border-bottom border-dot border-gray pb-3 mb-3">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">作品名</dt>
+                    <dd class="col-12 col-md-8">{{ getTitle() }}</dd>
                 </dl>
             </li>
-            <li>
-                <dl>
-                    <dt>鑑賞日時</dt>
-                    <dd>
+            <li class="container px-0">
+                <dl class="row align-items-center">
+                    <dt class="col-12 col-md-4 font-weight-bold mb-2 mb-md-0">鑑賞日時</dt>
+                    <dd class="col-12 col-md-8">
                         {{ getAppreciationDate() }} {{ getStartDate() }} - {{ getEndDate() }}
                     </dd>
                 </dl>
             </li>
         </ul>
-        <p class="text-center  mb-1">仮予約を削除し、新しく選択した上映スケジュールの購入手続きを進めます。</p>
+        <p class="text-center mb-2">仮予約を削除し、新しく選択した上映スケジュールの購入手続きを進めます。</p>
         <form (ngSubmit)="newTransaction()">
             <div class="buttons mx-auto">
                 <div class="mb-3">
