@@ -10,9 +10,12 @@ html, body {
 }
 body {
     text-size-adjust: 100%;
-    // -webkit-touch-callout: none;
-    // user-select: none;
     background-attachment: fixed;
+    @media screen and (max-width: 767px){
+        font-weight: normal;
+        -webkit-touch-callout: none;
+        user-select: none;
+    }
 }
 
 ::placeholder {
