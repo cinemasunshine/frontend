@@ -10,14 +10,14 @@
             <h2 class="font-weight-bold">作品情報</h2>
             <div class="right ticket-app-hide">
                 <div class="position-absolute" *ngIf="purchase.data.seller?.url">
-                    <a class="btn bg-dark-gray text-white text-small py-0 px-4"
-                        href="{{ purchase.data.seller?.url }}">変更</a>
+                    <button type="button" class="btn bg-dark-gray text-white text-small py-0 px-4"
+                        (click)="link(purchase.data.seller?.url)">変更</button>
                 </div>
             </div>
             <div class="right ticket-app-show">
                 <div class="position-absolute">
-                    <a class="btn bg-dark-gray text-white text-small py-0 px-4"
-                        href="{{ environment.APP_SITE_URL }}/#/purchase">変更</a>
+                    <button type="button" class="btn bg-dark-gray text-white text-small py-0 px-4"
+                        (click)="link(environment.APP_SITE_URL + '/#/purchase')">変更</button>
                 </div>
             </div>
         </div>
