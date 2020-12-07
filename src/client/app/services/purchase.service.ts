@@ -1132,4 +1132,13 @@ export class PurchaseService {
         this.data.checkMovieTicketActions = [...filterCheckMovieTicketActions, checkMovieTicketAction];
         this.save();
     }
+
+    public async cancelTransaction() {
+        const { transaction } = this.data;
+        if (transaction === undefined) {
+            return;
+        }
+        const id = transaction.id;
+        await this.cinerinoService.transaction.placeOrder.cancel({ id });
+    }
 }

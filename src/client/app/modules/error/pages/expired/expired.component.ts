@@ -11,7 +11,12 @@ export class ExpiredComponent implements OnInit {
     public environment = environment;
     constructor(public purchase: PurchaseService) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        try {
+            await this.purchase.cancelTransaction();
+        } catch (error) {
+            console.error(error);
+        }
         this.purchase.reset();
     }
 
