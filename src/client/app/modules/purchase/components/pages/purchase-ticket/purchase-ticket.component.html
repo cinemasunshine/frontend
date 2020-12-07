@@ -1,85 +1,78 @@
-<div class="contents">
-    <h1 class="page-ttl">券種選択</h1>
-    <p class="read">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
+<div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
+    <h1 class="text-center text-large font-weight-bold mb-3">券種選択</h1>
+    <p class="text-left text-md-center mb-3">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
 
     <div *ngIf="purchase.isUsedMovieTicket({ paymentMethodType: paymentMethodType.MovieTicket })"
-        class="box radius bg-ultra-light-gray mb-middle mvtk">
-        <dl class="d-table">
-            <dt class="d-td">ムビチケ券を利用される方</dt>
-            <dd class="d-td width-medium">
-                <div class="ghost-button mvtk-button">
-                    <a routerLink="/purchase/mvtk/input">
-                        <img src="/assets/images/common/mvtk_logo.svg" alt="ムビチケ">を利用する
-                    </a>
-                </div>
+        class="container p-3 rounded bg-light-gray mb-3 mvtk">
+        <dl class="row align-items-center">
+            <dt class="col-12 col-md-6 mb-3 mb-md-0 font-weight-normal">ムビチケ券を利用される方</dt>
+            <dd class="col-12 col-md-6">
+                <button class="btn btn-block bg-white border btn-mvtk py-3" routerLink="/purchase/mvtk/input">
+                    <img width="100" src="/assets/images/common/mvtk_logo.svg" alt="ムビチケ">を利用する
+                </button>
             </dd>
         </dl>
     </div>
     <div *ngIf="purchase.isUsedMovieTicket({ paymentMethodType: paymentMethodType.MGTicket })"
-        class="box radius bg-ultra-light-gray mb-middle mg">
-        <dl class="d-table">
-            <dt class="d-td">CSチケットを利用される方</dt>
-            <dd class="d-td width-medium">
-                <div class="ghost-button mg-button">
-                    <a routerLink="/purchase/mg/input">
-                        CSチケットを利用する
-                    </a>
-                </div>
+        class="container p-3 rounded bg-light-gray mb-3 mg">
+        <dl class="row align-items-center">
+            <dt class="col-12 col-md-6 mb-3 mb-md-0 font-weight-normal">CSチケットを利用される方</dt>
+            <dd class="col-12 col-md-6">
+                <button class="btn btn-block border-primary bg-white btn-mg py-3" routerLink="/purchase/mg/input">
+                    CSチケットを利用する
+                </button>
             </dd>
         </dl>
     </div>
 
     <div *ngIf="user.isMember() && purchase.isUsedPoint() && purchase.data.pointTickets.length === 0"
-        class="box radius bg-ultra-light-gray mb-middle point">
-        <dl class="d-table">
-            <dt class="d-td">会員ポイントを利用される方</dt>
-            <dd class="d-td width-medium">
-                <div class="ghost-button point-button">
-                    <a routerLink="/purchase/point">
-                        <strong>会員ポイント</strong>を利用する
-                    </a>
-                </div>
+        class="container p-3 rounded bg-light-gray mb-3 point">
+        <dl class="row align-items-center">
+            <dt class="col-12 col-md-6 mb-3 mb-md-0 font-weight-normal">会員ポイントを利用される方</dt>
+            <dd class="col-12 col-md-6">
+                <button class="btn btn-block border-primary bg-white btn-point py-3" routerLink="/purchase/point">
+                    <span class="font-weight-bold">会員ポイント</span>を利用する
+                </button>
             </dd>
         </dl>
     </div>
 
-    <ul class="box radius bg-light-gray mb-middle seats">
-        <li *ngFor="let offer of offers">
-            <dl class="d-table">
-                <dt class="d-td seat-code">{{ offer.seatNumber }}</dt>
-                <dd class="d-td width-medium" [class.validation]="offer.validation">
-                    <div *ngIf="!offer.selected" class="button blue-button">
-                        <button type="button" (click)="ticketSelect(offer)">券種を選択してください</button>
-                    </div>
-                    <div *ngIf="offer.selected" class="blue-button ghost-button">
-                        <button type="button" (click)="ticketSelect(offer)">
-                            {{ offer.ticketInfo.ticketName }} ￥{{ getTicketPrice(offer) }}
-                        </button>
-                    </div>
+    <ul class="px-3 rounded bg-light-gray mb-3 seats">
+        <li class="container px-0 py-3 border-bottom border-dot border-gray" *ngFor="let offer of offers">
+            <dl class="row align-items-center">
+                <dt class="col-12 col-md-6 mb-3 mb-md-0 font-weight-normal">{{ offer.seatNumber }}</dt>
+                <dd class="col-12 col-md-6" [class.validation]="offer.validation">
+                    <button *ngIf="!offer.selected" class="btn btn-block btn-primary py-3" type="button"
+                        (click)="ticketSelect(offer)">
+                        券種を選択してください
+                    </button>
+                    <button *ngIf="offer.selected" class="btn btn-block border-primary text-primary bg-white py-3"
+                        type="button" (click)="ticketSelect(offer)">
+                        {{ offer.ticketInfo.ticketName }} ￥{{ getTicketPrice(offer) }}
+                    </button>
                 </dd>
             </dl>
         </li>
     </ul>
 
-    <div class="box radius bg-light-gray mb-large total">
-        <div class="text-right mb-small">
-            <div class="length mb-x-small">購入枚数
-                <strong class="red-text large-text">{{ offers.length }}枚</strong>
+    <div class="p-3 rounded bg-light-gray mb-4 total">
+        <div class="text-right mb-2">
+            <div class="mb-2 mb-1">購入枚数
+                <span class="text-danger text-large font-weight-bold">{{ offers.length }}枚</span>
             </div>
-            <div class="price">合計金額
-                <strong class="red-text large-text">
-                    <span>{{ totalPrice }}</span>円</strong>
+            <div class="">合計金額
+                <span class="text-danger text-large font-weight-bold">{{ totalPrice }}円</span>
             </div>
         </div>
-        <div class="border-bottom-dot mb-small"></div>
+        <div class="border-bottom-dot mb-2"></div>
         <!-- 4DX -->
-        <p *ngIf="is4DX(purchase.data.screeningEvent)" class="small-x-text mb-xx-small">
+        <p *ngIf="is4DX(purchase.data.screeningEvent)" class="text-small mb-1">
             ※[４DXをご鑑賞のお客様へ]
             <br> ４DX®作品は「身長100cm未満の方は入場不可」「身長120cm未満のお子様は保護者同伴」の入場制限がありますので、ご注意くださいませ。
             <br> また、妊娠されている方、ご高齢の方、心臓・背中・腰・首などに障害のある方、特別な疾病のある方、乗り物酔いしやすい方、体調に不安のある方はご利用になれません。
             <br> 上映中のホットドリンク・アルコールはご遠慮ください。
         </p>
-        <p class="small-x-text">※メンバーズカード提示による割引やその他割引券などのご利用はできません。
+        <p class="text-small">※メンバーズカード提示による割引やその他割引券などのご利用はできません。
             <br>※車椅子席をご希望の方は、お手数ですが通常のお席をご購入の上、対象の劇場にご連絡ください。
             <br>※ムビチケ券によっては別途追加料金が発生する場合がありますのでご了承ください。
         </p>
@@ -91,56 +84,55 @@
 </div>
 
 <app-modal [open]="ticketsModal" [layout]="false" (close)="ticketsModal = false">
-    <ul inner class="not-layout box bg-light-gray">
-        <li *ngFor="let ticket of salesMovieTickets" [class.disabled]="ticket.selected">
-            <dl class="d-table">
-                <dt class="d-td">
-                    <div class="mb-xx-small">
-                        <strong>
-                            {{ ticket.ticketName }} ￥{{ getSalseTicketPrice(ticket) }}
-                        </strong>
-                    </div>
-                    <p *ngIf="ticket.paymentMethodType === paymentMethodType.MovieTicket" class="small-x-text">
+    <ul inner class="not-layout px-3 bg-light-gray">
+        <li class="border-bottom border-dot border-gray py-3" *ngFor="let ticket of salesMovieTickets"
+            [class.disabled]="ticket.selected">
+            <dl class="row align-items-center">
+                <dt class="col-7 col-md-8">
+                    <p class="mb-1 font-weight-bold">
+                        {{ ticket.ticketName }} ￥{{ getSalseTicketPrice(ticket) }}
+                    </p>
+                    <p *ngIf="ticket.paymentMethodType === paymentMethodType.MovieTicket"
+                        class="text-small font-weight-normal">
                         ムビチケ購入番号 {{ ticket.knyknrNoInfo.knyknrNo }}
                     </p>
-                    <p *ngIf="ticket.paymentMethodType === paymentMethodType.MGTicket" class="small-x-text">
+                    <p *ngIf="ticket.paymentMethodType === paymentMethodType.MGTicket"
+                        class="text-small font-weight-normal">
                         CSチケット購入番号 {{ ticket.knyknrNoInfo.knyknrNo }}
                     </p>
                 </dt>
-                <dd class="d-td width-small">
-                    <div class="button blue-button ticket-type-select">
-                        <button type="button" (click)="selectMovieTicket(ticket)">選択</button>
-                    </div>
+                <dd class="col-5 col-md-4 text-right">
+                    <button class="btn btn-primary py-2 px-4" type="button"
+                        (click)="selectMovieTicket(ticket)">選択</button>
                 </dd>
             </dl>
         </li>
-        <li *ngFor="let ticket of salesPointTickets" [class.disabled]="ticket.selected">
-            <dl class="d-table">
-                <dt class="d-td">
-                    <div class="mb-xx-small">
-                        <strong>{{ ticket.ticketName }} ￥{{ getSalseTicketPrice(ticket) }}</strong>
+        <li class="border-bottom border-dot border-gray py-3" *ngFor="let ticket of salesPointTickets"
+            [class.disabled]="ticket.selected">
+            <dl class="row align-items-center">
+                <dt class="col-7 col-md-8">
+                    <div class="mb-1 font-weight-bold">
+                        {{ ticket.ticketName }} ￥{{ getSalseTicketPrice(ticket) }}
                     </div>
-                    <p class="small-x-text">{{ ticket.ticketNote }}</p>
+                    <p class="text-small">{{ ticket.ticketNote }}</p>
                 </dt>
-                <dd class="d-td width-small">
-                    <div class="button blue-button ticket-type-select">
-                        <button type="button" (click)="selectSalseTicket(ticket)">選択</button>
-                    </div>
+                <dd class="col-5 col-md-4 text-right">
+                    <button class="btn btn-primary py-2 px-4" type="button"
+                        (click)="selectSalseTicket(ticket)">選択</button>
                 </dd>
             </dl>
         </li>
-        <li *ngFor="let ticket of salesTickets">
-            <dl class="d-table">
-                <dt class="d-td">
-                    <div class="mb-xx-small">
-                        <strong>{{ ticket.ticketName }} ￥{{ getSalseTicketPrice(ticket) }}</strong>
-                    </div>
-                    <p class="small-x-text">{{ ticket.ticketNote }}</p>
+        <li class="border-bottom border-dot border-gray py-3" *ngFor="let ticket of salesTickets">
+            <dl class="row align-items-center">
+                <dt class="col-7 col-md-8">
+                    <p class="font-weight-bold">
+                        {{ ticket.ticketName }} ￥{{ getSalseTicketPrice(ticket) }}
+                    </p>
+                    <p class="mt-1 text-small font-weight-normal">{{ ticket.ticketNote }}</p>
                 </dt>
-                <dd class="d-td width-small">
-                    <div class="button blue-button ticket-type-select">
-                        <button type="button" (click)="selectSalseTicket(ticket)">選択</button>
-                    </div>
+                <dd class="col-5 col-md-4 text-right">
+                    <button class="btn btn-primary py-2 px-4" type="button"
+                        (click)="selectSalseTicket(ticket)">選択</button>
                 </dd>
             </dl>
         </li>
@@ -148,17 +140,17 @@
 </app-modal>
 
 <app-modal [open]="notSelectModal" [layout]="true" (close)="notSelectModal = false">
-    <div class="modal-title large-text text-center mb-middle">
+    <div class="modal-title text-large text-center mb-3">
         <strong>券種が未選択です</strong>
     </div>
-    <p class="text-center">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
+    <p class="text-left text-md-center">ご希望の券種を選択して「次へ」ボタンを押してください。</p>
 </app-modal>
 
 <app-modal [open]="discountConditionsModal" [layout]="true" (close)="discountConditionsModal = false">
-    <div class="modal-title large-text text-center mb-middle">
+    <div class="modal-title text-large text-center mb-3">
         <strong>割引条件が満たされていません</strong>
     </div>
-    <p class="text-center">選択した券種の中に、割引券が含まれています。
+    <p class="text-left text-md-center">選択した券種の中に、割引券が含まれています。
         <br> 割引券の適用条件を再度ご確認ください。
     </p>
 </app-modal>

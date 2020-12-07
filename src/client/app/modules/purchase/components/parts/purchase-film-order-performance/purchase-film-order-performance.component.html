@@ -2,17 +2,17 @@
     <dl>
         <dt>
             <div class="text-left">
-                <div class="large-text mb-x-small">
+                <div class="text-large mb-1">
                     <strong>{{ data.startDate | timeFormat: data.coaInfo?.dateJouei }}</strong>
                 </div>
                 <div>～{{ data.endDate | timeFormat: data.coaInfo?.dateJouei }}</div>
             </div>
-            <div class="text-center small-x-text status">
-                <div class="mb-x-small text">{{ availability.text }}</div>
+            <div class="text-center text-small status">
+                <div class="mb-1 text">{{ availability.text }}</div>
                 <div class="image"></div>
             </div>
         </dt>
-        <dd class="small-text text-center">
+        <dd class="text-small text-center">
             <div class="screen-name">{{ data.location.name?.ja }}</div>
         </dd>
     </dl>

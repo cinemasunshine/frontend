@@ -70,4 +70,8 @@ export class PurchaseConfirmComponent implements OnInit {
         }
     }
 
+    public link(url: string) {
+        location.href = url;
+    }
+
 }

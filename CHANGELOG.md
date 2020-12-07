@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.7.0 - 2020-12-07
+### Changed
+ - bootstrap適用
+
 ## 6.6.6 - 2020-11-27
 ### Changed
  - 確認番号での注文照会結果を新しい型に対応

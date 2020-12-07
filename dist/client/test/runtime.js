@@ -64,7 +64,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"default~modules-inquiry-inquiry-module-ngfactory~modules-purchase-purchase-module-ngfactory":"default~modules-inquiry-inquiry-module-ngfactory~modules-purchase-purchase-module-ngfactory","modules-inquiry-inquiry-module-ngfactory":"modules-inquiry-inquiry-module-ngfactory","default~modules-purchase-purchase-module-ngfactory~modules-test-test-module-ngfactory":"default~modules-purchase-purchase-module-ngfactory~modules-test-test-module-ngfactory","modules-purchase-purchase-module-ngfactory":"modules-purchase-purchase-module-ngfactory","modules-test-test-module-ngfactory":"modules-test-test-module-ngfactory","modules-auth-auth-module-ngfactory":"modules-auth-auth-module-ngfactory"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"common":"common","modules-inquiry-inquiry-module-ngfactory":"modules-inquiry-inquiry-module-ngfactory","default~modules-purchase-purchase-module-ngfactory~modules-test-test-module-ngfactory":"default~modules-purchase-purchase-module-ngfactory~modules-test-test-module-ngfactory","modules-purchase-purchase-module-ngfactory":"modules-purchase-purchase-module-ngfactory","modules-test-test-module-ngfactory":"modules-test-test-module-ngfactory","modules-auth-auth-module-ngfactory":"modules-auth-auth-module-ngfactory"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function

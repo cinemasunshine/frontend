@@ -47,9 +47,10 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     SeatInfoComponent,
     PurchaseMgInputComponent,
     PurchaseMgConfirmComponent,
-    TransactionRemainingTimeComponent
+    TransactionRemainingTimeComponent,
   ],
-  entryComponents: [],
+  entryComponents: [
+  ],
   imports: [
     CommonModule,
     PurchaseRoutingModule,

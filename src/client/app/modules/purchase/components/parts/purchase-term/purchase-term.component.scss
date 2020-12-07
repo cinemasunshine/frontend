@@ -1,15 +1,11 @@
-$tablet: 1024px;
-$mobile: 767px;
+
 :host {
     display: block;
 }
 .term {
-    overflow-y: auto;
-    will-change: transform;
-    -webkit-overflow-scrolling: touch;
     resize: vertical;
     height: 150px;
-    @media screen and (max-width: $mobile) {
+    @media screen and (max-width: 767px) {
         height: 100px;
     }
 }
