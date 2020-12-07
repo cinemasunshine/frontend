@@ -1,5 +1,4 @@
-$tablet: 1024px;
-$mobile: 767px;
+
 li {
     border-radius: 5px;
     color: #333;
@@ -14,7 +13,7 @@ li {
             color: #FFF;
             background-color: #2d2d2d;
             padding: 20px 20px 0;
-            @media screen and (max-width: $mobile){
+            @media screen and (max-width: 767px){
                 padding: 10px 10px 0;
             }
             ul {

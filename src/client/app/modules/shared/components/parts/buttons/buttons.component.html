@@ -1,5 +1,9 @@
-<div class="button-area">
-    <app-next-button [disabled]="disabled">{{ nextLabel }}</app-next-button>
+<div class="buttons mx-auto">
+    <div class="mb-4">
+        <button class="btn btn-block btn-primary py-3 font-weight-bold" [disabled]="disabled" type="submit">
+            <app-icon iconName="next-white" width="15" height="15"></app-icon>{{ nextLabel }}
+        </button>
+    </div>
     <div class="prev-link">
         <a routerLink="{{ prevLink }}"><app-icon iconName="prev-black" width="15" height="15"></app-icon>{{ prevLabel }}</a>
     </div>

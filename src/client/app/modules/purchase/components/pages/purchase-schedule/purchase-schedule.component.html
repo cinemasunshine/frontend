@@ -1,38 +1,43 @@
-<div class="contents">
+<div class="contents bg-white p-3 pb-5 pt-md-4 px-md-5">
 
-    <h1 class="page-ttl">スケジュール選択</h1>
-    <p class="read">こちらからチケットの購入をする事が出来ます。
-        <br>ご希望の鑑賞作品、鑑賞日時を選択してください。</p>
-    <div class="inquiry-buttons mb-middle">
-        <div *ngFor="let theater of theaters" class="button blue-button center-button inquiry-button">
-            <a
-                href="{{ environment.FRONTEND_ENDPOINT }}/inquiry/login?theater={{ theater.location.branchCode }}">{{ theater.name.ja }}照会</a>
+    <h1 class="text-center text-large font-weight-bold mb-3">スケジュール選択</h1>
+    <p class="text-left text-md-center mb-3">
+        こちらからチケットの購入をする事が出来ます。
+        <br>ご希望の鑑賞作品、鑑賞日時を選択してください。
+    </p>
+    <div class="container px-0 mb-4">
+        <div class="row align-items-center">
+            <div *ngFor="let theater of theaters" class="col-12 col-md-6 mb-3">
+                <a class="btn btn-block btn-primary py-3 text-small"
+                    href="{{ environment.FRONTEND_ENDPOINT }}/inquiry/login?theater={{ theater.location.branchCode }}">{{ theater.name.ja }}照会</a>
+            </div>
         </div>
     </div>
 
-    <div class="mb-middle">
-        <dl>
-            <dt class="mb-x-small">劇場</dt>
-            <dd class="mb-small">
-                <select [(ngModel)]="conditions.theater" (change)="changeConditions()">
+
+    <div class="mb-3">
+        <dl class="form-group">
+            <dt class="mb-1">劇場</dt>
+            <dd class="mb-2">
+                <select class="form-control" [(ngModel)]="conditions.theater" (change)="changeConditions()">
                     <option *ngFor="let theater of theaters" value="{{ theater.location.branchCode }}">
                         {{ theater.name.ja }}</option>
                 </select>
             </dd>
         </dl>
-        <dl>
-            <dt class="mb-x-small">会員ステータス</dt>
-            <dd class="mb-small">
-                <select [(ngModel)]="conditions.member" (change)="changeConditions()">
+        <dl class="form-group">
+            <dt class="mb-1">会員ステータス</dt>
+            <dd class="mb-2">
+                <select class="form-control" [(ngModel)]="conditions.member" (change)="changeConditions()">
                     <option [value]="false">非会員</option>
                     <option [value]="true">会員</option>
                 </select>
             </dd>
         </dl>
-        <dl>
-            <dt class="mb-x-small">鑑賞日</dt>
-            <dd class="mb-small">
-                <select [(ngModel)]="conditions.date" (change)="changeConditions()">
+        <dl class="form-group">
+            <dt class="mb-1">鑑賞日</dt>
+            <dd class="mb-2">
+                <select class="form-control" [(ngModel)]="conditions.date" (change)="changeConditions()">
                     <option *ngFor="let date of dateList" value="{{ date.value }}">{{ date.label }}</option>
                 </select>
             </dd>
@@ -40,7 +45,8 @@
     </div>
 
     <ul class="film-order">
-        <app-purchase-film-order *ngFor="let film of filmOrder" [data]="film" [member]="conditions.member"></app-purchase-film-order>
+        <app-purchase-film-order *ngFor="let film of filmOrder" [data]="film" [member]="conditions.member">
+        </app-purchase-film-order>
     </ul>
 
 </div>

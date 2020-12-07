@@ -1,13 +1,12 @@
-$tablet: 1024px;
-$mobile: 767px;
+
 :host {
     width: 25%;
     padding: 0 0 0 10px;
     margin: 0 0 20px;
-    @media screen and (max-width: $tablet){
+    @media screen and (max-width: 1024px){
         width: 33.3%;
     }
-    @media screen and (max-width: $mobile){
+    @media screen and (max-width: 767px){
         width: 50%;
         margin: 0 0 10px;
     }
@@ -26,7 +25,7 @@ li {
             justify-content: space-between;
             align-items: center;
             background-color: #515151;
-            @media screen and (max-width: $mobile){
+            @media screen and (max-width: 767px){
                 padding: 10px;
             }
             .status {

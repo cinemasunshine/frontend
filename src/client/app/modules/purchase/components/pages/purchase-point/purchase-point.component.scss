@@ -1,25 +1,12 @@
-.point {
-    color: #FFF;
-    .inner {
-        display: inline-block;
-        padding: 10px;
-    }
+.border-bottom:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border: none !important;
 }
 
-.tickets {
-    li {
-        dl {
-            display: flex;
-            align-items: center;
-        }
-        dt {
-            width: calc(100% - 10px);
-            margin-bottom: 0;
-        }
-        dd {
-            select {
-                width:100px;
-            }
-        }
+.form-control {
+    width: auto;
+    @media screen and (max-width: 767px){
+        width: 100%;
     }
 }

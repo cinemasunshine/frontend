@@ -1,5 +1,4 @@
-$tablet: 1024px;
-$mobile: 767px;
+
 .parent {
     position: fixed;
     top: 0;
@@ -12,18 +11,22 @@ $mobile: 767px;
         display: block;
     }
 }
-.modal-cover {
+.custom-modal-cover {
     background-color: rgba(0, 0, 0, 0.7);
     height: 100%;
     width: 100%;
     animation: fadein 0.4s both;
 }
 
-.modal {
+.custom-modal {
     z-index: 10;
     width: 600px;
     animation: fadein 0.4s both;
-    @media screen and (max-width: $mobile){
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    @media screen and (max-width: 767px){
         width: 88%;
     }
     .inner {
@@ -58,14 +61,22 @@ $mobile: 767px;
     }
 }
 
-.prev-link {
-    text-align: center;
-    a, button {
-        font-size: 16px;
-        font-weight: bold;
-        color: #333;
-        position: relative;
-        text-decoration: underline;
-        cursor: pointer;
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
