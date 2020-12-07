@@ -1138,6 +1138,7 @@ export class PurchaseService {
         if (transaction === undefined) {
             return;
         }
+        await this.cinerinoService.getServices();
         const id = transaction.id;
         await this.cinerinoService.transaction.placeOrder.cancel({ id });
     }

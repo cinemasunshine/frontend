@@ -5173,9 +5173,12 @@ var PurchaseService = /** @class */ (function () {
                         if (transaction === undefined) {
                             return [2 /*return*/];
                         }
+                        return [4 /*yield*/, this.cinerinoService.getServices()];
+                    case 1:
+                        _a.sent();
                         id = transaction.id;
                         return [4 /*yield*/, this.cinerinoService.transaction.placeOrder.cancel({ id: id })];
-                    case 1:
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
