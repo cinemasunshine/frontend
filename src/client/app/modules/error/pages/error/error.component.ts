@@ -15,7 +15,12 @@ export class ErrorComponent implements OnInit {
         private error: ErrorService
     ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        try {
+            await this.purchase.cancelTransaction();
+        } catch (error) {
+            console.error(error);
+        }
         this.purchase.reset();
         this.message = (this.error.errorDetail !== undefined) ? this.error.errorDetail.message : '';
     }
