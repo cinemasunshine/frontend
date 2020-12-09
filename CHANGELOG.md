@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.7.1 - 2020-12-09
+### Added
+ - 注文取引の明示的な中止
+
 ## 6.7.0 - 2020-12-07
 ### Changed
  - bootstrap適用

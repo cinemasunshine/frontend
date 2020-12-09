@@ -60,11 +60,11 @@
                     </div>
 
                     <div *ngIf="moment(acceptedOffer.itemOffered.reservationFor.endDate).add(1, 'months').unix() < moment().unix()"
-                        class="p-3 rounded border-bottom-dot not-qr-code bg-white">
+                        class="px-3 py-5 rounded border-bottom-dot not-qr-code bg-white">
                         <p class="text-left text-md-center">上映日から1ヶ月以上経過しています。</p>
                     </div>
                     <div *ngIf="moment(acceptedOffer.itemOffered.reservationFor.startDate).add(-24, 'hours').unix() > moment().unix()"
-                        class="p-3 rounded border-bottom-dot not-qr-code bg-white">
+                        class="px-3 py-5 rounded border-bottom-dot not-qr-code bg-white">
                         <p class="text-left text-md-center">鑑賞日前日からQRコードが表示されます。</p>
                     </div>
                     <div *ngIf="!(moment(acceptedOffer.itemOffered.reservationFor.endDate).add(1, 'months').unix() < moment().unix()) && !(moment(acceptedOffer.itemOffered.reservationFor.startDate).add(-24, 'hours').unix() > moment().unix())"
