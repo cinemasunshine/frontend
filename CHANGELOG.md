@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.7.2 - 2021-03-05
+### Added
+ - 取引に端末情報追加
+### Fixed
+ - 販売可能判定をサーバータイムへ修正
+
 ## 6.7.1 - 2020-12-09
 ### Added
  - 注文取引の明示的な中止

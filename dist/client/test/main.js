@@ -1202,34 +1202,37 @@ var Performance = /** @class */ (function () {
     /**
      * 販売可能判定
      */
-    Performance.prototype.isSalse = function () {
-        return !this.isBeforePeriod()
-            && !this.isAfterPeriod()
-            && !this.isWindow()
+    Performance.prototype.isSalse = function (now) {
+        if (now === void 0) { now = moment__WEBPACK_IMPORTED_MODULE_0__(); }
+        return !this.isBeforePeriod(now)
+            && !this.isAfterPeriod(now)
+            && !this.isWindow(now)
             && this.time.seat_count.cnt_reserve_free > 0;
     };
     /**
      * 予約期間前判定
      */
-    Performance.prototype.isBeforePeriod = function () {
+    Performance.prototype.isBeforePeriod = function (now) {
+        if (now === void 0) { now = moment__WEBPACK_IMPORTED_MODULE_0__(); }
         var rsvStartDate = (this.member)
             ? moment__WEBPACK_IMPORTED_MODULE_0__(this.time.member_rsv_start_day + " " + this.time.member_rsv_start_time, 'YYYYMMDD HHmm')
             : moment__WEBPACK_IMPORTED_MODULE_0__(this.time.rsv_start_day + " " + this.time.rsv_start_time, 'YYYYMMDD HHmm');
-        return rsvStartDate > moment__WEBPACK_IMPORTED_MODULE_0__();
+        return rsvStartDate > now;
     };
     /**
      * 予約期間後判定（上映開始10分以降）
      */
-    Performance.prototype.isAfterPeriod = function () {
+    Performance.prototype.isAfterPeriod = function (now) {
+        if (now === void 0) { now = moment__WEBPACK_IMPORTED_MODULE_0__(); }
         var startDate = moment__WEBPACK_IMPORTED_MODULE_0__(this.date + " " + this.time.start_time, 'YYYYMMDD HHmm');
-        return moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(10, 'minutes') < moment__WEBPACK_IMPORTED_MODULE_0__();
+        return moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(10, 'minutes') < now;
     };
     /**
      * 窓口判定（上映開始10分前から上映開始10分後）
      */
-    Performance.prototype.isWindow = function () {
+    Performance.prototype.isWindow = function (now) {
+        if (now === void 0) { now = moment__WEBPACK_IMPORTED_MODULE_0__(); }
         var startDate = moment__WEBPACK_IMPORTED_MODULE_0__(this.date + " " + this.time.start_time, 'YYYYMMDD HHmm');
-        var now = moment__WEBPACK_IMPORTED_MODULE_0__();
         return (this.time.seat_count.cnt_reserve_free > 0
             && moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(Number(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].WINDOW_TIME_FROM_VALUE), _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].WINDOW_TIME_FROM_UNIT) < now
             && moment__WEBPACK_IMPORTED_MODULE_0__(startDate).add(Number(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].WINDOW_TIME_THROUGH_VALUE), _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].WINDOW_TIME_THROUGH_UNIT) > now);
@@ -4127,7 +4130,7 @@ var PurchaseService = /** @class */ (function () {
                         if (performance_1 === undefined) {
                             throw new Error('パフォーマンスが見つかりません');
                         }
-                        return [2 /*return*/, performance_1.isSalse()];
+                        return [2 /*return*/, performance_1.isSalse(moment__WEBPACK_IMPORTED_MODULE_1__(now))];
                     case 6:
                         error_1 = _b.sent();
                         console.error(error_1);
@@ -4445,7 +4448,13 @@ var PurchaseService = /** @class */ (function () {
                                     typeOf: this.data.seller.typeOf,
                                     id: this.data.seller.id
                                 },
-                                object: { passport: { token: args.passportToken } }
+                                object: { passport: { token: args.passportToken } },
+                                agent: {
+                                    identifier: [
+                                        { name: 'userAgent', value: (navigator && navigator.userAgent !== undefined) ? navigator.userAgent : '' },
+                                        { name: 'appVersion', value: (navigator && navigator.appVersion !== undefined) ? navigator.appVersion : '' }
+                                    ]
+                                }
                             })];
                     case 5:
                         // 取引開始

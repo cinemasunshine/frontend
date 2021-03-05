@@ -266,7 +266,7 @@ export class PurchaseService {
             if (performance === undefined) {
                 throw new Error('パフォーマンスが見つかりません');
             }
-            return performance.isSalse();
+            return performance.isSalse(moment(now));
         } catch (error) {
             console.error(error);
             return false;
@@ -607,7 +607,13 @@ export class PurchaseService {
                 typeOf: this.data.seller.typeOf,
                 id: this.data.seller.id
             },
-            object: { passport: { token: args.passportToken } }
+            object: { passport: { token: args.passportToken } },
+            agent: {
+                identifier: [
+                    { name: 'userAgent', value: (navigator && navigator.userAgent !== undefined) ? navigator.userAgent : '' },
+                    { name: 'appVersion', value: (navigator && navigator.appVersion !== undefined) ? navigator.appVersion : '' }
+                ]
+            }
         });
         this.save();
     }

@@ -46,39 +46,38 @@ export class Performance {
     /**
      * 販売可能判定
      */
-    public isSalse() {
-        return !this.isBeforePeriod()
-            && !this.isAfterPeriod()
-            && !this.isWindow()
+    public isSalse(now = moment()) {
+        return !this.isBeforePeriod(now)
+            && !this.isAfterPeriod(now)
+            && !this.isWindow(now)
             && this.time.seat_count.cnt_reserve_free > 0;
     }
 
     /**
      * 予約期間前判定
      */
-    public isBeforePeriod() {
+    public isBeforePeriod(now = moment()) {
         const rsvStartDate = (this.member)
             ? moment(`${this.time.member_rsv_start_day} ${this.time.member_rsv_start_time}`, 'YYYYMMDD HHmm')
             : moment(`${this.time.rsv_start_day} ${this.time.rsv_start_time}`, 'YYYYMMDD HHmm');
-        return rsvStartDate > moment();
+        return rsvStartDate > now;
     }
 
     /**
      * 予約期間後判定（上映開始10分以降）
      */
-    public isAfterPeriod() {
+    public isAfterPeriod(now = moment()) {
         const startDate =
             moment(`${this.date} ${this.time.start_time}`, 'YYYYMMDD HHmm');
-        return moment(startDate).add(10, 'minutes') < moment();
+        return moment(startDate).add(10, 'minutes') < now;
     }
 
     /**
      * 窓口判定（上映開始10分前から上映開始10分後）
      */
-    public isWindow() {
+    public isWindow(now = moment()) {
         const startDate =
             moment(`${this.date} ${this.time.start_time}`, 'YYYYMMDD HHmm');
-        const now = moment();
         return (this.time.seat_count.cnt_reserve_free > 0
             && moment(startDate).add(
                 Number(environment.WINDOW_TIME_FROM_VALUE),
