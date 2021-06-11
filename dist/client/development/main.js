@@ -4792,12 +4792,12 @@ var PurchaseService = /** @class */ (function () {
                         }
                         account = this.userService.data.account;
                         notes = ticketNames.join(',');
-                        return [4 /*yield*/, this.cinerinoService.payment.authorizeAccount({
+                        return [4 /*yield*/, this.cinerinoService.payment.authorizePaymentCard({
                                 object: {
                                     typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].action.authorize.paymentMethod.any.ResultType.Payment,
                                     amount: usePoint,
                                     notes: notes,
-                                    paymentMethod: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.paymentMethodType.Account,
+                                    paymentMethod: 'Account',
                                     fromAccount: {
                                         accountType: account.typeOfGood.accountType,
                                         accountNumber: account.typeOfGood.accountNumber
@@ -5473,7 +5473,7 @@ var UserService = /** @class */ (function () {
                     case 1:
                         searchResult = _a.sent();
                         accounts = searchResult.data.filter(function (a) {
-                            return (a.typeOfGood.status === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].pecorino.accountStatusType.Opened);
+                            return (a.typeOfGood.status === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].accountStatusType.Opened);
                         });
                         return [2 /*return*/, accounts];
                 }
@@ -5874,6 +5874,17 @@ module.exports = __webpack_require__(/*! C:\Users\hataguchi\Desktop\workspace\Ci
 /***/ }),
 
 /***/ 2:
+/*!********************************!*\
+  !*** ./util.inspect (ignored) ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 3:
 /*!************************!*\
   !*** crypto (ignored) ***!
   \************************/

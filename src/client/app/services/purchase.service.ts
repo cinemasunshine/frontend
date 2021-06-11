@@ -724,7 +724,7 @@ export class PurchaseService {
      * 購入者情報登録処理
      * @method customerContactRegistrationProcess
      */
-    public async customerContactRegistrationProcess(customerContact: factory.transaction.placeOrder.ICustomerProfile) {
+    public async customerContactRegistrationProcess(customerContact: factory.person.IProfile) {
         if (this.data.transaction === undefined) {
             throw new Error('transaction is undefined');
         }
@@ -843,16 +843,16 @@ export class PurchaseService {
             usePoint += pointTicket.usePoint;
         }
         const account = <
-            factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>
+            factory.ownershipInfo.IOwnershipInfo<factory.account.IAccount>
             >this.userService.data.account;
         const notes = ticketNames.join(',');
 
-        await this.cinerinoService.payment.authorizeAccount({
+        await this.cinerinoService.payment.authorizePaymentCard({
             object: {
                 typeOf: factory.action.authorize.paymentMethod.any.ResultType.Payment,
                 amount: usePoint,
                 notes,
-                paymentMethod: factory.chevre.paymentMethodType.Account,
+                paymentMethod: 'Account',
                 fromAccount: {
                     accountType: account.typeOfGood.accountType,
                     accountNumber: account.typeOfGood.accountNumber
