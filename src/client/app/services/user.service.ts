@@ -154,8 +154,8 @@ export class UserService {
         }
     });
     const accounts =
-        searchResult.data.filter((a: factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>) => {
-            return (a.typeOfGood.status === factory.pecorino.accountStatusType.Opened);
+        searchResult.data.filter((a: factory.ownershipInfo.IOwnershipInfo<factory.account.IAccount>) => {
+            return (a.typeOfGood.status === factory.accountStatusType.Opened);
         });
     return accounts;
 }

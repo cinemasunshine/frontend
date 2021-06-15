@@ -51,7 +51,7 @@ export class PurchasePointComponent implements OnInit {
                 throw new Error('status is different');
             }
             this.availableBalance = (<
-                factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>
+                factory.ownershipInfo.IOwnershipInfo<factory.account.IAccount>
                 >this.user.data.account).typeOfGood.availableBalance;
             const reserveLength = tmpSeatReservationAuthorization.object.acceptedOffer.length;
             this.ticketValueList = [];
@@ -95,7 +95,7 @@ export class PurchasePointComponent implements OnInit {
             return;
         }
         const account = <
-            factory.ownershipInfo.IOwnershipInfo<factory.pecorino.account.IAccount>
+            factory.ownershipInfo.IOwnershipInfo<factory.account.IAccount>
             >this.user.data.account;
         if (account.typeOfGood.availableBalance < usePoint) {
             this.pointAhortageAlertModal = true;
