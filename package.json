@@ -1,6 +1,6 @@
 {
   "name": "sskts-frontend",
-  "version": "6.7.2",
+  "version": "6.8.0",
   "scripts": {
     "ng": "ng",
     "build-client": "npm run build-client-development && npm run build-client-test && npm run build-client-production && node bin/rename dist/client/production/index.production.html dist/client/production/index.html",
@@ -18,7 +18,7 @@
     "ssl": "node dist/server/ssl",
     "build-server": "tsc --project src/server --outDir dist/server --locale ja-jp",
     "lint-server": "tslint --config tslint.json src/server/**/**.ts --exclude **/**.spec.ts --project src/server/tsconfig.json",
-    "build": "npm run css-server && npm run build-server && npm run build-client",
+    "build": "npm run build-server && npm run build-client",
     "version": "git add -A",
     "preversion": "npm run build",
     "check": "npm run lint",
@@ -108,7 +108,6 @@
     "karma-coverage-istanbul-reporter": "^2.1.0",
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
-    "node-sass": "^6.0.0",
     "nyc": "^14.1.1",
     "postcss": "^7.0.18",
     "postcss-cli": "^6.1.3",

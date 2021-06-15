@@ -171,7 +171,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".border-bottom[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0 !important;\n  padding-bottom: 0 !important;\n  border: none !important; }\n\n@media print {\n  .not-print[_ngcontent-%COMP%] {\n    display: none; } }"];
+var styles = [".border-bottom[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0 !important;\n  padding-bottom: 0 !important;\n  border: none !important;\n}\n\n@media print {\n  .not-print[_ngcontent-%COMP%] {\n    display: none;\n  }\n}"];
 
 
 
@@ -429,7 +429,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".position-relative[_ngcontent-%COMP%]   .position-absolute[_ngcontent-%COMP%] {\n  top: 0;\n  right: 0; }"];
+var styles = [".position-relative[_ngcontent-%COMP%]   .position-absolute[_ngcontent-%COMP%] {\n  top: 0;\n  right: 0;\n}"];
 
 
 
@@ -899,7 +899,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".validation[_ngcontent-%COMP%] {\n  border-color: #C30D23 !important;\n  background-color: #ffe8eb !important; }\n\n.creditcard-image[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: auto;\n  height: 22px; }\n\n@media screen and (max-width: 767px) {\n    .creditcard-image[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n      width: 100%;\n      max-width: 300px;\n      height: auto; } }\n\n.form-control[_ngcontent-%COMP%] {\n  max-width: 500px; }\n\n.security-code-modal[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  max-width: 300px; }"];
+var styles = [".validation[_ngcontent-%COMP%] {\n  border-color: #C30D23 !important;\n  background-color: #ffe8eb !important;\n}\n\n.creditcard-image[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: auto;\n  height: 22px;\n}\n\n@media screen and (max-width: 767px) {\n  .creditcard-image[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n    width: 100%;\n    max-width: 300px;\n    height: auto;\n  }\n}\n\n.form-control[_ngcontent-%COMP%] {\n  max-width: 500px;\n}\n\n.security-code-modal[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  max-width: 300px;\n}"];
 
 
 
@@ -1493,7 +1493,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".border-bottom[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0 !important;\n  padding-bottom: 0 !important;\n  border: none !important; }"];
+var styles = [".border-bottom[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0 !important;\n  padding-bottom: 0 !important;\n  border: none !important;\n}"];
 
 
 
@@ -1684,7 +1684,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".mvtk-box[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 32px 0 0; }\n  .mvtk-box[_ngcontent-%COMP%]   .remove-button[_ngcontent-%COMP%] {\n    position: absolute;\n    top: 0;\n    right: 0; }\n  .mvtk-box[_ngcontent-%COMP%]   .remove-button[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n      width: 70px;\n      padding: 5px 0;\n      font-size: 12px;\n      box-shadow: 0 0 0 transparent;\n      font-weight: 500; }\n  .mvtk-box.active[_ngcontent-%COMP%] {\n    display: block; }\n  .validation-text[_ngcontent-%COMP%] {\n  margin: 10px 0; }\n  .zoom[_ngcontent-%COMP%] {\n  -webkit-animation: zoom 0.2s;\n  animation: zoom 0.2s; }"];
+var styles = [".mvtk-box[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 32px 0 0;\n}\n.mvtk-box[_ngcontent-%COMP%]   .remove-button[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n.mvtk-box[_ngcontent-%COMP%]   .remove-button[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  width: 70px;\n  padding: 5px 0;\n  font-size: 12px;\n  box-shadow: 0 0 0 transparent;\n  font-weight: 500;\n}\n.mvtk-box.active[_ngcontent-%COMP%] {\n  display: block;\n}\n.validation-text[_ngcontent-%COMP%] {\n  margin: 10px 0;\n}\n.zoom[_ngcontent-%COMP%] {\n  -webkit-animation: zoom 0.2s;\n  animation: zoom 0.2s;\n}"];
 
 
 
@@ -1936,7 +1936,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".border-bottom[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0 !important;\n  padding-bottom: 0 !important;\n  border: none !important; }"];
+var styles = [".border-bottom[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0 !important;\n  padding-bottom: 0 !important;\n  border: none !important;\n}"];
 
 
 
@@ -2127,7 +2127,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".mvtk-box[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 32px 0 0; }\n  .mvtk-box[_ngcontent-%COMP%]   .remove-button[_ngcontent-%COMP%] {\n    position: absolute;\n    top: 0;\n    right: 0; }\n  .mvtk-box[_ngcontent-%COMP%]   .remove-button[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n      width: 70px;\n      padding: 5px 0;\n      font-size: 12px;\n      box-shadow: 0 0 0 transparent;\n      font-weight: 500; }\n  .mvtk-box.active[_ngcontent-%COMP%] {\n    display: block; }\n  .validation-text[_ngcontent-%COMP%] {\n  margin: 10px 0; }\n  .zoom[_ngcontent-%COMP%] {\n  -webkit-animation: zoom 0.2s;\n  animation: zoom 0.2s; }"];
+var styles = [".mvtk-box[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 32px 0 0;\n}\n.mvtk-box[_ngcontent-%COMP%]   .remove-button[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n.mvtk-box[_ngcontent-%COMP%]   .remove-button[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  width: 70px;\n  padding: 5px 0;\n  font-size: 12px;\n  box-shadow: 0 0 0 transparent;\n  font-weight: 500;\n}\n.mvtk-box.active[_ngcontent-%COMP%] {\n  display: block;\n}\n.validation-text[_ngcontent-%COMP%] {\n  margin: 10px 0;\n}\n.zoom[_ngcontent-%COMP%] {\n  -webkit-animation: zoom 0.2s;\n  animation: zoom 0.2s;\n}"];
 
 
 
@@ -2703,7 +2703,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".border-bottom[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0 !important;\n  padding-bottom: 0 !important;\n  border: none !important; }\n\n.form-control[_ngcontent-%COMP%] {\n  width: auto; }\n\n@media screen and (max-width: 767px) {\n    .form-control[_ngcontent-%COMP%] {\n      width: 100%; } }"];
+var styles = [".border-bottom[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0 !important;\n  padding-bottom: 0 !important;\n  border: none !important;\n}\n\n.form-control[_ngcontent-%COMP%] {\n  width: auto;\n}\n\n@media screen and (max-width: 767px) {\n  .form-control[_ngcontent-%COMP%] {\n    width: 100%;\n  }\n}"];
 
 
 
@@ -2971,7 +2971,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".inquiry-buttons[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  grid-gap: 1rem; }\n  @media screen and (max-width: 767px) {\n    .inquiry-buttons[_ngcontent-%COMP%] {\n      grid-template-columns: 1fr; } }\n  .inquiry-buttons[_ngcontent-%COMP%]   .inquiry-button[_ngcontent-%COMP%] {\n    height: 100%;\n    width: 100%; }"];
+var styles = [".inquiry-buttons[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  grid-gap: 1rem;\n}\n@media screen and (max-width: 767px) {\n  .inquiry-buttons[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n.inquiry-buttons[_ngcontent-%COMP%]   .inquiry-button[_ngcontent-%COMP%] {\n  height: 100%;\n  width: 100%;\n}"];
 
 
 
@@ -3330,7 +3330,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   li[_ngcontent-%COMP%]   .border-gray[_ngcontent-%COMP%] {\n  border: 1px solid #989898; }\n\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   li[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  width: 60px; }\n\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-grand-class[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 31px;\n  height: 34.5px; }\n\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-premium-class[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 31px;\n  height: 34.5px; }\n\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-ottoman[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 36px; }\n\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-comfort[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 31px;\n  height: 45.5px; }\n\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-parent-and-child-pair[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 56.5px;\n  height: 28px; }"];
+var styles = [".seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   li[_ngcontent-%COMP%]   .border-gray[_ngcontent-%COMP%] {\n  border: 1px solid #989898;\n}\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   li[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  width: 60px;\n}\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-grand-class[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 31px;\n  height: 34.5px;\n}\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-premium-class[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 31px;\n  height: 34.5px;\n}\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-ottoman[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 36px;\n}\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-comfort[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 31px;\n  height: 45.5px;\n}\n.seat-types[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%]   .seat-parent-and-child-pair[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 56.5px;\n  height: 28px;\n}"];
 
 
 
@@ -3798,7 +3798,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".validation[_ngcontent-%COMP%]   .btn.text-primary[_ngcontent-%COMP%] {\n  border-color: #C30D23 !important;\n  color: #C30D23 !important;\n  background-color: #ffe8eb !important; }\n\n.btn-mvtk[_ngcontent-%COMP%] {\n  border-color: #d82918 !important; }\n\n.border-bottom[_ngcontent-%COMP%]:last-child {\n  border: none !important; }\n\n.disabled[_ngcontent-%COMP%] {\n  display: none; }"];
+var styles = [".validation[_ngcontent-%COMP%]   .btn.text-primary[_ngcontent-%COMP%] {\n  border-color: #C30D23 !important;\n  color: #C30D23 !important;\n  background-color: #ffe8eb !important;\n}\n\n.btn-mvtk[_ngcontent-%COMP%] {\n  border-color: #d82918 !important;\n}\n\n.border-bottom[_ngcontent-%COMP%]:last-child {\n  border: none !important;\n}\n\n.disabled[_ngcontent-%COMP%] {\n  display: none;\n}"];
 
 
 
@@ -4710,7 +4710,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = ["[_nghost-%COMP%] {\n  width: 25%;\n  padding: 0 0 0 10px;\n  margin: 0 0 20px; }\n  @media screen and (max-width: 1024px) {\n    [_nghost-%COMP%] {\n      width: 33.3%; } }\n  @media screen and (max-width: 767px) {\n    [_nghost-%COMP%] {\n      width: 50%;\n      margin: 0 0 10px; } }\n  li.disabled[_ngcontent-%COMP%] {\n  opacity: 0.5; }\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%] {\n  border: 2px solid #AFAFAF;\n  cursor: pointer; }\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%] {\n    padding: 10px 15px;\n    border-bottom: 1px solid #777777;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: justify;\n        justify-content: space-between;\n    -ms-flex-align: center;\n        align-items: center;\n    background-color: #515151; }\n  @media screen and (max-width: 767px) {\n      li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%] {\n        padding: 10px; } }\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%] {\n      width: 60px; }\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n        width: 30px;\n        height: 30px;\n        background-size: 30px;\n        margin: 0 auto; }\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dd[_ngcontent-%COMP%] {\n    padding: 10px 0; }\n  .vacancy-full[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/common/status_03.svg); }\n  .vacancy-little[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/common/status_02.svg); }\n  .vacancy-large[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/common/status_01.svg); }"];
+var styles = ["[_nghost-%COMP%] {\n  width: 25%;\n  padding: 0 0 0 10px;\n  margin: 0 0 20px;\n}\n@media screen and (max-width: 1024px) {\n  [_nghost-%COMP%] {\n    width: 33.3%;\n  }\n}\n@media screen and (max-width: 767px) {\n  [_nghost-%COMP%] {\n    width: 50%;\n    margin: 0 0 10px;\n  }\n}\nli.disabled[_ngcontent-%COMP%] {\n  opacity: 0.5;\n}\nli[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%] {\n  border: 2px solid #AFAFAF;\n  cursor: pointer;\n}\nli[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%] {\n  padding: 10px 15px;\n  border-bottom: 1px solid #777777;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: justify;\n      justify-content: space-between;\n  -ms-flex-align: center;\n      align-items: center;\n  background-color: #515151;\n}\n@media screen and (max-width: 767px) {\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%] {\n    padding: 10px;\n  }\n}\nli[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%] {\n  width: 60px;\n}\nli[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  width: 30px;\n  height: 30px;\n  background-size: 30px;\n  margin: 0 auto;\n}\nli[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dd[_ngcontent-%COMP%] {\n  padding: 10px 0;\n}\n.vacancy-full[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/common/status_03.svg);\n}\n.vacancy-little[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/common/status_02.svg);\n}\n.vacancy-large[_ngcontent-%COMP%]   .status[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  background-image: url(/assets/images/common/status_01.svg);\n}"];
 
 
 
@@ -4845,7 +4845,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = ["li[_ngcontent-%COMP%] {\n  border-radius: 5px;\n  color: #333;\n  overflow: hidden; }\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%] {\n    color: #FFF;\n    background-color: #515151;\n    padding: 20px 25px; }\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dd[_ngcontent-%COMP%] {\n    color: #FFF;\n    background-color: #2d2d2d;\n    padding: 20px 20px 0; }\n  @media screen and (max-width: 767px) {\n      li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dd[_ngcontent-%COMP%] {\n        padding: 10px 10px 0; } }\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dd[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n      display: -ms-flexbox;\n      display: flex;\n      -ms-flex-wrap: wrap;\n          flex-wrap: wrap;\n      margin: 0 0 0 -10px; }"];
+var styles = ["li[_ngcontent-%COMP%] {\n  border-radius: 5px;\n  color: #333;\n  overflow: hidden;\n}\nli[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dt[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-color: #515151;\n  padding: 20px 25px;\n}\nli[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dd[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-color: #2d2d2d;\n  padding: 20px 20px 0;\n}\n@media screen and (max-width: 767px) {\n  li[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dd[_ngcontent-%COMP%] {\n    padding: 10px 10px 0;\n  }\n}\nli[_ngcontent-%COMP%]   dl[_ngcontent-%COMP%]   dd[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  margin: 0 0 0 -10px;\n}"];
 
 
 
@@ -4933,7 +4933,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = ["[_nghost-%COMP%] {\n  display: block; }\n\n.notes[_ngcontent-%COMP%]   ol[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  text-indent: -1em;\n  padding: 0 0 0 1em;\n  line-height: 1.5; }"];
+var styles = ["[_nghost-%COMP%] {\n  display: block;\n}\n\n.notes[_ngcontent-%COMP%]   ol[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  text-indent: -1em;\n  padding: 0 0 0 1em;\n  line-height: 1.5;\n}"];
 
 
 
@@ -5042,7 +5042,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".steps[_ngcontent-%COMP%] {\n  position: absolute;\n  right: 30px;\n  top: 50%;\n  width: 300px;\n  height: 1px;\n  background-color: #ccc;\n  margin-top: 10px; }\n  @media screen and (max-width: 767px) {\n    .steps[_ngcontent-%COMP%] {\n      width: 150px;\n      right: 5px;\n      margin-top: 0; } }\n  .steps[_ngcontent-%COMP%]   .step[_ngcontent-%COMP%] {\n    width: 14px;\n    height: 14px;\n    border-radius: 7px;\n    margin-top: -7px;\n    margin-left: -7px;\n    background-color: #ccc;\n    color: #ccc;\n    position: absolute;\n    top: 50%;\n    left: 0; }\n  @media screen and (max-width: 767px) {\n      .steps[_ngcontent-%COMP%]   .step[_ngcontent-%COMP%] {\n        width: 10px;\n        height: 10px;\n        border-radius: 5px;\n        margin-top: -5px;\n        margin-left: -5px; } }\n  .steps[_ngcontent-%COMP%]   .step[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%] {\n      text-align: center;\n      font-size: 10px;\n      width: 100px;\n      position: absolute;\n      top: -20px;\n      left: -43px; }\n  @media screen and (max-width: 767px) {\n        .steps[_ngcontent-%COMP%]   .step[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%] {\n          display: none; } }\n  .steps[_ngcontent-%COMP%]   .step-01[_ngcontent-%COMP%] {\n    left: 0; }\n  .steps[_ngcontent-%COMP%]   .step-02[_ngcontent-%COMP%] {\n    left: 25%; }\n  .steps[_ngcontent-%COMP%]   .step-03[_ngcontent-%COMP%] {\n    left: 50%; }\n  .steps[_ngcontent-%COMP%]   .step-04[_ngcontent-%COMP%] {\n    left: 75%; }\n  .steps[_ngcontent-%COMP%]   .step-05[_ngcontent-%COMP%] {\n    left: 100%; }\n  .steps[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%] {\n    background-color: #C30D23;\n    font-weight: bold;\n    color: #C30D23; }"];
+var styles = [".steps[_ngcontent-%COMP%] {\n  position: absolute;\n  right: 30px;\n  top: 50%;\n  width: 300px;\n  height: 1px;\n  background-color: #ccc;\n  margin-top: 10px;\n}\n@media screen and (max-width: 767px) {\n  .steps[_ngcontent-%COMP%] {\n    width: 150px;\n    right: 5px;\n    margin-top: 0;\n  }\n}\n.steps[_ngcontent-%COMP%]   .step[_ngcontent-%COMP%] {\n  width: 14px;\n  height: 14px;\n  border-radius: 7px;\n  margin-top: -7px;\n  margin-left: -7px;\n  background-color: #ccc;\n  color: #ccc;\n  position: absolute;\n  top: 50%;\n  left: 0;\n}\n@media screen and (max-width: 767px) {\n  .steps[_ngcontent-%COMP%]   .step[_ngcontent-%COMP%] {\n    width: 10px;\n    height: 10px;\n    border-radius: 5px;\n    margin-top: -5px;\n    margin-left: -5px;\n  }\n}\n.steps[_ngcontent-%COMP%]   .step[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%] {\n  text-align: center;\n  font-size: 10px;\n  width: 100px;\n  position: absolute;\n  top: -20px;\n  left: -43px;\n}\n@media screen and (max-width: 767px) {\n  .steps[_ngcontent-%COMP%]   .step[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%] {\n    display: none;\n  }\n}\n.steps[_ngcontent-%COMP%]   .step-01[_ngcontent-%COMP%] {\n  left: 0;\n}\n.steps[_ngcontent-%COMP%]   .step-02[_ngcontent-%COMP%] {\n  left: 25%;\n}\n.steps[_ngcontent-%COMP%]   .step-03[_ngcontent-%COMP%] {\n  left: 50%;\n}\n.steps[_ngcontent-%COMP%]   .step-04[_ngcontent-%COMP%] {\n  left: 75%;\n}\n.steps[_ngcontent-%COMP%]   .step-05[_ngcontent-%COMP%] {\n  left: 100%;\n}\n.steps[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%] {\n  background-color: #C30D23;\n  font-weight: bold;\n  color: #C30D23;\n}"];
 
 
 
@@ -5141,7 +5141,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = ["[_nghost-%COMP%] {\n  display: block; }\n\n.term[_ngcontent-%COMP%] {\n  resize: vertical;\n  height: 150px; }\n\n@media screen and (max-width: 767px) {\n    .term[_ngcontent-%COMP%] {\n      height: 100px; } }"];
+var styles = ["[_nghost-%COMP%] {\n  display: block;\n}\n\n.term[_ngcontent-%COMP%] {\n  resize: vertical;\n  height: 150px;\n}\n\n@media screen and (max-width: 767px) {\n  .term[_ngcontent-%COMP%] {\n    height: 100px;\n  }\n}"];
 
 
 
@@ -5248,7 +5248,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = ["@media screen and (max-width: 767px) {\n  .seat-info[_ngcontent-%COMP%]   .justify-content-center[_ngcontent-%COMP%] {\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap; } }\n\n.seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n  margin: 0 10px;\n  position: relative;\n  padding-left: 24px; }\n\n@media screen and (max-width: 767px) {\n    .seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n      width: 50%;\n      font-size: 12px;\n      margin: 10px 0; } }\n\n.seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]:before {\n    width: 16px;\n    height: 20px;\n    content: '';\n    display: block;\n    background-image: url(/images/theater/seat/normal.svg);\n    background-size: 16px 20px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    margin-top: -10px; }\n\n.seat-info[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/normal_active.svg); }\n\n.seat-info[_ngcontent-%COMP%]   .space[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/normal_space.svg); }\n\n.seat-info[_ngcontent-%COMP%]   .disabled[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/normal_disabled.svg); }\n\n.screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]:before {\n  width: 20px;\n  height: 20px;\n  content: '';\n  display: block;\n  background-image: url(/images/theater/seat/4dx.svg);\n  background-size: 20px 20px;\n  position: absolute;\n  top: 50%;\n  left: 0;\n  margin-top: -10px; }\n\n.screen-4dx[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/4dx_active.svg); }\n\n.screen-4dx[_ngcontent-%COMP%]   .disabled[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/4dx_disabled.svg); }\n\n.screen-4dx[_ngcontent-%COMP%]   .space[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/4dx_space.svg); }"];
+var styles = ["@media screen and (max-width: 767px) {\n  .seat-info[_ngcontent-%COMP%]   .justify-content-center[_ngcontent-%COMP%] {\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n  }\n}\n.seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n  margin: 0 10px;\n  position: relative;\n  padding-left: 24px;\n}\n@media screen and (max-width: 767px) {\n  .seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n    width: 50%;\n    font-size: 12px;\n    margin: 10px 0;\n  }\n}\n.seat-info[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]:before {\n  width: 16px;\n  height: 20px;\n  content: \"\";\n  display: block;\n  background-image: url(/images/theater/seat/normal.svg);\n  background-size: 16px 20px;\n  position: absolute;\n  top: 50%;\n  left: 0;\n  margin-top: -10px;\n}\n.seat-info[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/normal_active.svg);\n}\n.seat-info[_ngcontent-%COMP%]   .space[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/normal_space.svg);\n}\n.seat-info[_ngcontent-%COMP%]   .disabled[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/normal_disabled.svg);\n}\n.screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]:before {\n  width: 20px;\n  height: 20px;\n  content: \"\";\n  display: block;\n  background-image: url(/images/theater/seat/4dx.svg);\n  background-size: 20px 20px;\n  position: absolute;\n  top: 50%;\n  left: 0;\n  margin-top: -10px;\n}\n.screen-4dx[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/4dx_active.svg);\n}\n.screen-4dx[_ngcontent-%COMP%]   .disabled[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/4dx_disabled.svg);\n}\n.screen-4dx[_ngcontent-%COMP%]   .space[_ngcontent-%COMP%]:before {\n  background-image: url(/images/theater/seat/4dx_space.svg);\n}"];
 
 
 
@@ -5334,7 +5334,7 @@ __webpack_require__.r(__webpack_exports__);
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = [".outer[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 2px 15px; }\n\n.position-relative[_ngcontent-%COMP%] {\n  position: relative; }\n\n.expired[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  max-width: 100%; }\n\n.cover[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  opacity: 0.5;\n  width: 100%;\n  height: 100%; }"];
+var styles = [".outer[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 2px 15px;\n}\n\n.position-relative[_ngcontent-%COMP%] {\n  position: relative;\n}\n\n.expired[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  max-width: 100%;\n}\n\n.cover[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  opacity: 0.5;\n  width: 100%;\n  height: 100%;\n}"];
 
 
 
