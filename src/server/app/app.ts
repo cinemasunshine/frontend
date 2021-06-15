@@ -1,4 +1,3 @@
-import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as expressLayouts from 'express-ejs-layouts';
@@ -23,8 +22,8 @@ app.use(whiteList); // 許可設定
 app.use(benchmarks); // ベンチマーク的な
 app.set('trust proxy', 1);
 app.use(session); // セッション
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('views', `${__dirname}/../../../views`); // view設定
 app.set('view engine', 'ejs');

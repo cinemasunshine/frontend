@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.8.0 - 2021-06-15
+### Changed
+ - cinerino/sdk>=3.2.0で再実装
+
 ## 6.7.2 - 2021-03-05
 ### Added
  - 取引に端末情報追加
