@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Removed
 
+## 6.9.0 - 2021-07-09
+### Added
+ - IMAX3Dスクリーン（座席50%）追加
+
 ## 6.8.0 - 2021-06-15
 ### Changed
  - cinerino/sdk>=3.2.0で再実装
